@@ -71,6 +71,8 @@ The hardware engine computes the Sum of Absolute Differences (SAD) between a `16
 
 ## V5 routed layout and post-route timing (November 5)
 
+The revised [V5 three independent slides](deliverables/ENGR852_Huy_V5_Routed_3_Slides.pptx) and [V5 complete 19-slide deck](deliverables/ENGR852_V5_Full_Team_19_Slides.pptx) show actual routed area/power and PrimeTime timing while preserving the team's first 16 slides. These are editable PPTX sources; remaining DRC and timing violations are identified, not relabeled as passes.
+
 The [7-page V5 report](deliverables/ENGR852_V5_520MHz_Motion_Estimator_Engineering_Report.pdf) revises the physical-design and grading sections with actual measurement tables while preserving the four earlier RTL/synthesis/waveform chapters. It is accompanied by [V5 physical-design checkpoint].
 
 The [V5 physical-design checkpoint](docs/UPDATE-019_V5_POST_ROUTE_EXTRACTION_PT_ECO.md) contains real Fusion Compiler CTS and detailed-route results, three extracted SPEF scenarios, PrimeTime three-corner post-layout setup/hold data, routed area and power reports, and the exact remaining 18 ICV DRC violations. It also records the **731-cell-buffer PrimeTime hold ECO** and implementation re-route attempt without claiming final sign-off ahead of new verification.
