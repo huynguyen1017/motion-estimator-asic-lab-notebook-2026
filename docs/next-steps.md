@@ -6,7 +6,7 @@ Last verified terminal checks: 2026-11-04 17:11:12 PST; see [UPDATE-001](UPDATE-
 
 SFSU GlobalProtect connected, SSH authenticated to `mahmoodi.rcc.at.sfsu.edu`, and `DISPLAY=localhost:12.0` assigned. The user's command `ps -p $$ -o comm=` returned `bash`. The course setup file `/packages/synopsys/setup/synopsys_setup.tcl` references C-shell scripts and uses `source`, `setenv`, and `rehash`; it is **not a Bash script**. The absence of `vcs`, `verdi`, `dc_shell`, `fc_shell`, and `pt_shell` from the unconfigured PATH does not prove the programs are unavailable.
 
-## Step 1 — Check for a compatible shell (pending)
+## Step 1 — Check for a compatible shell (verified)
 
 In the **existing university Linux shell**, type the following command exactly, then press Enter:
 
@@ -14,7 +14,15 @@ In the **existing university Linux shell**, type the following command exactly, 
 command -v tcsh; command -v csh
 ```
 
-Expected behavior: one or two absolute paths such as `/usr/bin/tcsh` may be printed. If both are missing, do not install anything; report the output. **Do not run** `source /packages/synopsys/setup/synopsys_setup.tcl` from Bash.
+**Observed output (user-supplied):** `/usr/bin/tcsh` and `/usr/bin/csh` both returned; the interpreters are available. The command's execution timestamp was not captured. Do not run `source /packages/synopsys/setup/synopsys_setup.tcl` from Bash.
+
+## Step 1a — Enter the compatible shell (pending)
+
+```bash
+tcsh
+```
+
+Press Enter. This starts an interactive C-shell inside the existing SSH session; it does not permanently change your login shell. Then verify the shell before sourcing the approved course setup.
 
 ## Step 2 — Check graphical forwarding (pending, after Step 1)
 
