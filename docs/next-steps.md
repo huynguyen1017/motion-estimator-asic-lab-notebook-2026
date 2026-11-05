@@ -1,22 +1,37 @@
-# Next checks — pending execution
+# University server — next verified hand-on steps
 
-These commands were proposed for the next session. No results have been supplied for them yet. Run them only in the authenticated university shell, and retain the actual output.
+Last verified terminal checks: 2026-11-04 17:11:12 PST; see [UPDATE-001](UPDATE-001.md), [UPDATE-002](UPDATE-002.md), and [server diagnostics](../evidence/transcripts/03-environment-diagnostics.txt).
 
-```sh
-getent passwd "$USER" | cut -d: -f7
-ls -l /packages/synopsys/setup/synopsys_setup.tcl
-for tool in vcs verdi dc_shell fc_shell pt_shell xterm; do
-    command -v "$tool" || echo "$tool: not currently on PATH"
-done
-ls -la "$HOME"
+## Current status
+
+SFSU GlobalProtect connected, SSH authenticated to `mahmoodi.rcc.at.sfsu.edu`, and `DISPLAY=localhost:12.0` assigned. The user's command `ps -p $$ -o comm=` returned `bash`. The course setup file `/packages/synopsys/setup/synopsys_setup.tcl` references C-shell scripts and uses `source`, `setenv`, and `rehash`; it is **not a Bash script**. The absence of `vcs`, `verdi`, `dc_shell`, `fc_shell`, and `pt_shell` from the unconfigured PATH does not prove the programs are unavailable.
+
+## Step 1 — Check for a compatible shell (pending)
+
+In the **existing university Linux shell**, type the following command exactly, then press Enter:
+
+```bash
+command -v tcsh; command -v csh
 ```
 
-Then test graphical forwarding:
+Expected behavior: one or two absolute paths such as `/usr/bin/tcsh` may be printed. If both are missing, do not install anything; report the output. **Do not run** `source /packages/synopsys/setup/synopsys_setup.tcl` from Bash.
 
-```sh
+## Step 2 — Check graphical forwarding (pending, after Step 1)
+
+```bash
 xterm &
 ```
 
-Record whether a window actually appears. A missing tool on PATH is not proof it is uninstalled; inspect the approved course setup before changing configuration.
+A new graphical terminal must actually appear on the Mac. The existence of `DISPLAY` alone is not proof that X11 applications work.
 
-After these checks: load the appropriate university environment, identify the exact team source revision, create a separate working directory, and reproduce one simulation. Preserve failed runs as well as successful runs. Record commands, tool versions, inputs, outputs and interpretation for each step.
+## Step 3 — Select and load the university tool setup (pending)
+
+After confirming a compatible C shell exists, inspect the university's approved startup guidance and load its setup in that shell. Log all stdout/stderr. Confirm individual binaries with `command -v vcs`, `command -v verdi`, and the available synthesis/timing tools. The existing setup references ICC2; do **not** assume Fusion Compiler is installed merely because it is required by the course workflow.
+
+## Step 4 — Reproduce the team RTL run (pending on university server)
+
+The user's remote home directory initially contained only dotfiles. No Verilog sources were yet observed there. Transfer a **copy** of the exact project revision to a dedicated server directory before running VCS. Do not run the local Icarus commands from the empty server home directory. The existing local Icarus/Yosys results and three technical slides are separately documented in [lab-notebook.md](lab-notebook.md).
+
+## Record and publication rules
+
+Capture command text, tool version, current directory, timestamps, stdout/stderr, source-file checksum, waveform or report paths, and clear pass/fail interpretation. Redact student identifiers and credentials before public upload. Preserve the team source and previous results. A 520 MHz simulation clock is not evidence of achieved post-layout timing.
