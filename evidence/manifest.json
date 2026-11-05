@@ -18,5 +18,53 @@
   {
     "path": "evidence/transcripts/02-session-status.txt",
     "sha256": "0debdb3c025fb6a12f595bd117239eaaacb7fc28549af6d7885786c7b7031cc6"
+  },
+  {
+    "path": "evidence/logs/huy_verification_520mhz.log",
+    "sha256": "c54b5d05fda794f687daae7217fafabab3b0ac0ade330cc7a40df61f7dad132d"
+  },
+  {
+    "path": "evidence/logs/huy_synthesis_stat.log",
+    "sha256": "086ec5364fa378eba93fcc7f50636502647d38cd44560ff1c75153de607ff158"
+  },
+  {
+    "path": "evidence/slides/slide14-direct-perturbed-verification.png",
+    "sha256": "a7b5f11e1d5dd0411d4524b38cb4b8495b0ced02cdb255c9a2d00191bc5b622a"
+  },
+  {
+    "path": "evidence/slides/slide15-pipeline-schedule-timing.png",
+    "sha256": "24a839f0d75c44263a9a7611181e4446dd7a43722739ca2022a408c2c3cf3bb2"
+  },
+  {
+    "path": "evidence/slides/slide16-synthesis-hierarchy-sdc.png",
+    "sha256": "013e6b8cb840014f0d6ab4cfd3dc72925e8722400a21758c8c7cfa6db70ea0e6"
+  },
+  {
+    "path": "rtl/top.v",
+    "sha256": "fe71b2be40444c8ff23971d68b6cf736298ebddd5f24390ff7b08f87107a10c6"
+  },
+  {
+    "path": "tb/huy_verification_520mhz_tb.v",
+    "sha256": "7edf606b125f134369ebe95fd59db47c8f811db3d02aa52a018bece3e1853efe"
+  },
+  {
+    "path": "tb/top_tb.v",
+    "sha256": "3da84afdb41177370d26754fefca58300c7d4aa34f47c826e9d2ce24a105fea1"
+  },
+  {
+    "path": "tb/top_tb_direct.v",
+    "sha256": "3e1ddcfc248e6b5919902f9100287aeac85b0ff627d932d10188637a029eae24"
+  },
+  {
+    "path": "tb/ref.txt",
+    "sha256": "23277e38aeb1f2aed65a32459f06973bac0cdd0687cdaaadbfa020f0e6f64587"
+  },
+  {
+    "path": "tb/search.txt",
+    "sha256": "0b395981b11ddb7d3d9b3be2af899db93adcbefa861e4d4afb0e391ce782a778"
+  },
+  {
+    "path": "constraints/top_520mhz.sdc",
+    "sha256": "97114a12618ff80c9e5a548ff6994c7dc0d1344be566c3afe99d72fc3c89b150"
   }
 ]

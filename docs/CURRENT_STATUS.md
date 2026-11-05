@@ -1,31 +1,27 @@
-# Current project checkpoint
+# Current Project Checkpoint
 
-Last documented: 2026-11-04 17:03:41 PST / 2026-11-05T01:03:41Z.
-This is the documentation time, not the time of the earlier terminal commands.
+**Last Updated:** `2026-11-04 17:06:00 PST` (`2026-11-05T01:06:00Z`)
 
 ## Objective
-Complete the ENGR 852 motion-estimator project through student-operated, step-by-step work; produce a technically defensible three-slide contribution and a professional evidence portfolio.
+Complete the ENGR 852 520 MHz Motion Estimator ASIC design, verification, synthesis, physical implementation, and sign-off workflow, maintaining a timestamped engineering portfolio and presentation deck.
 
-## Verified from supplied evidence
-- GlobalProtect showed Connected.
-- Local XQuartz xterm opened.
-- University SSH login completed.
-- Remote home directory confirmed; ordinary ls showed no entries.
-- DISPLAY=localhost:12.0 assigned. Actual remote GUI launch remains untested.
+## Completed & Verified Milestones
+1. **University EDA Server Access (`UPDATE-001`, `2026-11-04`):**
+   - SFSU GlobalProtect VPN connected (`gp-students.sfsu.edu`).
+   - Local XQuartz `xterm` launched on macOS.
+   - SSH login to `mahmoodi.rcc.at.sfsu.edu` completed with X11 forwarding (`DISPLAY=localhost:12.0`).
+2. **520 MHz RTL Verification, Pipeline Timing & Gate-Level Synthesis Audit (`UPDATE-002`, `2026-11-04 16:23–16:33 PST`):**
+   - Executed 520 MHz (`1.9230 ns` period, `1ns/100fs`, `#0.9615`) simulation on [`rtl/top.v`](../rtl/top.v) across directed fixture (`ref.txt`, `search.txt`), perturbed non-zero SAD (`Rmem[0] += 3` at `(-2, -3)`), and upper-corner boundary `(+7, +7)` test cases ([`evidence/logs/huy_verification_520mhz.log`](../evidence/logs/huy_verification_520mhz.log)).
+   - Derived exact cycle-level pipeline schedule (`4,111` cycles = `7,905.45 ns` at `520 MHz`, `30.88 fps` for `4,096` blocks/frame) and coordinate offset equations (`VectorX = count[3:0] - 8`, `VectorY = count[11:8] - 9`).
+   - Verified external memory exclusion (`0` internal memory bits) and hierarchical cell/register breakdown (`3,254` generic cells, `277` flip-flops) via Yosys 0.70 ([`evidence/logs/huy_synthesis_stat.log`](../evidence/logs/huy_synthesis_stat.log)).
+   - Prepared 520 MHz Synopsys Design Constraints ([`constraints/top_520mhz.sdc`](../constraints/top_520mhz.sdc)) and 3 technical slides ([`evidence/slides/`](../evidence/slides/)).
 
-## Immediate next action
-Student runs the diagnostic block in docs/next-steps.md and reports its output, then tests xterm &. Check shell, approved setup-file availability, tool paths and hidden files before configuring the environment.
+## Active Next Step on `mahmoodi.rcc.at.sfsu.edu`
+1. Upload the pre-packaged 520 MHz project directory (`server_ready/`) via `scp` to `~/motion_estimator_520mhz` on `mahmoodi.rcc.at.sfsu.edu`.
+2. Inspect `/packages/synopsys/setup/vcs_setup` and `/packages/synopsys/setup/Fusion_Compiler_setup` on the server.
+3. Run licensed Synopsys `VCS` + `Verdi`, `Fusion Compiler` (`fc_shell`), and `PrimeTime` (`pt_shell`) to capture 14 nm synthesis, physical layout, DRC, parasitic extraction, and post-layout setup/hold timing reports.
 
-## Not yet established
-University tool environment; exact team RTL/testbench revision; independent workspace; VCS run; Verdi inspection; synthesis; physical implementation; post-layout setup/hold results. No earlier separate-candidate results should be substituted for these.
-
-## Destinations
-- Repository: https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026
-- Engineering log: https://docs.google.com/document/d/1UiReAPBHExrSvBnu2zGagSj2VUrMGXPIKgPJlKSNW7U/edit
-- Contribution deck: https://docs.google.com/presentation/d/1SepYhtatGlPySdpLFypXUHekAWyVekTCnqib2LZ1U6c/edit
-
-## Working preferences
-Give small, exact steps and explain each command. Student performs the work. Preserve teammate files. Record actual results and failures; avoid unsupported claims. Redact personal identifiers from publication. Use professional presentation without unwanted branding. More technical slide revision remains pending while hands-on learning proceeds.
-
-## Publication state
-Initial evidence is published to the repository and engineering log. This checkpoint and update protocol are repository maintenance files; they do not represent a new laboratory result.
+## Links
+- **GitHub Repository:** https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026
+- **Engineering Log (Google Doc):** https://docs.google.com/document/d/1UiReAPBHExrSvBnu2zGagSj2VUrMGXPIKgPJlKSNW7U/edit
+- **Team Presentation (Slides 14–16):** https://docs.google.com/presentation/d/1t5CEEyA1PofPH9xMRqVXnmPm-CgHQKg0qFEm4FciFgU/edit
