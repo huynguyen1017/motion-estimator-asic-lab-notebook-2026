@@ -119,6 +119,10 @@ Per the ENGR 852 specification, `ROM_R` (`256×8`) and `ROM_S` (`1024×8`) resid
 
 ---
 
+## Evidence Scope & Attribution
+
+This portfolio records work performed and analyzed for the ENGR 852 team motion-estimator project. The RTL and original stimulus package originate from the class team source; the separate directed verification suite, timing analysis, generic synthesis audit, engineering notebook, and technical slides are identified as individual contribution artifacts where supported by saved files and logs. Results labeled **local** were obtained using Icarus Verilog/Yosys, not the university's licensed 14 nm implementation flow. The 520 MHz period in simulation is a target constraint and does not constitute post-layout timing closure.
+
 ## Reproducing the 520 MHz Verification & Synthesis Audit
 
 ```sh
