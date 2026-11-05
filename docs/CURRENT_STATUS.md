@@ -2,6 +2,8 @@
 
 **Evidence capture:** `2026-11-04 17:26:03 PST` (`2026-11-05T01:26:03Z`); command execution times not separately captured.
 
+**LATEST CHECKPOINT:** Native VCS/Verdi V3 RTL evidence and native Fusion Compiler SAED14 mapped results are verified in [UPDATE-016](UPDATE-016_V3_PPA_AND_SLIDES.md). Earlier V2 license statements are historical and superseded.
+
 ## Objective
 Complete the ENGR 852 520 MHz Motion Estimator ASIC design, verification, synthesis, physical implementation, and sign-off workflow, maintaining a timestamped engineering portfolio and presentation deck.
 
@@ -25,9 +27,9 @@ Complete the ENGR 852 520 MHz Motion Estimator ASIC design, verification, synthe
 2. **Actual university Synopsys VCS:** Baseline 50 MHz perfect-match simulation, separate 520 MHz simulation, and independent 12/12 PE/PEend/comparator directed checks all ran successfully; original `top.v` unchanged.
 3. **Extended independent testing:** Three reproducible seeded VCS runs validated `16 blocks × 256 pixels × 2 variants × 3 seeds = 24,576` PE comparisons, **0 mismatches** against the saturating-SAD reference. Measured total of **10,656** samples where the full SAD exceeded 255. See [UPDATE-013](UPDATE-013.md), [new SystemVerilog checker](../verification/huy_pe_fullprecision_scoreboard_tb.sv).
 4. **Actual waveform evidence:** Fresh trusted X11 (`ssh -Y`) repaired display forwarding. Verdi/nWave opened FSDB from university VCS and app-only screenshots were captured, privacy-reviewed, and saved in [screenshots](../evidence/screenshots/). An unsupported `wvZoomFull` replay command was removed; current waveform view does not depend on it.
-5. **14 nm physical-flow blocker:** Verified SAED14 technology and RVT NDM/Liberty paths. Fusion Compiler X-2025.06-SP2 initial-map run **stopped before synthesis** because `Fusion-Compiler-NX` license was unavailable; Design Compiler O-2018.06-SP4 returned `DCSH-1` (not enabled). **No** 14 nm mapped area, power, placement, route, extraction, DRC, or PrimeTime sign-off has been produced.
+5. **14 nm mapped ASIC evidence recovered in V3:** The official course-local Fusion setup successfully launched Fusion Compiler X-2025.06-SP2a. The original 8-bit RTL mapped to 1,693 cells / 881.96 square micrometers; the corrected 16-bit V3B mapped to 1,905 cells / 1,193.03 square micrometers. Both floorplans and V3B placement completed. The original 8-bit CTS stage failed at 111.73% over-utilization; V3B CTS final success, routing, DRC, parasitics and PrimeTime sign-off are not verified. See [UPDATE-016](UPDATE-016_V3_PPA_AND_SLIDES.md).
 6. **Presentation delivered:** Original **16 slides unchanged in a copy** plus 3 new evidence-backed contribution slides = **19 slides**. [Editable Google Slides](https://docs.google.com/presentation/d/1oQlE86P-1ajHd4VskT9jGiLGEXkxlMnqQ0_dutpmTPo/edit), [PPTX](../deliverables/ENGR852_Motion_Estimator_19_Slide_Final_2026-11-04.pptx), [PDF](../deliverables/ENGR852_Motion_Estimator_19_Slide_Final_2026-11-04.pdf).
-7. **Remaining required actions:** Obtain instructor-approved tool license(s), then perform mapped synthesis, 14 nm floorplan, placement, CTS, routing, extraction, DRC, and PrimeTime setup/hold analysis. Add measured physical reports/screenshots to a future slide revision. Do not label any generic Yosys cell count or an SDC constraint as post-layout sign-off.
+7. **Remaining required actions:** Recover the V3B CTS job, adjust floorplan utilization if necessary, then complete routing, DRC, extraction, final PPA, and PrimeTime post-layout setup/hold with valid output artifacts. Do not mistake an initial mapped report for routed sign-off.
 
 ## Links
 - **GitHub Repository:** https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026
@@ -45,5 +47,5 @@ The live 19-slide copy was re-exported and QA-rendered. **The original 16 teamma
 - Reproducible VCS testbench: [verification/huy_fullmotion_v2_tb.sv](../verification/huy_fullmotion_v2_tb.sv).
 - Actual detailed Surfer views of Synopsys FSDB/VCD: [evidence/screenshots](../evidence/screenshots/).
 - Detailed evidence and recovery instructions: [UPDATE-014](UPDATE-014.md).
-- **Physical ASIC status remains blocked:** Fusion-Compiler-NX license unavailable; Design Compiler DCSH-1. No SAED14 mapped PPA, routed layout, DRC, extracted parasitics or post-layout PrimeTime sign-off. These still need authorized execution to satisfy the full course rubric.
+- **V3 supersedes this historical V2 license blocker:** The official local Fusion setup enabled actual SAED14 mapping, floorplan, and V3B placement. Original area 881.96 um2; V3B area 1,193.03 um2. Routing, extraction, DRC and final PrimeTime setup/hold remain unverified. See [UPDATE-016](UPDATE-016_V3_PPA_AND_SLIDES.md).
 

@@ -67,6 +67,19 @@ The hardware engine computes the Sum of Absolute Differences (SAD) between a `16
 
 ---
 
+
+## V3: Native Verdi verification and SAED14 mapped ASIC results (November 4, 2026)
+
+The [V3 engineering record](docs/UPDATE-016_V3_PPA_AND_SLIDES.md) supersedes the earlier V2 Fusion Compiler license blocker. The instructor's copied project-specific Fusion setup enabled Synopsys Fusion Compiler X-2025.06-SP2a with the SAED14 RVT library.
+
+University Synopsys VCS reproduced a no-selection corner case in the original 8-bit saturating SAD. A **separate**, independent 16-bit RTL variant measured full distance FF00 and deterministic first candidate (-8,-8) for the all-high-contrast fixture; testbench FSDB was displayed in Verdi nWave, not a drawn waveform.
+
+Mapped cell area (Fusion Compiler): **881.96 um2** (original 8-bit), **1,193.03 um2** (corrected V3B). Corrected design compile-stage setup slack: **+0.06 ns**. Native mapped synthesis, floorplan, and V3B placement completed. Clock-tree final completion, routing, DRC, parasitic extraction, and PrimeTime **post-layout setup/hold** are not yet verified.
+
+**Complete presentation:** [V3 19-slide PowerPoint](deliverables/ENGR852_V3_Full_Team_19_Slides.pptx) and [19-page PDF](deliverables/ENGR852_V3_Full_Team_19_Slides.pdf), preserving original slides 1–16.
+
+**Deliverables:** [three-slide PPTX](deliverables/ENGR852_Huy_V3_Independent_3_Slides.pptx), [three-page PDF](deliverables/ENGR852_Huy_V3_Independent_3_Slides.pdf), and [native Verdi V3B capture](evidence/screenshots/V3B_Verdi_nWave_2240wide_redacted.png). Teaching source and teammate slides were not overwritten.
+
 ## Key Technical Results Completed
 
 ### 1. 520 MHz Directed, Perturbed Non-Zero SAD & Boundary RTL Verification
