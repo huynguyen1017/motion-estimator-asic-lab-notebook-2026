@@ -68,6 +68,17 @@ The hardware engine computes the Sum of Absolute Differences (SAD) between a `16
 ---
 
 
+
+## V4 waveform figures and presentations (latest)
+
+The [V4 verification checkpoint](docs/UPDATE-017_V4_FINAL_CHECKPOINT.md) includes a detailed Verdi nWave figure for the unmodified 8-bit SAD failure and a separate 16-bit correction waveform. The updated slide style is drawn from the team reference: larger signal traces, two figure views, and direct captions without small callouts.
+
+- [Editable 3-slide V4 contribution](deliverables/ENGR852_Huy_V4_Detailed_Waveform_3_Slides.pptx) and [PDF](deliverables/ENGR852_Huy_V4_Detailed_Waveform_3_Slides.pdf)
+- [Editable 19-slide V4 complete presentation](deliverables/ENGR852_V4_Full_Team_19_Slides.pptx) and [PDF](deliverables/ENGR852_V4_Full_Team_19_Slides.pdf)
+- Original team slides 1–16 have been checked for unchanged text, shapes, dimensions, and placement.
+
+Mapping, floorplan and V3B placement are recorded. CTS, route, extracted parasitics, DRC and post-layout PrimeTime setup and hold **must still be verified by generated reports** before asserting completion.
+
 ## V3: Native Verdi verification and SAED14 mapped ASIC results (November 4, 2026)
 
 The [V3 engineering record](docs/UPDATE-016_V3_PPA_AND_SLIDES.md) supersedes the earlier V2 Fusion Compiler license blocker. The instructor's copied project-specific Fusion setup enabled Synopsys Fusion Compiler X-2025.06-SP2a with the SAED14 RVT library.

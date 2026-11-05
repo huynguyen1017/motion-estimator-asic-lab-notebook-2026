@@ -2,6 +2,8 @@
 
 **Evidence capture:** `2026-11-04 17:26:03 PST` (`2026-11-05T01:26:03Z`); command execution times not separately captured.
 
+**LATEST CHECKPOINT V4:** New native Verdi nWave figure captures, three-slide V4 PPTX/PDF, and complete 19-slide V4 PPTX/PDF were delivered. Original team slides 1–16 retain their text and layout. The remaining CTS/route/DRC/SPEF/PrimeTime sign-off status is detailed in [UPDATE-017](UPDATE-017_V4_FINAL_CHECKPOINT.md).
+
 **LATEST CHECKPOINT:** Native VCS/Verdi V3 RTL evidence and native Fusion Compiler SAED14 mapped results are verified in [UPDATE-016](UPDATE-016_V3_PPA_AND_SLIDES.md). Earlier V2 license statements are historical and superseded.
 
 ## Objective
