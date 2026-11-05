@@ -49,7 +49,8 @@ The hardware engine computes the Sum of Absolute Differences (SAD) between a `16
     │   └── 03-local-xterm.png                         # Local XQuartz xterm window for X11 forwarding
     └── transcripts/
         ├── 01-ssh-login.txt                           # Authenticated SSH session transcript to mahmoodi.rcc.at.sfsu.edu
-        └── 02-session-status.txt                      # Remote working directory and DISPLAY=localhost:12.0 verification
+        ├── 02-session-status.txt                      # Remote working directory and DISPLAY=localhost:12.0 verification
+        └── 03-server-environment-audit-1706pst.txt    # Server timestamp, Synopsys setup script, and login shell PATH audit
 ```
 
 ---

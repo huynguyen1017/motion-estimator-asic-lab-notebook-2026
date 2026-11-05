@@ -117,3 +117,27 @@ Key findings from [`evidence/logs/huy_synthesis_stat.log`](../evidence/logs/huy_
 - **Slide 14:** [`evidence/slides/slide14-direct-perturbed-verification.png`](../evidence/slides/slide14-direct-perturbed-verification.png)
 - **Slide 15:** [`evidence/slides/slide15-pipeline-schedule-timing.png`](../evidence/slides/slide15-pipeline-schedule-timing.png)
 - **Slide 16:** [`evidence/slides/slide16-synthesis-hierarchy-sdc.png`](../evidence/slides/slide16-synthesis-hierarchy-sdc.png)
+
+
+---
+
+## UPDATE-003 — Remote EDA Server Environment & Synopsys Setup Audit (`2026-11-04 17:06:06 PST`)
+
+### 1. Metadata
+- **Server Timestamp:** `2026-11-04 17:06:06 PST (-0800)`
+- **Target Host:** `mahmoodi.rcc.at.sfsu.edu` (Rocky Linux 8.10)
+- **Working Directory:** `/home/<student-id>`
+- **X11 Display Forwarding:** `DISPLAY=localhost:12.0` (`70`-byte `.Xauthority` verified)
+- **Global Synopsys Setup Script:** `/packages/synopsys/setup/synopsys_setup.tcl` (`-rwxr-xr-x`, `431` bytes, `Nov 6 2024`)
+- **Captured Transcript:** [`evidence/transcripts/03-server-environment-audit-1706pst.txt`](../evidence/transcripts/03-server-environment-audit-1706pst.txt)
+
+### 2. Diagnostic Summary
+
+| Check | Command | Captured Output | Engineering Finding |
+| :--- | :--- | :--- | :--- |
+| **Working Directory & Display** | `pwd; ls; echo "DISPLAY=$DISPLAY"` | `/home/<student-id>` / `DISPLAY=localhost:12.0` | Confirms clean home directory and active SSH X11 forwarding tunnel. |
+| **Server Clock** | `date '+%Y-%m-%d %H:%M:%S %Z (%z)'` | `2026-11-04 17:06:06 PST (-0800)` | Synchronizes server session logs with local engineering notebook timestamps. |
+| **Hostname** | `hostname` | `mahmoodi.rcc.at.sfsu.edu` | Confirms execution on the SFSU School of Engineering EDA server. |
+| **Synopsys Setup Script** | `ls -l /packages/synopsys/setup/synopsys_setup.tcl` | `-rwxr-xr-x. 1 root root 431 Nov 6 2024 /packages/synopsys/setup/synopsys_setup.tcl` | Confirms the global C-shell Synopsys environment script is present and executable. |
+| **Default Login Shell PATH** | Tool check across `vcs`, `verdi`, `dc_shell`, `fc_shell`, `pt_shell`, `xterm` | `/usr/bin/xterm` on default PATH; Synopsys tools not on default `bash` PATH | Default login shell is `bash`; running `csh` followed by `source /packages/synopsys/setup/synopsys_setup.tcl` activates `vcs`, `verdi`, `dc_shell`, `fc_shell`, and `pt_shell`. |
+| **Home Directory Dotfiles** | `ls -la "$HOME"` | `.bash_logout`, `.bash_profile`, `.bashrc`, `.config`, `.dbus`, `.esd_auth`, `.kshrc`, `.mozilla`, `.Xauthority` (`70` bytes) | Confirms `.Xauthority` cookie was created at `16:41` upon `ssh -X` login. |
