@@ -16,25 +16,33 @@ command -v tcsh; command -v csh
 
 **Observed output (user-supplied):** `/usr/bin/tcsh` and `/usr/bin/csh` both returned; the interpreters are available. The command's execution timestamp was not captured. Do not run `source /packages/synopsys/setup/synopsys_setup.tcl` from Bash.
 
-## Step 1a — Enter the compatible shell (pending)
+## Step 1a — Enter the compatible shell (verified)
 
 ```bash
 tcsh
 ```
 
-Press Enter. This starts an interactive C-shell inside the existing SSH session; it does not permanently change your login shell. Then verify the shell before sourcing the approved course setup.
+The terminal showed `tcsh 6.20.00` from `echo $version`. A prior `tcsh` session had already invoked the course setup file and printed startup banners. The user then entered another `tcsh` subshell, which is now active. Full redacted excerpt: [UPDATE-004](UPDATE-004.md).
 
-## Step 2 — Check graphical forwarding (pending, after Step 1)
+## Step 2 — Check whether VCS resolves in the current shell (pending)
 
-```bash
+In the **current university SSH Terminal window**, type **only this command**:
+
+```tcsh
+which vcs
+```
+
+Press Enter and inspect the output. If a full executable path appears, report it. If `vcs: Command not found.` or no usable path appears, report that instead. The setup messages alone do not prove tool availability or licenses.
+
+## Step 3 — Graphical forwarding check (pending)
+
+After the executable paths are checked, run:
+
+```tcsh
 xterm &
 ```
 
-A new graphical terminal must actually appear on the Mac. The existence of `DISPLAY` alone is not proof that X11 applications work.
-
-## Step 3 — Select and load the university tool setup (pending)
-
-After confirming a compatible C shell exists, inspect the university's approved startup guidance and load its setup in that shell. Log all stdout/stderr. Confirm individual binaries with `command -v vcs`, `command -v verdi`, and the available synthesis/timing tools. The existing setup references ICC2; do **not** assume Fusion Compiler is installed merely because it is required by the course workflow.
+Observe whether a **new remote** Xterm window appears on the Mac. The two existing local XQuartz windows do not establish remote forwarding success.
 
 ## Step 4 — Reproduce the team RTL run (pending on university server)
 
