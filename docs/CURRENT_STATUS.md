@@ -1,3 +1,5 @@
+**NOVEMBER 5 V5 PHYSICAL CHECKPOINT:** CTS and detailed routing pass; three extracted SPEFs and gate netlist exist; mapped post-route cell area 2,781.30 µm², typical estimated total power 0.729 mW. PrimeTime extracted fast/typical/slow timing reports show hold violations at all corners and 17 slow-corner setup violations. IC Validator reports 18 DRC violations. 731-buffer hold ECO generated, physical re-route attempted. [Full record](UPDATE-019_V5_POST_ROUTE_EXTRACTION_PT_ECO.md).
+
 # Current Project Checkpoint
 
 **Evidence capture:** `2026-11-04 17:26:03 PST` (`2026-11-05T01:26:03Z`); command execution times not separately captured.
