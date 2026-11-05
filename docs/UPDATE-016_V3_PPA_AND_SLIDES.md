@@ -99,3 +99,8 @@ Every flow step must be checked for `Error:` and valid output artifacts; a Makef
 The [full editable 19-slide V3 PowerPoint](../deliverables/ENGR852_V3_Full_Team_19_Slides.pptx) and its [19-page PDF](../deliverables/ENGR852_V3_Full_Team_19_Slides.pdf) contain the original 16 previously assembled team slides unchanged, followed by the three independent V3 engineering slides (17–19). The slide-building and slide-merge scripts retain first-16 content and shape counts. Both PDFs were re-exported and page-count verified.
 
 The original failure screenshot was further **cropped to remove the entire Verdi title bar** because it contained a university-account home path. The public GitHub figure and embedded PPTX/PDF now show only the nWave application waveform panel, not the sensitive title bar.
+
+
+## Resumable physical implementation (SSH-disconnect safe)
+
+The optional [stage resume script](../scripts/resume_v3_physical_flow.sh) runs the **instructor's unchanged stage Tcl** in the corrected local C-shell environment, writes one timestamped log per stage, scans tool error messages and stops immediately if a stage fails. It can be started with nohup on the authenticated Linux server to survive an SSH disconnection. This script has been syntax-checked but **not executed end-to-end** and does not establish final physical signoff by itself. It never stores login credentials.
