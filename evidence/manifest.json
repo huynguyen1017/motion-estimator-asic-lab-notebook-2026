@@ -1,0 +1,22 @@
+[
+  {
+    "path": "evidence/screenshots/01-vpn-disconnected.png",
+    "sha256": "c2885bbb6dfa532d131d222b02fbfce6d15b3ff6b39fc13ba30531c678ca4b49"
+  },
+  {
+    "path": "evidence/screenshots/02-vpn-connected.png",
+    "sha256": "a5189a3606f264bc25f655daecaa97804a1663d3fcecc68fe6707e4becd4a7d6"
+  },
+  {
+    "path": "evidence/screenshots/03-local-xterm.png",
+    "sha256": "4c6c45f7aa9a6880e740e3383be8a4eb755372fe26a8a911e453500c8b20d1c1"
+  },
+  {
+    "path": "evidence/transcripts/01-ssh-login.txt",
+    "sha256": "f570e4a525dd768a9af7437799f87d782227994e70ade67327daba0826532739"
+  },
+  {
+    "path": "evidence/transcripts/02-session-status.txt",
+    "sha256": "0debdb3c025fb6a12f595bd117239eaaacb7fc28549af6d7885786c7b7031cc6"
+  }
+]

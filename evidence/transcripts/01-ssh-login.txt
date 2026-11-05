@@ -1,0 +1,17 @@
+Public transcript: transcribed from the terminal output supplied by Huy Nguyen.
+Account identifiers are replaced with <student-id>; line wrapping and pasted link markup are normalized. This is not a raw terminal capture.
+
+Last login: Sat Oct 24 20:22:42 on ttys014
+huynguyen@iMac ~ % ssh -X <student-id>@mahmoodi.rcc.at.sfsu.edu
+The authenticity of host 'mahmoodi.rcc.at.sfsu.edu (130.212.15.54)' can't be established.
+ED25519 key fingerprint is: SHA256:cCDUO4TpOgwYrKC25XEUUIPssDJx45DW12xBHLf+OiM
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'mahmoodi.rcc.at.sfsu.edu' (ED25519) to the list of known hosts.
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+<student-id>@mahmoodi.rcc.at.sfsu.edu's password:
+Activate the web console with: systemctl enable --now cockpit.socket
+/usr/bin/xauth: file /home/<student-id>/.Xauthority does not exist
+[<student-id>@mahmoodi ~]$
