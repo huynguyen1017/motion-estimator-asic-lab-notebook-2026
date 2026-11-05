@@ -22,8 +22,8 @@ Complete the ENGR 852 520 MHz Motion Estimator ASIC design, verification, synthe
 ## Active Next Step on `mahmoodi.rcc.at.sfsu.edu`
 
 1. **Verified:** The professor-provided `Motion Estimator RTL and Testbench-1.zip` (8,307 bytes) was uploaded from **local iMac Terminal** with SCP, and the transfer reported 100% completion. The detailed redacted output is in [UPDATE-008](UPDATE-008.md).
-2. **Pending source-integrity verification:** In the existing university SSH terminal, run `cd ~/ENGR852_Project` and `sha256sum "Motion Estimator RTL and Testbench-1.zip"`. Compare against local digest `b799f2bbb08014f0e66e74ac87ebde2fcb01e20c2825d8c4eaf3c8c32f32ceb6`.
-3. **Pending:** Inspect archive contents and extract into a separate clean original-source folder; preserve any previous manually reconstructed `00_original_baseline` files without overwriting them.
+2. **Verified archive integrity:** University `sha256sum "Motion Estimator RTL and Testbench-1.zip"` returned the exact source SHA-256 `b799f2bbb08014f0e66e74ac87ebde2fcb01e20c2825d8c4eaf3c8c32f32ceb6` (see [UPDATE-009](UPDATE-009.md)).
+3. **Next guided action:** Run `unzip -l "Motion Estimator RTL and Testbench-1.zip"` to inspect archive contents and extract into a separate clean original-source folder; preserve any previous manually reconstructed `00_original_baseline` files without overwriting them.
 4. **Pending:** Compile and simulate the unchanged source with university VCS, then run independent verification and physical implementation. Actual VCS license checkout, remote Verdi window, mapped 14 nm results, route, DRC, and PrimeTime setup/hold verification are still not demonstrated.
 
 
