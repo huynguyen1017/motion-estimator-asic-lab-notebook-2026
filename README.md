@@ -110,7 +110,7 @@ Per the ENGR 852 specification, `ROM_R` (`256×8`) and `ROM_S` (`1024×8`) resid
 | **2. Local XQuartz X11 Terminal** | [`03-local-xterm.png`](evidence/screenshots/03-local-xterm.png) | **Verified** — Local X11 display server active on macOS |
 | **3. Authenticated SSH + X11 Forwarding** | [`01-ssh-login.txt`](evidence/transcripts/01-ssh-login.txt), [`02-session-status.txt`](evidence/transcripts/02-session-status.txt) | **Verified** — Logged in to `mahmoodi.rcc.at.sfsu.edu`; remote `DISPLAY=localhost:12.0` assigned |
 | **4. 520 MHz RTL Simulation & Synthesis Audit** | [`huy_verification_520mhz.log`](evidence/logs/huy_verification_520mhz.log), [`huy_synthesis_stat.log`](evidence/logs/huy_synthesis_stat.log) | **Verified (Local Icarus Verilog 13.0 & Yosys 0.70)** — Reproducible 520 MHz testbench & gate-level cell audit |
-| **5. Synopsys VCS/Verdi, Fusion Compiler & PrimeTime** | Server workspace `~/motion_estimator_520mhz` prepared | **In Progress** — Executing licensed 14 nm synthesis, place-and-route, DRC, parasitic extraction, and PrimeTime STA on `mahmoodi.rcc.at.sfsu.edu` |
+| **5. University Synopsys physical-design flow** | X11 forwarding address assigned; course setup file inspected | **Pending** — Licensed VCS/Verdi setup and graphical-window launch not yet verified. Team-file transfer, 14 nm mapping, place-and-route, DRC, parasitic extraction, and PrimeTime setup/hold analysis have not yet been demonstrated on this server session. |
 
 #### VPN & Terminal Access Screenshots
 | GlobalProtect Connected | Local XQuartz `xterm` |
