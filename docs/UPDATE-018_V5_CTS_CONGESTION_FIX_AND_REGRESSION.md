@@ -57,3 +57,10 @@ Run log: [V5_16bit_regression_results.log](../evidence/logs/V5_16bit_regression_
 | Demo | RTL/waveforms and project slides prepared | Demonstrate completed physical results if requested |
 
 **The 90–100 grading bracket is a project target, not a result asserted by this checkpoint.** All missing physical reports must be generated and checked.
+
+
+## Independent Synopsys VCS crosscheck (November 5, 2026)
+
+The same self-checking 16-bit top test was copied to an authenticated SFSU Linux session and rerun using **Synopsys VCS W-2024.09-1**. This is separate from the local Icarus run. The VCS source file order was corrected to put the timescaled testbench before `top.v`, resolving a compile-order timescale error without changing RTL logic.
+
+The native VCS log shows all three target results and **`V5_TOP_REGRESSION_PASS 3/3`**, with **`V5_NATIVE_VCS_EXIT=0`**. The original raw run output was recovered and saved as [V5_native_synopsys_vcs_results.log](../evidence/logs/V5_native_synopsys_vcs_results.log). This gives an independently reproduced Synopsys functional test to accompany the mapped physical flow.

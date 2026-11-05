@@ -69,6 +69,10 @@ The hardware engine computes the Sum of Absolute Differences (SAD) between a `16
 
 
 
+## V5 congestion fix and Synopsys VCS regression (November 5, 2026)
+
+The new [V5 checkpoint](docs/UPDATE-018_V5_CTS_CONGESTION_FIX_AND_REGRESSION.md) documents the physical CTS 112.88% over-utilization diagnosis, a separate 35% utilization floorplan that successfully passed its floorplan/placement checkpoints, and a corrected 16-bit **3/3 top-level regression also passed on native Synopsys VCS**. Later physical CTS/route/DRC/post-layout PrimeTime results must be verified independently from logs; simulation and the mapped cell area are not sign-off.
+
 ## V4 electronic report and source/evidence package
 
 - [Engineering report (six-page PDF)](deliverables/ENGR852_V4_Motion_Estimator_Engineering_Report.pdf): block diagram, actual VCS tests, Verdi waveforms, SAED14 mapped results, physical-flow status and requirements audit.
