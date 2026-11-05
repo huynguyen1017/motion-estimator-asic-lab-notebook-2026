@@ -20,10 +20,11 @@ Complete the ENGR 852 520 MHz Motion Estimator ASIC design, verification, synthe
    - Prepared 520 MHz Synopsys Design Constraints ([`constraints/top_520mhz.sdc`](../constraints/top_520mhz.sdc)) and 3 technical slides ([`evidence/slides/`](../evidence/slides/)).
 
 ## Active Next Step on `mahmoodi.rcc.at.sfsu.edu`
-1. **Pending:** run `command -v tcsh; command -v csh` in the existing university Bash session to determine whether a C-shell interpreter is available.
-2. **Pending:** verify that a remote `xterm &` actually opens a window on the Mac.
-3. **Pending:** load the approved Synopsys setup in a compatible shell, then verify each licensed tool; only afterward upload the exact sources and run VCS.
-4. **Pending:** physical implementation, extracted-parasitic timing and PrimeTime setup/hold reports. No completed 14 nm physical sign-off is claimed.
+1. **Verified:** `command -v tcsh; command -v csh` returned `/usr/bin/tcsh` and `/usr/bin/csh`; both interpreters are available (supplied output, timestamp not captured).
+2. **Pending:** type `tcsh` in the existing university shell to enter a compatible interpreter; verify the shell before sourcing the approved Synopsys setup.
+3. **Pending:** verify that a remote `xterm &` actually opens a window on the Mac.
+4. **Pending:** load the approved Synopsys setup in a compatible shell, then verify each licensed tool; only afterward upload the exact sources and run VCS.
+5. **Pending:** physical implementation, extracted-parasitic timing and PrimeTime setup/hold reports. No completed 14 nm physical sign-off is claimed.
 
 ## Links
 - **GitHub Repository:** https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026
