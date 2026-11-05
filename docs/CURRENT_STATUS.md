@@ -19,14 +19,15 @@ Complete the ENGR 852 520 MHz Motion Estimator ASIC design, verification, synthe
    - Verified external memory exclusion (`0` internal memory bits) and hierarchical cell/register breakdown (`3,254` generic cells, `277` flip-flops) via Yosys 0.70 ([`evidence/logs/huy_synthesis_stat.log`](../evidence/logs/huy_synthesis_stat.log)).
    - Prepared 520 MHz Synopsys Design Constraints ([`constraints/top_520mhz.sdc`](../constraints/top_520mhz.sdc)) and 3 technical slides ([`evidence/slides/`](../evidence/slides/)).
 
-## Active Next Step on `mahmoodi.rcc.at.sfsu.edu`
+## Current status — November 4, 2026, after university tool execution
 
-1. **Verified:** The professor-provided `Motion Estimator RTL and Testbench-1.zip` (8,307 bytes) was uploaded from **local iMac Terminal** with SCP, and the transfer reported 100% completion. The detailed redacted output is in [UPDATE-008](UPDATE-008.md).
-2. **Verified archive integrity:** University `sha256sum "Motion Estimator RTL and Testbench-1.zip"` returned the exact source SHA-256 `b799f2bbb08014f0e66e74ac87ebde2fcb01e20c2825d8c4eaf3c8c32f32ceb6` (see [UPDATE-009](UPDATE-009.md)).
-3. **Verified ZIP inventory:** `unzip -l "Motion Estimator RTL and Testbench-1.zip"` listed one folder and ten regular files, total 37,988 bytes. See [UPDATE-010](UPDATE-010.md).
-4. **Next guided action:** Extract safely with `unzip -n "Motion Estimator RTL and Testbench-1.zip" -d 00_professor_zip_verified_20261104`; do not overwrite the previous `00_original_baseline` directory.
-5. **Pending:** Compile and simulate the unchanged source with university VCS, then run independent verification and physical implementation. Actual VCS license checkout, remote Verdi window, mapped 14 nm results, route, DRC, and PrimeTime setup/hold verification are still not demonstrated.
-
+1. **Verified source:** Professor ZIP and untouched `top.v` transferred, SHA-256 validated, and extracted into `00_professor_zip_verified_20261104` without overwriting experiments.
+2. **Actual university Synopsys VCS:** Baseline 50 MHz perfect-match simulation, separate 520 MHz simulation, and independent 12/12 PE/PEend/comparator directed checks all ran successfully; original `top.v` unchanged.
+3. **Extended independent testing:** Three reproducible seeded VCS runs validated `16 blocks × 256 pixels × 2 variants × 3 seeds = 24,576` PE comparisons, **0 mismatches** against the saturating-SAD reference. Measured total of **10,656** samples where the full SAD exceeded 255. See [UPDATE-013](UPDATE-013.md), [new SystemVerilog checker](../verification/huy_pe_fullprecision_scoreboard_tb.sv).
+4. **Actual waveform evidence:** Fresh trusted X11 (`ssh -Y`) repaired display forwarding. Verdi/nWave opened FSDB from university VCS and app-only screenshots were captured, privacy-reviewed, and saved in [screenshots](../evidence/screenshots/). An unsupported `wvZoomFull` replay command was removed; current waveform view does not depend on it.
+5. **14 nm physical-flow blocker:** Verified SAED14 technology and RVT NDM/Liberty paths. Fusion Compiler X-2025.06-SP2 initial-map run **stopped before synthesis** because `Fusion-Compiler-NX` license was unavailable; Design Compiler O-2018.06-SP4 returned `DCSH-1` (not enabled). **No** 14 nm mapped area, power, placement, route, extraction, DRC, or PrimeTime sign-off has been produced.
+6. **Presentation delivered:** Original **16 slides unchanged in a copy** plus 3 new evidence-backed contribution slides = **19 slides**. [Editable Google Slides](https://docs.google.com/presentation/d/1oQlE86P-1ajHd4VskT9jGiLGEXkxlMnqQ0_dutpmTPo/edit), [PPTX](../deliverables/ENGR852_Motion_Estimator_19_Slide_Final_2026-11-04.pptx), [PDF](../deliverables/ENGR852_Motion_Estimator_19_Slide_Final_2026-11-04.pdf).
+7. **Remaining required actions:** Obtain instructor-approved tool license(s), then perform mapped synthesis, 14 nm floorplan, placement, CTS, routing, extraction, DRC, and PrimeTime setup/hold analysis. Add measured physical reports/screenshots to a future slide revision. Do not label any generic Yosys cell count or an SDC constraint as post-layout sign-off.
 
 ## Links
 - **GitHub Repository:** https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026
