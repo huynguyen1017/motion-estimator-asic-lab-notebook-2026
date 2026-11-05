@@ -6,6 +6,16 @@
 
 ---
 
+## Latest university-verified results & presentation (November 4, 2026)
+
+**[Editable 19-slide Google Slides presentation](https://docs.google.com/presentation/d/1oQlE86P-1ajHd4VskT9jGiLGEXkxlMnqQ0_dutpmTPo/edit)** · **[Download PowerPoint](deliverables/ENGR852_Motion_Estimator_19_Slide_Final_2026-11-04.pptx)** · **[Download PDF](deliverables/ENGR852_Motion_Estimator_19_Slide_Final_2026-11-04.pdf)**
+
+The copied 19-slide deck preserves the team's 16 original slides and adds three independent contributions (slides 17–19): original Synopsys nWave screenshots, 12/12 PE/comparator directed checks, and a three-seed deterministic full-precision SAD reference model. Actual SFSU **VCS returned 24,576 PE comparisons, zero mismatches** across three seeds. The full 16-bit SAD reference confirms the professor RTL's **8-bit saturating policy**; this does not prove the top-level motion vector is always the best full-precision SAD candidate. See [UPDATE-013](docs/UPDATE-013.md), the [scoreboard source](verification/huy_pe_fullprecision_scoreboard_tb.sv), [VCS log](evidence/logs/huy_vcs_sad_scoreboard_three_seed_run_20261104.log), and [privacy-reviewed nWave image](evidence/screenshots/Huy_nWave_520MHz_Precision_ACTUAL_traces.png).
+
+**Physical design is still blocked.** Fusion Compiler X-2025.06-SP2 could start, but the SAED14 initial-map job stopped before synthesis because `Fusion-Compiler-NX` was unavailable; alternate Design Compiler returned DCSH-1 (not enabled). **No technology-mapped 14 nm area/power, routing, DRC, extraction, or post-layout PrimeTime sign-off is claimed.** The 3,254-cell Yosys count below is **generic synthesis**, not mapped physical area.
+
+---
+
 ## Executive Summary
 
 This repository documents the architecture analysis, 520 MHz RTL verification, pipeline timing schedule derivation, synthesis hierarchy characterization, Synopsys Design Constraints (SDC), and laboratory execution log for a hardware **Full-Search Block-Matching Motion Estimator ASIC**.
