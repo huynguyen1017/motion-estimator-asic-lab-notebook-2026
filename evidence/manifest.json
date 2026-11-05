@@ -20,8 +20,16 @@
     "sha256": "0debdb3c025fb6a12f595bd117239eaaacb7fc28549af6d7885786c7b7031cc6"
   },
   {
+    "path": "evidence/transcripts/03-environment-diagnostics.txt",
+    "sha256": "a1444979eef729fbb2f21dd26e8f828099bf5346d0393402c01f4fd552c52cb7"
+  },
+  {
     "path": "evidence/transcripts/03-server-environment-audit-1706pst.txt",
     "sha256": "3b982e3182efb11b86015199ec88e94a83119b6c22613dc3c5c7e1b874ebf2e7"
+  },
+  {
+    "path": "evidence/transcripts/04-shell-and-setup-inspection-1711pst.txt",
+    "sha256": "5519b4db0885814588278a9cde2c936b738521b96455dea70f5700936037a35b"
   },
   {
     "path": "evidence/logs/huy_verification_520mhz.log",

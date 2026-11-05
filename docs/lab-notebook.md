@@ -141,3 +141,34 @@ Key findings from [`evidence/logs/huy_synthesis_stat.log`](../evidence/logs/huy_
 | **Synopsys Setup Script** | `ls -l /packages/synopsys/setup/synopsys_setup.tcl` | `-rwxr-xr-x. 1 root root 431 Nov 6 2024 /packages/synopsys/setup/synopsys_setup.tcl` | Confirms the global C-shell Synopsys environment script is present and executable. |
 | **Default Login Shell PATH** | Tool check across `vcs`, `verdi`, `dc_shell`, `fc_shell`, `pt_shell`, `xterm` | `/usr/bin/xterm` on default PATH; Synopsys tools not on default `bash` PATH | Default login shell is `bash`; running `csh` followed by `source /packages/synopsys/setup/synopsys_setup.tcl` activates `vcs`, `verdi`, `dc_shell`, `fc_shell`, and `pt_shell`. |
 | **Home Directory Dotfiles** | `ls -la "$HOME"` | `.bash_logout`, `.bash_profile`, `.bashrc`, `.config`, `.dbus`, `.esd_auth`, `.kshrc`, `.mozilla`, `.Xauthority` (`70` bytes) | Confirms `.Xauthority` cookie was created at `16:41` upon `ssh -X` login. |
+
+
+---
+
+## UPDATE-004 — Shell Verification (`bash` vs. `csh`/`tcsh`) & Synopsys Environment Script Inspection (`2026-11-04 17:11:12 PST`)
+
+### 1. Metadata
+- **Server Timestamp:** `2026-11-04 17:11:12 PST (-0800)`
+- **Target Host:** `mahmoodi.rcc.at.sfsu.edu` (Rocky Linux 8.10)
+- **Active Process Shell (`ps -p $$ -o comm=`):** `bash`
+- **Available C-Shells:** `/usr/bin/tcsh`, `/usr/bin/csh`
+- **Captured Transcript:** [`evidence/transcripts/04-shell-and-setup-inspection-1711pst.txt`](../evidence/transcripts/04-shell-and-setup-inspection-1711pst.txt)
+
+### 2. Captured Contents of `/packages/synopsys/setup/synopsys_setup.tcl`
+
+```tcsh
+source /packages/synopsys/setup/synthesis.csh
+source /packages/synopsys/setup/vcs_2024.csh
+source /packages/synopsys/setup/primetime.csh
+source /packages/synopsys/setup/icc2_2021.csh
+source /packages/synopsys/setup/verdi_2024.csh
+setenv VCS_HOME /packages/synopsys/vcs/W-2024.09-1/
+setenv VERDI_HOME /packages/synopsys/verdi/W-2024.09-1/
+set path = ( $VERDI_HOME/bin $path ) ; rehash
+set path = ( $VCS_HOME/bin $path ) ; rehash
+```
+
+### 3. Engineering Findings
+1. **Shell Compatibility (`bash` vs. `csh`/`tcsh`):** The login session runs `bash` (`ps -p $$ -o comm=`), whereas `/packages/synopsys/setup/synopsys_setup.tcl` uses C-shell syntax (`setenv`, `set path = (...)`, `rehash`) and sources five tool-specific C-shell setup scripts (`synthesis.csh`, `vcs_2024.csh`, `primetime.csh`, `icc2_2021.csh`, `verdi_2024.csh`).
+2. **Confirmed Tool Releases:** `VCS_HOME` and `VERDI_HOME` point to Synopsys `W-2024.09-1` (`/packages/synopsys/vcs/W-2024.09-1/` and `/packages/synopsys/verdi/W-2024.09-1/`).
+3. **Required Invocation Sequence:** Invoking `csh` (or `tcsh`) before running `source /packages/synopsys/setup/synopsys_setup.tcl` cleanly loads the entire Synopsys 2024/2021 toolchain.
