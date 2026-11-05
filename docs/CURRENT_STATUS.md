@@ -20,11 +20,12 @@ Complete the ENGR 852 520 MHz Motion Estimator ASIC design, verification, synthe
    - Prepared 520 MHz Synopsys Design Constraints ([`constraints/top_520mhz.sdc`](../constraints/top_520mhz.sdc)) and 3 technical slides ([`evidence/slides/`](../evidence/slides/)).
 
 ## Active Next Step on `mahmoodi.rcc.at.sfsu.edu`
-1. **Verified:** `tcsh` and `csh` exist at `/usr/bin/tcsh` and `/usr/bin/csh`; `echo $version` returned `tcsh 6.20.00` in the existing SSH Terminal session.
-2. **Observed:** the approved setup script was already sourced within an earlier `tcsh` shell and printed configuration banners for Synthesis, VCS, PrimeTime, ICC2, and Verdi. This is startup evidence, not a tool/license check; see [UPDATE-004](UPDATE-004.md) and [terminal excerpt](../evidence/transcripts/04-tcsh-and-synopsys-startup.txt).
-3. **Next guided action:** in the current `tcsh` prompt run `which vcs`, then inspect its output before any further commands.
-4. **Pending:** verify that remote `xterm &` actually opens a forwarded window on the Mac. Two local XQuartz xterm windows already exist, which is not a remote-GUI proof.
-5. **Pending:** transfer a source copy, run licensed RTL verification, and complete physical implementation, extraction and PrimeTime setup/hold sign-off. None of these university outcomes is yet evidenced.
+
+1. **Verified:** The professor-provided `Motion Estimator RTL and Testbench-1.zip` (8,307 bytes) was uploaded from **local iMac Terminal** with SCP, and the transfer reported 100% completion. The detailed redacted output is in [UPDATE-008](UPDATE-008.md).
+2. **Pending source-integrity verification:** In the existing university SSH terminal, run `cd ~/ENGR852_Project` and `sha256sum "Motion Estimator RTL and Testbench-1.zip"`. Compare against local digest `b799f2bbb08014f0e66e74ac87ebde2fcb01e20c2825d8c4eaf3c8c32f32ceb6`.
+3. **Pending:** Inspect archive contents and extract into a separate clean original-source folder; preserve any previous manually reconstructed `00_original_baseline` files without overwriting them.
+4. **Pending:** Compile and simulate the unchanged source with university VCS, then run independent verification and physical implementation. Actual VCS license checkout, remote Verdi window, mapped 14 nm results, route, DRC, and PrimeTime setup/hold verification are still not demonstrated.
+
 
 ## Links
 - **GitHub Repository:** https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026
