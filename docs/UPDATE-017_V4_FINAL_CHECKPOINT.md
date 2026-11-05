@@ -83,3 +83,12 @@ QA: exactly 3 and 19 slides; corresponding 3-page and 19-page PDFs; original sli
 ## Evidence integrity
 
 Screenshots are crops of original Synopsys application windows, not synthesized diagrams. The professor's RTL and teammates' slides were not overwritten. Proprietary tool/library content and credentials were not published.
+
+
+## V4 electronic report and ready-to-submit source package
+
+A six-page [engineering report](../deliverables/ENGR852_V4_Motion_Estimator_Engineering_Report.pdf) was generated from measured output and user-provided project instructions. It includes architecture, testbench-only memory boundary, VCS evidence, exact SAD-corner math, two cropped Verdi nWave application figures, native technology mapping numbers and the detailed 90–100 rubric gap analysis.
+
+The [ZIP evidence bundle](../deliverables/ENGR852_V4_Submission_and_Evidence_Bundle.zip) contains 28 items: report, PPTX/PDF decks, RTL source variants, simulation testbenches, constraints, captured logs, annotated evidence provenance, scripts, README and cryptographic SHA-256 file manifest. The archive was opened and its member checksums verified. No passwords or student-ID strings were found in its included text files. Proprietary technology libraries are excluded.
+
+The user-facing slides and the report do not contain the word the user requested removed.
