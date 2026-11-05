@@ -36,3 +36,14 @@ Complete the ENGR 852 520 MHz Motion Estimator ASIC design, verification, synthe
   - Tab 2 (`UPDATE-002`): https://docs.google.com/document/d/1UiReAPBHExrSvBnu2zGagSj2VUrMGXPIKgPJlKSNW7U/edit?tab=t.hxb3dr2qxpwb
   - Tab 3 (`UPDATE-003`): https://docs.google.com/document/d/1UiReAPBHExrSvBnu2zGagSj2VUrMGXPIKgPJlKSNW7U/edit?tab=t.yztt97virfy0
 - **Team Presentation (Slides 14–16):** https://docs.google.com/presentation/d/1t5CEEyA1PofPH9xMRqVXnmPm-CgHQKg0qFEm4FciFgU/edit
+
+
+## V2 delivery checkpoint — November 4, 2026 (after reconnect)
+
+The live 19-slide copy was re-exported and QA-rendered. **The original 16 teammate slides remain unchanged.** Slides 17–19 use new measured VCS waveforms for directed match, perturbed nonzero SAD, and PE/comparator saturation. Figure-caption wrapping on slide 17 has been repaired.
+
+- Reproducible VCS testbench: [verification/huy_fullmotion_v2_tb.sv](../verification/huy_fullmotion_v2_tb.sv).
+- Actual detailed Surfer views of Synopsys FSDB/VCD: [evidence/screenshots](../evidence/screenshots/).
+- Detailed evidence and recovery instructions: [UPDATE-014](UPDATE-014.md).
+- **Physical ASIC status remains blocked:** Fusion-Compiler-NX license unavailable; Design Compiler DCSH-1. No SAED14 mapped PPA, routed layout, DRC, extracted parasitics or post-layout PrimeTime sign-off. These still need authorized execution to satisfy the full course rubric.
+
