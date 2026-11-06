@@ -1,3 +1,15 @@
+## V6 — November 6 verification, GDS placement, and clearly labeled slides
+
+- [Engineering checkpoint and acceptance-gate audit](docs/UPDATE-021_V6_GDS_REGRESSION_AND_SLIDE_CORRECTION.md).
+- [Three independent contribution slides (editable PPTX)](deliverables/ENGR852_V6_Motion_Estimator_3_Contribution_Slides.pptx).
+- [Complete corrected 19-slide deck (editable PPTX)](deliverables/ENGR852_V6_Motion_Estimator_Full_Team_19_Slides.pptx). Team slides 1–16 are unchanged; slide 19 is scaled to the team's canvas.
+- [Name-neutral V6 RTL and testbench suite](verification/v6_clean/). Run `python3 run_regression.py` from that directory. Current result: 7/7 executed test processes PASS with explicit T1/T2/T3 checks.
+- [Stage-acceptance gate](scripts/v6_stage_gate.py). `--scope rtl` passes now; `--scope full` deliberately fails while final ICV and extracted PrimeTime signoff remain incomplete.
+
+**Interpretation:** `BestDist=0000` for the team's perfect-match inputs. `BestDist=FF00` for a *separate* all-00 reference versus all-FF search stress test. The V6 slides make the distinction explicit.
+
+**New native GDS evidence:** A fresh Synopsys re-export from the existing V5 routed checkpoint has zero unplaced flat cells, no GDS-110 warnings and a successful write_gds return status. The 80 MB technology-merged GDS remains on the engineering server. ICV DRC still has nonzero violations; post-ECO routing and PrimeTime setup/hold signoff are not yet verified. Do not claim full 90–100 rubric completion until the final layout passes all of those checks.
+
 # 520 MHz Motion Estimator ASIC — RTL Verification, Architecture & Lab Portfolio
 
 **Author:** Huy Nguyen  

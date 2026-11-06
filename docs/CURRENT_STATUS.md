@@ -1,3 +1,5 @@
+**LATEST V6 checkpoint (November 6, 2026):** The name-neutral RTL suite was rerun with explicit full-motion assertions: 7/7 tests passed; local RTL stage gate exits 0. Separate perfect-match and all-FF stress cases are labeled correctly in V6 slides, and the combined deck slide 19 clipping was fixed. Fusion Compiler reported 0 unplaced cells and generated a fresh warning-free GDS from the V5 checkpoint. Final ICV DRC, hold repair, SLOW setup, post-ECO SPEF and post-layout PrimeTime remain open; full-stage gate correctly exits 1. See [UPDATE-021](UPDATE-021_V6_GDS_REGRESSION_AND_SLIDE_CORRECTION.md).
+
 **NOVEMBER 5 V5 PHYSICAL CHECKPOINT:** CTS and detailed routing pass; three extracted SPEFs and gate netlist exist; mapped post-route cell area 2,781.30 µm², typical estimated total power 0.729 mW. PrimeTime extracted fast/typical/slow timing reports show hold violations at all corners and 17 slow-corner setup violations. IC Validator reports 18 DRC violations. 731-buffer hold ECO generated, physical re-route attempted. [Full record](UPDATE-019_V5_POST_ROUTE_EXTRACTION_PT_ECO.md).
 
 # Current Project Checkpoint

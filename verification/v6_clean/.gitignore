@@ -1,0 +1,7 @@
+qa_runs/
+*.simv
+*.vcd
+*.fsdb
+*.log
+simv*
+csrc/
