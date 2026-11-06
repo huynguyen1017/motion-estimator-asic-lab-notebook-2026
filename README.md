@@ -1,6 +1,8 @@
 ## V6 — November 6 verification, GDS placement, and clearly labeled slides
 
 - [Engineering checkpoint and acceptance-gate audit](docs/UPDATE-021_V6_GDS_REGRESSION_AND_SLIDE_CORRECTION.md).
+- [Updated nine-page engineering report (PDF)](deliverables/ENGR852_V6_Motion_Estimator_Engineering_Report.pdf). Includes the original measured report plus a verified two-page V6 addendum.
+
 - [Three independent contribution slides (editable PPTX)](deliverables/ENGR852_V6_Motion_Estimator_3_Contribution_Slides.pptx).
 - [Complete corrected 19-slide deck (editable PPTX)](deliverables/ENGR852_V6_Motion_Estimator_Full_Team_19_Slides.pptx). Team slides 1–16 are unchanged; slide 19 is scaled to the team's canvas.
 - [Name-neutral V6 RTL and testbench suite](verification/v6_clean/). Run `python3 run_regression.py` from that directory. Current result: 7/7 executed test processes PASS with explicit T1/T2/T3 checks.

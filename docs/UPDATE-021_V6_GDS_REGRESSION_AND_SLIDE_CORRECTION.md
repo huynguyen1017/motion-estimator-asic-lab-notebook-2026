@@ -74,3 +74,8 @@ The baseline V5 ICV DRC result remains **18 violations**. Additional isolated IC
 6. The report and presentation are updated from genuine post-ECO measurements.
 
 The course's 90–100 criteria require completing these steps, not changing status labels or replacing missing reports with estimates.
+
+
+## Updated electronic engineering report
+
+The [V6 nine-page PDF report](../deliverables/ENGR852_V6_Motion_Estimator_Engineering_Report.pdf) retains the seven-page V5 measured report and appends two pages correcting the normal 0000 / stress-case FF00 distinction, confirming the new zero-unplaced-cell GDS export, and listing the remaining unclosed DRC/setup/hold gates. Both addendum pages were rendered and visually inspected. This is a measured checkpoint report, not a claim of physical sign-off.
