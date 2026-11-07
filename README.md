@@ -1,3 +1,12 @@
+## V7 — Corrected waveform presentation (November 6, 2026)
+
+- [Three revised, editable Verdi and PrimeTime slides](deliverables/ENGR852_V7_Clean_Waveform_3_Slides.pptx)
+- [Complete 19-slide copy with team slides 1–16 preserved](deliverables/ENGR852_V7_Complete_19_Slides.pptx)
+- [Rendered three-slide PDF preview](deliverables/ENGR852_V7_3_Slide_Preview.pdf)
+- [V7 verification and sign-off checkpoint](docs/UPDATE-022_V7_SLIDE_QA_AND_SIGNOFF_STATUS.md)
+
+The original perfect-match input returns BestDist=0000; the separately constructed all-00 versus all-FF stress test returns full-precision FF00. All screenshots are authentic Verdi application-window captures. Existing waveforms do not show the address buses; no teammate waveform is represented as independent evidence. The V5/V6 ICV DRC and PrimeTime hold/setup repairs are still required.
+
 ## V6 — November 6 verification, GDS placement, and clearly labeled slides
 
 - [Engineering checkpoint and acceptance-gate audit](docs/UPDATE-021_V6_GDS_REGRESSION_AND_SLIDE_CORRECTION.md).
