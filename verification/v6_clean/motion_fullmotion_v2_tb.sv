@@ -48,10 +48,10 @@ module motion_verification_520mhz_tb;
     endtask
 
     initial begin
-`ifndef IVL_SIM
+`ifdef DUMP_FSDB
         $fsdbDumpfile("motion_v2_520mhz.fsdb");
 `endif
-`ifndef IVL_SIM
+`ifdef DUMP_FSDB
         $fsdbDumpvars(0, motion_verification_520mhz_tb);
 `endif
         $dumpfile("motion_verification_520mhz.vcd");

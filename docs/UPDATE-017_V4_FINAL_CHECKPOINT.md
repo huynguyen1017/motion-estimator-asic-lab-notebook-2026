@@ -71,8 +71,8 @@ A [resume and log audit script](../scripts/resume_v3_physical_flow.sh) is availa
 
 ## V4 presentation files
 
-- [Your three contribution slides (PPTX)](../deliverables/ENGR852_Huy_V4_Detailed_Waveform_3_Slides.pptx)
-- [Your three contribution slides (PDF)](../deliverables/ENGR852_Huy_V4_Detailed_Waveform_3_Slides.pdf)
+- [Your three contribution slides (PPTX)](../deliverables/ENGR852_Motion_Estimator_V4_Detailed_Waveform_3_Slides.pptx)
+- [Your three contribution slides (PDF)](../deliverables/ENGR852_Motion_Estimator_V4_Detailed_Waveform_3_Slides.pdf)
 - [Complete 19 slides (PPTX)](../deliverables/ENGR852_V4_Full_Team_19_Slides.pptx)
 - [Complete 19 slides (PDF)](../deliverables/ENGR852_V4_Full_Team_19_Slides.pdf)
 - [Original controller-progress nWave figure](../evidence/screenshots/V4_original_controller_progress_nWave_1472px.png)

@@ -1,4 +1,5 @@
-// V3B: full-precision SAD with one-cycle delayed completion qualification.
+`timescale 1ns/100fs
+// Full-precision SAD with one-cycle delayed completion qualification.
 // Independent 16-bit SAD architecture variant. Original professor RTL is untouched.
 
 /* Module For Top Level Hierarchy */
@@ -243,6 +244,7 @@ module PEtotal (clock, R, S1, S2, S1S2mux, newDist, Accumulate);
 endmodule
 
 
+`ifndef SYNTHESIS
 /* Module For Reference Block (Memory) */
 module ROM_R (clock, AddressR, R);
 	input clock;
@@ -280,3 +282,4 @@ module ROM_S (clock, AddressS1, AddressS2, S1, S2);
 	 end
 
 endmodule
+`endif

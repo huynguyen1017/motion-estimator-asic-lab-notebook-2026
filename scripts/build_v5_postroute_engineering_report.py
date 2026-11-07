@@ -107,7 +107,7 @@ bullet('Rerun PrimeTime max (setup) and min (hold) with actual extracted RC at a
 bullet('Refresh final area and estimated power using the finalized post-ECO netlist and documented switching assumptions.')
 bullet('Add final native layout and timing figures to the presentation and retain the complete scripts and source in the project package.')
 p('<b>Conclusion:</b> Functional correctness, complete routing and parasitic extraction are demonstrated. The current physical design is not yet a clean sign-off implementation, so no guaranteed grading percentage is claimed. The engineering record identifies the specific outstanding errors and preserves every successful and failed checkpoint.')
-p('Versioned evidence: github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026/docs/UPDATE-019_V5_POST_ROUTE_EXTRACTION_PT_ECO.md')
+p('Versioned evidence: github.com/team-engr852/motion-estimator-asic-lab-notebook-2026/docs/UPDATE-019_V5_POST_ROUTE_EXTRACTION_PT_ECO.md')
 def page(c,doc):
  c.saveState();c.setStrokeColor(LIGHT);c.line(.62*inch,.58*inch,letter[0]-.62*inch,.58*inch)
  c.setFont('Helvetica',8);c.setFillColor(GRY)

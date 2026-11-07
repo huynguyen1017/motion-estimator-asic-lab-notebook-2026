@@ -55,7 +55,7 @@ V5_TOP_REGRESSION_T2_PASS
   [T3 RESULT] BestDist=0000 (0), motionX=7 (7), motionY=7 (7), Expected=(7, 7)
 V5_TOP_REGRESSION_T3_PASS
 V5_TOP_REGRESSION_PASS 3/3
-$finish called from file "huy_v5_16bit_top_regression_tb.sv", line 166.
+$finish called from file "motion_v5_16bit_top_regression_tb.sv", line 166.
 $finish at simulation time            237327245
            V C S   S i m u l a t i o n   R e p o r t 
 Time: 23732724500 fs

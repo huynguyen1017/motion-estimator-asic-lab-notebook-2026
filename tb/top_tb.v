@@ -10,7 +10,11 @@ module top_testbench ( ) ;
 
     // Test bench gets wires for all device under test (DUT) outputs:
 
+`ifdef BASELINE_8BIT
    wire [7:0] BestDist;
+`else
+   wire [15:0] BestDist;
+`endif
    wire [3:0] motionX, motionY;
 
    // Regs for all DUT inputs:
@@ -31,7 +35,7 @@ module top_testbench ( ) ;
 
 //(dut means device under test)
    top dut (
-   	.BestDist(BestDist [7:0]),
+   	.BestDist(BestDist),
 		.motionX(motionX [3:0]),
 		.motionY(motionY [3:0]),
       .clock(clock),
@@ -56,10 +60,14 @@ module top_testbench ( ) ;
 
    initial
      begin
+`ifdef DUMP_VPD
      	$vcdpluson;
+`endif
+`ifdef DUMP_FSDB
      	$fsdbDumpvars;
+`endif
         // First setup up to monitor all inputs and outputs
-        $monitor ("time=%5d ns, clock =%b, start =%b, BestDist =%b, motionX =%d, motionY =%d, count =%d", $time, clock, start , BestDist[7:0], motionX[3:0], motionY[3:0], dut.ctl_u.count[12:0]);
+        $monitor ("time=%5d ns, clock =%b, start =%b, BestDist =%b, motionX =%d, motionY =%d, count =%d", $time, clock, start , BestDist, motionX[3:0], motionY[3:0], dut.ctl_u.count[12:0]);
 	
 
 	//randomize Smem
@@ -79,13 +87,21 @@ module top_testbench ( ) ;
 		end	
 
 	//initilize memories
-
+`ifdef __ICARUS__
+	for (i=0; i<256; i=i+1) begin
+				memR_u.Rmem[i]= Rmem[i];
+			end
+	for (i=0; i<1024; i=i+1) begin
+				memS_u.Smem[i]= Smem[i];
+			end
+`else
 	foreach (memR_u.Rmem[i]) begin
 				memR_u.Rmem[i]= Rmem[i];
 			end
 	foreach (memS_u.Smem[i]) begin
 				memS_u.Smem[i]= Smem[i];
-			end		
+			end
+`endif		
         // First initialize all registers
 	//$readmemh("ref.txt", memR_u.Rmem);
 	//$readmemh("search.txt", memS_u.Smem);
@@ -140,11 +156,11 @@ foreach (Smem[i]) begin
 
 //print test results
 
-	if (BestDist == 8'b11111111)
+	if (&BestDist)
 		$display("Reference Memory Not Found in the Search Window!");
 	else
 	    begin
-	        if (BestDist == 8'b00000000)
+	        if (BestDist == 0)
 		    $display("Perfect Match Foudn for Reference Memory in the Search Window : BestDist = %d, motionX  = %d , motionY =  %d Expected motionX  = %d , Expected motionY =  %d ", BestDist, x , y, Expected_motionX, Expected_motionY);
 		else
 		    $display("Non-perfect Match Found the Reference Memory in the Search Window : BestDist = %d, motionX  = %d , motionY =  %d Expected motionX  = %d , Expected motionY =  %d ", BestDist, x, y, Expected_motionX, Expected_motionY);

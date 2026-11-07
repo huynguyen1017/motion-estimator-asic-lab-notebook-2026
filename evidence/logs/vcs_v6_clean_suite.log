@@ -1,0 +1,8 @@
+motion_fullmotion_v2_tb PASS
+motion_pe_comparator_selfcheck_tb PASS
+motion_pe_fullprecision_scoreboard_tb PASS
+motion_v3_all_saturated_tb PASS
+motion_v3_full_precision_tb PASS
+motion_v3_hold_tb PASS
+motion_v5_16bit_top_regression_tb PASS
+SUMMARY 7 / 7

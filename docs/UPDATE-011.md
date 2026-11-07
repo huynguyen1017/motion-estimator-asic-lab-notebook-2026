@@ -29,15 +29,15 @@ The professor-supplied ZIP was verified byte-for-byte after SCP (SHA-256 `b799f2
 ## Run C — New independent self-checking VCS testbench
 
 **Directory:** `~/ENGR852_Project/03_vcs_precision_selfcheck_20261104`  
-**Source:** [`verification/huy_pe_comparator_selfcheck_tb.sv`](../verification/huy_pe_comparator_selfcheck_tb.sv) (independent 520 MHz testbench), with the unchanged professor's `top.v`.  
+**Source:** [`verification/motion_pe_comparator_selfcheck_tb.sv`](../verification/motion_pe_comparator_selfcheck_tb.sv) (independent 520 MHz testbench), with the unchanged professor's `top.v`.  
 **Testbench SHA-256:** `76c9781bc69845fb4fb1b3f5d6ad73993238532152444d3e567eeaf947cf5608`.  
-**Result:** `PRECISION_COMPILE_EXIT=0`, `PRECISION_SIM_EXIT=0`, **`HUY_INDEPENDENT_TEST_PASS checks=12 failures=0`**.
+**Result:** `PRECISION_COMPILE_EXIT=0`, `PRECISION_SIM_EXIT=0`, **`MOTION_INDEPENDENT_TEST_PASS checks=12 failures=0`**.
 
 The test covered PE and PEend reset-by-`newDist`, saturation, saturation persistence, S1/S2 selection, unsigned absolute difference when R < S1, comparator first winner, equal-SAD tie retention, strictly smaller winner, BestDist reinitialization and an all-255 candidate after reinitialization.
 
 **Measured behavior:** A full-precision sum of `1+255=256` appears as saturated `8'hFF` in both PE and PEend. With `BestDist` initialized to `8'hFF`, a candidate whose saturated SAD equals 255 never causes `newDist < BestDist`; motion coordinates can remain unchanged. This is a **measured submodule-level architectural limitation**, not yet a demonstrated incorrect motion vector in the full design. The initial local testbench iteration had an incorrect expectation for the uninitialized PE; a controlled `newDist` transition was added before retesting. The corrected run passed in both local Icarus and university Synopsys VCS.
 
-**Evidence excerpt:** [`evidence/logs/huy_vcs_precision_12check_terminal_excerpt.log`](../evidence/logs/huy_vcs_precision_12check_terminal_excerpt.log). Full university VCS logs are retained in the per-test server directory.
+**Evidence excerpt:** [`evidence/logs/motion_vcs_precision_12check_terminal_excerpt.log`](../evidence/logs/motion_vcs_precision_12check_terminal_excerpt.log). Full university VCS logs are retained in the per-test server directory.
 
 ## Physical-design readiness (not sign-off)
 

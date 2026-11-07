@@ -5,12 +5,12 @@
 ## Run reproduced on SFSU Synopsys VCS
 
 - Work directory: `~/ENGR852_Project/09_v2_fullmotion_waveform_20261104/`.
-- Testbench: [`verification/huy_fullmotion_v2_tb.sv`](../verification/huy_fullmotion_v2_tb.sv).
+- Testbench: [`verification/motion_fullmotion_v2_tb.sv`](../verification/motion_fullmotion_v2_tb.sv).
 - RTL: unchanged reference source `top.v` (memories remain testbench-only).
 - Simulated clock period: `1.923 ns` (`always #0.9615`; `timescale 1ns/100fs`).
 - Compiler: Synopsys VCS W-2024.09-1, `V2_COMPILE_EXIT=0`.
 - Simulation: `V2_SIM_EXIT=0`.
-- FSDB output: `huy_motion_v2_520mhz.fsdb`, 43 KB on the university server.
+- FSDB output: `motion_v2_520mhz.fsdb`, 43 KB on the university server.
 - Directed T1: `BestDist=00`, `motionX=7`, `motionY=8` interpreted as `(+7,-8)`; `newBest` at count 271, simulation time 522.1145 ns. Full-search elapsed duration 7905.4530 ns.
 - Perturbed T2: `BestDist=03`, `motionX=E`, `motionY=D` interpreted as `(-2,-3)`; `newBest` at count 1542, 2965.2660 ns relative to that test.
 - Boundary T3: `BestDist=00`, `motionX=7`, `motionY=7` interpreted as `(+7,+7)`; final candidate count 4111, 7905.4530 ns relative to that test. (The data-dependent comparator latches on the next relevant edge.)

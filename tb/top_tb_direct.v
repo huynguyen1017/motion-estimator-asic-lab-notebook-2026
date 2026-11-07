@@ -16,14 +16,18 @@ module top_testbench ( ) ;
 
     // Test bench gets wires for all device under test (DUT) outputs:
 
+`ifdef BASELINE_8BIT
    wire [7:0] BestDist;
+`else
+   wire [15:0] BestDist;
+`endif
    wire [3:0] motionX, motionY;
 
    // Regs for all DUT inputs:
    reg               clock;
    reg               start;
   
-   reg completed;
+   wire completed;
    reg [7:0]	    Rmem[255:0]; 
    reg [7:0]	    Smem[1023:0];
    integer 		i;
@@ -35,7 +39,7 @@ module top_testbench ( ) ;
 
 //(dut means device under test)
    top dut (
-   	.BestDist(BestDist [7:0]),
+   	.BestDist(BestDist),
 		.motionX(motionX [3:0]),
 		.motionY(motionY [3:0]),
       .clock(clock),
@@ -45,7 +49,8 @@ module top_testbench ( ) ;
 		.AddressS2(AddressS2),
 		.R(R),
 		.S1(S1),
-		.S2(S2));
+		.S2(S2),
+		.completed(completed));
 
 //Referesen and search memories
 
@@ -59,21 +64,25 @@ module top_testbench ( ) ;
 
    initial
      begin
+`ifdef DUMP_VPD
      	$vcdpluson;
+`endif
+`ifdef DUMP_FSDB
 	$fsdbDumpvars;
+`endif
         // First setup up to monitor all inputs and outputs
-        $monitor ("time=%5d ns, clock =%b, start =%b, BestDist =%b, motionX =%d, motionY =%d, count =%d", $time, clock, start , BestDist[7:0], motionX[3:0], motionY[3:0], dut.ctl_u.count[12:0]);
+        $monitor ("time=%5d ns, clock =%b, start =%b, BestDist =%b, motionX =%d, motionY =%d, count =%d", $time, clock, start , BestDist, motionX[3:0], motionY[3:0], dut.ctl_u.count[12:0]);
 	
         // First initialize all registers
 	$readmemh("ref.txt", memR_u.Rmem);
 	$readmemh("search.txt", memS_u.Smem);
 	clock = 1'b0;
 	start = 1'b0;
-	completed = 1'b1;
+	//completed = 1'b1;
 
 	@(posedge clock);#0.02;
 	start = 1'b1;
-	completed = 1'b0;
+	//completed = 1'b0;
 	
 	for(i=0;i<4112;i=i+1)
 		begin
@@ -86,7 +95,7 @@ module top_testbench ( ) ;
 		end
 
 	start = 1'b0;
-	completed = 1'b1;
+	//completed = 1'b1;
 
 	@(posedge clock);#0.02;
 
@@ -100,11 +109,11 @@ module top_testbench ( ) ;
         else
 	  y = motionY;
 	
-	if (BestDist == 8'b11111111)
+	if (&BestDist)
 		$display("Not Found the frame in the Search Window!");
 	else
 	    begin
-	        if (BestDist == 8'b00000000)
+	        if (BestDist == 0)
 		    $display("Absolutely Found the frame the Search Window : motionX  = %d , motionY =  %d ", x , y);
 		else
 		    $display("Almost Found the frame the Search Window : BestDist = %d, motionX  = %d , motionY =  %d ", BestDist, x, y );

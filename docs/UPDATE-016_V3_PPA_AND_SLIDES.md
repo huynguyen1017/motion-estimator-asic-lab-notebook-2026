@@ -65,15 +65,15 @@ Exactly three contribution slides, in editable PPTX and three-page PDF:
 3. **520 MHz ASIC Implementation**: SAED14 mapped area/cell comparison, explicit 1.923 ns / 0.5 ns / 0.2 ns constraints and truthful physical-flow checkpoint.
 
 Files:
-- [V3 slides (PPTX)](../deliverables/ENGR852_Huy_V3_Independent_3_Slides.pptx)
-- [V3 slides (PDF)](../deliverables/ENGR852_Huy_V3_Independent_3_Slides.pdf)
+- [V3 slides (PPTX)](../deliverables/ENGR852_Motion_Estimator_V3_Independent_3_Slides.pptx)
+- [V3 slides (PDF)](../deliverables/ENGR852_Motion_Estimator_V3_Independent_3_Slides.pdf)
 - [Original failure — Verdi screenshot](../evidence/screenshots/V3_Verdi_original_saturated_window_only.png)
 - [16-bit correction — Verdi screenshot](../evidence/screenshots/V3B_Verdi_nWave_2240wide_redacted.png)
 - [Independent source variant](../rtl/experimental/top_full_precision_v3.v)
 - [V3B completion-hold source](../rtl/experimental/top_full_precision_finish_hold.v)
-- [Saturation testbench](../verification/huy_v3_all_saturated_tb.sv)
-- [16-bit testbench](../verification/huy_v3_full_precision_tb.sv)
-- [V3B completion-hold testbench](../verification/huy_v3_hold_tb.sv)
+- [Saturation testbench](../verification/motion_v3_all_saturated_tb.sv)
+- [16-bit testbench](../verification/motion_v3_full_precision_tb.sv)
+- [V3B completion-hold testbench](../verification/motion_v3_hold_tb.sv)
 
 ## Reproducing with approved tools
 

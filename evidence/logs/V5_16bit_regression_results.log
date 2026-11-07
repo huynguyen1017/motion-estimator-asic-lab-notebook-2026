@@ -1,4 +1,4 @@
-VCD info: dumpfile huy_v5_16bit_top_regression.vcd opened for output.
+VCD info: dumpfile motion_v5_16bit_top_regression.vcd opened for output.
 === TEST 1: Direct Fixture (ref.txt & search.txt) at 520 MHz ===
   [T1] count= 256 t=493.2695 ns | PEready=0001 newDist_comp=0100 BestDist=ffff Vec=(8,8) out=(0,0) newBest=1
   [T1 newBest] count= 256 t=493.2695 ns -> newDist=0100 at VectorX=8 VectorY=8
@@ -51,4 +51,4 @@ V5_TOP_REGRESSION_T2_PASS
   [T3 RESULT] BestDist=0000 (0), motionX=7 (7), motionY=7 (7), Expected=(7, 7)
 V5_TOP_REGRESSION_T3_PASS
 V5_TOP_REGRESSION_PASS 3/3
-/Users/huynguyen/Developer/portfolio/motion-estimator-asic-lab-notebook-2026/verification/huy_v5_16bit_top_regression_tb.sv:166: $finish called at 237327245 (100fs)
+verification/motion_v5_16bit_top_regression_tb.sv:166: $finish called at 237327245 (100fs)

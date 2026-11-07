@@ -34,7 +34,7 @@ A portable self-checking testbench derived from the prior 520 MHz verification s
 
 **3/3 top-level directed tests passed.** Earlier V3 tests separately reproduced the 8-bit saturation failure, confirmed the corrected FF00 full-precision SAD for an all-high-contrast block, and checked completion output stability. The original teaching RTL and the team presentation source remain unchanged.
 
-Testbench: [huy_v5_16bit_top_regression_tb.sv](../verification/huy_v5_16bit_top_regression_tb.sv)
+Testbench: [motion_v5_16bit_top_regression_tb.sv](../verification/motion_v5_16bit_top_regression_tb.sv)
 Run log: [V5_16bit_regression_results.log](../evidence/logs/V5_16bit_regression_results.log)
 
 ## Requirements coverage — course rubric audit

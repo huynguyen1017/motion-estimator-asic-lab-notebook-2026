@@ -1,0 +1,1421 @@
+****************************************
+Report : timing
+	-path_type full
+	-delay_type min
+	-input_pins
+	-nets
+	-slack_lesser_than 10.00
+	-max_paths 20
+	-sort_by slack
+Design : top
+Version: S-2021.06-SP4
+Date   : Sat Nov  7 10:27:51 2026
+****************************************
+
+
+  Startpoint: ctl_u/count_reg[9]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: ctl_u/count_reg[12]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock_gate_ctl_u/count_reg/Q
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  ctl_u/count_reg[9]/CK (SAEDRVT14_FSDP_V2_1)             0.00       0.04 r
+  ctl_u/count_reg[9]/Q (SAEDRVT14_FSDP_V2_1)              0.03 &     0.07 f
+  ctl_u/count[9] (net)                          2 
+  ctmi_10168/A1 (SAEDRVT14_ND2_CDC_1)                     0.00 &     0.07 f
+  ctmi_10168/X (SAEDRVT14_ND2_CDC_1)                      0.02 &     0.09 r
+  ctmn_7782 (net)                               5 
+  ctmi_10397/A1 (SAEDRVT14_NR2_1)                         0.00 &     0.09 r
+  ctmi_10397/X (SAEDRVT14_NR2_1)                          0.01 &     0.10 f
+  ctmn_7916 (net)                               2 
+  ctmi_10396/A2 (SAEDRVT14_ND2_CDC_1)                     0.00 &     0.10 f
+  ctmi_10396/X (SAEDRVT14_ND2_CDC_1)                      0.01 &     0.11 r
+  ctmn_7917 (net)                               4 
+  ctmi_10395/A2 (SAEDRVT14_OR2_MM_0P5)                    0.00 &     0.11 r
+  ctmi_10395/X (SAEDRVT14_OR2_MM_0P5)                     0.02 &     0.12 r
+  ctmn_7918 (net)                               2 
+  ctmi_10394/A1 (SAEDRVT14_EO2_V1_0P75)                   0.00 &     0.12 r
+  ctmi_10394/X (SAEDRVT14_EO2_V1_0P75)                    0.02 &     0.14 f
+  ctmn_7919 (net)                               1 
+  A1206/A2 (SAEDRVT14_NR2_MM_0P5)                         0.00 &     0.14 f
+  A1206/X (SAEDRVT14_NR2_MM_0P5)                          0.01 &     0.15 r
+  ctl_u/N18 (net)                               1 
+  v9_cts_copt_h_inst_13846/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.15 r
+  v9_cts_copt_h_inst_13846/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.17 r
+  copt_net_5624 (net)                           1 
+  v9_cts_copt_h_inst_13847/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.17 r
+  v9_cts_copt_h_inst_13847/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.19 r
+  copt_net_5625 (net)                           1 
+  v9_cts_copt_h_inst_13848/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.19 r
+  v9_cts_copt_h_inst_13848/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.21 r
+  copt_net_5626 (net)                           1 
+  v9_cts_copt_h_inst_13849/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.21 r
+  v9_cts_copt_h_inst_13849/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.23 r
+  copt_net_5627 (net)                           1 
+  v9_cts_copt_h_inst_13850/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.23 r
+  v9_cts_copt_h_inst_13850/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.25 r
+  copt_net_5628 (net)                           1 
+  v9_cts_copt_h_inst_13851/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.25 r
+  v9_cts_copt_h_inst_13851/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.27 r
+  copt_net_5629 (net)                           1 
+  v9_cts_copt_h_inst_13852/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.27 r
+  v9_cts_copt_h_inst_13852/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.29 r
+  copt_net_5630 (net)                           1 
+  v9_cts_ropt_h_inst_17468/A (SAEDRVT14_BUF_S_0P5)        0.00 &     0.29 r
+  v9_cts_ropt_h_inst_17468/X (SAEDRVT14_BUF_S_0P5)        0.01 &     0.30 r
+  ropt_net_9170 (net)                           1 
+  ctl_u/count_reg[12]/D (SAEDRVT14_FSDPQ_V2_0P5)          0.00 &     0.30 r
+  data arrival time                                                  0.30
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.07       0.07
+  clock reconvergence pessimism                          -0.03       0.04
+  clock uncertainty                                       0.20       0.24
+  ctl_u/count_reg[12]/CK (SAEDRVT14_FSDPQ_V2_0P5)                    0.24 r
+  library hold time                                       0.02       0.26
+  data required time                                                 0.26
+  ------------------------------------------------------------------------------
+  data required time                                                 0.26
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.04
+
+
+  Startpoint: ctl_u/count_reg[6]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: ctl_u/count_reg[6]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock_gate_ctl_u/count_reg/Q
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  ctl_u/count_reg[6]/CK (SAEDRVT14_FSDPQ_V2_0P5)          0.00       0.04 r
+  ctl_u/count_reg[6]/Q (SAEDRVT14_FSDPQ_V2_0P5)           0.02 &     0.07 r
+  ropt_net_8780 (net)                           1 
+  v9_cts_ropt_h_inst_17078/A (SAEDRVT14_DEL_R2V3_1)       0.00 &     0.07 r
+  v9_cts_ropt_h_inst_17078/X (SAEDRVT14_DEL_R2V3_1)       0.04 &     0.11 r
+  AddressR[6] (net)                             6 
+  ctmi_10449/A1 (SAEDRVT14_OAI21_0P5)                     0.00 &     0.11 r
+  ctmi_10449/X (SAEDRVT14_OAI21_0P5)                      0.02 &     0.12 f
+  ctmn_7943 (net)                               1 
+  A1502/A1 (SAEDRVT14_NR2_1)                              0.00 &     0.12 f
+  A1502/X (SAEDRVT14_NR2_1)                               0.01 &     0.13 r
+  ctl_u/N24 (net)                               1 
+  v9_cts_copt_h_inst_13304/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.13 r
+  v9_cts_copt_h_inst_13304/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.16 r
+  copt_net_5082 (net)                           1 
+  v9_cts_copt_h_inst_13297/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.16 r
+  v9_cts_copt_h_inst_13297/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.17 r
+  copt_net_5075 (net)                           1 
+  v9_cts_copt_h_inst_13298/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.17 r
+  v9_cts_copt_h_inst_13298/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.19 r
+  copt_net_5076 (net)                           1 
+  v9_cts_copt_h_inst_13299/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.19 r
+  v9_cts_copt_h_inst_13299/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.21 r
+  copt_net_5077 (net)                           1 
+  v9_cts_copt_h_inst_13300/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.21 r
+  v9_cts_copt_h_inst_13300/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.23 r
+  copt_net_5078 (net)                           1 
+  v9_cts_copt_h_inst_13301/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.23 r
+  v9_cts_copt_h_inst_13301/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.25 r
+  copt_net_5079 (net)                           1 
+  v9_cts_copt_h_inst_13302/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.25 r
+  v9_cts_copt_h_inst_13302/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.27 r
+  copt_net_5080 (net)                           1 
+  v9_cts_copt_h_inst_13303/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.27 r
+  v9_cts_copt_h_inst_13303/X (SAEDRVT14_DEL_R2V2_1)       0.03 &     0.30 r
+  copt_net_5081 (net)                           1 
+  ctl_u/count_reg[6]/D (SAEDRVT14_FSDPQ_V2_0P5)           0.00 &     0.30 r
+  data arrival time                                                  0.30
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.07       0.07
+  clock reconvergence pessimism                          -0.03       0.04
+  clock uncertainty                                       0.20       0.24
+  ctl_u/count_reg[6]/CK (SAEDRVT14_FSDPQ_V2_0P5)                     0.24 r
+  library hold time                                       0.01       0.26
+  data required time                                                 0.26
+  ------------------------------------------------------------------------------
+  data required time                                                 0.26
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.05
+
+
+  Startpoint: ctl_u/count_reg[9]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: comp_u/motionY_reg[1]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  ctl_u/count_reg[9]/CK (SAEDRVT14_FSDP_V2_1)             0.00       0.04 r
+  ctl_u/count_reg[9]/Q (SAEDRVT14_FSDP_V2_1)              0.03 &     0.07 r
+  ctl_u/count[9] (net)                          2 
+  ctmi_10168/A1 (SAEDRVT14_ND2_CDC_1)                     0.00 &     0.07 r
+  ctmi_10168/X (SAEDRVT14_ND2_CDC_1)                      0.01 &     0.09 f
+  ctmn_7782 (net)                               5 
+  ctmi_10704/A2 (SAEDRVT14_AOI21_0P75)                    0.00 &     0.09 f
+  ctmi_10704/X (SAEDRVT14_AOI21_0P75)                     0.02 &     0.10 r
+  comp_u/N3 (net)                               1 
+  v9_cts_copt_h_inst_13580/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.10 r
+  v9_cts_copt_h_inst_13580/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.13 r
+  copt_net_5358 (net)                           1 
+  v9_cts_copt_h_inst_13581/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.13 r
+  v9_cts_copt_h_inst_13581/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.15 r
+  copt_net_5359 (net)                           1 
+  v9_cts_copt_h_inst_13582/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.15 r
+  v9_cts_copt_h_inst_13582/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.17 r
+  copt_net_5360 (net)                           1 
+  v9_cts_copt_h_inst_13583/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.17 r
+  v9_cts_copt_h_inst_13583/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.19 r
+  copt_net_5361 (net)                           1 
+  v9_cts_copt_h_inst_13584/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.19 r
+  v9_cts_copt_h_inst_13584/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.21 r
+  copt_net_5362 (net)                           1 
+  v9_cts_copt_h_inst_13585/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.21 r
+  v9_cts_copt_h_inst_13585/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.22 r
+  copt_net_5363 (net)                           1 
+  v9_cts_copt_h_inst_13586/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.22 r
+  v9_cts_copt_h_inst_13586/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.24 r
+  copt_net_5364 (net)                           1 
+  v9_cts_ropt_h_inst_17006/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.24 r
+  v9_cts_ropt_h_inst_17006/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.26 r
+  ropt_net_8708 (net)                           1 
+  v9_cts_ropt_h_inst_17467/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.26 r
+  v9_cts_ropt_h_inst_17467/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.28 r
+  ropt_net_9169 (net)                           1 
+  comp_u/motionY_reg[1]/D (SAEDRVT14_FSDPQ_V2_0P5)        0.00 &     0.28 r
+  data arrival time                                                  0.28
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  clock reconvergence pessimism                           0.00       0.04
+  clock uncertainty                                       0.20       0.24
+  comp_u/motionY_reg[1]/CK (SAEDRVT14_FSDPQ_V2_0P5)                  0.24 r
+  library hold time                                      -0.00       0.24
+  data required time                                                 0.24
+  ------------------------------------------------------------------------------
+  data required time                                                 0.24
+  data arrival time                                                 -0.28
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.05
+
+
+  Startpoint: ctl_u/count_reg[7]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: ctl_u/count_reg[7]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock_gate_ctl_u/count_reg/Q
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  ctl_u/count_reg[7]/CK (SAEDRVT14_FSDPQ_V2_0P5)          0.00       0.04 r
+  ctl_u/count_reg[7]/Q (SAEDRVT14_FSDPQ_V2_0P5)           0.02 &     0.06 r
+  ropt_net_8617 (net)                           1 
+  v9_cts_ropt_h_inst_16915/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.06 r
+  v9_cts_ropt_h_inst_16915/X (SAEDRVT14_DEL_R2V2_1)       0.03 &     0.10 r
+  AddressR[7] (net)                             6 
+  ctmi_2216/B2 (SAEDRVT14_OA221_U_0P5)                    0.00 &     0.10 r
+  ctmi_2216/X (SAEDRVT14_OA221_U_0P5)                     0.03 &     0.12 r
+  ctl_u/N23 (net)                               1 
+  v9_cts_copt_h_inst_13560/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.12 r
+  v9_cts_copt_h_inst_13560/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.15 r
+  copt_net_5338 (net)                           1 
+  v9_cts_copt_h_inst_13561/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.15 r
+  v9_cts_copt_h_inst_13561/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.17 r
+  copt_net_5339 (net)                           1 
+  v9_cts_copt_h_inst_13562/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.17 r
+  v9_cts_copt_h_inst_13562/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.19 r
+  copt_net_5340 (net)                           1 
+  v9_cts_copt_h_inst_13563/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.19 r
+  v9_cts_copt_h_inst_13563/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.21 r
+  copt_net_5341 (net)                           1 
+  v9_cts_copt_h_inst_13564/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.21 r
+  v9_cts_copt_h_inst_13564/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.23 r
+  copt_net_5342 (net)                           1 
+  v9_cts_copt_h_inst_13565/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.23 r
+  v9_cts_copt_h_inst_13565/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.25 r
+  copt_net_5343 (net)                           1 
+  v9_cts_copt_h_inst_13566/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.25 r
+  v9_cts_copt_h_inst_13566/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.27 r
+  copt_net_5344 (net)                           1 
+  v9_cts_ropt_h_inst_17427/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.27 r
+  v9_cts_ropt_h_inst_17427/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.29 r
+  ropt_net_9129 (net)                           1 
+  v9_cts_ropt_h_inst_17465/A (SAEDRVT14_BUF_S_0P5)        0.00 &     0.29 r
+  v9_cts_ropt_h_inst_17465/X (SAEDRVT14_BUF_S_0P5)        0.01 &     0.31 r
+  ropt_net_9167 (net)                           1 
+  ctl_u/count_reg[7]/D (SAEDRVT14_FSDPQ_V2_0P5)           0.00 &     0.31 r
+  data arrival time                                                  0.31
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.07       0.07
+  clock reconvergence pessimism                          -0.03       0.04
+  clock uncertainty                                       0.20       0.24
+  ctl_u/count_reg[7]/CK (SAEDRVT14_FSDPQ_V2_0P5)                     0.24 r
+  library hold time                                       0.02       0.26
+  data required time                                                 0.26
+  ------------------------------------------------------------------------------
+  data required time                                                 0.26
+  data arrival time                                                 -0.31
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.05
+
+
+  Startpoint: pe_u/pe0/Accumulate_reg[11]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: pe_u/pe0/Accumulate_reg[11]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  pe_u/pe0/Accumulate_reg[11]/CK (SAEDRVT14_FSDPSYNRBQ_V2_0P5)
+                                                          0.00       0.04 r
+  pe_u/pe0/Accumulate_reg[11]/Q (SAEDRVT14_FSDPSYNRBQ_V2_0P5)
+                                                          0.02 &     0.06 r
+  Accumulate[11] (net)                          1 
+  v9_cts_copt_h_inst_10917/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.06 r
+  v9_cts_copt_h_inst_10917/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.08 r
+  copt_net_2728 (net)                           1 
+  v9_cts_copt_h_inst_11952/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.08 r
+  v9_cts_copt_h_inst_11952/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.10 r
+  copt_net_3732 (net)                           1 
+  v9_cts_copt_h_inst_14414/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.10 r
+  v9_cts_copt_h_inst_14414/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.12 r
+  copt_net_6192 (net)                           2 
+  v9_cts_copt_h_inst_15730/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.12 r
+  v9_cts_copt_h_inst_15730/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.14 r
+  copt_net_7491 (net)                           1 
+  v9_cts_copt_h_inst_15823/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.14 r
+  v9_cts_copt_h_inst_15823/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.16 r
+  copt_net_7584 (net)                           1 
+  v9_cts_copt_gre_h_inst_16841/A (SAEDRVT14_DEL_R2V2_1)
+                                                          0.00 &     0.16 r
+  v9_cts_copt_gre_h_inst_16841/X (SAEDRVT14_DEL_R2V2_1)
+                                                          0.02 &     0.18 r
+  copt_gre_net_8543 (net)                       1 
+  pe_u/pe0/add_61/U_28/A (SAEDRVT14_ADDH_1)               0.00 &     0.18 r
+  pe_u/pe0/add_61/U_28/S (SAEDRVT14_ADDH_1)               0.01 &     0.19 r
+  pe_u/pe0/N28 (net)                            1 
+  v9_cts_copt_h_inst_12558/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.19 r
+  v9_cts_copt_h_inst_12558/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.21 r
+  copt_net_4336 (net)                           1 
+  v9_cts_copt_h_inst_12559/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.21 r
+  v9_cts_copt_h_inst_12559/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.23 r
+  copt_net_4337 (net)                           1 
+  v9_cts_copt_h_inst_12560/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.23 r
+  v9_cts_copt_h_inst_12560/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.24 r
+  copt_net_4338 (net)                           1 
+  v9_cts_copt_h_inst_12562/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.24 r
+  v9_cts_copt_h_inst_12562/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.27 r
+  copt_net_4340 (net)                           1 
+  v9_cts_copt_gre_h_inst_16727/A (SAEDRVT14_DEL_R2V3_1)
+                                                          0.00 &     0.27 r
+  v9_cts_copt_gre_h_inst_16727/X (SAEDRVT14_DEL_R2V3_1)
+                                                          0.02 &     0.29 r
+  copt_gre_net_8429 (net)                       1 
+  pe_u/pe0/Accumulate_reg[11]/D (SAEDRVT14_FSDPSYNRBQ_V2_0P5)
+                                                          0.00 &     0.29 r
+  data arrival time                                                  0.29
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  clock reconvergence pessimism                           0.00       0.04
+  clock uncertainty                                       0.20       0.24
+  pe_u/pe0/Accumulate_reg[11]/CK (SAEDRVT14_FSDPSYNRBQ_V2_0P5)       0.24 r
+  library hold time                                      -0.00       0.24
+  data required time                                                 0.24
+  ------------------------------------------------------------------------------
+  data required time                                                 0.24
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.05
+
+
+  Startpoint: ctl_u/count_reg[5]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: ctl_u/count_reg[5]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock_gate_ctl_u/count_reg/Q
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  ctl_u/count_reg[5]/CK (SAEDRVT14_FSDPQ_V2_0P5)          0.00       0.04 r
+  ctl_u/count_reg[5]/Q (SAEDRVT14_FSDPQ_V2_0P5)           0.03 &     0.07 r
+  ropt_net_8812 (net)                           1 
+  v9_cts_ropt_h_inst_17110/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.07 r
+  v9_cts_ropt_h_inst_17110/X (SAEDRVT14_DEL_R2V2_1)       0.04 &     0.10 r
+  AddressR[5] (net)                             6 
+  ctmi_10451/A1 (SAEDRVT14_OAI21_0P5)                     0.00 &     0.10 r
+  ctmi_10451/X (SAEDRVT14_OAI21_0P5)                      0.01 &     0.12 f
+  ctmn_7945 (net)                               1 
+  ctmi_10450/A1 (SAEDRVT14_NR2_MM_0P5)                    0.00 &     0.12 f
+  ctmi_10450/X (SAEDRVT14_NR2_MM_0P5)                     0.01 &     0.12 r
+  ctl_u/N25 (net)                               1 
+  v9_cts_copt_h_inst_12938/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.12 r
+  v9_cts_copt_h_inst_12938/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.15 r
+  copt_net_4716 (net)                           1 
+  v9_cts_copt_h_inst_12939/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.15 r
+  v9_cts_copt_h_inst_12939/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.17 r
+  copt_net_4717 (net)                           1 
+  v9_cts_copt_h_inst_12946/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.17 r
+  v9_cts_copt_h_inst_12946/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.19 r
+  copt_net_4724 (net)                           1 
+  v9_cts_copt_h_inst_12944/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.19 r
+  v9_cts_copt_h_inst_12944/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.21 r
+  copt_net_4722 (net)                           1 
+  v9_cts_copt_h_inst_12943/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.21 r
+  v9_cts_copt_h_inst_12943/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.23 r
+  copt_net_4721 (net)                           1 
+  v9_cts_copt_h_inst_12942/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.23 r
+  v9_cts_copt_h_inst_12942/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.25 r
+  copt_net_4720 (net)                           1 
+  v9_cts_copt_h_inst_12941/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.25 r
+  v9_cts_copt_h_inst_12941/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.26 r
+  copt_net_4719 (net)                           1 
+  v9_cts_copt_h_inst_12940/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.26 r
+  v9_cts_copt_h_inst_12940/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.29 r
+  copt_net_4718 (net)                           1 
+  v9_cts_ropt_h_inst_17388/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.29 r
+  v9_cts_ropt_h_inst_17388/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.31 r
+  ropt_net_9090 (net)                           1 
+  ctl_u/count_reg[5]/D (SAEDRVT14_FSDPQ_V2_0P5)           0.00 &     0.31 r
+  data arrival time                                                  0.31
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.07       0.07
+  clock reconvergence pessimism                          -0.03       0.04
+  clock uncertainty                                       0.20       0.24
+  ctl_u/count_reg[5]/CK (SAEDRVT14_FSDPQ_V2_0P5)                     0.24 r
+  library hold time                                       0.02       0.26
+  data required time                                                 0.26
+  ------------------------------------------------------------------------------
+  data required time                                                 0.26
+  data arrival time                                                 -0.31
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.05
+
+
+  Startpoint: ctl_u/count_reg[8]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: ctl_u/count_reg[8]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock_gate_ctl_u/count_reg/Q
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  ctl_u/count_reg[8]/CK (SAEDRVT14_FSDP_V2_1)             0.00       0.04 r
+  ctl_u/count_reg[8]/QN (SAEDRVT14_FSDP_V2_1)             0.03 &     0.07 r
+  ctmn_7452 (net)                               6 
+  ctmi_10445/A1 (SAEDRVT14_AOI21_0P75)                    0.00 &     0.07 r
+  ctmi_10445/X (SAEDRVT14_AOI21_0P75)                     0.02 &     0.09 f
+  ctl_u/N22 (net)                               1 
+  v9_cts_copt_h_inst_12929/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.09 f
+  v9_cts_copt_h_inst_12929/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.11 f
+  copt_net_4707 (net)                           1 
+  v9_cts_copt_h_inst_12930/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.11 f
+  v9_cts_copt_h_inst_12930/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.13 f
+  copt_net_4708 (net)                           1 
+  v9_cts_copt_h_inst_12931/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.13 f
+  v9_cts_copt_h_inst_12931/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.15 f
+  copt_net_4709 (net)                           1 
+  v9_cts_copt_h_inst_12932/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.15 f
+  v9_cts_copt_h_inst_12932/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.18 f
+  copt_net_4710 (net)                           1 
+  v9_cts_copt_h_inst_12933/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.18 f
+  v9_cts_copt_h_inst_12933/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.20 f
+  copt_net_4711 (net)                           1 
+  v9_cts_copt_h_inst_12934/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.20 f
+  v9_cts_copt_h_inst_12934/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.21 f
+  copt_net_4712 (net)                           1 
+  v9_cts_copt_h_inst_12935/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.21 f
+  v9_cts_copt_h_inst_12935/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.23 f
+  copt_net_4713 (net)                           1 
+  v9_cts_copt_h_inst_12936/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.23 f
+  v9_cts_copt_h_inst_12936/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.25 f
+  copt_net_4714 (net)                           1 
+  v9_cts_ropt_h_inst_17398/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.25 f
+  v9_cts_ropt_h_inst_17398/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.28 f
+  ropt_net_9100 (net)                           1 
+  v9_cts_ropt_h_inst_17460/A (SAEDRVT14_DEL_R2V3_1)       0.00 &     0.28 f
+  v9_cts_ropt_h_inst_17460/X (SAEDRVT14_DEL_R2V3_1)       0.04 &     0.31 f
+  ropt_net_9162 (net)                           1 
+  ctl_u/count_reg[8]/D (SAEDRVT14_FSDP_V2_1)              0.00 &     0.31 f
+  data arrival time                                                  0.31
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.07       0.07
+  clock reconvergence pessimism                          -0.03       0.04
+  clock uncertainty                                       0.20       0.24
+  ctl_u/count_reg[8]/CK (SAEDRVT14_FSDP_V2_1)                        0.24 r
+  library hold time                                       0.02       0.26
+  data required time                                                 0.26
+  ------------------------------------------------------------------------------
+  data required time                                                 0.26
+  data arrival time                                                 -0.31
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.05
+
+
+  Startpoint: pe_u/pe5/Accumulate_reg[8]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: comp_u/BestDist_reg[8]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.03       0.03
+  pe_u/pe5/Accumulate_reg[8]/CK (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.00       0.03 r
+  pe_u/pe5/Accumulate_reg[8]/Q (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.03 &     0.06 r
+  Accumulate[88] (net)                          2 
+  A1584/B1 (SAEDRVT14_AO22_0P5)                           0.00 &     0.06 r
+  A1584/X (SAEDRVT14_AO22_0P5)                            0.01 &     0.07 r
+  N349_CDR1 (net)                               1 
+  v9_cts_copt_h_inst_13111/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.07 r
+  v9_cts_copt_h_inst_13111/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.10 r
+  copt_net_4889 (net)                           1 
+  A1192/C (SAEDRVT14_AO221_0P5)                           0.00 &     0.10 r
+  A1192/X (SAEDRVT14_AO221_0P5)                           0.01 &     0.11 r
+  N348_CDR1 (net)                               1 
+  v9_cts_ropt_h_inst_17343/A (SAEDRVT14_BUF_S_0P5)        0.00 &     0.11 r
+  v9_cts_ropt_h_inst_17343/X (SAEDRVT14_BUF_S_0P5)        0.01 &     0.12 r
+  ropt_net_9045 (net)                           1 
+  ctmi_9845/A1 (SAEDRVT14_OR3_0P5)                        0.00 &     0.12 r
+  ctmi_9845/X (SAEDRVT14_OR3_0P5)                         0.01 &     0.13 r
+  comp_u/newDist[8] (net)                       1 
+  v9_cts_copt_h_inst_14278/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.13 r
+  v9_cts_copt_h_inst_14278/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.15 r
+  copt_net_6056 (net)                           1 
+  v9_cts_copt_h_inst_14279/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.15 r
+  v9_cts_copt_h_inst_14279/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.17 r
+  copt_net_6057 (net)                           1 
+  v9_cts_copt_h_inst_14280/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.17 r
+  v9_cts_copt_h_inst_14280/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.19 r
+  copt_net_6058 (net)                           1 
+  v9_cts_copt_h_inst_14277/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.19 r
+  v9_cts_copt_h_inst_14277/X (SAEDRVT14_DEL_R2V2_1)       0.03 &     0.22 r
+  copt_net_6055 (net)                           3 
+  v9_cts_copt_h_inst_14281/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.22 r
+  v9_cts_copt_h_inst_14281/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.24 r
+  copt_net_6059 (net)                           1 
+  v9_cts_copt_h_inst_14282/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.24 r
+  v9_cts_copt_h_inst_14282/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.26 r
+  copt_net_6060 (net)                           1 
+  v9_cts_ropt_h_inst_17385/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.26 r
+  v9_cts_ropt_h_inst_17385/X (SAEDRVT14_DEL_R2V2_1)       0.03 &     0.29 r
+  ropt_net_9087 (net)                           1 
+  comp_u/BestDist_reg[8]/D (SAEDRVT14_FSDPQ_V2_0P5)       0.00 &     0.29 r
+  data arrival time                                                  0.29
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  clock reconvergence pessimism                           0.00       0.04
+  clock uncertainty                                       0.20       0.24
+  comp_u/BestDist_reg[8]/CK (SAEDRVT14_FSDPQ_V2_0P5)                 0.24 r
+  library hold time                                      -0.01       0.23
+  data required time                                                 0.23
+  ------------------------------------------------------------------------------
+  data required time                                                 0.23
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: ctl_u/count_reg[11]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: ctl_u/count_reg[11]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock_gate_ctl_u/count_reg/Q
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  ctl_u/count_reg[11]/CK (SAEDRVT14_FSDP_V2_1)            0.00       0.04 r
+  ctl_u/count_reg[11]/QN (SAEDRVT14_FSDP_V2_1)            0.02 &     0.07 r
+  ctmn_7455 (net)                               1 
+  v9_cts_ropt_h_inst_17459/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.07 r
+  v9_cts_ropt_h_inst_17459/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.09 r
+  ropt_net_9161 (net)                           2 
+  v9_cts_ropt_h_inst_17301/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.09 r
+  v9_cts_ropt_h_inst_17301/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.11 r
+  ropt_net_9003 (net)                           1 
+  ctmi_10439/A1 (SAEDRVT14_AOI21_0P75)                    0.00 &     0.11 r
+  ctmi_10439/X (SAEDRVT14_AOI21_0P75)                     0.01 &     0.12 f
+  ctl_u/N19 (net)                               1 
+  v9_cts_copt_h_inst_10536/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.12 f
+  v9_cts_copt_h_inst_10536/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.14 f
+  copt_net_2365 (net)                           1 
+  v9_cts_copt_h_inst_10537/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.14 f
+  v9_cts_copt_h_inst_10537/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.16 f
+  copt_net_2366 (net)                           1 
+  v9_cts_copt_h_inst_10538/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.16 f
+  v9_cts_copt_h_inst_10538/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.18 f
+  copt_net_2367 (net)                           1 
+  v9_cts_copt_h_inst_10539/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.18 f
+  v9_cts_copt_h_inst_10539/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.20 f
+  copt_net_2368 (net)                           1 
+  v9_cts_copt_h_inst_10540/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.20 f
+  v9_cts_copt_h_inst_10540/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.22 f
+  copt_net_2369 (net)                           1 
+  v9_cts_copt_h_inst_10541/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.22 f
+  v9_cts_copt_h_inst_10541/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.24 f
+  copt_net_2370 (net)                           1 
+  v9_cts_copt_h_inst_10542/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.24 f
+  v9_cts_copt_h_inst_10542/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.26 f
+  copt_net_2371 (net)                           1 
+  v9_cts_copt_h_inst_10543/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.26 f
+  v9_cts_copt_h_inst_10543/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.28 f
+  copt_net_2372 (net)                           1 
+  v9_cts_copt_h_inst_10544/A (SAEDRVT14_DEL_R2V3_1)       0.00 &     0.28 f
+  v9_cts_copt_h_inst_10544/X (SAEDRVT14_DEL_R2V3_1)       0.03 &     0.32 f
+  copt_net_2373 (net)                           1 
+  ctl_u/count_reg[11]/D (SAEDRVT14_FSDP_V2_1)             0.00 &     0.32 f
+  data arrival time                                                  0.32
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.07       0.07
+  clock reconvergence pessimism                          -0.03       0.04
+  clock uncertainty                                       0.20       0.24
+  ctl_u/count_reg[11]/CK (SAEDRVT14_FSDP_V2_1)                       0.24 r
+  library hold time                                       0.02       0.26
+  data required time                                                 0.26
+  ------------------------------------------------------------------------------
+  data required time                                                 0.26
+  data arrival time                                                 -0.32
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: ctl_u/count_reg[12]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: completed_delayed_reg
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  ctl_u/count_reg[12]/CK (SAEDRVT14_FSDPQ_V2_0P5)         0.00       0.04 r
+  ctl_u/count_reg[12]/Q (SAEDRVT14_FSDPQ_V2_0P5)          0.02 &     0.07 f
+  ctl_u/count[12] (net)                         1 
+  v9_cts_copt_h_inst_10803/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.07 f
+  v9_cts_copt_h_inst_10803/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.09 f
+  copt_net_2614 (net)                           1 
+  v9_cts_ropt_h_inst_17463/A (SAEDRVT14_BUF_S_0P5)        0.00 &     0.09 f
+  v9_cts_ropt_h_inst_17463/X (SAEDRVT14_BUF_S_0P5)        0.01 &     0.10 f
+  ropt_net_9165 (net)                           3 
+  v9_place_ctmTdsLR_1_5860/A1 (SAEDRVT14_ND2_CDC_1)       0.00 &     0.10 f
+  v9_place_ctmTdsLR_1_5860/X (SAEDRVT14_ND2_CDC_1)        0.01 &     0.11 r
+  tmp_net1405 (net)                             1 
+  v9_cts_copt_h_inst_12144/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.11 r
+  v9_cts_copt_h_inst_12144/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.13 r
+  copt_net_3924 (net)                           1 
+  v9_cts_copt_h_inst_12145/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.13 r
+  v9_cts_copt_h_inst_12145/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.15 r
+  copt_net_3925 (net)                           1 
+  v9_cts_copt_h_inst_12146/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.15 r
+  v9_cts_copt_h_inst_12146/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.17 r
+  copt_net_3926 (net)                           1 
+  v9_cts_copt_h_inst_12147/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.17 r
+  v9_cts_copt_h_inst_12147/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.19 r
+  copt_net_3927 (net)                           1 
+  v9_cts_copt_h_inst_12148/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.19 r
+  v9_cts_copt_h_inst_12148/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.21 r
+  copt_net_3928 (net)                           1 
+  v9_cts_copt_h_inst_12149/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.21 r
+  v9_cts_copt_h_inst_12149/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.23 r
+  copt_net_3929 (net)                           1 
+  v9_cts_ropt_h_inst_16997/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.23 r
+  v9_cts_ropt_h_inst_16997/X (SAEDRVT14_DEL_R2V2_1)       0.03 &     0.26 r
+  ropt_net_8699 (net)                           1 
+  v9_place_ctmTdsLR_2_5861/A2 (SAEDRVT14_NR2_MM_0P5)      0.00 &     0.26 r
+  v9_place_ctmTdsLR_2_5861/X (SAEDRVT14_NR2_MM_0P5)       0.02 &     0.28 f
+  completed (net)                               2 
+  ctmi_10498/A1 (SAEDRVT14_ND2_CDC_1)                     0.00 &     0.28 f
+  ctmi_10498/X (SAEDRVT14_ND2_CDC_1)                      0.02 &     0.29 r
+  ctl_u/N17 (net)                               2 
+  completed_delayed_reg/D (SAEDRVT14_FSDPQ_V2_0P5)        0.00 &     0.29 r
+  data arrival time                                                  0.29
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  clock reconvergence pessimism                           0.00       0.04
+  clock uncertainty                                       0.20       0.24
+  completed_delayed_reg/CK (SAEDRVT14_FSDPQ_V2_0P5)                  0.24 r
+  library hold time                                      -0.00       0.24
+  data required time                                                 0.24
+  ------------------------------------------------------------------------------
+  data required time                                                 0.24
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: pe_u/pe15/Accumulate_reg[12]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: pe_u/pe15/Accumulate_reg[12]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  pe_u/pe15/Accumulate_reg[12]/CK (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.00       0.04 r
+  pe_u/pe15/Accumulate_reg[12]/Q (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.02 &     0.06 r
+  Accumulate[252] (net)                         1 
+  v9_cts_copt_h_inst_10916/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.06 r
+  v9_cts_copt_h_inst_10916/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.08 r
+  copt_net_2727 (net)                           1 
+  v9_cts_copt_h_inst_11933/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.08 r
+  v9_cts_copt_h_inst_11933/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.10 r
+  copt_net_3713 (net)                           1 
+  v9_cts_copt_h_inst_12280/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.10 r
+  v9_cts_copt_h_inst_12280/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.12 r
+  copt_net_4060 (net)                           1 
+  v9_cts_copt_h_inst_12892/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.12 r
+  v9_cts_copt_h_inst_12892/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.13 r
+  copt_net_4670 (net)                           1 
+  v9_cts_copt_h_inst_13088/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.13 r
+  v9_cts_copt_h_inst_13088/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.15 r
+  copt_net_4866 (net)                           1 
+  v9_cts_copt_h_inst_13448/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.15 r
+  v9_cts_copt_h_inst_13448/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.17 r
+  copt_net_5226 (net)                           1 
+  v9_cts_copt_h_inst_13802/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.17 r
+  v9_cts_copt_h_inst_13802/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.20 r
+  copt_net_5580 (net)                           2 
+  v9_cts_copt_h_inst_13990/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.20 r
+  v9_cts_copt_h_inst_13990/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.22 r
+  copt_net_5768 (net)                           1 
+  v9_cts_copt_h_inst_15705/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.22 r
+  v9_cts_copt_h_inst_15705/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.24 r
+  copt_net_7466 (net)                           1 
+  v9_cts_copt_gre_h_inst_16866/A (SAEDRVT14_DEL_R2V2_1)
+                                                          0.00 &     0.24 r
+  v9_cts_copt_gre_h_inst_16866/X (SAEDRVT14_DEL_R2V2_1)
+                                                          0.02 &     0.26 r
+  copt_gre_net_8568 (net)                       1 
+  pe_u/pe15/add_88/U_30/A (SAEDRVT14_ADDH_1)              0.00 &     0.26 r
+  pe_u/pe15/add_88/U_30/S (SAEDRVT14_ADDH_1)              0.01 &     0.27 r
+  pe_u/pe15/N29 (net)                           1 
+  v9_cts_copt_gre_h_inst_16717/A (SAEDRVT14_DEL_R2V2_1)
+                                                          0.00 &     0.27 r
+  v9_cts_copt_gre_h_inst_16717/X (SAEDRVT14_DEL_R2V2_1)
+                                                          0.02 &     0.29 r
+  copt_gre_net_8419 (net)                       1 
+  v9_cts_ropt_h_inst_17439/A (SAEDRVT14_BUF_U_0P5)        0.00 &     0.29 r
+  v9_cts_ropt_h_inst_17439/X (SAEDRVT14_BUF_U_0P5)        0.01 &     0.29 r
+  ropt_net_9141 (net)                           1 
+  pe_u/pe15/Accumulate_reg[12]/D (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.00 &     0.29 r
+  data arrival time                                                  0.29
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  clock reconvergence pessimism                           0.00       0.04
+  clock uncertainty                                       0.20       0.24
+  pe_u/pe15/Accumulate_reg[12]/CK (SAEDRVT14_FSDPSYNRBQ_V2_2)        0.24 r
+  library hold time                                      -0.00       0.23
+  data required time                                                 0.23
+  ------------------------------------------------------------------------------
+  data required time                                                 0.23
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: pe_u/pe9/Rpipe_reg[7]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: pe_u/pe10/Accumulate_reg[3]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.05       0.05
+  pe_u/pe9/Rpipe_reg[7]/CK (SAEDRVT14_FDP_V2_0P5)         0.00       0.05 r
+  pe_u/pe9/Rpipe_reg[7]/Q (SAEDRVT14_FDP_V2_0P5)          0.03 &     0.08 r
+  pe_u/pe10/gt_57/NET_527 (net)                 1 
+  v9_cts_copt_h_inst_12217/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.08 r
+  v9_cts_copt_h_inst_12217/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.09 r
+  copt_net_3997 (net)                           1 
+  v9_cts_copt_h_inst_15456/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.09 r
+  v9_cts_copt_h_inst_15456/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.11 r
+  copt_net_7225 (net)                           2 
+  ctmi_10026/A1 (SAEDRVT14_AOI21_0P75)                    0.00 &     0.11 r
+  ctmi_10026/X (SAEDRVT14_AOI21_0P75)                     0.01 &     0.12 f
+  pe_u/pe10/N0 (net)                            1 
+  v9_cts_ropt_h_inst_17266/A (SAEDRVT14_BUF_S_0P75)       0.00 &     0.12 f
+  v9_cts_ropt_h_inst_17266/X (SAEDRVT14_BUF_S_0P75)       0.01 &     0.13 f
+  ropt_net_8968 (net)                           2 
+  v9_cts_ropt_h_inst_17267/A (SAEDRVT14_BUF_S_2)          0.00 &     0.13 f
+  v9_cts_ropt_h_inst_17267/X (SAEDRVT14_BUF_S_2)          0.01 &     0.14 f
+  ropt_net_8969 (net)                           4 
+  v9_cts_ropt_h_inst_17262/A (SAEDRVT14_BUF_1)            0.00 &     0.14 f
+  v9_cts_ropt_h_inst_17262/X (SAEDRVT14_BUF_1)            0.01 &     0.15 f
+  ropt_net_8964 (net)                           2 
+  v9_cts_copt_h_inst_15016/A (SAEDRVT14_BUF_U_0P5)        0.00 &     0.15 f
+  v9_cts_copt_h_inst_15016/X (SAEDRVT14_BUF_U_0P5)        0.01 &     0.16 f
+  copt_net_6794 (net)                           2 
+  v9_cts_copt_h_inst_15392/A (SAEDRVT14_BUF_UCDC_0P5)     0.00 &     0.16 f
+  v9_cts_copt_h_inst_15392/X (SAEDRVT14_BUF_UCDC_0P5)     0.01 &     0.16 f
+  copt_net_7168 (net)                           1 
+  v9_cts_copt_h_inst_15011/A (SAEDRVT14_BUF_UCDC_0P5)     0.00 &     0.16 f
+  v9_cts_copt_h_inst_15011/X (SAEDRVT14_BUF_UCDC_0P5)     0.01 &     0.17 f
+  copt_net_6789 (net)                           1 
+  A1369/A1 (SAEDRVT14_OAI22_0P5)                          0.00 &     0.17 f
+  A1369/X (SAEDRVT14_OAI22_0P5)                           0.01 &     0.18 r
+  N664 (net)                                    1 
+  v9_cts_copt_h_inst_14854/A (SAEDRVT14_BUF_U_0P5)        0.00 &     0.18 r
+  v9_cts_copt_h_inst_14854/X (SAEDRVT14_BUF_U_0P5)        0.01 &     0.19 r
+  copt_net_6632 (net)                           1 
+  RS_OP_340_8441_40159_J1/snps_ADD_292/U_16/B (SAEDRVT14_ADDF_V1_0P5)
+                                                          0.00 &     0.19 r
+  RS_OP_340_8441_40159_J1/snps_ADD_292/U_16/S (SAEDRVT14_ADDF_V1_0P5)
+                                                          0.03 &     0.22 r
+  N78 (net)                                     2 
+  v9_cts_copt_h_inst_15850/A (SAEDRVT14_DEL_R2V3_1)       0.00 &     0.22 r
+  v9_cts_copt_h_inst_15850/X (SAEDRVT14_DEL_R2V3_1)       0.03 &     0.25 r
+  copt_net_7611 (net)                           1 
+  v9_cts_copt_h_inst_15851/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.25 r
+  v9_cts_copt_h_inst_15851/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.27 r
+  copt_net_7612 (net)                           1 
+  v9_cts_copt_gre_h_inst_16561/A (SAEDRVT14_DEL_R2V2_1)
+                                                          0.00 &     0.27 r
+  v9_cts_copt_gre_h_inst_16561/X (SAEDRVT14_DEL_R2V2_1)
+                                                          0.02 &     0.29 r
+  copt_gre_net_8263 (net)                       1 
+  pe_u/pe10/Accumulate_reg[3]/D0 (SAEDRVT14_FSDPMQ_LP_1)
+                                                          0.00 &     0.29 r
+  data arrival time                                                  0.29
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  clock reconvergence pessimism                           0.00       0.04
+  clock uncertainty                                       0.20       0.24
+  pe_u/pe10/Accumulate_reg[3]/CK (SAEDRVT14_FSDPMQ_LP_1)             0.24 r
+  library hold time                                      -0.01       0.23
+  data required time                                                 0.23
+  ------------------------------------------------------------------------------
+  data required time                                                 0.23
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: pe_u/pe9/Rpipe_reg[1]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: pe_u/pe10/Accumulate_reg[1]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.05       0.05
+  pe_u/pe9/Rpipe_reg[1]/CK (SAEDRVT14_FDP_V2_0P5)         0.00       0.05 r
+  pe_u/pe9/Rpipe_reg[1]/QN (SAEDRVT14_FDP_V2_0P5)         0.03 &     0.07 f
+  pe_u/Rpipe9[1] (net)                          1 
+  v9_cts_copt_gre_h_inst_16058/A (SAEDRVT14_DEL_R2V2_1)
+                                                          0.00 &     0.07 f
+  v9_cts_copt_gre_h_inst_16058/X (SAEDRVT14_DEL_R2V2_1)
+                                                          0.02 &     0.09 f
+  copt_gre_net_7760 (net)                       1 
+  v9_cts_copt_gre_h_inst_16059/A (SAEDRVT14_DEL_R2V2_1)
+                                                          0.00 &     0.09 f
+  v9_cts_copt_gre_h_inst_16059/X (SAEDRVT14_DEL_R2V2_1)
+                                                          0.02 &     0.11 f
+  copt_gre_net_7761 (net)                       1 
+  v9_cts_copt_gre_h_inst_16057/A (SAEDRVT14_DEL_R2V2_1)
+                                                          0.00 &     0.11 f
+  v9_cts_copt_gre_h_inst_16057/X (SAEDRVT14_DEL_R2V2_1)
+                                                          0.03 &     0.14 f
+  copt_gre_net_7759 (net)                       2 
+  v9_cts_copt_h_inst_15097/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.14 f
+  v9_cts_copt_h_inst_15097/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.16 f
+  copt_net_6875 (net)                           2 
+  A1367/A2 (SAEDRVT14_OAI22_0P5)                          0.00 &     0.16 f
+  A1367/X (SAEDRVT14_OAI22_0P5)                           0.01 &     0.17 r
+  N662 (net)                                    1 
+  A1896/CI (SAEDRVT14_ADDF_V1_0P5)                        0.00 &     0.17 r
+  A1896/S (SAEDRVT14_ADDF_V1_0P5)                         0.01 &     0.19 r
+  N80 (net)                                     1 
+  v9_cts_copt_h_inst_14622/A (SAEDRVT14_BUF_U_0P5)        0.00 &     0.19 r
+  v9_cts_copt_h_inst_14622/X (SAEDRVT14_BUF_U_0P5)        0.01 &     0.19 r
+  copt_net_6400 (net)                           1 
+  v9_cts_copt_h_inst_14620/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.19 r
+  v9_cts_copt_h_inst_14620/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.21 r
+  copt_net_6398 (net)                           1 
+  v9_cts_copt_h_inst_14623/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.21 r
+  v9_cts_copt_h_inst_14623/X (SAEDRVT14_DEL_R2V2_1)       0.03 &     0.24 r
+  copt_net_6401 (net)                           2 
+  v9_cts_copt_h_inst_14618/A (SAEDRVT14_BUF_UCDC_0P5)     0.00 &     0.24 r
+  v9_cts_copt_h_inst_14618/X (SAEDRVT14_BUF_UCDC_0P5)     0.01 &     0.25 r
+  copt_net_6396 (net)                           1 
+  v9_cts_copt_h_inst_14624/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.25 r
+  v9_cts_copt_h_inst_14624/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.27 r
+  copt_net_6402 (net)                           1 
+  v9_cts_copt_gre_h_inst_16633/A (SAEDRVT14_DEL_R2V2_1)
+                                                          0.00 &     0.27 r
+  v9_cts_copt_gre_h_inst_16633/X (SAEDRVT14_DEL_R2V2_1)
+                                                          0.02 &     0.29 r
+  copt_gre_net_8335 (net)                       1 
+  pe_u/pe10/Accumulate_reg[1]/D0 (SAEDRVT14_FSDPMQ_LP_1)
+                                                          0.00 &     0.29 r
+  data arrival time                                                  0.29
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  clock reconvergence pessimism                           0.00       0.04
+  clock uncertainty                                       0.20       0.24
+  pe_u/pe10/Accumulate_reg[1]/CK (SAEDRVT14_FSDPMQ_LP_1)             0.24 r
+  library hold time                                      -0.01       0.23
+  data required time                                                 0.23
+  ------------------------------------------------------------------------------
+  data required time                                                 0.23
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: pe_u/pe2/Accumulate_reg[11]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: pe_u/pe2/Accumulate_reg[12]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.02       0.02
+  pe_u/pe2/Accumulate_reg[11]/CK (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.00       0.02 r
+  pe_u/pe2/Accumulate_reg[11]/Q (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.03 &     0.04 r
+  Accumulate[43] (net)                          1 
+  v9_cts_copt_h_inst_10951/A (SAEDRVT14_DEL_R2V3_1)       0.00 &     0.04 r
+  v9_cts_copt_h_inst_10951/X (SAEDRVT14_DEL_R2V3_1)       0.03 &     0.07 r
+  copt_net_2762 (net)                           1 
+  v9_cts_copt_h_inst_11866/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.07 r
+  v9_cts_copt_h_inst_11866/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.09 r
+  copt_net_3646 (net)                           1 
+  v9_cts_copt_h_inst_12531/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.09 r
+  v9_cts_copt_h_inst_12531/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.11 r
+  copt_net_4309 (net)                           1 
+  v9_cts_copt_h_inst_12702/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.11 r
+  v9_cts_copt_h_inst_12702/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.13 r
+  copt_net_4480 (net)                           1 
+  v9_cts_copt_h_inst_13194/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.13 r
+  v9_cts_copt_h_inst_13194/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.14 r
+  copt_net_4972 (net)                           1 
+  v9_cts_copt_h_inst_13493/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.14 r
+  v9_cts_copt_h_inst_13493/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.17 r
+  copt_net_5271 (net)                           2 
+  v9_cts_copt_h_inst_14958/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.17 r
+  v9_cts_copt_h_inst_14958/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.19 r
+  copt_net_6736 (net)                           1 
+  v9_cts_copt_h_inst_14996/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.19 r
+  v9_cts_copt_h_inst_14996/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.21 r
+  copt_net_6774 (net)                           1 
+  v9_cts_copt_h_inst_15202/A (SAEDRVT14_DEL_R2V3_1)       0.00 &     0.21 r
+  v9_cts_copt_h_inst_15202/X (SAEDRVT14_DEL_R2V3_1)       0.02 &     0.23 r
+  copt_net_6980 (net)                           1 
+  v9_cts_ropt_h_inst_17295/A (SAEDRVT14_BUF_U_0P5)        0.00 &     0.23 r
+  v9_cts_ropt_h_inst_17295/X (SAEDRVT14_BUF_U_0P5)        0.01 &     0.24 r
+  ropt_net_8997 (net)                           1 
+  pe_u/pe2/add_61/U_28/A (SAEDRVT14_ADDH_1)               0.00 &     0.24 r
+  pe_u/pe2/add_61/U_28/CO (SAEDRVT14_ADDH_1)              0.01 &     0.25 r
+  pe_u/pe2/add_61/N_72 (net)                    1 
+  pe_u/pe2/add_61/U_30/B (SAEDRVT14_ADDH_1)               0.00 &     0.25 r
+  pe_u/pe2/add_61/U_30/S (SAEDRVT14_ADDH_1)               0.02 &     0.27 r
+  pe_u/pe2/N29 (net)                            1 
+  pe_u/pe2/Accumulate_reg[12]/D (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.00 &     0.27 r
+  data arrival time                                                  0.27
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.02       0.02
+  clock reconvergence pessimism                           0.00       0.02
+  clock uncertainty                                       0.20       0.22
+  pe_u/pe2/Accumulate_reg[12]/CK (SAEDRVT14_FSDPSYNRBQ_V2_2)         0.22 r
+  library hold time                                      -0.01       0.21
+  data required time                                                 0.21
+  ------------------------------------------------------------------------------
+  data required time                                                 0.21
+  data arrival time                                                 -0.27
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: pe_u/pe13/Accumulate_reg[13]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: comp_u/BestDist_reg[13]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.02       0.02
+  pe_u/pe13/Accumulate_reg[13]/CK (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.00       0.02 r
+  pe_u/pe13/Accumulate_reg[13]/Q (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.03 &     0.04 r
+  Accumulate[221] (net)                         1 
+  v9_cts_copt_h_inst_11013/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.04 r
+  v9_cts_copt_h_inst_11013/X (SAEDRVT14_DEL_R2V2_1)       0.03 &     0.07 r
+  copt_net_2822 (net)                           1 
+  v9_cts_copt_h_inst_12012/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.07 r
+  v9_cts_copt_h_inst_12012/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.09 r
+  copt_net_3792 (net)                           1 
+  v9_cts_copt_h_inst_12408/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.09 r
+  v9_cts_copt_h_inst_12408/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.12 r
+  copt_net_4188 (net)                           2 
+  A1187/A2 (SAEDRVT14_AO221_0P5)                          0.00 &     0.12 r
+  A1187/X (SAEDRVT14_AO221_0P5)                           0.02 &     0.13 r
+  N338_CDR1 (net)                               1 
+  ctmi_9795/A1 (SAEDRVT14_OR3_0P5)                        0.00 &     0.13 r
+  ctmi_9795/X (SAEDRVT14_OR3_0P5)                         0.01 &     0.14 r
+  comp_u/newDist[13] (net)                      1 
+  v9_cts_copt_h_inst_13876/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.14 r
+  v9_cts_copt_h_inst_13876/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.16 r
+  copt_net_5654 (net)                           1 
+  v9_cts_copt_h_inst_13877/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.16 r
+  v9_cts_copt_h_inst_13877/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.18 r
+  copt_net_5655 (net)                           1 
+  v9_cts_copt_h_inst_13878/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.18 r
+  v9_cts_copt_h_inst_13878/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.20 r
+  copt_net_5656 (net)                           1 
+  v9_cts_copt_h_inst_13879/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.20 r
+  v9_cts_copt_h_inst_13879/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.22 r
+  copt_net_5657 (net)                           1 
+  v9_cts_copt_h_inst_13880/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.22 r
+  v9_cts_copt_h_inst_13880/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.24 r
+  copt_net_5658 (net)                           1 
+  v9_cts_copt_h_inst_13875/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.24 r
+  v9_cts_copt_h_inst_13875/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.26 r
+  copt_net_5653 (net)                           3 
+  v9_cts_ropt_h_inst_17431/A (SAEDRVT14_BUF_S_0P5)        0.00 &     0.26 r
+  v9_cts_ropt_h_inst_17431/X (SAEDRVT14_BUF_S_0P5)        0.03 &     0.29 r
+  ropt_net_9133 (net)                           1 
+  comp_u/BestDist_reg[13]/D (SAEDRVT14_FSDPQ_V2_0P5)      0.00 &     0.29 r
+  data arrival time                                                  0.29
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  clock reconvergence pessimism                           0.00       0.04
+  clock uncertainty                                       0.20       0.24
+  comp_u/BestDist_reg[13]/CK (SAEDRVT14_FSDPQ_V2_0P5)                0.24 r
+  library hold time                                      -0.01       0.23
+  data required time                                                 0.23
+  ------------------------------------------------------------------------------
+  data required time                                                 0.23
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: pe_u/pe1/Accumulate_reg[11]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: pe_u/pe1/Accumulate_reg[14]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.02       0.02
+  pe_u/pe1/Accumulate_reg[11]/CK (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.00       0.02 r
+  pe_u/pe1/Accumulate_reg[11]/Q (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.03 &     0.04 f
+  Accumulate[27] (net)                          1 
+  v9_cts_copt_h_inst_10780/A (SAEDRVT14_DEL_R2V3_1)       0.00 &     0.04 f
+  v9_cts_copt_h_inst_10780/X (SAEDRVT14_DEL_R2V3_1)       0.03 &     0.07 f
+  copt_net_2591 (net)                           1 
+  v9_cts_copt_h_inst_12273/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.07 f
+  v9_cts_copt_h_inst_12273/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.09 f
+  copt_net_4053 (net)                           1 
+  v9_cts_copt_h_inst_12274/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.09 f
+  v9_cts_copt_h_inst_12274/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.11 f
+  copt_net_4054 (net)                           1 
+  v9_cts_copt_h_inst_12275/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.11 f
+  v9_cts_copt_h_inst_12275/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.13 f
+  copt_net_4055 (net)                           1 
+  v9_cts_copt_h_inst_12276/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.13 f
+  v9_cts_copt_h_inst_12276/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.15 f
+  copt_net_4056 (net)                           1 
+  v9_cts_copt_h_inst_12277/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.15 f
+  v9_cts_copt_h_inst_12277/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.17 f
+  copt_net_4057 (net)                           1 
+  v9_cts_copt_h_inst_12278/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.17 f
+  v9_cts_copt_h_inst_12278/X (SAEDRVT14_DEL_R2V2_1)       0.03 &     0.20 f
+  copt_net_4058 (net)                           2 
+  v9_cts_ropt_h_inst_17454/A (SAEDRVT14_DEL_R2V3_1)       0.00 &     0.20 f
+  v9_cts_ropt_h_inst_17454/X (SAEDRVT14_DEL_R2V3_1)       0.03 &     0.22 f
+  ropt_net_9156 (net)                           1 
+  pe_u/pe1/add_61/U_28/A (SAEDRVT14_ADDH_1)               0.00 &     0.22 f
+  pe_u/pe1/add_61/U_28/CO (SAEDRVT14_ADDH_1)              0.01 &     0.23 f
+  pe_u/pe1/add_61/N_72 (net)                    1 
+  pe_u/pe1/add_61/U_30/B (SAEDRVT14_ADDH_1)               0.00 &     0.23 f
+  pe_u/pe1/add_61/U_30/CO (SAEDRVT14_ADDH_1)              0.01 &     0.24 f
+  pe_u/pe1/add_61/N_75 (net)                    1 
+  pe_u/pe1/add_61/U_33/B (SAEDRVT14_ADDH_1)               0.00 &     0.24 f
+  pe_u/pe1/add_61/U_33/CO (SAEDRVT14_ADDH_1)              0.01 &     0.25 f
+  pe_u/pe1/add_61/N_79 (net)                    1 
+  pe_u/pe1/add_61/U_35/B (SAEDRVT14_ADDH_1)               0.00 &     0.25 f
+  pe_u/pe1/add_61/U_35/S (SAEDRVT14_ADDH_1)               0.02 &     0.27 f
+  pe_u/pe1/N31 (net)                            1 
+  pe_u/pe1/Accumulate_reg[14]/D (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.00 &     0.27 f
+  data arrival time                                                  0.27
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.02       0.02
+  clock reconvergence pessimism                           0.00       0.02
+  clock uncertainty                                       0.20       0.22
+  pe_u/pe1/Accumulate_reg[14]/CK (SAEDRVT14_FSDPSYNRBQ_V2_2)         0.22 r
+  library hold time                                      -0.01       0.21
+  data required time                                                 0.21
+  ------------------------------------------------------------------------------
+  data required time                                                 0.21
+  data arrival time                                                 -0.27
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: pe_u/pe7/Accumulate_reg[0]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: pe_u/pe7/Accumulate_reg[0]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.05       0.05
+  pe_u/pe7/Accumulate_reg[0]/CK (SAEDRVT14_FSDPMQ_LP_1)
+                                                          0.00       0.05 r
+  pe_u/pe7/Accumulate_reg[0]/Q (SAEDRVT14_FSDPMQ_LP_1)
+                                                          0.03 &     0.08 r
+  Accumulate[112] (net)                         1 
+  v9_cts_copt_h_inst_10835/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.08 r
+  v9_cts_copt_h_inst_10835/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.10 r
+  copt_net_2646 (net)                           1 
+  v9_cts_copt_h_inst_11828/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.10 r
+  v9_cts_copt_h_inst_11828/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.11 r
+  copt_net_3608 (net)                           1 
+  v9_cts_copt_h_inst_12210/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.11 r
+  v9_cts_copt_h_inst_12210/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.13 r
+  copt_net_3990 (net)                           1 
+  v9_cts_copt_h_inst_12209/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.13 r
+  v9_cts_copt_h_inst_12209/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.15 r
+  copt_net_3989 (net)                           1 
+  v9_cts_copt_h_inst_13410/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.15 r
+  v9_cts_copt_h_inst_13410/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.17 r
+  copt_net_5188 (net)                           1 
+  v9_cts_copt_h_inst_13409/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.17 r
+  v9_cts_copt_h_inst_13409/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.20 r
+  copt_net_5187 (net)                           2 
+  A1918/A (SAEDRVT14_ADDH_1)                              0.00 &     0.20 r
+  A1918/S (SAEDRVT14_ADDH_1)                              0.01 &     0.21 r
+  pe_u/pe7/N17 (net)                            1 
+  v9_cts_copt_h_inst_13927/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.21 r
+  v9_cts_copt_h_inst_13927/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.23 r
+  copt_net_5705 (net)                           1 
+  v9_cts_copt_h_inst_13928/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.23 r
+  v9_cts_copt_h_inst_13928/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.25 r
+  copt_net_5706 (net)                           1 
+  v9_cts_copt_h_inst_13926/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.25 r
+  v9_cts_copt_h_inst_13926/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.27 r
+  copt_net_5704 (net)                           1 
+  v9_cts_copt_gre_h_inst_16735/A (SAEDRVT14_DEL_R2V2_1)
+                                                          0.00 &     0.27 r
+  v9_cts_copt_gre_h_inst_16735/X (SAEDRVT14_DEL_R2V2_1)
+                                                          0.02 &     0.29 r
+  copt_gre_net_8437 (net)                       1 
+  v9_cts_copt_gre_h_inst_16736/A (SAEDRVT14_DEL_R2V2_1)
+                                                          0.00 &     0.29 r
+  v9_cts_copt_gre_h_inst_16736/X (SAEDRVT14_DEL_R2V2_1)
+                                                          0.02 &     0.30 r
+  copt_gre_net_8438 (net)                       1 
+  pe_u/pe7/Accumulate_reg[0]/D1 (SAEDRVT14_FSDPMQ_LP_1)
+                                                          0.00 &     0.30 r
+  data arrival time                                                  0.30
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.05       0.05
+  clock reconvergence pessimism                           0.00       0.05
+  clock uncertainty                                       0.20       0.25
+  pe_u/pe7/Accumulate_reg[0]/CK (SAEDRVT14_FSDPMQ_LP_1)              0.25 r
+  library hold time                                      -0.00       0.24
+  data required time                                                 0.24
+  ------------------------------------------------------------------------------
+  data required time                                                 0.24
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: pe_u/pe13/Accumulate_reg[12]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: comp_u/BestDist_reg[12]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.02       0.02
+  pe_u/pe13/Accumulate_reg[12]/CK (SAEDRVT14_FSDPSYNRBQ_V2_0P5)
+                                                          0.00       0.02 r
+  pe_u/pe13/Accumulate_reg[12]/Q (SAEDRVT14_FSDPSYNRBQ_V2_0P5)
+                                                          0.03 &     0.05 r
+  Accumulate[220] (net)                         1 
+  v9_cts_copt_h_inst_10996/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.05 r
+  v9_cts_copt_h_inst_10996/X (SAEDRVT14_DEL_R2V2_1)       0.03 &     0.08 r
+  copt_net_2805 (net)                           1 
+  v9_cts_copt_h_inst_11842/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.08 r
+  v9_cts_copt_h_inst_11842/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.10 r
+  copt_net_3622 (net)                           1 
+  v9_cts_copt_h_inst_12889/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.10 r
+  v9_cts_copt_h_inst_12889/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.12 r
+  copt_net_4667 (net)                           2 
+  A1188/A2 (SAEDRVT14_AO221_0P5)                          0.00 &     0.12 r
+  A1188/X (SAEDRVT14_AO221_0P5)                           0.02 &     0.14 r
+  N340_CDR1 (net)                               1 
+  ctmi_9805/A1 (SAEDRVT14_OR3_0P5)                        0.00 &     0.14 r
+  ctmi_9805/X (SAEDRVT14_OR3_0P5)                         0.01 &     0.16 r
+  comp_u/newDist[12] (net)                      1 
+  v9_cts_copt_h_inst_14271/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.16 r
+  v9_cts_copt_h_inst_14271/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.18 r
+  copt_net_6049 (net)                           1 
+  v9_cts_copt_h_inst_14272/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.18 r
+  v9_cts_copt_h_inst_14272/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.20 r
+  copt_net_6050 (net)                           1 
+  v9_cts_copt_h_inst_14273/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.20 r
+  v9_cts_copt_h_inst_14273/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.22 r
+  copt_net_6051 (net)                           1 
+  v9_cts_copt_h_inst_14274/A (SAEDRVT14_DEL_R2V3_1)       0.00 &     0.22 r
+  v9_cts_copt_h_inst_14274/X (SAEDRVT14_DEL_R2V3_1)       0.03 &     0.24 r
+  copt_net_6052 (net)                           1 
+  v9_cts_copt_h_inst_14275/A (SAEDRVT14_DEL_R2V3_1)       0.00 &     0.24 r
+  v9_cts_copt_h_inst_14275/X (SAEDRVT14_DEL_R2V3_1)       0.05 &     0.29 r
+  copt_net_6053 (net)                           3 
+  comp_u/BestDist_reg[12]/D (SAEDRVT14_FSDPQ_V2_0P5)      0.00 &     0.29 r
+  data arrival time                                                  0.29
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  clock reconvergence pessimism                           0.00       0.04
+  clock uncertainty                                       0.20       0.24
+  comp_u/BestDist_reg[12]/CK (SAEDRVT14_FSDPQ_V2_0P5)                0.24 r
+  library hold time                                      -0.01       0.23
+  data required time                                                 0.23
+  ------------------------------------------------------------------------------
+  data required time                                                 0.23
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: pe_u/pe5/Accumulate_reg[12]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: pe_u/pe5/Accumulate_reg[12]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.02       0.02
+  pe_u/pe5/Accumulate_reg[12]/CK (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.00       0.02 r
+  pe_u/pe5/Accumulate_reg[12]/Q (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.03 &     0.04 r
+  Accumulate[92] (net)                          1 
+  v9_cts_copt_h_inst_10892/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.04 r
+  v9_cts_copt_h_inst_10892/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.07 r
+  copt_net_2703 (net)                           1 
+  v9_cts_copt_h_inst_11926/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.07 r
+  v9_cts_copt_h_inst_11926/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.09 r
+  copt_net_3706 (net)                           1 
+  v9_cts_copt_h_inst_12348/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.09 r
+  v9_cts_copt_h_inst_12348/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.11 r
+  copt_net_4128 (net)                           1 
+  v9_cts_copt_h_inst_12750/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.11 r
+  v9_cts_copt_h_inst_12750/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.13 r
+  copt_net_4528 (net)                           1 
+  v9_cts_copt_h_inst_13164/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.13 r
+  v9_cts_copt_h_inst_13164/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.15 r
+  copt_net_4942 (net)                           1 
+  v9_cts_copt_h_inst_13444/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.15 r
+  v9_cts_copt_h_inst_13444/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.17 r
+  copt_net_5222 (net)                           1 
+  v9_cts_copt_h_inst_13752/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.17 r
+  v9_cts_copt_h_inst_13752/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.18 r
+  copt_net_5530 (net)                           1 
+  v9_cts_copt_h_inst_13751/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.18 r
+  v9_cts_copt_h_inst_13751/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.20 r
+  copt_net_5529 (net)                           1 
+  v9_cts_copt_h_inst_14159/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.20 r
+  v9_cts_copt_h_inst_14159/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.23 r
+  copt_net_5937 (net)                           2 
+  v9_cts_ropt_h_inst_16995/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.23 r
+  v9_cts_ropt_h_inst_16995/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.25 r
+  ropt_net_8697 (net)                           1 
+  pe_u/pe5/add_61/U_30/A (SAEDRVT14_ADDH_1)               0.00 &     0.25 r
+  pe_u/pe5/add_61/U_30/S (SAEDRVT14_ADDH_1)               0.02 &     0.27 r
+  pe_u/pe5/N29 (net)                            1 
+  pe_u/pe5/Accumulate_reg[12]/D (SAEDRVT14_FSDPSYNRBQ_V2_2)
+                                                          0.00 &     0.27 r
+  data arrival time                                                  0.27
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.02       0.02
+  clock reconvergence pessimism                           0.00       0.02
+  clock uncertainty                                       0.20       0.22
+  pe_u/pe5/Accumulate_reg[12]/CK (SAEDRVT14_FSDPSYNRBQ_V2_2)         0.22 r
+  library hold time                                      -0.01       0.21
+  data required time                                                 0.21
+  ------------------------------------------------------------------------------
+  data required time                                                 0.21
+  data arrival time                                                 -0.27
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+
+  Startpoint: pe_u/pe3/Accumulate_reg[12]
+               (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: pe_u/pe3/Accumulate_reg[12]
+               (rising edge-triggered flip-flop clocked by clock)
+  Last common pin: clock
+  Path Group: clock
+  Path Type: min
+
+  Point                                      Fanout       Incr       Path
+  ------------------------------------------------------------------------------
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  pe_u/pe3/Accumulate_reg[12]/CK (SAEDRVT14_FSDPSYNRBQ_V2_0P5)
+                                                          0.00       0.04 r
+  pe_u/pe3/Accumulate_reg[12]/Q (SAEDRVT14_FSDPSYNRBQ_V2_0P5)
+                                                          0.04 &     0.08 f
+  Accumulate[60] (net)                          1 
+  v9_cts_copt_h_inst_10910/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.08 f
+  v9_cts_copt_h_inst_10910/X (SAEDRVT14_DEL_R2V2_1)       0.03 &     0.11 f
+  copt_net_2721 (net)                           1 
+  v9_cts_copt_h_inst_11958/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.11 f
+  v9_cts_copt_h_inst_11958/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.13 f
+  copt_net_3738 (net)                           1 
+  v9_cts_copt_h_inst_15737/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.13 f
+  v9_cts_copt_h_inst_15737/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.15 f
+  copt_net_7498 (net)                           1 
+  v9_cts_copt_h_inst_15738/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.15 f
+  v9_cts_copt_h_inst_15738/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.17 f
+  copt_net_7499 (net)                           1 
+  v9_cts_copt_h_inst_15739/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.17 f
+  v9_cts_copt_h_inst_15739/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.19 f
+  copt_net_7500 (net)                           1 
+  v9_cts_copt_h_inst_15740/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.19 f
+  v9_cts_copt_h_inst_15740/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.21 f
+  copt_net_7501 (net)                           1 
+  v9_cts_copt_h_inst_15741/A (SAEDRVT14_DEL_R2V2_1)       0.00 &     0.21 f
+  v9_cts_copt_h_inst_15741/X (SAEDRVT14_DEL_R2V2_1)       0.02 &     0.23 f
+  copt_net_7502 (net)                           2 
+  v9_cts_ropt_h_inst_17082/A (SAEDRVT14_BUF_S_0P5)        0.00 &     0.23 f
+  v9_cts_ropt_h_inst_17082/X (SAEDRVT14_BUF_S_0P5)        0.01 &     0.24 f
+  ropt_net_8784 (net)                           1 
+  pe_u/pe3/add_61/U_30/A (SAEDRVT14_ADDH_4)               0.00 &     0.24 f
+  pe_u/pe3/add_61/U_30/S (SAEDRVT14_ADDH_4)               0.02 &     0.26 r
+  pe_u/pe3/N29 (net)                            1 
+  v9_cts_copt_h_inst_15839/A (SAEDRVT14_DEL_R2V3_1)       0.00 &     0.26 r
+  v9_cts_copt_h_inst_15839/X (SAEDRVT14_DEL_R2V3_1)       0.04 &     0.29 r
+  copt_net_7600 (net)                           1 
+  pe_u/pe3/Accumulate_reg[12]/D (SAEDRVT14_FSDPSYNRBQ_V2_0P5)
+                                                          0.00 &     0.29 r
+  data arrival time                                                  0.29
+
+  clock clock (rise edge)                                 0.00       0.00
+  clock network delay (propagated)                        0.04       0.04
+  clock reconvergence pessimism                           0.00       0.04
+  clock uncertainty                                       0.20       0.24
+  pe_u/pe3/Accumulate_reg[12]/CK (SAEDRVT14_FSDPSYNRBQ_V2_0P5)       0.24 r
+  library hold time                                      -0.01       0.23
+  data required time                                                 0.23
+  ------------------------------------------------------------------------------
+  data required time                                                 0.23
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        0.06
+
+Warning: report_timing has satisfied the max_paths criteria. There are 831 further endpoints which have paths of interest with slack less than    10.00 that were not considered when generating this report. (UITE-502)
+
+1

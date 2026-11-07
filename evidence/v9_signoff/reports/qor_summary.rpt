@@ -1,0 +1,30 @@
+****************************************
+Report : qor
+        -summary
+Design : top
+Version: X-2025.06-SP2
+Date   : Sat Nov  7 10:26:34 2026
+****************************************
+Information: Timer using 'SI, Timing Window Analysis, CRPR'. (TIM-050)
+
+Timing
+---------------------------------------------------------------------------
+Context                                 WNS            TNS            NVE
+---------------------------------------------------------------------------
+FUNC_Fast          (Setup)             0.64           0.00              0
+FUNC_Slow          (Setup)             0.08           0.00              0
+FUNC_Typical       (Setup)             0.44           0.00              0
+Design             (Setup)             0.08           0.00              0
+
+FUNC_Fast          (Hold)              0.00           0.00              0
+FUNC_Slow          (Hold)              0.15           0.00              0
+FUNC_Typical       (Hold)              0.06           0.00              0
+Design             (Hold)              0.00           0.00              0
+---------------------------------------------------------------------------
+
+Miscellaneous
+---------------------------------------------------------------------------
+Cell Area (netlist):                           3416.18
+Cell Area (netlist and physical only):         6221.28
+Nets with DRC Violations:        0
+1

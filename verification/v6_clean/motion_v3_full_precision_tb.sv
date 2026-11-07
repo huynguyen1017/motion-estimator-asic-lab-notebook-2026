@@ -22,10 +22,10 @@ always @(negedge clock)
   newbest_count = newbest_count + 1;
 
 initial begin
-`ifndef IVL_SIM
+`ifdef DUMP_FSDB
  $fsdbDumpfile("motion_v3_full_precision.fsdb");
 `endif
-`ifndef IVL_SIM
+`ifdef DUMP_FSDB
  $fsdbDumpvars(0, motion_v3_full_precision_tb);
 `endif
  for (i = 0; i < 256; i = i+1) memR.Rmem[i] = 8'h00;

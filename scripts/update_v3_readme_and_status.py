@@ -30,7 +30,7 @@ University Synopsys VCS reproduced a no-selection corner case in the original 8-
 
 Mapped cell area (Fusion Compiler): **881.96 um2** (original 8-bit), **1,193.03 um2** (corrected V3B). Corrected design compile-stage setup slack: **+0.06 ns**. Native mapped synthesis, floorplan, and V3B placement completed. Clock-tree final completion, routing, DRC, parasitic extraction, and PrimeTime **post-layout setup/hold** are not yet verified.
 
-**Deliverables:** [three-slide PPTX](deliverables/ENGR852_Huy_V3_Independent_3_Slides.pptx), [three-page PDF](deliverables/ENGR852_Huy_V3_Independent_3_Slides.pdf), and [native Verdi V3B capture](evidence/screenshots/V3B_Verdi_nWave_2240wide_redacted.png). Teaching source and teammate slides were not overwritten.
+**Deliverables:** [three-slide PPTX](deliverables/ENGR852_Motion_Estimator_V3_Independent_3_Slides.pptx), [three-page PDF](deliverables/ENGR852_Motion_Estimator_V3_Independent_3_Slides.pdf), and [native Verdi V3B capture](evidence/screenshots/V3B_Verdi_nWave_2240wide_redacted.png). Teaching source and teammate slides were not overwritten.
 
 """
 if "## V3: Native Verdi verification" not in r:

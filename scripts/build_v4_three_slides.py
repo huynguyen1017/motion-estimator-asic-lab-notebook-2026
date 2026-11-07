@@ -91,7 +91,7 @@ text(s,8.05,5.14,4.60,.41,'+0.06 ns  (MET)',21,True)
 line(s,.60,5.62,12.05)
 text(s,.66,5.84,12.05,.56,'The 16-bit datapath uses 311.07 µm² more cell area (+35.3%) to preserve the full SAD. Synthesis, floorplan and placement are recorded; final routed setup/hold are separate checks.',16)
 text(s,.66,6.63,12.05,.37,'Reference and search memories are in the testbench, not in the synthesized motion estimator.',15,False,SECONDARY)
-out=S/'ENGR852_Huy_V4_Detailed_Waveform_3_Slides.pptx'
+out=S/'ENGR852_Motion_Estimator_V4_Detailed_Waveform_3_Slides.pptx'
 deck.save(out)
 print('CREATED',out,'slides',len(deck.slides),'bytes',out.stat().st_size)
 for sl in deck.slides:

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Fail-fast local RTL regression; use the existing corrected design unchanged."""
+"""Fail-fast RTL regression supporting both Icarus Verilog (iverilog/vvp) and Synopsys VCS (vcs)."""
 from pathlib import Path
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -12,10 +13,14 @@ out = root / "qa_runs"
 out.mkdir(exist_ok=True)
 tests = sorted(root.glob("motion_*tb.sv"))
 results = []
-for executable in ("iverilog", "vvp"):
-    if shutil.which(executable) is None:
-        print(f"ERROR missing required simulator executable: {executable}", file=sys.stderr)
-        sys.exit(2)
+
+has_ivl = shutil.which("iverilog") is not None and shutil.which("vvp") is not None
+has_vcs = shutil.which("vcs") is not None
+
+if not has_ivl and not has_vcs:
+    print("ERROR missing required simulator executable: neither iverilog/vvp nor vcs found", file=sys.stderr)
+    sys.exit(2)
+
 if not (root / "top.v").is_file() or not tests:
     print("ERROR missing RTL or testbench inputs", file=sys.stderr)
     sys.exit(2)
@@ -32,7 +37,7 @@ for tb in tests:
     if stem.startswith("motion_v5_"):
         rtl = root / "top.v"
     elif stem == "motion_v3_all_saturated_tb":
-        # This negative-control test reproduces the original 8-bit saturation limit.
+        # Negative-control test reproducing the original 8-bit saturation limit.
         rtl = project / "rtl/top.v"
     elif stem.startswith("motion_v3_"):
         rtl = project / "rtl/experimental/top_full_precision_finish_hold.v"
@@ -45,10 +50,17 @@ for tb in tests:
     binary = out / f"{stem}.simv"
     compile_log = out / f"{stem}.compile.log"
     run_log = out / f"{stem}.run.log"
-    compile_cmd = ["iverilog", "-g2012", "-Wall", "-DIVL_SIM", "-s", module,
-                   "-o", str(binary), str(rtl), str(tb)]
+    rtl_rel = os.path.relpath(rtl, root)
+    if has_ivl:
+        compile_cmd = ["iverilog", "-g2012", "-Wall", "-DIVL_SIM", "-s", module,
+                       "-o", f"qa_runs/{stem}.simv", rtl_rel, tb.name]
+        run_cmd = ["vvp", f"qa_runs/{stem}.simv"]
+    else:
+        compile_cmd = ["vcs", "-full64", "-sverilog", "+v2k", "-timescale=1ns/100fs",
+                       "-top", module, "-o", f"qa_runs/{stem}.simv", rtl_rel, tb.name]
+        run_cmd = [f"./qa_runs/{stem}.simv"]
     try:
-        compiled = subprocess.run(compile_cmd, cwd=root, text=True,
+        compiled = subprocess.run(compile_cmd, cwd=str(root), universal_newlines=True,
                                   stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=60)
         compile_log.write_text(compiled.stdout)
         if compiled.returncode:
@@ -56,11 +68,11 @@ for tb in tests:
                             "detail": compiled.stdout[-500:]})
             print(stem, "COMPILE_FAIL")
             continue
-        executed = subprocess.run(["vvp", str(binary)], cwd=root, text=True,
+        executed = subprocess.run(run_cmd, cwd=str(root), universal_newlines=True,
                                    stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=65)
         run_log.write_text(executed.stdout)
-        status = "PASS" if executed.returncode == 0 else "RUN_FAIL"
-        results.append({"test": stem, "rtl": str(rtl.relative_to(project)),
+        status = "PASS" if executed.returncode == 0 and "ERROR" not in executed.stdout and "FAIL" not in executed.stdout else "RUN_FAIL"
+        results.append({"test": stem, "rtl": rtl_rel,
                         "status": status, "detail": executed.stdout[-500:]})
         print(stem, status)
     except subprocess.TimeoutExpired:

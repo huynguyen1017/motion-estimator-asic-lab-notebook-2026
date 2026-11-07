@@ -42,9 +42,9 @@ The original perfect-match input returns BestDist=0000; the separately construct
 
 **[Editable 19-slide Google Slides presentation](https://docs.google.com/presentation/d/1oQlE86P-1ajHd4VskT9jGiLGEXkxlMnqQ0_dutpmTPo/edit)** · **[Download PowerPoint](deliverables/ENGR852_Motion_Estimator_19_Slide_Final_2026-11-04.pptx)** · **[Download PDF](deliverables/ENGR852_Motion_Estimator_19_Slide_Final_2026-11-04.pdf)**
 
-**Standalone slides 17–19 (editable shapes and real waveform image):** [Three-slide PowerPoint](deliverables/ENGR852_Huy_3_Independent_Contribution_Slides.pptx) · [Three-slide PDF](deliverables/ENGR852_Huy_3_Independent_Contribution_Slides.pdf)
+**Standalone slides 17–19 (editable shapes and real waveform image):** [Three-slide PowerPoint](deliverables/ENGR852_Motion_Estimator_3_Independent_Contribution_Slides.pptx) · [Three-slide PDF](deliverables/ENGR852_Motion_Estimator_3_Independent_Contribution_Slides.pdf)
 
-The copied 19-slide deck preserves the team's 16 original slides and adds three independent contributions (slides 17–19): original Synopsys nWave screenshots, 12/12 PE/comparator directed checks, and a three-seed deterministic full-precision SAD reference model. Actual SFSU **VCS returned 24,576 PE comparisons, zero mismatches** across three seeds. The full 16-bit SAD reference confirms the professor RTL's **8-bit saturating policy**; this does not prove the top-level motion vector is always the best full-precision SAD candidate. See [UPDATE-013](docs/UPDATE-013.md), the [scoreboard source](verification/huy_pe_fullprecision_scoreboard_tb.sv), [VCS log](evidence/logs/huy_vcs_sad_scoreboard_three_seed_run_20261104.log), and [privacy-reviewed nWave image](evidence/screenshots/Huy_nWave_520MHz_Precision_ACTUAL_traces.png).
+The copied 19-slide deck preserves the team's 16 original slides and adds three independent contributions (slides 17–19): original Synopsys nWave screenshots, 12/12 PE/comparator directed checks, and a three-seed deterministic full-precision SAD reference model. Actual SFSU **VCS returned 24,576 PE comparisons, zero mismatches** across three seeds. The full 16-bit SAD reference confirms the professor RTL's **8-bit saturating policy**; this does not prove the top-level motion vector is always the best full-precision SAD candidate. See [UPDATE-013](docs/UPDATE-013.md), the [scoreboard source](verification/motion_pe_fullprecision_scoreboard_tb.sv), [VCS log](evidence/logs/motion_vcs_sad_scoreboard_three_seed_run_20261104.log), and [privacy-reviewed nWave image](evidence/screenshots/Motion_nWave_520MHz_Precision_ACTUAL_traces.png).
 
 **Physical design is still blocked.** Fusion Compiler X-2025.06-SP2 could start, but the SAED14 initial-map job stopped before synthesis because `Fusion-Compiler-NX` was unavailable; alternate Design Compiler returned DCSH-1 (not enabled). **No technology-mapped 14 nm area/power, routing, DRC, extraction, or post-layout PrimeTime sign-off is claimed.** The 3,254-cell Yosys count below is **generic synthesis**, not mapped physical area.
 
@@ -65,7 +65,7 @@ The hardware engine computes the Sum of Absolute Differences (SAD) between a `16
 ├── rtl/
 │   └── top.v                                          # Motion Estimator RTL (top, control, PEtotal, PE, PEend, Comparator)
 ├── tb/
-│   ├── huy_verification_520mhz_tb.v                   # 520 MHz directed, perturbed non-zero SAD & corner-case testbench
+│   ├── motion_verification_520mhz_tb.v                   # 520 MHz directed, perturbed non-zero SAD & corner-case testbench
 │   ├── top_tb.v                                       # 520 MHz randomized stimulus testbench
 │   ├── top_tb_direct.v                                # 520 MHz directed fixture testbench
 │   ├── ref.txt                                        # 256-byte reference block fixture
@@ -81,8 +81,8 @@ The hardware engine computes the Sum of Absolute Differences (SAD) between a `16
 └── evidence/
     ├── manifest.json                                  # SHA-256 cryptographic checksums of all evidence artifacts
     ├── logs/
-    │   ├── huy_verification_520mhz.log                # Captured 520 MHz RTL simulation output (Tests 1, 2, and 3)
-    │   └── huy_synthesis_stat.log                     # Captured gate-level synthesis cell & flip-flop hierarchy report
+    │   ├── motion_verification_520mhz.log                # Captured 520 MHz RTL simulation output (Tests 1, 2, and 3)
+    │   └── motion_synthesis_stat.log                     # Captured gate-level synthesis cell & flip-flop hierarchy report
     ├── slides/
     │   ├── slide14-direct-perturbed-verification.png  # Technical Slide 1: Direct Fixture & Perturbed Match Verification
     │   ├── slide15-pipeline-schedule-timing.png       # Technical Slide 2: Pipeline Schedule & Coordinate Timing Analysis
@@ -103,7 +103,7 @@ The hardware engine computes the Sum of Absolute Differences (SAD) between a `16
 
 ## V5 routed layout and post-route timing (November 5)
 
-The revised [V5 three independent slides](deliverables/ENGR852_Huy_V5_Routed_3_Slides.pptx) and [V5 complete 19-slide deck](deliverables/ENGR852_V5_Full_Team_19_Slides.pptx) show actual routed area/power and PrimeTime timing while preserving the team's first 16 slides. These are editable PPTX sources; remaining DRC and timing violations are identified, not relabeled as passes.
+The revised [V5 three independent slides](deliverables/ENGR852_Motion_Estimator_V5_Routed_3_Slides.pptx) and [V5 complete 19-slide deck](deliverables/ENGR852_V5_Full_Team_19_Slides.pptx) show actual routed area/power and PrimeTime timing while preserving the team's first 16 slides. These are editable PPTX sources; remaining DRC and timing violations are identified, not relabeled as passes.
 
 The [7-page V5 report](deliverables/ENGR852_V5_520MHz_Motion_Estimator_Engineering_Report.pdf) revises the physical-design and grading sections with actual measurement tables while preserving the four earlier RTL/synthesis/waveform chapters. It is accompanied by [V5 physical-design checkpoint].
 
@@ -126,7 +126,7 @@ This is a documented project checkpoint, **not** a final routed/sign-off impleme
 
 The [V4 verification checkpoint](docs/UPDATE-017_V4_FINAL_CHECKPOINT.md) includes a detailed Verdi nWave figure for the unmodified 8-bit SAD failure and a separate 16-bit correction waveform. The updated slide style is drawn from the team reference: larger signal traces, two figure views, and direct captions without small callouts.
 
-- [Editable 3-slide V4 contribution](deliverables/ENGR852_Huy_V4_Detailed_Waveform_3_Slides.pptx) and [PDF](deliverables/ENGR852_Huy_V4_Detailed_Waveform_3_Slides.pdf)
+- [Editable 3-slide V4 contribution](deliverables/ENGR852_Motion_Estimator_V4_Detailed_Waveform_3_Slides.pptx) and [PDF](deliverables/ENGR852_Motion_Estimator_V4_Detailed_Waveform_3_Slides.pdf)
 - [Editable 19-slide V4 complete presentation](deliverables/ENGR852_V4_Full_Team_19_Slides.pptx) and [PDF](deliverables/ENGR852_V4_Full_Team_19_Slides.pdf)
 - Original team slides 1–16 have been checked for unchanged text, shapes, dimensions, and placement.
 
@@ -142,12 +142,12 @@ Mapped cell area (Fusion Compiler): **881.96 um2** (original 8-bit), **1,193.03 
 
 **Complete presentation:** [V3 19-slide PowerPoint](deliverables/ENGR852_V3_Full_Team_19_Slides.pptx) and [19-page PDF](deliverables/ENGR852_V3_Full_Team_19_Slides.pdf), preserving original slides 1–16.
 
-**Deliverables:** [three-slide PPTX](deliverables/ENGR852_Huy_V3_Independent_3_Slides.pptx), [three-page PDF](deliverables/ENGR852_Huy_V3_Independent_3_Slides.pdf), and [native Verdi V3B capture](evidence/screenshots/V3B_Verdi_nWave_2240wide_redacted.png). Teaching source and teammate slides were not overwritten.
+**Deliverables:** [three-slide PPTX](deliverables/ENGR852_Motion_Estimator_V3_Independent_3_Slides.pptx), [three-page PDF](deliverables/ENGR852_Motion_Estimator_V3_Independent_3_Slides.pdf), and [native Verdi V3B capture](evidence/screenshots/V3B_Verdi_nWave_2240wide_redacted.png). Teaching source and teammate slides were not overwritten.
 
 ## Key Technical Results Completed
 
 ### 1. 520 MHz Directed, Perturbed Non-Zero SAD & Boundary RTL Verification
-Using [`tb/huy_verification_520mhz_tb.v`](tb/huy_verification_520mhz_tb.v) at the target `520 MHz` clock (`timescale 1ns/100fs`, `always #0.9615 clock = ~clock;`, `T = 1.9230 ns`), three verification scenarios were executed against [`rtl/top.v`](rtl/top.v) (log in [`evidence/logs/huy_verification_520mhz.log`](evidence/logs/huy_verification_520mhz.log)):
+Using [`tb/motion_verification_520mhz_tb.v`](tb/motion_verification_520mhz_tb.v) at the target `520 MHz` clock (`timescale 1ns/100fs`, `always #0.9615 clock = ~clock;`, `T = 1.9230 ns`), three verification scenarios were executed against [`rtl/top.v`](rtl/top.v) (log in [`evidence/logs/motion_verification_520mhz.log`](evidence/logs/motion_verification_520mhz.log)):
 
 | Test Scenario | Candidate Displacement | Match Cycle (`count`) | Simulated Time (`520 MHz`) | Observed Outputs (`BestDist`, `motionX`, `motionY`) | Hardware Verification Outcome |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -177,7 +177,7 @@ The controller (`ctl_u` in [`rtl/top.v`](rtl/top.v)) eliminates finite-state mac
 ---
 
 ### 3. Gate-Level Synthesis Hierarchy, Memory Boundary & 520 MHz SDC Budget
-Per the ENGR 852 specification, `ROM_R` (`256×8`) and `ROM_S` (`1024×8`) reside exclusively in the testbench outside `module top`. Elaboration and synthesis characterization of `module top` ([`evidence/logs/huy_synthesis_stat.log`](evidence/logs/huy_synthesis_stat.log)) and timing constraint formulation ([`constraints/top_520mhz.sdc`](constraints/top_520mhz.sdc)) establish:
+Per the ENGR 852 specification, `ROM_R` (`256×8`) and `ROM_S` (`1024×8`) reside exclusively in the testbench outside `module top`. Elaboration and synthesis characterization of `module top` ([`evidence/logs/motion_synthesis_stat.log`](evidence/logs/motion_synthesis_stat.log)) and timing constraint formulation ([`constraints/top_520mhz.sdc`](constraints/top_520mhz.sdc)) establish:
 
 | Hierarchy / Timing Metric | Synthesized Value / Spec | Architectural Details |
 | :--- | :--- | :--- |
@@ -199,7 +199,7 @@ Per the ENGR 852 specification, `ROM_R` (`256×8`) and `ROM_S` (`1024×8`) resid
 | **1. SFSU GlobalProtect VPN Setup** | [`01-vpn-disconnected.png`](evidence/screenshots/01-vpn-disconnected.png), [`02-vpn-connected.png`](evidence/screenshots/02-vpn-connected.png) | **Verified** — Tunnel connected to `gp-students.sfsu.edu` (Best Available Gateway) |
 | **2. Local XQuartz X11 Terminal** | [`03-local-xterm.png`](evidence/screenshots/03-local-xterm.png) | **Verified** — Local X11 display server active on macOS |
 | **3. Authenticated SSH + X11 Forwarding** | [`01-ssh-login.txt`](evidence/transcripts/01-ssh-login.txt), [`02-session-status.txt`](evidence/transcripts/02-session-status.txt) | **Verified** — Logged in to `mahmoodi.rcc.at.sfsu.edu`; remote `DISPLAY=localhost:12.0` assigned |
-| **4. 520 MHz RTL Simulation & Synthesis Audit** | [`huy_verification_520mhz.log`](evidence/logs/huy_verification_520mhz.log), [`huy_synthesis_stat.log`](evidence/logs/huy_synthesis_stat.log) | **Verified (Local Icarus Verilog 13.0 & Yosys 0.70)** — Reproducible 520 MHz testbench & gate-level cell audit |
+| **4. 520 MHz RTL Simulation & Synthesis Audit** | [`motion_verification_520mhz.log`](evidence/logs/motion_verification_520mhz.log), [`motion_synthesis_stat.log`](evidence/logs/motion_synthesis_stat.log) | **Verified (Local Icarus Verilog 13.0 & Yosys 0.70)** — Reproducible 520 MHz testbench & gate-level cell audit |
 | **5. University Synopsys physical-design flow** | X11 forwarding address assigned; course setup file inspected | **Pending** — Licensed VCS/Verdi setup and graphical-window launch not yet verified. Team-file transfer, 14 nm mapping, place-and-route, DRC, parasitic extraction, and PrimeTime setup/hold analysis have not yet been demonstrated on this server session. |
 
 #### VPN & Terminal Access Screenshots
@@ -217,8 +217,8 @@ This portfolio records work performed and analyzed for the ENGR 852 team motion-
 
 ```sh
 # 1. Run the 520 MHz directed, perturbed SAD, and boundary verification suite
-iverilog -g2012 -o huy_verification_520mhz.vvp rtl/top.v tb/huy_verification_520mhz_tb.v
-vvp huy_verification_520mhz.vvp
+iverilog -g2012 -o motion_verification_520mhz.vvp rtl/top.v tb/motion_verification_520mhz_tb.v
+vvp motion_verification_520mhz.vvp
 
 # 2. Run the gate-level synthesis hierarchy and memory-boundary audit
 yosys -p "read_verilog rtl/top.v; hierarchy -check -top top; synth -top top; stat"

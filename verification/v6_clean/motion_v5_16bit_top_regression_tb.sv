@@ -51,10 +51,10 @@ module motion_v5_16bit_top_regression_tb;
         // Native VCS FSDB remains available in the V3 evidence. This regression uses portable VCD.
         // No vendor-specific FSDB call required for local test.
 `ifdef ENABLE_FSDB
-`ifndef IVL_SIM
+`ifdef DUMP_FSDB
         $fsdbDumpfile("motion_v5_16bit_top_regression.fsdb");
 `endif
-`ifndef IVL_SIM
+`ifdef DUMP_FSDB
         $fsdbDumpvars(0, motion_v5_16bit_top_regression_tb);
 `endif
 `endif

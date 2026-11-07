@@ -1,0 +1,80 @@
+ Info: Initializing timer in CLOCK_SYN_REPORT_MODE
+Information: The value of option cts.compile.enable_cell_relocation has been overridden to "leaf_only" to support latency-driven placement. (CTS-973)
+Warning: time.si_enable_analysis is on, it could increase the runtime and memory usage. 
+Scenario FUNC_Typical is cellEm
+CTS Cell EM initialization finished
+Info: update em.
+Information: Propagated activity on scenario FUNC_Fast identical to that on FUNC_Typical (POW-006)
+Information: Timer-derived activity data is cached on scenario FUNC_Fast (POW-052)
+Information: Propagated activity on scenario FUNC_Slow identical to that on FUNC_Fast (POW-006)
+Information: Timer-derived activity data is cached on scenario FUNC_Slow (POW-052)
+Information: Activity for scenario FUNC_Typical was cached, no propagation required. (POW-005)
+Information: Activity for scenario FUNC_Fast was cached, no propagation required. (POW-005)
+Information: Activity for scenario FUNC_Slow was cached, no propagation required. (POW-005)
+Information: Activity for scenario FUNC_Typical was cached, no propagation required. (POW-005)
+****************************************
+Report : clock qor
+        -type summary
+Design : top
+Version: X-2025.06-SP2
+Date   : Sat Nov  7 10:25:12 2026
+****************************************
+
+Attributes
+===========
+M Master Clock
+G Generated Clock
+& Internal Generated Clock
+U User Defined Skew Group
+D Default Skew Group
+* Generated Clock Balanced Separately
+
+===========================================
+==== Summary Reporting for Corner Fast ====
+===========================================
+
+============================================================ Summary Table for Corner Fast =============================================================
+Clock /                               Attrs     Sinks Levels    Clock     Clock     Clock       Max    Global  Trans DRC  Cap DRC      Wire
+Skew Group                                                   Repeater  Repeater   Stdcell   Latency      Skew     Count     Count    Length
+                                                                Count      Area      Area
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+### Mode: FUNC, Scenario: FUNC_Fast
+clock                                   M,D       414      3       10      6.13      8.35      0.04      0.02         0         0   1363.62
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+All Clocks                                        414      3       10      6.13      8.35      0.04      0.02         0         0   1363.62
+
+
+Warning: Please use -largest / -smallest / -all switches with -show_verbose_paths / -show_paths to report the clock paths. (CTS-956)
+===========================================
+==== Summary Reporting for Corner Slow ====
+===========================================
+
+============================================================ Summary Table for Corner Slow =============================================================
+Clock /                               Attrs     Sinks Levels    Clock     Clock     Clock       Max    Global  Trans DRC  Cap DRC      Wire
+Skew Group                                                   Repeater  Repeater   Stdcell   Latency      Skew     Count     Count    Length
+                                                                Count      Area      Area
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+### Mode: FUNC, Scenario: FUNC_Slow
+clock                                   M,D       414      3       10      6.13      8.35      0.06      0.04         0         0   1363.62
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+All Clocks                                        414      3       10      6.13      8.35      0.06      0.04         0         0   1363.62
+
+
+Warning: Please use -largest / -smallest / -all switches with -show_verbose_paths / -show_paths to report the clock paths. (CTS-956)
+==============================================
+==== Summary Reporting for Corner Typical ====
+==============================================
+
+=========================================================== Summary Table for Corner Typical ===========================================================
+Clock /                               Attrs     Sinks Levels    Clock     Clock     Clock       Max    Global  Trans DRC  Cap DRC      Wire
+Skew Group                                                   Repeater  Repeater   Stdcell   Latency      Skew     Count     Count    Length
+                                                                Count      Area      Area
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+### Mode: FUNC, Scenario: FUNC_Typical
+clock                                   M,D       414      3       10      6.13      8.35      0.05      0.03         0         0   1363.62
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+All Clocks                                        414      3       10      6.13      8.35      0.05      0.03         0         0   1363.62
+
+
+Warning: Please use -largest / -smallest / -all switches with -show_verbose_paths / -show_paths to report the clock paths. (CTS-956)
+1

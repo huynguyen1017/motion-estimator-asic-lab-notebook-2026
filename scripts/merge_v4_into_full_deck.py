@@ -7,7 +7,7 @@ from pptx.enum.shapes import MSO_SHAPE_TYPE
 root = Path(__file__).resolve().parent.parent
 repo = Path.home() / "Developer/portfolio/motion-estimator-asic-lab-notebook-2026"
 original = repo / "deliverables/ENGR852_Motion_Estimator_19_Slide_Final_2026-11-04.pptx"
-contribution = root / "slides/ENGR852_Huy_V4_Detailed_Waveform_3_Slides.pptx"
+contribution = root / "slides/ENGR852_Motion_Estimator_V4_Detailed_Waveform_3_Slides.pptx"
 output = root / "slides/ENGR852_V4_Full_Team_19_Slides.pptx"
 source = Presentation(contribution)
 target = Presentation(original)

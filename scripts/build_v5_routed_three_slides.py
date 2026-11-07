@@ -7,7 +7,7 @@ from pptx.enum.text import PP_ALIGN
 
 R=Path(__file__).resolve().parent.parent
 out=R/'deliverables'
-src3=out/'ENGR852_Huy_V4_Detailed_Waveform_3_Slides.pptx'
+src3=out/'ENGR852_Motion_Estimator_V4_Detailed_Waveform_3_Slides.pptx'
 src19=out/'ENGR852_V4_Full_Team_19_Slides.pptx'
 assert src3.exists() and src19.exists()
 COLOR=RGBColor(12,20,30)
@@ -66,7 +66,7 @@ def replacement(slide):
  text(slide,.60,6.82,12.0,.30,'SDC: 1.923 ns clock   |   0.50 ns input/output delays   |   0.20 ns clock uncertainty',13.2,False,GRAY)
 
 for stem,source,idx,outfile in [
-('3',src3,2,'ENGR852_Huy_V5_Routed_3_Slides.pptx'),
+('3',src3,2,'ENGR852_Motion_Estimator_V5_Routed_3_Slides.pptx'),
 ('19',src19,18,'ENGR852_V5_Full_Team_19_Slides.pptx')]:
  p=Presentation(source);assert len(p.slides)==int(stem)
  replacement(p.slides[idx])

@@ -1,0 +1,14 @@
+Information: Timer using 'SI, Timing Window Analysis, CRPR'. (TIM-050)
+****************************************
+Report : global timing
+        -delay_type max
+        -format { narrow }
+Design : top
+Version: X-2025.06-SP2
+Date   : Sat Nov  7 10:25:06 2026
+****************************************
+
+No setup violations found.
+
+
+1

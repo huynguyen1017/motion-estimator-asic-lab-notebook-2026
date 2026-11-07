@@ -1,5 +1,6 @@
 // Independent 16-bit SAD architecture variant. Original professor RTL is untouched.
 
+`timescale 1ns/100fs
 /* Module For Top Level Hierarchy */
 module top (clock, start, BestDist, motionX, motionY, AddressR, AddressS1, AddressS2, R, S1, S2, completed);
 	input clock;
@@ -236,6 +237,7 @@ module PEtotal (clock, R, S1, S2, S1S2mux, newDist, Accumulate);
 endmodule
 
 
+`ifndef SYNTHESIS
 /* Module For Reference Block (Memory) */
 module ROM_R (clock, AddressR, R);
 	input clock;
@@ -273,3 +275,4 @@ module ROM_S (clock, AddressS1, AddressS2, S1, S2);
 	 end
 
 endmodule
+`endif

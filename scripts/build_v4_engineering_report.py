@@ -184,12 +184,12 @@ H2('6.2 Evidence and complete source archive')
 story.append(P('The versioned repository contains the professor original source, independent Verilog/SystemVerilog checks, SDC, slide build scripts, native waveform screenshots and a timestamped engineering notebook. Full source text is stored as editable files in the repository rather than raster images or copied code screens.'))
 for item in [
  '<b>RTL:</b> rtl/top.v; rtl/experimental/top_full_precision_v3.v; rtl/experimental/top_full_precision_finish_hold.v',
- '<b>Stimulus:</b> tb/top_tb.v; tb/top_tb_direct.v; verification/huy_v3_full_precision_tb.sv; verification/huy_v3_hold_tb.sv; verification/huy_v3_all_saturated_tb.sv',
+ '<b>Stimulus:</b> tb/top_tb.v; tb/top_tb_direct.v; verification/motion_v3_full_precision_tb.sv; verification/motion_v3_hold_tb.sv; verification/motion_v3_all_saturated_tb.sv',
  '<b>Constraints:</b> constraints/top_520mhz.sdc and the copied course Fusion scripts on the Linux workspace.',
  '<b>Reports:</b> docs/UPDATE-016_V3_PPA_AND_SLIDES.md and docs/UPDATE-017_V4_FINAL_CHECKPOINT.md.',
- '<b>Presentations:</b> deliverables/ENGR852_Huy_V4_Detailed_Waveform_3_Slides.pptx and deliverables/ENGR852_V4_Full_Team_19_Slides.pptx.'
+ '<b>Presentations:</b> deliverables/ENGR852_Motion_Estimator_V4_Detailed_Waveform_3_Slides.pptx and deliverables/ENGR852_V4_Full_Team_19_Slides.pptx.'
 ]:bullet(item)
-story.append(P('<b>Repository:</b> github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026','SmallCustom'))
+story.append(P('<b>Repository:</b> github.com/team-engr852/motion-estimator-asic-lab-notebook-2026','SmallCustom'))
 story.append(P('<b>Final assessment caution:</b> this report documents completed work and remaining implementation measurements; it is not a fabricated post-layout sign-off report.','SmallCustom'))
 
 def draw_page(canvas,doc):

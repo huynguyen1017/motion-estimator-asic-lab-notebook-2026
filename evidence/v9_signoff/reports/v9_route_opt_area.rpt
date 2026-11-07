@@ -1,0 +1,24 @@
+Information: The command 'report_area' cleared the undo history. (UNDO-016)
+****************************************
+Report : area
+Design : top
+Version: X-2025.06-SP2
+Date   : Sat Nov  7 01:32:17 2026
+****************************************
+
+Number of ports:                           81
+Number of nets:                          7973
+Number of cells:                         7496
+Number of combinational cells:           7047
+Number of sequential cells:               449
+Number of macros/black boxes:               0
+Number of buf/inv:                       5731
+Number of references:                     115
+
+Combinational area:                   2655.25
+Buf/Inv area:                         2003.73
+Noncombinational area:                 546.12
+Macro/Black Box area:                    0.00
+
+Total cell area:                      3201.37
+1

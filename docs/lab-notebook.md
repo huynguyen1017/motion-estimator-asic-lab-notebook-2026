@@ -65,20 +65,20 @@ DISPLAY=localhost:12.0
 - **Execution Timestamp:** `2026-11-04 16:23:55 PST` to `2026-11-04 16:33:14 PST` (`2026-11-05T00:23:55Z` to `2026-11-05T00:33:14Z`)
 - **Documentation Timestamp:** `2026-11-04 17:06:00 PST` (`2026-11-05T01:06:00Z`)
 - **Tools Used (Local Workstation):** `Icarus Verilog 13.0` (`/opt/homebrew/bin/iverilog`, `/opt/homebrew/bin/vvp`), `Yosys 0.70` (`/opt/homebrew/bin/yosys`)
-- **Source Files:** [`rtl/top.v`](../rtl/top.v), [`tb/huy_verification_520mhz_tb.v`](../tb/huy_verification_520mhz_tb.v), [`tb/top_tb.v`](../tb/top_tb.v), [`tb/top_tb_direct.v`](../tb/top_tb_direct.v), [`tb/ref.txt`](../tb/ref.txt), [`tb/search.txt`](../tb/search.txt), [`constraints/top_520mhz.sdc`](../constraints/top_520mhz.sdc)
+- **Source Files:** [`rtl/top.v`](../rtl/top.v), [`tb/motion_verification_520mhz_tb.v`](../tb/motion_verification_520mhz_tb.v), [`tb/top_tb.v`](../tb/top_tb.v), [`tb/top_tb_direct.v`](../tb/top_tb_direct.v), [`tb/ref.txt`](../tb/ref.txt), [`tb/search.txt`](../tb/search.txt), [`constraints/top_520mhz.sdc`](../constraints/top_520mhz.sdc)
 
 ### 1. 520 MHz Directed Fixture, Perturbed Non-Zero SAD & Corner-Case Simulation
 Executed commands:
 
 ```sh
-iverilog -g2012 -o huy_verification_520mhz.vvp rtl/top.v tb/huy_verification_520mhz_tb.v
-vvp huy_verification_520mhz.vvp | tee evidence/logs/huy_verification_520mhz.log
+iverilog -g2012 -o motion_verification_520mhz.vvp rtl/top.v tb/motion_verification_520mhz_tb.v
+vvp motion_verification_520mhz.vvp | tee evidence/logs/motion_verification_520mhz.log
 ```
 
-Captured simulation output ([`evidence/logs/huy_verification_520mhz.log`](../evidence/logs/huy_verification_520mhz.log)):
+Captured simulation output ([`evidence/logs/motion_verification_520mhz.log`](../evidence/logs/motion_verification_520mhz.log)):
 
 ```text
-VCD info: dumpfile huy_verification_520mhz.vcd opened for output.
+VCD info: dumpfile motion_verification_520mhz.vcd opened for output.
 === TEST 1: Direct Fixture (ref.txt & search.txt) at 520 MHz ===
   [T1] count= 256 t=493.2695 ns | PEready=0001 newDist_comp=ff BestDist=ff Vec=(8,8) out=(x,x) newBest=0
   ...
@@ -101,10 +101,10 @@ VCD info: dumpfile huy_verification_520mhz.vcd opened for output.
 Executed command:
 
 ```sh
-yosys -p "read_verilog rtl/top.v; hierarchy -check -top top; synth -top top; stat" > evidence/logs/huy_synthesis_stat.log
+yosys -p "read_verilog rtl/top.v; hierarchy -check -top top; synth -top top; stat" > evidence/logs/motion_synthesis_stat.log
 ```
 
-Key findings from [`evidence/logs/huy_synthesis_stat.log`](../evidence/logs/huy_synthesis_stat.log):
+Key findings from [`evidence/logs/motion_synthesis_stat.log`](../evidence/logs/motion_synthesis_stat.log):
 - **External Memory Exclusion Confirmed:** `0` memories and `0` memory bits inside `module top` (`ROM_R` `256×8` and `ROM_S` `1024×8` reside in the testbench, connected via `12` top-level ports / `71` port bits).
 - **Submodule Cell & Register Breakdown (`3,254` total cells, `277` flip-flops):**
   - `PE` (`×15`): `172` cells each (`2,580` cells total), `16` DFFs each (`Accumulate[7:0]` + `Rpipe[7:0]` = `240` DFFs).

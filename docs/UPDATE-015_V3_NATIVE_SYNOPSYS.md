@@ -29,7 +29,7 @@ Native university Synopsys VCS created FSDB; Verdi nWave displayed the actual FS
 
 ## Deliverables and required follow-up
 - `rtl/experimental/top_full_precision_finish_hold.v` — corrected, separately named RTL.
-- `verification/huy_v3_hold_tb.sv` — deterministic VCS stimulus and assertions.
+- `verification/motion_v3_hold_tb.sv` — deterministic VCS stimulus and assertions.
 - `scripts/build_finish_hold_variant.py` — derivation of the hold variant from the earlier widened design.
 - `evidence/screenshots/V3B_Verdi_nWave_2240wide_redacted.png` — native Verdi window-only waveform.
 - Continue floorplan utilization correction, placement, clock-tree, routing, DRC/parasitic extraction and PrimeTime setup/hold for final full grading requirements.
