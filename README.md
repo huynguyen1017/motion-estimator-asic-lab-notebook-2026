@@ -1,3 +1,12 @@
+## V8 — Corrected technical slide language and layout
+
+- [V8 three contribution slides](deliverables/ENGR852_V8_Clean_3_Contribution_Slides.pptx)
+- [V8 complete 19-slide presentation](deliverables/ENGR852_V8_Complete_19_Slides.pptx)
+- [V8 three-slide PDF preview](deliverables/ENGR852_V8_3_Slide_Preview.pdf)
+- [V8 presentation QA record](docs/UPDATE-023_V8_PRESENTATION_FORMAT_QA.md)
+
+The original 0000 perfect-match and separate FF00 maximum-contrast cases are distinguished, with no unfinished-work instructions printed in the slide footer. Physical sign-off remains governed by actual ICV and PrimeTime reports.
+
 ## V7 — Corrected waveform presentation (November 6, 2026)
 
 - [Three revised, editable Verdi and PrimeTime slides](deliverables/ENGR852_V7_Clean_Waveform_3_Slides.pptx)
