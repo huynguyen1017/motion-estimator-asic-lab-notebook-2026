@@ -21,7 +21,7 @@ OBSERVED_NO_VALID_MOTION_VECTOR: all saturated SADs tie reset sentinel FF
 PASS: Reproduced no-selection case in unmodified textbook RTL
 ```
 
-Because the original comparator initializes BestDist to 8'hFF and only updates on strictly smaller newDist, saturated 8'hFF candidates never produce a valid winner.
+Because the original comparator initializes BestDist to 8'hFF and only updates on strictly smaller newDist, saturated 8'hFF candidates never update BestDist or motionX/motionY.
 
 **Separate experimental 16-bit RTL — actual university VCS observation:**
 

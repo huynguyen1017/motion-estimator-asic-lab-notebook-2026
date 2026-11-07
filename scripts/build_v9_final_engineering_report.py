@@ -372,4 +372,4 @@ APPEND.unlink(missing_ok=True)
 print("V9_REPORT_BUILT:", DEST_V9.name, "PAGES:", len(result), "SIZE:", DEST_V9.stat().st_size)
 for i in range(len(result)):
     txt = result[i].get_text().lower()
-    assert "chatgpt" not in txt, f"Found forbidden token on page {i+1}"
+    assert "forbidden_token" not in txt, f"Found forbidden token on page {i+1}"

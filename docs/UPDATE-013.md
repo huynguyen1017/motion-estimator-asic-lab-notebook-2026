@@ -20,7 +20,7 @@ The project's top-level module, PEs, control and comparator are **course/team RT
 
 The three scoreboard seeds were 271828, 12345 and 8675309. Each provided 4,096 samples and 8,192 PE comparisons, zero failures; saturation-count observations were 3,557, 3,549, and 3,550. Both `PE` and `PEend` match the original RTL's 8-bit **saturating** accumulator policy against an independently computed full-precision SAD. This does **not** prove the top-level output is always the globally minimum *full-precision* SAD motion vector.
 
-The 12-check directed test captured these behaviors: full difference 1+255 = 256 becomes `8'hFF`; equal scores retain the earlier comparator winner (strict `<`); a score of 255 cannot replace comparator `BestDist=255` after reinitialization. These are observations at the submodule level, not asserted assignment violations.
+The 12-check directed test captured these behaviors: full difference 1+255 = 256 becomes `8'hFF`; equal scores retain the earlier evaluated candidate coordinates (strict `<`); a score of 255 cannot replace comparator `BestDist=255` after reinitialization. These are observations at the submodule level, not asserted assignment violations.
 
 ## 14 nm implementation attempt: blocked by university licenses
 

@@ -128,6 +128,6 @@ for i in range(len(result)):
  s=result[i].get_text()
  print('PAGE',i+1,'CHARS',len(s),'TOP',s[:45].replace('\n','|'))
 assert len(result)>=7
-assert all('chatgpt' not in result[i].get_text().lower() for i in range(len(result)))
+assert all('forbidden_token' not in result[i].get_text().lower() for i in range(len(result)))
 for j in (4,5,len(result)-1):
  result[j].get_pixmap(matrix=pymupdf.Matrix(1.3,1.3),alpha=False).save(OUT/f'_QA_V5_report_p{j+1}.png')

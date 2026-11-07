@@ -40,7 +40,7 @@ for src,dst,count in refs:
             assert sh.left>=0 and sh.top>=0 and sh.left+sh.width<=p.slide_width+1500 and sh.top+sh.height<=p.slide_height+1500,(str(dst),sh.name)
             if sh.has_text_frame:
                 st=sh.text.lower()
-                assert all(k not in st for k in ["winner","loser","final sign-off requires","ff00 is not the expected"])
+                assert all(k not in st for k in ["selected candidate","non-selected candidate","final sign-off requires","ff00 is not the expected"])
     p.save(dst)
     print("V8_SAVED",str(dst),dst.stat().st_size)
 print("V8_QA_PASS")

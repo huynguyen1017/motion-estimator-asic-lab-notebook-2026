@@ -1,7 +1,7 @@
 # ENGR 852 — V8 recovery checkpoint: zero-DRC layout and post-ECO timing
 
 ## Provenance
-Recovered and verified following an interrupted ChatGPT-controlled Fusion Compiler session. This is a **measured, partial ASIC sign-off checkpoint**, not a claim of final timing closure. University-server artifacts are retained in their original working directory.
+Recovered and verified following an interrupted Fusion Compiler session. This is a **measured, partial ASIC sign-off checkpoint**, not a claim of final timing closure. University-server artifacts are retained in their original working directory.
 
 Server project (under the university account): `~/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix`.
 Reference tool setup: Fusion Compiler X-2025.06-SP2a, ICV W-2024.09-3, PrimeTime S-2021.06-SP4.

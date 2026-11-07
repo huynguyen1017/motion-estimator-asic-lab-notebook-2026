@@ -91,7 +91,7 @@ module motion_pe_comparator_selfcheck_tb;
     @(negedge clock); #0.02;
     PEready=16'h0001; PEout[7:0]=8'd5;
     vectorX=4'he; vectorY=4'hd; CompStart=1;
-    check_comp(8'd5, 4'he, 4'hd, "first winner: (-2,-3)");
+    check_comp(8'd5, 4'he, 4'hd, "initial minimum distortion D(i,j): (-2,-3)");
 
     @(negedge clock); #0.02;
     PEout[7:0]=8'd5; vectorX=4'd3; vectorY=4'd4;
@@ -99,7 +99,7 @@ module motion_pe_comparator_selfcheck_tb;
 
     @(negedge clock); #0.02;
     PEout[7:0]=8'd3;
-    check_comp(8'd3, 4'd3, 4'd4, "strictly smaller wins");
+    check_comp(8'd3, 4'd3, 4'd4, "strictly smaller D(i,j) updates BestDist");
 
     @(negedge clock); #0.02;
     CompStart=0; PEready=0;
@@ -114,7 +114,7 @@ module motion_pe_comparator_selfcheck_tb;
     @(negedge clock); #0.02;
     CompStart=1; PEready=16'h0001; PEout[7:0]=8'hff;
     vectorX=4'd7; vectorY=4'd7;
-    check_comp(8'hff, 4'd3, 4'd4, "SAD=255 cannot beat reset ff");
+    check_comp(8'hff, 4'd3, 4'd4, "SAD=255 does not satisfy newDist < BestDist (8hFF)");
     $display("OBSERVATION all-saturated candidates cannot update motionX/Y");
 
     if (failures != 0)

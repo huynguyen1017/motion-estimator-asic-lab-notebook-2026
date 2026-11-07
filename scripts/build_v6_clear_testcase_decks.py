@@ -32,7 +32,7 @@ def annotate(slides, offset):
     set_text(first, 1, "Directed high-contrast test",
              "VCS + Verdi  |  High-contrast stress test: reference 00 / search FF")
     set_text(first, 6, "All 256 pixels",
-             "Stress case: 256 x |00 - FF| = FF00. Original 8-bit RTL saturates at FF and cannot select a winner.")
+             "Stress case: 256 x |00 - FF| = FF00. Original 8-bit RTL saturates at FF and cannot update BestDist or motionX/motionY.")
     set_text(second, 1, "Separate RTL and self-checking testbench",
              "VCS + Verdi  |  Independent high-contrast stress test (not the team's perfect-match case)")
     set_text(second, 9, "Encoded 4-bit vector",

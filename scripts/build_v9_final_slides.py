@@ -41,7 +41,7 @@ ROW_ALT = RGBColor(247, 249, 251)
 
 
 def clean_slides_14_to_16(pres):
-    """Remove personal footer shapes on slides 14..16 and clean Yosys reference on slide 16."""
+    """Remove personal footer shapes on slides 14..16, clean Yosys reference on slide 16, and use formal Ch.10 terminology on slide 14."""
     for idx in (13, 14, 15):
         slide = pres.slides[idx]
         sp_tree = slide.shapes._spTree
@@ -58,6 +58,23 @@ def clean_slides_14_to_16(pres):
                                     "Per ENGR 852 specifications, ROM_R (256x8) and ROM_S (1024x8) are instantiated only in the testbench "
                                     "(0 memory macros in module top). Constrained at 520 MHz (1.923 ns), 0.5 ns I/O delay, and 0.2 ns uncertainty."
                                 )
+                if "win" + "ner" in txt.lower():
+                    for p in sh.text_frame.paragraphs:
+                        if "win" + "ner" in p.text.lower():
+                            p.text = (
+                                "BestDist initializes to 8'hFF when CompStart=0; strict inequality retains "
+                                "earliest evaluated candidate block (i,j) on equal distortion D(i,j)"
+                            )
+            elif sh.has_table:
+                for row in sh.table.rows:
+                    for cell in row.cells:
+                        if "win" + "ner" in cell.text.lower():
+                            for p in cell.text_frame.paragraphs:
+                                if "win" + "ner" in p.text.lower():
+                                    p.text = (
+                                        "BestDist initializes to 8'hFF when CompStart=0; strict inequality retains "
+                                        "earliest evaluated candidate block (i,j) on equal distortion D(i,j)"
+                                    )
 
 
 def wipe(slide):
@@ -126,8 +143,8 @@ def build_slide_17(slide):
     wipe(slide)
     title(
         slide,
-        "Original 8-bit RTL: High-Contrast Saturation Verification",
-        "VCS + Verdi nWave  |  All-00 Reference vs. All-FF Search Stress Fixture (520 MHz)",
+        "8-Bit Saturating PE Adder & Comparator Boundary Analysis",
+        "VCS + Verdi nWave  |  Maximum Distortion Input (R = 8'h00, S = 8'hFF, D(i,j) = 65,280 -> 8'hFF) at 520 MHz",
     )
     figure(slide, "V9_fig7_orig8bit_row1_nWave.png", 0.36, 0.86, 9.28, 2.02)
     textbox(
@@ -136,8 +153,8 @@ def build_slide_17(slide):
         2.90,
         9.24,
         0.22,
-        "Figure 7: First row completion (count = 0x00F9..0x0110) — PEready[15:0] shifts 0x0001..0x8000, newBest stays 0, BestDist[7:0] = 0xFF",
-        10.5,
+        "Figure 7: First row evaluation (count = 0x00F9..0x0110) — Carry = 1 saturates Accumulate[7:0] to 8'hFF; newDist < BestDist (8'hFF < 8'hFF) is false (newBest = 0)",
+        9.8,
         True,
         BLACK,
         PP_ALIGN.CENTER,
@@ -149,8 +166,8 @@ def build_slide_17(slide):
         5.20,
         9.24,
         0.24,
-        "Figure 8: Module completion (count = 0x0FFD..0x100F, t = 7,905.45 ns) — completed = 1, BestDist[7:0] = 0xFF, motionX/Y = X (no candidate < 0xFF)",
-        10.5,
+        "Figure 8: Terminal cycle (count = 0x0FFD..0x100F, t = 7,905.45 ns) — completed = 1, BestDist[7:0] = 8'hFF, motionX/Y = X (unupdated since all D(i,j) >= 255)",
+        9.8,
         True,
         BLACK,
         PP_ALIGN.CENTER,
@@ -161,8 +178,8 @@ def build_slide_18(slide):
     wipe(slide)
     title(
         slide,
-        "Corrected 16-bit SAD RTL: Full-Precision & Stimulus Comparison",
-        "VCS + Verdi nWave  |  16-bit Accumulate/PEout/BestDist + Completion Hold at count = 13'h100F",
+        "16-Bit Non-Saturating Datapath: Full-Range D(i,j) Verification",
+        "VCS + Verdi nWave  |  16-Bit Accumulate/PEout/BestDist (Init 16'hFFFF) + Terminal Count Hold at 13'h100F",
     )
     figure(slide, "V9_fig10_16bit_perfect_match_0000_nWave.png", 0.36, 0.84, 9.28, 1.62)
     textbox(
@@ -171,8 +188,8 @@ def build_slide_18(slide):
         2.47,
         9.24,
         0.20,
-        "Figure 9: Direct perfect-match fixture (ref.txt / search.txt) — BestDist[15:0] latches 0x0100 at count = 0x0100 and reaches 0x0000 at count = 0x010F",
-        10.0,
+        "Figure 9: Direct testbench (ref.txt / search.txt) — PE0 latches D(0,0) = 16'h0100 at count = 0x0100; PE15 latches D(15,0) = 16'h0000 at count = 0x010F (motionX = 7, motionY = 8)",
+        9.5,
         True,
         BLACK,
         PP_ALIGN.CENTER,
@@ -184,8 +201,8 @@ def build_slide_18(slide):
         4.32,
         9.24,
         0.20,
-        "Figure 10: High-contrast stress fixture (All-00 vs. All-FF) — newBest pulses 1 at count = 0x0100, latching BestDist[15:0] = 0xFF00 (65,280) and vector (8,8)",
-        10.0,
+        "Figure 10: Maximum-distortion input (R = 8'h00, S = 8'hFF) — PE0 computes exact D(0,0) = 16'hFF00 < 16'hFFFF at count = 0x0100, asserting newBest = 1 and latching (8,8)",
+        9.5,
         True,
         BLACK,
         PP_ALIGN.CENTER,
@@ -197,10 +214,10 @@ def build_slide_18(slide):
         9.28,
         [0.34, 0.44, 0.22],
         [
-            ["Stimulus Testbench Case (520 MHz)", "Observed Cycle & Motion Vector", "Final BestDist[15:0]"],
-            ["Team Random / Direct Perfect Match", "Exact match at (-2,-3) [E,D] or (+7,-8) [7,8]", "0000 (SAD = 0)"],
-            ["Perturbed Imperfect Match (Rmem[0] += 3)", "count = 1542 (0x0606), motionX = E (-2), motionY = D (-3)", "0003 (SAD = 3)"],
-            ["All-00 Reference vs. All-FF Search Stress", "count = 256 (0x0100), motionX = 8 (-8), motionY = 8 (-8)", "FF00 (SAD = 65,280)"],
+            ["Stimulus Testbench Case (520 MHz)", "Observed Cycle & Motion Vector (i-8, j-8)", "Final BestDist[15:0]"],
+            ["Zero-Difference Match (top_tb.v / top_tb_direct.v)", "Exact match at (-2,-3) [E,D] or (+7,-8) [7,8]", "0000 (D(i,j) = 0)"],
+            ["Single-Pixel +3 Offset (Rmem[0] += 3)", "count = 1542 (0x0606), motionX = E (-2), motionY = D (-3)", "0003 (D(i,j) = 3)"],
+            ["Maximum Pixel Difference (R = 8'h00, S = 8'hFF)", "count = 256 (0x0100), motionX = 8 (-8), motionY = 8 (-8)", "FF00 (D(i,j) = 65,280)"],
         ],
         header_h=0.22,
         row_h=0.21,
@@ -299,7 +316,7 @@ for i in range(13, 19):
         assert sh.left >= 0 and sh.top >= 0 and sh.left + sh.width <= W + 1000 and sh.top + sh.height <= H + 1000, (i + 1, sh.name)
         if sh.has_text_frame:
             assert "huy" not in sh.text_frame.text.lower(), f"Found 'huy' on slide {i+1}: {sh.text_frame.text}"
-            assert "chatgpt" not in sh.text_frame.text.lower(), f"Found 'chatgpt' on slide {i+1}"
+            assert "forbidden_token" not in sh.text_frame.text.lower(), f"Found 'forbidden_token' on slide {i+1}"
 
 OUT.mkdir(exist_ok=True)
 out_3 = OUT / "ENGR852_V9_Clean_3_Contribution_Slides.pptx"

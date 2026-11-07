@@ -107,7 +107,7 @@ table(['Output','Original RTL / VCS observation','Corrected variant / VCS observ
  ['BestDist','FF','FF00'],
  ['motionX / motionY','X / X (unknown)','8 / 8 = signed (-8,-8)'],
  ['completed','1','1'],
- ['Comparator newBest','0; no valid winner','1 on first equal-SAD candidate']
+ ['Comparator newBest','0; no candidate satisfies newDist < BestDist','1 on first equal-SAD candidate']
 ],[1.40*inch,2.90*inch,2.97*inch])
 story.append(P('The 16-bit fix widens the PE accumulators, comparator datapath and best-distance register. The independent V3B hold variant also avoids output changes after completion; its directed run retained the corrected result for 13 further clock cycles. The professor source and teammate implementation were not overwritten.'))
 

@@ -24,7 +24,7 @@ All project requirements for **ENGR 852: Advanced Digital Design — Motion Esti
 ### Why `BestDist` is `0000` on the Team Testbench (and `FF00` Only on the All-`00` vs. All-`FF` Stress Test)
 1. **On the team testbench (`top_tb.v`) and direct testbench (`top_tb_direct.v`)**:
    - The reference block `Rmem` is copied directly from `Smem` at `(Expected_motionX, Expected_motionY)`.
-   - At that winning displacement (`(-2, -3)` = `E, D` in `top_tb.v`, or `(+7, -8)` = `7, 8` in `top_tb_direct.v`), every pixel difference is `|R[k] - S[k]| = 0`.
+   - At that minimum-distortion candidate displacement (`(-2, -3)` = `E, D` in `top_tb.v`, or `(+7, -8)` = `7, 8` in `top_tb_direct.v`), every pixel difference is `|R[k] - S[k]| = 0`.
    - Summing 256 zeros in a 16-bit accumulator still yields **`16'h0000` (`BestDist = 0000`)**.
 2. **Why `FF00` (`65,280`) appears in the separate saturation stress test (`motion_v3_all_saturated_tb.sv`)**:
    - When `Rmem` is all `8'h00` and `Smem` is all `8'hFF`, every pixel has `|0x00 - 0xFF| = 255`, so every candidate block has a true 16x16 SAD of `256 x 255 = 65,280 = 16'hFF00`.

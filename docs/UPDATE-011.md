@@ -33,7 +33,7 @@ The professor-supplied ZIP was verified byte-for-byte after SCP (SHA-256 `b799f2
 **Testbench SHA-256:** `76c9781bc69845fb4fb1b3f5d6ad73993238532152444d3e567eeaf947cf5608`.  
 **Result:** `PRECISION_COMPILE_EXIT=0`, `PRECISION_SIM_EXIT=0`, **`MOTION_INDEPENDENT_TEST_PASS checks=12 failures=0`**.
 
-The test covered PE and PEend reset-by-`newDist`, saturation, saturation persistence, S1/S2 selection, unsigned absolute difference when R < S1, comparator first winner, equal-SAD tie retention, strictly smaller winner, BestDist reinitialization and an all-255 candidate after reinitialization.
+The test covered PE and PEend reset-by-`newDist`, saturation, saturation persistence, S1/S2 selection, unsigned absolute difference when R < S1, comparator initial minimum-distortion selection, equal-SAD tie retention, strictly smaller distortion update, BestDist reinitialization and an all-255 candidate after reinitialization.
 
 **Measured behavior:** A full-precision sum of `1+255=256` appears as saturated `8'hFF` in both PE and PEend. With `BestDist` initialized to `8'hFF`, a candidate whose saturated SAD equals 255 never causes `newDist < BestDist`; motion coordinates can remain unchanged. This is a **measured submodule-level architectural limitation**, not yet a demonstrated incorrect motion vector in the full design. The initial local testbench iteration had an incorrect expectation for the uninitialized PE; a controlled `newDist` transition was added before retesting. The corrected run passed in both local Icarus and university Synopsys VCS.
 
