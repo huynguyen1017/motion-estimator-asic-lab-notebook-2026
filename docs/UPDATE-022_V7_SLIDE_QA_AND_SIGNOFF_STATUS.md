@@ -31,3 +31,12 @@ The connected physical database exists and its fresh native GDS re-export previo
 ## Integrity notes
 
 Professor source code and legacy team presentation elements were not overwritten. New source files use neutral filenames and describe only tested behavior. No screen-wide desktop screenshot, personal shell information or credentials are added. The full design cannot responsibly be marked complete solely by changing document status labels.
+
+
+## V7 selective M2 repair trial — November 6 evening
+
+The live `signoff_v5` checkpoint was copied into a distinct `v7_m2_selective_v2` block. The first invocation failed the preflight because IC Validator was missing from `PATH`. After enabling the installed IC Validator W-2024.09-3 binary, ICV ran the native SAED14 rule deck and returned **18 baseline violations**. The selective `signoff_fix_drc` operation targeting `M2.S.2` and `M2.S.3` terminated with `IND-003` / `IND-030` rather than producing a clean routed repair. The trial was **not** promoted. The earlier `signoff_v5` checkpoint and its GDS files were retained.
+
+Server evidence: `v7_trial/m2_selective_v2.log`, `v7_trial/m2_icv_v2/`, and `scripts/v7_m2_selective_drc_v2.tcl` under the established Fusion Compiler flow. The shell wrapper returned process exit 0 even though the application emitted an explicit Tcl error. Validation must therefore inspect application messages, final ICV counts and timing paths, not just the shell status.
+
+**Conclusion:** Zero-violation ICV, SLOW setup closure, all-corner hold closure and final post-ECO extraction plus PrimeTime remain unverified. The V7 slides report historical V5 measurements and do not represent this failed trial as final sign-off.
