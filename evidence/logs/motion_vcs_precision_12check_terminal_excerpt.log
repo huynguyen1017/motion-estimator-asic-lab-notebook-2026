@@ -17,7 +17,7 @@ PASS PE saturation persists after +0   PE=ff PEend=ff
 PASS PE newDist clears saturation      PE=00 PEend=00
 PASS PE absolute diff when R < S1      PE=03 PEend=03
 PASS PE S2 mux path: no added SAD      PE=03 PEend=03
-PASS COMP first winner: (-2,-3)     got=05 (e,d)
+PASS COMP first minimum-distortion candidate: (-2,-3)     got=05 (e,d)
 PASS COMP equal-SAD tie keeps first got=05 (e,d)
 PASS COMP strictly smaller wins     got=03 (3,4)
 PASS COMP reset BestDist=ff

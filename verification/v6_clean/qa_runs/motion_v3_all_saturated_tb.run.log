@@ -1,0 +1,4 @@
+V3_ALL_SATURATED BestDist=ff motionX=x motionY=x completed=1 newbest=0
+OBSERVED_NO_VALID_MOTION_VECTOR: all saturated SADs tie reset sentinel FF
+PASS: Reproduced no-selection case in unmodified textbook RTL
+motion_v3_all_saturated_tb.sv:45: $finish called at 79179725 (100fs)

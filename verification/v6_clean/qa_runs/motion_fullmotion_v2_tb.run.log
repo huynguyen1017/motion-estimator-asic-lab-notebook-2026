@@ -1,0 +1,33 @@
+VCD info: dumpfile motion_verification_520mhz.vcd opened for output.
+=== TEST 1: Direct Fixture (ref.txt & search.txt) at 520 MHz ===
+  [T1] count= 256 t=493.2695 ns | PEready=0001 newDist_comp=ff BestDist=ff Vec=(8,8) out=(x,x) newBest=0
+  [T1] count= 257 t=495.1925 ns | PEready=0002 newDist_comp=ff BestDist=ff Vec=(9,8) out=(x,x) newBest=0
+  [T1] count= 258 t=497.1155 ns | PEready=0004 newDist_comp=ff BestDist=ff Vec=(a,8) out=(x,x) newBest=0
+  [T1] count= 259 t=499.0385 ns | PEready=0008 newDist_comp=ff BestDist=ff Vec=(b,8) out=(x,x) newBest=0
+  [T1] count= 260 t=500.9615 ns | PEready=0010 newDist_comp=ff BestDist=ff Vec=(c,8) out=(x,x) newBest=0
+  [T1] count= 261 t=502.8845 ns | PEready=0020 newDist_comp=ff BestDist=ff Vec=(d,8) out=(x,x) newBest=0
+  [T1] count= 262 t=504.8075 ns | PEready=0040 newDist_comp=ff BestDist=ff Vec=(e,8) out=(x,x) newBest=0
+  [T1] count= 263 t=506.7305 ns | PEready=0080 newDist_comp=ff BestDist=ff Vec=(f,8) out=(x,x) newBest=0
+  [T1] count= 264 t=508.6535 ns | PEready=0100 newDist_comp=ff BestDist=ff Vec=(0,8) out=(x,x) newBest=0
+  [T1] count= 265 t=510.5765 ns | PEready=0200 newDist_comp=ff BestDist=ff Vec=(1,8) out=(x,x) newBest=0
+  [T1] count= 266 t=512.4995 ns | PEready=0400 newDist_comp=ff BestDist=ff Vec=(2,8) out=(x,x) newBest=0
+  [T1] count= 267 t=514.4225 ns | PEready=0800 newDist_comp=ff BestDist=ff Vec=(3,8) out=(x,x) newBest=0
+  [T1] count= 268 t=516.3455 ns | PEready=1000 newDist_comp=ff BestDist=ff Vec=(4,8) out=(x,x) newBest=0
+  [T1] count= 269 t=518.2685 ns | PEready=2000 newDist_comp=ff BestDist=ff Vec=(5,8) out=(x,x) newBest=0
+  [T1] count= 270 t=520.1915 ns | PEready=4000 newDist_comp=ff BestDist=ff Vec=(6,8) out=(x,x) newBest=0
+  [T1] count= 271 t=522.1145 ns | PEready=8000 newDist_comp=00 BestDist=ff Vec=(7,8) out=(x,x) newBest=1
+  [T1 newBest] count= 271 t=522.1145 ns -> newDist=00 at VectorX=7 VectorY=8
+  [T1] count= 272 t=524.0375 ns | PEready=0000 newDist_comp=ff BestDist=00 Vec=(8,8) out=(7,8) newBest=0
+  [T1 RESULT] BestDist=00 (0), motionX=7 (7), motionY=8 (-8), elapsed_complete=7905.4530 ns
+MOTION_BASELINE_T1_PASS
+
+=== TEST 2: Perturbed Imperfect Match (SAD=3) at (-2, -3) ===
+  [T2 newBest] count=1542 t=2965.2660 ns -> newDist=03 (3) at VectorX=e VectorY=d
+  [T2 RESULT] BestDist=03 (3), motionX=e (-2), motionY=d (-3), Expected=(-2, -3), elapsed=7905.4530 ns
+MOTION_BASELINE_T2_PASS
+
+=== TEST 3: Upper Boundary Candidate (+7, +7) at count=4111 ===
+  [T3 newBest] count=4111 t=7905.4530 ns -> newDist=00 (0) at VectorX=7 VectorY=7 completed=1
+  [T3 RESULT] BestDist=00 (0), motionX=7 (7), motionY=7 (7), Expected=(7, 7)
+MOTION_BASELINE_T3_PASS
+motion_fullmotion_v2_tb.sv:171: $finish called at 237327245 (100fs)

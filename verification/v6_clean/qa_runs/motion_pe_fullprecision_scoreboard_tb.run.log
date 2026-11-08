@@ -1,0 +1,20 @@
+MOTION_SAD_SCOREBOARD_START seed=271828 cycles=16x256
+BLOCK_SUMMARY seed=271828 block=0 full_SAD=0 saturated=0
+BLOCK_SUMMARY seed=271828 block=1 full_SAD=65280 saturated=255
+BLOCK_SUMMARY seed=271828 block=2 full_SAD=256 saturated=255
+BLOCK_SUMMARY seed=271828 block=3 full_SAD=20186 saturated=255
+BLOCK_SUMMARY seed=271828 block=4 full_SAD=22122 saturated=255
+BLOCK_SUMMARY seed=271828 block=5 full_SAD=22244 saturated=255
+BLOCK_SUMMARY seed=271828 block=6 full_SAD=22350 saturated=255
+BLOCK_SUMMARY seed=271828 block=7 full_SAD=22095 saturated=255
+BLOCK_SUMMARY seed=271828 block=8 full_SAD=20531 saturated=255
+BLOCK_SUMMARY seed=271828 block=9 full_SAD=21661 saturated=255
+BLOCK_SUMMARY seed=271828 block=10 full_SAD=24193 saturated=255
+BLOCK_SUMMARY seed=271828 block=11 full_SAD=21212 saturated=255
+BLOCK_SUMMARY seed=271828 block=12 full_SAD=19933 saturated=255
+BLOCK_SUMMARY seed=271828 block=13 full_SAD=21329 saturated=255
+BLOCK_SUMMARY seed=271828 block=14 full_SAD=21510 saturated=255
+BLOCK_SUMMARY seed=271828 block=15 full_SAD=23389 saturated=255
+MOTION_SCOREBOARD_RESULT seed=271828 blocks=16 samples=4096 pe_comparisons=8192 failures=0 saturated_samples=3557
+MOTION_SCOREBOARD_PASS
+motion_pe_fullprecision_scoreboard_tb.sv:65: $finish called at 78775895 (100fs)

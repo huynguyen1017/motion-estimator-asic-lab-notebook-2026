@@ -1,0 +1,30 @@
+Info: [VCS_SAVE_RESTORE_INFO] ASLR (Address Space Layout Randomization) is detected on the machine. To enable $save functionality, ASLR will be switched off and simv re-executed.
+Please use '-no_save' simv switch to avoid re-execution or '-suppress=ASLR_DETECTED_INFO' to suppress this message.
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09-1_Full64; Runtime version W-2024.09-1_Full64;  Nov  4 20:00 2026
+motion_SAD_SCOREBOARD_START seed=12345 cycles=16x256
+BLOCK_SUMMARY seed=12345 block=0 full_SAD=0 saturated=0
+BLOCK_SUMMARY seed=12345 block=1 full_SAD=65280 saturated=255
+BLOCK_SUMMARY seed=12345 block=2 full_SAD=256 saturated=255
+BLOCK_SUMMARY seed=12345 block=3 full_SAD=21629 saturated=255
+BLOCK_SUMMARY seed=12345 block=4 full_SAD=23594 saturated=255
+BLOCK_SUMMARY seed=12345 block=5 full_SAD=22678 saturated=255
+BLOCK_SUMMARY seed=12345 block=6 full_SAD=21457 saturated=255
+BLOCK_SUMMARY seed=12345 block=7 full_SAD=21122 saturated=255
+BLOCK_SUMMARY seed=12345 block=8 full_SAD=21048 saturated=255
+BLOCK_SUMMARY seed=12345 block=9 full_SAD=21841 saturated=255
+BLOCK_SUMMARY seed=12345 block=10 full_SAD=21752 saturated=255
+BLOCK_SUMMARY seed=12345 block=11 full_SAD=22514 saturated=255
+BLOCK_SUMMARY seed=12345 block=12 full_SAD=23416 saturated=255
+BLOCK_SUMMARY seed=12345 block=13 full_SAD=21814 saturated=255
+BLOCK_SUMMARY seed=12345 block=14 full_SAD=21836 saturated=255
+BLOCK_SUMMARY seed=12345 block=15 full_SAD=20656 saturated=255
+motion_SCOREBOARD_RESULT seed=12345 blocks=16 samples=4096 pe_comparisons=8192 failures=0 saturated_samples=3549
+motion_SCOREBOARD_PASS
+$finish called from file "motion_pe_fullprecision_scoreboard_tb.sv", line 65.
+$finish at simulation time             78775895
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 7877589500 fs
+CPU Time:      0.220 seconds;       Data structure size:   0.0Mb
+Wed Nov  4 20:00:24 2026

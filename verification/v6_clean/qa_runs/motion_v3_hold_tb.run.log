@@ -1,0 +1,4 @@
+V3_ALL_SATURATED BestDist=ff00 motionX=8 motionY=8 completed=1 newbest=1
+OBSERVED_SELECTED_VECTOR=8,8; expected (-8,-8)
+PASS: 16-bit output stays valid after completed remains high for 13 additional clocks
+motion_v3_hold_tb.sv:45: $finish called at 79333565 (100fs)

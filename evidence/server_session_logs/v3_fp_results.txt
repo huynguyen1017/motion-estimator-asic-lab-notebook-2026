@@ -1,0 +1,18 @@
+Info: [VCS_SAVE_RESTORE_INFO] ASLR (Address Space Layout Randomization) is detected on the machine. To enable $save functionality, ASLR will be switched off and simv re-executed.
+Please use '-no_save' simv switch to avoid re-execution or '-suppress=ASLR_DETECTED_INFO' to suppress this message.
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09-1_Full64; Runtime version W-2024.09-1_Full64;  Nov  4 21:48 2026
+*Verdi* Loading libsscore_vcs202409.so
+FSDB Dumper for VCS, Release Verdi_W-2024.09-1, Linux x86_64/64bit, 10/12/2024
+(C) 1996 - 2024 by Synopsys, Inc.
+*Verdi* : Create FSDB file 'motion_v3_full_precision.fsdb'
+*Verdi* : Begin traversing the scope (motion_v3_full_precision_tb), layer (0).
+*Verdi* : End of traversing.
+V3_ALL_SATURATED BestDist=00ff motionX=7 motionY=7 completed=1 newbest=2
+Fatal: "motion_v3_full_precision_tb.sv", 34: motion_v3_full_precision_tb: at time 7917972500 fs
+Unexpected selection
+$finish called from file "motion_v3_full_precision_tb.sv", line 34.
+$finish at simulation time             79179725
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 7917972500 fs

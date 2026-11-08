@@ -1,0 +1,3 @@
+top.v:259: warning: @* is sensitive to all 256 words in array 'Rmem'.
+top.v:280: warning: @* is sensitive to all 1024 words in array 'Smem'.
+top.v:281: warning: @* is sensitive to all 1024 words in array 'Smem'.

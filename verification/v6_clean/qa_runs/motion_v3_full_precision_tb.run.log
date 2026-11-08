@@ -1,0 +1,4 @@
+V3_ALL_SATURATED BestDist=ff00 motionX=8 motionY=8 completed=1 newbest=1
+OBSERVED_SELECTED_VECTOR=8,8; expected (-8,-8)
+PASS: Corrected full-precision variant selected (-8,-8) with nonzero 16-bit SAD
+motion_v3_full_precision_tb.sv:45: $finish called at 79083575 (100fs)

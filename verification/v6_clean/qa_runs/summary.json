@@ -1,0 +1,44 @@
+[
+  {
+    "test": "motion_fullmotion_v2_tb",
+    "rtl": "../../rtl/top.v",
+    "status": "PASS",
+    "detail": " ns -> newDist=03 (3) at VectorX=e VectorY=d\n  [T2 RESULT] BestDist=03 (3), motionX=e (-2), motionY=d (-3), Expected=(-2, -3), elapsed=7905.4530 ns\nMOTION_BASELINE_T2_PASS\n\n=== TEST 3: Upper Boundary Candidate (+7, +7) at count=4111 ===\n  [T3 newBest] count=4111 t=7905.4530 ns -> newDist=00 (0) at VectorX=7 VectorY=7 completed=1\n  [T3 RESULT] BestDist=00 (0), motionX=7 (7), motionY=7 (7), Expected=(7, 7)\nMOTION_BASELINE_T3_PASS\nmotion_fullmotion_v2_tb.sv:171: $finish called at 237327245 (100fs)\n"
+  },
+  {
+    "test": "motion_pe_comparator_selfcheck_tb",
+    "rtl": "../../rtl/top.v",
+    "status": "PASS",
+    "detail": "no added SAD      PE=03 PEend=03\nPASS COMP initial minimum distortion D(i,j): (-2,-3) got=05 (e,d)\nPASS COMP equal-SAD tie keeps first got=05 (e,d)\nPASS COMP strictly smaller D(i,j) updates BestDist got=03 (3,4)\nPASS COMP reset BestDist=ff\nPASS COMP SAD=255 does not satisfy newDist < BestDist (8hFF) got=ff (3,4)\nOBSERVATION all-saturated candidates cannot update motionX/Y\nMOTION_INDEPENDENT_TEST_PASS checks=12 failures=0\nmotion_pe_comparator_selfcheck_tb.sv:125: $finish called at 221345 (100fs)\n"
+  },
+  {
+    "test": "motion_pe_fullprecision_scoreboard_tb",
+    "rtl": "../../rtl/top.v",
+    "status": "PASS",
+    "detail": "ll_SAD=21212 saturated=255\nBLOCK_SUMMARY seed=271828 block=12 full_SAD=19933 saturated=255\nBLOCK_SUMMARY seed=271828 block=13 full_SAD=21329 saturated=255\nBLOCK_SUMMARY seed=271828 block=14 full_SAD=21510 saturated=255\nBLOCK_SUMMARY seed=271828 block=15 full_SAD=23389 saturated=255\nMOTION_SCOREBOARD_RESULT seed=271828 blocks=16 samples=4096 pe_comparisons=8192 failures=0 saturated_samples=3557\nMOTION_SCOREBOARD_PASS\nmotion_pe_fullprecision_scoreboard_tb.sv:65: $finish called at 78775895 (100fs)\n"
+  },
+  {
+    "test": "motion_v3_all_saturated_tb",
+    "rtl": "../../rtl/top.v",
+    "status": "PASS",
+    "detail": "V3_ALL_SATURATED BestDist=ff motionX=x motionY=x completed=1 newbest=0\nOBSERVED_NO_VALID_MOTION_VECTOR: all saturated SADs tie reset sentinel FF\nPASS: Reproduced no-selection case in unmodified textbook RTL\nmotion_v3_all_saturated_tb.sv:45: $finish called at 79179725 (100fs)\n"
+  },
+  {
+    "test": "motion_v3_full_precision_tb",
+    "rtl": "../../rtl/experimental/top_full_precision_finish_hold.v",
+    "status": "PASS",
+    "detail": "V3_ALL_SATURATED BestDist=ff00 motionX=8 motionY=8 completed=1 newbest=1\nOBSERVED_SELECTED_VECTOR=8,8; expected (-8,-8)\nPASS: Corrected full-precision variant selected (-8,-8) with nonzero 16-bit SAD\nmotion_v3_full_precision_tb.sv:45: $finish called at 79083575 (100fs)\n"
+  },
+  {
+    "test": "motion_v3_hold_tb",
+    "rtl": "../../rtl/experimental/top_full_precision_finish_hold.v",
+    "status": "PASS",
+    "detail": "V3_ALL_SATURATED BestDist=ff00 motionX=8 motionY=8 completed=1 newbest=1\nOBSERVED_SELECTED_VECTOR=8,8; expected (-8,-8)\nPASS: 16-bit output stays valid after completed remains high for 13 additional clocks\nmotion_v3_hold_tb.sv:45: $finish called at 79333565 (100fs)\n"
+  },
+  {
+    "test": "motion_v5_16bit_top_regression_tb",
+    "rtl": "top.v",
+    "status": "PASS",
+    "detail": "T3 newBest] count=4097 t=7878.5310 ns -> newDist=0580 (1408) at VectorX=9 VectorY=7 completed=0\n  [T3 newBest] count=4104 t=7891.9920 ns -> newDist=03c0 (960) at VectorX=0 VectorY=7 completed=0\n  [T3 newBest] count=4111 t=7905.4530 ns -> newDist=0000 (0) at VectorX=7 VectorY=7 completed=1\n  [T3 RESULT] BestDist=0000 (0), motionX=7 (7), motionY=7 (7), Expected=(7, 7)\nV5_TOP_REGRESSION_T3_PASS\nV5_TOP_REGRESSION_PASS 3/3\nmotion_v5_16bit_top_regression_tb.sv:174: $finish called at 237327245 (100fs)\n"
+  }
+]

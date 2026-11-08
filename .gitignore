@@ -2,3 +2,4 @@
 *.vvp
 *.key
 .env
+.venv/
