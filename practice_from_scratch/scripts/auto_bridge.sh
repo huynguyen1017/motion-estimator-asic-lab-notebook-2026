@@ -443,17 +443,53 @@ PYEOF
       done
     } > "$dash"
 
-    git add "$log_file" "$shot_file" "$dash" "$AUTO_BRIDGE_STATE_JSON" "$AUTO_BRIDGE_WAVE_DIR" 2>/dev/null || true
-    git commit -m "Auto-capture ${step_name} (${step_status}, exit=${cmd_exit}) from ${host_str}" >/dev/null 2>&1 || true
-    git pull --rebase origin "$AUTO_BRIDGE_BRANCH" >/dev/null 2>&1 || true
-    if git push origin "$AUTO_BRIDGE_BRANCH" >/dev/null 2>&1; then
-      echo ">>> [AUTO-BRIDGE] Synced log + screenshot + live feedback to Web Console (:8788) & GitHub '${AUTO_BRIDGE_BRANCH}': ${step_name} (${step_status})"
+    if [ "${ENGR852_SKIP_GIT_PUSH:-0}" != "1" ]; then
+      git add "$log_file" "$shot_file" "$dash" "$AUTO_BRIDGE_STATE_JSON" "$AUTO_BRIDGE_WAVE_DIR" 2>/dev/null || true
+      git commit -m "Auto-capture ${step_name} (${step_status}, exit=${cmd_exit}) from ${host_str}" >/dev/null 2>&1 || true
+      if [ "${ENGR852_BG_GIT_PUSH:-0}" = "1" ]; then
+        (git pull --rebase origin "$AUTO_BRIDGE_BRANCH" >/dev/null 2>&1 || true; git push origin "$AUTO_BRIDGE_BRANCH" >/dev/null 2>&1 || true) &
+        echo ">>> [AUTO-BRIDGE] Synced log + screenshot + live feedback to Web IDE (:8788) & background-pushing to GitHub '${AUTO_BRIDGE_BRANCH}': ${step_name} (${step_status})"
+      else
+        git pull --rebase origin "$AUTO_BRIDGE_BRANCH" >/dev/null 2>&1 || true
+        if git push origin "$AUTO_BRIDGE_BRANCH" >/dev/null 2>&1; then
+          echo ">>> [AUTO-BRIDGE] Synced log + screenshot + live feedback to Web Console (:8788) & GitHub '${AUTO_BRIDGE_BRANCH}': ${step_name} (${step_status})"
+        else
+          echo ">>> [AUTO-BRIDGE] Saved locally & updated Web Console (:8788): ${log_file} & ${shot_file}"
+        fi
+      fi
     else
-      echo ">>> [AUTO-BRIDGE] Saved locally & updated Web Console (:8788): ${log_file} & ${shot_file}"
+      echo ">>> [AUTO-BRIDGE] Local Sandbox Mode: Saved log + screenshot + live feedback to Web Console (:8788): ${step_name} (${step_status})"
     fi
   )
 
   return $cmd_exit
 }
+
+unalias step0_fresh_start 2>/dev/null || true
+function step0_fresh_start {
+  local archive_dir="$AUTO_BRIDGE_PRACTICE_DIR/archived_old_10step_trials"
+  mkdir -p "$archive_dir"
+  # Archive any old step01..step10 failed trial logs/screenshots so the 100-page journey starts 100% clean
+  for oldf in "$AUTO_BRIDGE_LOG_DIR"/step*.log "$AUTO_BRIDGE_SHOT_DIR"/step*.png; do
+    if [ -f "$oldf" ]; then
+      mv "$oldf" "$archive_dir/" 2>/dev/null || true
+    fi
+  done
+  local tty_str="$(tty 2>/dev/null || echo 'tty_active')"
+  local shell_str="$(basename "${SHELL:-zsh}")"
+  local git_user="$(git config user.name 2>/dev/null || echo 'local_user')"
+  _post_live_telemetry "TERMINAL_CONNECTED" "step0_terminal_handshake" "source auto_bridge.sh && step0_fresh_start" "CONNECTED" 0 "Terminal auto-connected (${USER}@$(hostname -s), ${shell_str}, ${tty_str}, git=${git_user}) — Ready for Page 1!"
+  echo "================================================================================"
+  echo "[🟢 INTERACTIVE ASIC WEBSITE CONNECTED — READY FOR YOUR 100-PAGE JOURNEY]"
+  echo "    Active Terminal : $(_detect_terminal_env) (${USER}@$(hostname -s), ${shell_str}, ${tty_str})"
+  echo "    Git Identity    : ${git_user} (Branch: ${AUTO_BRIDGE_BRANCH})"
+  echo "    Old Trial Logs  : Archived cleanly into practice_from_scratch/archived_old_10step_trials/"
+  echo "    Live Web Console: http://127.0.0.1:8788 & http://192.168.1.70:8788"
+  echo "    Next Action     : Click 'Copy Page 1 One-Liner' on the website and paste here!"
+  echo "================================================================================"
+}
+
+# Automatically send a non-blocking handshake whenever auto_bridge.sh is sourced!
+_post_live_telemetry "TERMINAL_CONNECTED" "step0_terminal_handshake" "source auto_bridge.sh" "CONNECTED" 0 "Terminal connected (${USER}@$(hostname -s)) — Ready!" 2>/dev/null || true
 
 echo "AUTO_BRIDGE_READY: branch=${AUTO_BRIDGE_BRANCH} | live_web=http://127.0.0.1:8788 | order_guard=ACTIVE(Page1->Page100)"

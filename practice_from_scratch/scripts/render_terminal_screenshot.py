@@ -6,8 +6,9 @@ automatically produces a visual screenshot of the COMPLETE terminal output on th
 
 Supports BOTH CLI flag syntax:
   python3 render_terminal_screenshot.py --log <log> --out <png> [--title <title>] [--host <host>] [--exit-code <code>]
-AND legacy positional syntax:
+AND any legacy positional syntax (auto-detects .log path, .png path, integer exit_code, and step title in ANY order!):
   python3 render_terminal_screenshot.py <step_id> <exit_code> <cmd_str> <log_file> <out_png>
+  python3 render_terminal_screenshot.py <log_file> <out_png> <title> <exit_code>
 """
 
 import argparse
@@ -33,7 +34,7 @@ def load_mono_font(size: int):
         "/Library/Fonts/Courier New.ttf",
         "/usr/share/fonts/dejavu/DejaVuSansMono.ttf",
         "/usr/share/fonts/liberation-mono/LiberationMono-Regular.ttf",
-        "/usr/share/fonts/ liberation/LiberationMono-Regular.ttf",
+        "/usr/share/fonts/liberation/LiberationMono-Regular.ttf",
         "/usr/share/fonts/gnu-free/FreeMono.ttf",
     ]
     for path in candidates:
@@ -58,7 +59,7 @@ def wrap_line(line: str, max_chars: int = 128):
 
 
 def render_terminal_png(log_path: str, out_path: str, title: str, host: str, exit_code: int):
-    if os.path.exists(log_path):
+    if log_path and os.path.exists(log_path):
         with open(log_path, "r", encoding="utf-8", errors="replace") as f:
             raw = strip_ansi(f.read())
     else:
@@ -69,7 +70,6 @@ def render_terminal_png(log_path: str, out_path: str, title: str, host: str, exi
     for rl in raw_lines:
         wrapped.extend(wrap_line(rl, max_chars=128))
 
-    # Never truncate typical step output; allow up to 260 full lines dynamically!
     max_lines = 260
     if len(wrapped) > max_lines:
         head_part = wrapped[:110]
@@ -103,24 +103,22 @@ def render_terminal_png(log_path: str, out_path: str, title: str, host: str, exi
     header_str = f"Terminal Output Auto-Capture — {title}  [{host}]"
     draw.text((92, 14), header_str[:105], fill=(226, 232, 240), font=font_title)
 
-    # Render each line of terminal output
     y = header_h + 12
     for line in wrapped:
         low = line.lower()
         if line.startswith("=== ") or line.startswith("# ===="):
-            color = (147, 197, 253)  # Soft blue banner
+            color = (147, 197, 253)
         elif line.startswith("$ ") or "command       :" in low:
-            color = (253, 224, 71)   # Yellow command highlight
+            color = (253, 224, 71)
         elif any(k in low for k in ["error", "fail", "fatal", "trap", "violation", "syntax error", "command not found"]):
-            color = (252, 165, 165)  # Red alert
+            color = (252, 165, 165)
         elif any(k in low for k in ["pass", "success", "clean", "0000", "0100", "ff00", "exit_code     : 0", "ready"]):
-            color = (134, 239, 172)  # Green pass
+            color = (134, 239, 172)
         else:
-            color = (241, 245, 249)  # Crisp white/slate terminal text
+            color = (241, 245, 249)
         draw.text((pad_x, y), line, fill=color, font=font_body)
         y += line_h
 
-    # Bottom status bar
     fy = height - footer_h
     draw.rectangle([0, fy, width, height], fill=(2, 6, 23))
     draw.line([0, fy, width, fy], fill=(51, 65, 85), width=1)
@@ -134,19 +132,32 @@ def render_terminal_png(log_path: str, out_path: str, title: str, host: str, exi
 
 
 def main():
-    # Support both flag-based (--log / --out) and legacy positional invocations
-    if len(sys.argv) == 6 and not sys.argv[1].startswith("-"):
-        step_id = sys.argv[1]
-        try:
-            exit_code = int(sys.argv[2])
-        except ValueError:
-            exit_code = 0
-        cmd_str = sys.argv[3]
-        log_path = sys.argv[4]
-        out_path = sys.argv[5]
+    # If invoked with positional arguments (no --log flag), auto-detect each argument type safely!
+    if len(sys.argv) >= 3 and not any(a.startswith("--") for a in sys.argv[1:]):
+        args_list = sys.argv[1:]
+        log_path = None
+        out_path = None
+        exit_code = 0
+        other_strs = []
+        for a in args_list:
+            if a.endswith(".log") or a.endswith(".txt"):
+                log_path = a
+            elif a.endswith(".png") or a.endswith(".jpg"):
+                out_path = a
+            elif re.fullmatch(r"-?\d+", a):
+                try:
+                    exit_code = int(a)
+                except ValueError:
+                    exit_code = 0
+            else:
+                other_strs.append(a)
+        if not log_path and len(args_list) >= 1:
+            log_path = args_list[0]
+        if not out_path and len(args_list) >= 2:
+            out_path = args_list[-1]
+        title = " — ".join(other_strs)[:64] if other_strs else os.path.basename(str(log_path))
         host = os.uname().nodename
-        title = f"{step_id}: {cmd_str[:48]}"
-        render_terminal_png(log_path, out_path, title, host, exit_code)
+        render_terminal_png(str(log_path), str(out_path), title, host, exit_code)
         return
 
     parser = argparse.ArgumentParser(description="Render terminal log to PNG")

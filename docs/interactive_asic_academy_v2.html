@@ -1,0 +1,2041 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ENGR 852 | Interactive ASIC Operations Console, Sub-Command Lab, Study Guide & Midterm Prep</title>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --panel: #111827;
+      --panel-alt: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --blue: #3b82f6;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --purple: #8b5cf6;
+      --mono: "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 280px;
+      background: #090d16;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 18px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.3px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #1e293b;
+    }
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #2563eb, #10b981);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .brand small {
+      display: block;
+      font-size: 10px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .workspace-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--muted);
+      margin: 16px 6px 8px;
+      letter-spacing: 0.8px;
+    }
+    nav button {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 1px solid transparent;
+      color: #cbd5e1;
+      padding: 9px 11px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    nav button:hover { background: #1e293b; color: #fff; }
+    nav button.active {
+      background: rgba(37, 99, 235, 0.18);
+      border-color: #2563eb;
+      color: #60a5fa;
+    }
+    .sidebar-bottom {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid #1e293b;
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+    .dot-online {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      margin-right: 6px;
+      box-shadow: 0 0 8px var(--emerald);
+    }
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .topbar {
+      min-height: 58px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(17, 24, 39, 0.94);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 22px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .top-badges { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--mono);
+      border: 1px solid var(--border);
+      background: #1e293b;
+      white-space: nowrap;
+    }
+    .pill.green { background: rgba(16,185,129,0.15); border-color: #059669; color: #34d399; }
+    .pill.blue  { background: rgba(59,130,246,0.15); border-color: #2563eb; color: #60a5fa; }
+    .pill.amber { background: rgba(245,158,11,0.15); border-color: #d97706; color: #fbbf24; }
+    .pill.red   { background: rgba(239,68,68,0.20); border-color: #dc2626; color: #fca5a5; }
+    .pill.purple { background: rgba(139,92,246,0.18); border-color: #7c3aed; color: #c4b5fd; }
+    .content { padding: 22px; max-width: 1520px; width: 100%; }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 15px 16px;
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .card .big { font-size: 22px; font-weight: 800; margin: 4px 0 8px; }
+    .card .meta { font-size: 12.5px; color: #cbd5e1; font-family: var(--mono); line-height: 1.55; }
+    .alert-banner {
+      background: rgba(239, 68, 68, 0.16);
+      border: 2px solid var(--red);
+      border-radius: 11px;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+      display: none;
+    }
+    .alert-banner.visible { display: block; }
+    .feedback-banner {
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      display: none;
+    }
+    .feedback-banner.pass {
+      display: block;
+      background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(59,130,246,0.15));
+      border: 2px solid var(--emerald);
+    }
+    .feedback-banner.fail {
+      display: block;
+      background: linear-gradient(135deg, rgba(239,68,68,0.20), rgba(245,158,11,0.16));
+      border: 2px solid var(--red);
+    }
+    .next-step-hero {
+      background: linear-gradient(135deg, rgba(16,185,129,0.14), rgba(37,99,235,0.14));
+      border: 2px solid var(--emerald);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+    .code-box {
+      background: #050811;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 11px 13px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: #a7f3d0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 8px 0;
+      line-height: 1.45;
+    }
+    .btn {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 7px 13px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn.emerald { background: #059669; }
+    .btn.amber { background: #d97706; }
+    .btn.red { background: #dc2626; }
+    .btn.purple { background: #7c3aed; }
+    .btn.secondary { background: #334155; }
+    .btn:hover { opacity: 0.92; }
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-bar input, .filter-bar select {
+      background: #0f172a;
+      color: #fff;
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .page-item {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 15px 17px;
+      margin-bottom: 14px;
+    }
+    .page-item.done { border-left: 5px solid var(--emerald); }
+    .page-item.fail { border: 2px solid var(--red); box-shadow: 0 0 18px rgba(239,68,68,0.22); }
+    .page-item.next { border: 2px solid var(--blue); box-shadow: 0 0 18px rgba(59,130,246,0.22); }
+    .page-item.locked { opacity: 0.88; border-left: 4px solid #475569; }
+    .page-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .page-title { font-weight: 700; font-size: 15px; color: #f8fafc; }
+    .subtab-bar {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0 10px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .subtab-btn {
+      background: #1e293b;
+      color: #cbd5e1;
+      border: 1px solid #334155;
+      border-radius: 7px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .subtab-btn.active {
+      background: rgba(59,130,246,0.22);
+      border-color: #3b82f6;
+      color: #93c5fd;
+    }
+    .pipeline-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 8px 0;
+    }
+    .pipe-stage {
+      flex: 1;
+      min-width: 170px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-top: 3px solid var(--blue);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 11.5px;
+    }
+    .pipe-stage:nth-child(2), .pipe-stage:nth-child(3) { border-top-color: var(--emerald); }
+    .pipe-stage:last-child { border-top-color: var(--amber); }
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .method-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 11px 12px;
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
+    .method-box h4 {
+      margin: 0 0 6px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .method-box.m1 { border-left: 4px solid var(--blue); }
+    .method-box.m1 h4 { color: #60a5fa; }
+    .method-box.m2 { border-left: 4px solid var(--emerald); }
+    .method-box.m2 h4 { color: #34d399; }
+    .method-box.m3 { border-left: 4px solid var(--purple); }
+    .method-box.m3 h4 { color: #c4b5fd; }
+    .subcmd-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-left: 4px solid var(--amber);
+      border-radius: 8px;
+      padding: 11px 13px;
+      margin-bottom: 9px;
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
+    .quiz-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 9px;
+      padding: 12px 14px;
+      margin-top: 10px;
+    }
+    .quiz-opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #111827;
+      border: 1px solid #334155;
+      color: #e2e8f0;
+      padding: 8px 11px;
+      border-radius: 7px;
+      margin-top: 6px;
+      font-size: 12.5px;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .quiz-opt:hover { background: #1e293b; border-color: #60a5fa; }
+    .quiz-opt.correct {
+      background: rgba(16,185,129,0.20);
+      border-color: #10b981;
+      color: #6ee7b7;
+      font-weight: 700;
+    }
+    .quiz-opt.wrong {
+      background: rgba(239,68,68,0.20);
+      border-color: #ef4444;
+      color: #fca5a5;
+    }
+    .quiz-explain {
+      margin-top: 8px;
+      padding: 9px 11px;
+      border-radius: 7px;
+      background: rgba(16,185,129,0.10);
+      border: 1px solid #059669;
+      color: #d1fae5;
+      font-size: 12px;
+      line-height: 1.5;
+      display: none;
+      white-space: pre-wrap;
+    }
+    .tbl-verify {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin: 8px 0;
+    }
+    .tbl-verify th, .tbl-verify td {
+      border: 1px solid #334155;
+      padding: 6px 8px;
+      text-align: left;
+    }
+    .tbl-verify th { background: #1e293b; color: #93c5fd; }
+    .tbl-verify tr:nth-child(even) { background: rgba(30,41,59,0.4); }
+    .wave-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(410px, 1fr));
+      gap: 16px;
+    }
+    .wave-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 14px;
+    }
+    .wave-card img {
+      width: 100%;
+      border-radius: 7px;
+      border: 1px solid #334155;
+      margin-top: 8px;
+      background: #000;
+      cursor: zoom-in;
+    }
+    .term-feed {
+      background: #050811;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: var(--mono);
+      font-size: 12px;
+      max-height: 440px;
+      overflow-y: auto;
+    }
+    .feed-row {
+      padding: 6px 0;
+      border-bottom: 1px dashed #1e293b;
+    }
+    .sim-input-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .sim-field label {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 3px;
+      font-family: var(--mono);
+    }
+    .sim-field input, .sim-field select {
+      width: 100%;
+      background: #050811;
+      color: #fff;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+    details summary {
+      cursor: pointer;
+      color: #93c5fd;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.86);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-backdrop img {
+      max-width: 96vw;
+      max-height: 92vh;
+      border-radius: 10px;
+      border: 2px solid #60a5fa;
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">M</div>
+      <div>
+        ENGR 852 Console
+        <small>100-PAGE V1→V9 · LAB & EXAM</small>
+      </div>
+    </div>
+    <div class="workspace-label">OPERATIONS & REPLICATION</div>
+    <nav>
+      <button class="active" onclick="switchTab('overview', this)">
+        <span>1. Overview & Order Guard</span>
+        <span id="nav-prog" class="pill blue">0/100</span>
+      </button>
+      <button onclick="switchTab('checklist', this)">
+        <span>2. 100-Page One-Liners</span>
+        <span class="pill green">V1→V9</span>
+      </button>
+      <button onclick="switchTab('terminals', this)">
+        <span>3. Live Terminal Mirror</span>
+        <span class="pill amber">SSH/X11</span>
+      </button>
+      <button onclick="switchTab('waveforms', this)">
+        <span>4. Verdi Waveforms & Layout</span>
+        <span class="pill blue">6 Figs</span>
+      </button>
+      <button onclick="switchTab('github', this)">
+        <span>5. GitHub Sub-Branch Sync</span>
+        <span class="pill green">Live</span>
+      </button>
+      <div class="workspace-label">INTERACTIVE STUDY & EXAM PREP</div>
+      <button onclick="switchTab('study', this)">
+        <span>6. Study Guide & Simulators</span>
+        <span class="pill purple">F0–F17</span>
+      </button>
+      <button onclick="switchTab('midterm', this)">
+        <span>7. Midterm (Q1–Q10) & Exam</span>
+        <span id="nav-quiz-score" class="pill emerald">Quiz</span>
+      </button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div><span class="dot-online"></span><strong>Closed-Loop Verifier Active</strong></div>
+      <div style="margin-top:4px;">Detects terminal outcomes, auto-debugs mismatches, and unlocks Theory + Quiz per page.</div>
+      <div style="margin-top:6px;font-family:var(--mono);font-size:10.5px;" id="sidebar-ips"></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <strong>ENGR 852 520 MHz SAED14nm Motion Estimator ASIC</strong>
+        <span style="color:var(--muted);margin-left:8px;font-size:13px;">Closed-Loop Terminal Verifier, Sub-Command Lab, 3-Method Study Guide & Midterm Console</span>
+      </div>
+      <div class="top-badges">
+        <span id="badge-guard" class="pill green">ORDER GUARD: IN-SEQUENCE</span>
+        <span id="badge-verif" class="pill blue">VERIFIER: READY</span>
+        <span id="badge-quiz" class="pill purple">MASTERY QUIZ: 0 ANSWERED</span>
+        <button class="btn secondary" onclick="refreshAll()">↻ Sync Now</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- Out-of-order guardrail alert -->
+      <div id="guardrail-banner" class="alert-banner">
+        <h3 style="margin:0 0 6px;color:#fca5a5;">[!] SEQUENTIAL ORDER GUARDRAIL BLOCKED AN OUT-OF-ORDER COMMAND!</h3>
+        <div id="guardrail-msg" style="font-family:var(--mono);font-size:12.5px;"></div>
+      </div>
+
+      <!-- CLOSED-LOOP TERMINAL EXECUTION FEEDBACK BANNER (PASS -> THEORY & QUIZ | FAIL -> AUTO-DEBUGGER) -->
+      <div id="live-feedback-banner" class="feedback-banner"></div>
+
+      <!-- STEP 0: SMART ONBOARDING, USER PROFILE, MULTI-TERMINAL DOCTOR & AUTO-CONNECT LAUNCHPAD -->
+      <div class="card" id="onboarding-launchpad" style="margin-bottom:18px;border:2px solid #3b82f6;background:linear-gradient(135deg,rgba(30,58,138,0.28),rgba(15,23,42,0.96));">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;border-bottom:1px solid #334155;padding-bottom:10px;margin-bottom:12px;">
+          <div>
+            <span class="pill blue" id="user-visitor-badge">🧭 STEP 0 · SMART ONBOARDING & TERMINAL DOCTOR</span>
+            <span class="pill green" id="term-conn-pill" style="margin-left:6px;">🟢 TERMINAL BRIDGE: READY</span>
+            <span class="pill purple" id="active-level-pill" style="margin-left:6px;">🌱 LEVEL: BEGINNER (GUIDE ME FROM ZERO)</span>
+            <span class="pill amber" id="active-gh-pill" style="margin-left:6px;">👑 GITHUB: OWNER (huynguyen1017)</span>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn secondary" onclick="toggleOnboardingBody()" id="btn-toggle-onboard">▼ Collapse / Expand Step 0 Guide</button>
+            <button class="btn amber" onclick="resetAndStartFresh()" title="Archives old failed step04..step10 logs and resets progress to Page 1">🧹 Start Fresh at Page 1 (Clean Old Failed Trials)</button>
+          </div>
+        </div>
+
+        <div id="onboarding-body">
+          <!-- Row 1: Experience Level + GitHub Account Mode + New/Returning Session Status -->
+          <div class="grid-2" style="margin-bottom:12px;">
+            <div style="background:rgba(15,23,42,0.85);border:1px solid #334155;border-radius:9px;padding:12px;">
+              <strong style="color:#93c5fd;font-size:12.5px;display:block;margin-bottom:6px;">1. Select Your Experience Level (Tailors Instructions, Explanations & Quiz Order):</strong>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
+                <button class="btn emerald" id="lvl-btn-beginner" onclick="setUserLevel('beginner')">🌱 Beginner (Explain From Zero · Easy→Hard)</button>
+                <button class="btn secondary" id="lvl-btn-intermediate" onclick="setUserLevel('intermediate')">⚙️ Intermediate (ENGR 852 Course Track)</button>
+                <button class="btn secondary" id="lvl-btn-advanced" onclick="setUserLevel('advanced')">🚀 Advanced Engineer / Recruiter (Hard→Easy Challenge)</button>
+              </div>
+              <div id="lvl-desc-box" style="font-size:12px;color:#cbd5e1;line-height:1.5;">
+                <strong>🌱 Beginner Mode Active:</strong> Shows exact visual instructions on <em>which</em> Terminal window on your MacBook Air to click, how to copy-paste (<code>Cmd+V</code> + <code>Return</code>), what every prompt symbol (<code>%</code> vs <code>$</code>) means, and orders quizzes from <strong>Easy → Medium → Hard</strong> with hints!
+              </div>
+            </div>
+
+            <div style="background:rgba(15,23,42,0.85);border:1px solid #334155;border-radius:9px;padding:12px;">
+              <strong style="color:#fbbf24;font-size:12.5px;display:block;margin-bottom:6px;">2. Select Your GitHub & Account Mode (No GitHub Required to Practice!):</strong>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
+                <button class="btn emerald" id="gh-btn-owner" onclick="setGithubMode('owner')">👑 Repo Owner (huynguyen1017 Fast-Track)</button>
+                <button class="btn secondary" id="gh-btn-guest" onclick="setGithubMode('guest')">🔑 Student / Guest with GitHub</button>
+                <button class="btn secondary" id="gh-btn-local" onclick="setGithubMode('local')">💻 No GitHub Yet (100% Local Sandbox)</button>
+              </div>
+              <div id="gh-desc-box" style="font-size:12px;color:#cbd5e1;line-height:1.5;">
+                <strong>👑 Repository Owner Mode (`huynguyen1017`):</strong> Pre-configured for <code>huynguyen@MacBook-Air</code> and <code>926784856@mahmoodi.rcc.at.sfsu.edu</code>. Automatically pushes your step-by-step logs & screenshots to the <code>manual-practice-macbook-air</code> sub-branch while keeping <code>main</code> 100% untouched!
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2: Visual 2-Terminal Window Doctor (Directly Addressing the User's 2 Open Terminals!) -->
+          <div style="background:rgba(15,23,42,0.92);border:1px solid #475569;border-radius:10px;padding:13px;margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+              <strong style="color:#f8fafc;font-size:13px;">🖥️ Visual Terminal Window Doctor: "I Have 2 Terminal Windows Open — Which One Should I Use & How Do I Start Fresh?"</strong>
+              <span class="pill green">Auto-Diagnosed From Your MacBook Air Setup</span>
+            </div>
+            <div class="grid-2" style="margin-bottom:10px;">
+              <div style="background:rgba(239,68,68,0.12);border:1px solid #dc2626;border-radius:8px;padding:10px 12px;font-size:12px;">
+                <strong style="color:#fca5a5;">❌ Window #1 (`motion-estimator-asic-lab-notebook-2026 — 178×41` with `Broken pipe` & old `step04..step10.log`):</strong>
+                <div style="color:#e2e8f0;margin-top:4px;line-height:1.5;">
+                  • <strong>Why it failed earlier:</strong> That window ran the old 10-step trial script (`step04..step10`) on Nov 8, hit an older argument-order bug in <code>render_terminal_screenshot.py</code> (now 100% fixed!), and then lost its SSH connection when GlobalProtect VPN timed out (<code>No route to host / client_loop: send disconnect: Broken pipe</code>).<br>
+                  • <strong>What to do with Window #1:</strong> Simply <strong>close that window (`Cmd + W`)</strong> or type <code>clear</code>. Do not worry about those old <code>step04..step10</code> failures—our Step 0 command below archives them cleanly!
+                </div>
+              </div>
+              <div style="background:rgba(16,185,129,0.14);border:1px solid #10b981;border-radius:8px;padding:10px 12px;font-size:12px;">
+                <strong style="color:#34d399;">✅ Window #2 (`huynguyen — -zsh — 120×30` sitting at `huynguyen@MacBook-Air ~ %`):</strong>
+                <div style="color:#e2e8f0;margin-top:4px;line-height:1.5;">
+                  • <strong>USE THIS WINDOW!</strong> This is a clean local macOS <code>zsh</code> terminal sitting at your home folder (<code>~</code>, prompt ends with <code>%</code>).<br>
+                  • <strong>How to Connect It Automatically to This Website (3 Baby Steps):</strong><br>
+                  &nbsp;&nbsp;<strong>Step A:</strong> Click the green <strong><code>[📋 Copy Step 0 Auto-Connect & Fresh-Start Command]</code></strong> button below.<br>
+                  &nbsp;&nbsp;<strong>Step B:</strong> Click inside your clean Terminal Window #2 (where it says <code>huynguyen@MacBook-Air ~ %</code>).<br>
+                  &nbsp;&nbsp;<strong>Step C:</strong> Press <strong><code>Cmd + V</code></strong> (Paste) and press <strong><code>Return</code></strong> (Enter)!
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <strong style="font-size:12px;color:#a7f3d0;">Step 0 Auto-Connect & Fresh-Start Bootstrap Command (Paste into `huynguyen@MacBook-Air ~ %` once before Page 1):</strong>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn emerald" onclick="copyStep0Command()">📋 Copy Step 0 Auto-Connect & Fresh-Start Command</button>
+                <button class="btn blue" onclick="simulateHandshakeNow()">⚡ Test / Verify Terminal Connection Now</button>
+              </div>
+            </div>
+            <div class="code-box" id="step0-cmd-box" style="color:#fde68a;margin-top:6px;">mkdir -p ~/Developer/engr852_practice && cd ~/Developer/engr852_practice && if [ ! -d motion-estimator-asic-lab-notebook-2026 ]; then git clone https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026.git; fi && cd motion-estimator-asic-lab-notebook-2026 && git fetch origin manual-practice-macbook-air && git checkout manual-practice-macbook-air && git pull --rebase origin manual-practice-macbook-air && source practice_from_scratch/scripts/auto_bridge.sh && step0_fresh_start</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 1: OVERVIEW -->
+      <section id="tab-overview">
+        <div class="grid-4">
+          <div class="card">
+            <h3><span>Sequential Progress (V1 → V9)</span><span class="pill green" id="card-stage-pill">V1-PREP</span></h3>
+            <div class="big" id="card-prog-big">0 / 100 Pages</div>
+            <div class="meta" id="card-prog-meta">Next Required Step: Page 1</div>
+          </div>
+          <div class="card">
+            <h3><span>Concept & Midterm Mastery</span><span class="pill purple">300 Page Qs + 15 Exam</span></h3>
+            <div class="big" id="card-quiz-big">0 Correct</div>
+            <div class="meta">300 Page Review Questions +<br>15 Midterm & V1–V9 Exam Problems</div>
+          </div>
+          <div class="card">
+            <h3><span>MacBook Air + XQuartz X11</span><span class="pill green" id="card-xq-pill">X11 READY</span></h3>
+            <div class="big" id="card-mac-ip">192.168.1.70</div>
+            <div class="meta" id="card-mac-meta">LAN: http://192.168.1.70:8788<br>VPN: http://130.212.163.69:8788</div>
+          </div>
+          <div class="card">
+            <h3><span>SFSU EDA Server (mahmoodi)</span><span class="pill amber">Isolated Dir</span></h3>
+            <div class="big" style="font-size:17px;">926784856@mahmoodi</div>
+            <div class="meta" id="card-mahmoodi-meta">Practice Dir: ~/me_asic_new_v1<br>(Main Project 100% Untouched)</div>
+          </div>
+        </div>
+
+        <!-- Next Required Step Hero Card -->
+        <div class="next-step-hero" id="next-step-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div>
+              <span class="pill green" id="next-step-badge">NEXT REQUIRED STEP IN SEQUENCE</span>
+              <span class="pill blue" id="next-step-stage" style="margin-left:6px;">V1-PREP</span>
+              <span class="pill amber" id="next-step-env" style="margin-left:6px;">MACBOOK</span>
+              <h2 style="margin:8px 0 4px;font-size:18px;" id="next-step-title">Loading Page 1...</h2>
+              <div style="color:#cbd5e1;font-size:13px;" id="next-step-sub"></div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn emerald" onclick="copyNextStep()" style="padding:9px 14px;font-size:12.5px;">
+                📋 Copy Next Page One-Liner
+              </button>
+              <button class="btn amber" onclick="openPageInChecklist(STATE.next_required_page || 1, 'subcmds')" style="padding:9px 14px;font-size:12.5px;">
+                🔍 Small Commands Breakdown
+              </button>
+              <button class="btn purple" onclick="openPageInChecklist(STATE.next_required_page || 1, 'study')" style="padding:9px 14px;font-size:12.5px;">
+                📘 3-Method Guide & Quiz
+              </button>
+            </div>
+          </div>
+          <div class="code-box" id="next-step-cmd"></div>
+          <div style="font-size:12px;color:#a7f3d0;font-family:var(--mono);" id="next-step-exp"></div>
+          <div class="method-grid" id="next-step-methods"></div>
+        </div>
+
+        <!-- Live Terminal Activity & Latest Screenshot -->
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:16px;">
+          <div class="card">
+            <h3><span>Live Terminal Execution Feed (MacBook Air · XQuartz · mahmoodi)</span></h3>
+            <div class="term-feed" id="overview-feed"></div>
+          </div>
+          <div class="card">
+            <h3><span>Latest Auto-Captured Terminal Screenshot</span><span class="pill green" id="latest-shot-lbl"> PNG </span></h3>
+            <div id="latest-shot-wrap" style="text-align:center;color:var(--muted);padding:12px;">
+              Run Page 1 one-liner to capture your first live terminal screenshot!
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: 100-PAGE CHECKLIST -->
+      <section id="tab-checklist" style="display:none;">
+        <div class="card" style="margin-bottom:14px;border-left:4px solid var(--emerald);">
+          <h3><span>Interactive 100-Page Manual (V1 → V9) · Closed-Loop Terminal Verifier, Sub-Command Deconstructor & 300 Review Questions</span></h3>
+          <div class="meta">
+            Every page below connects your <strong>real-time terminal execution</strong> to <strong>4 interactive learning panels</strong>:<br>
+            1) <code>⚡ 1. One-Liner & Outcome Verifier</code> (Executes & checks expected outcome; if mismatched, prompts an <strong>Auto-Debug Recovery One-Liner</strong>!),<br>
+            2) <code>🔍 2. Small Commands Deconstructor</code> (Walks through every small command inside the one-liner, its task, in-depth meaning, ENGR 852 lecture link, and chip-design role),<br>
+            3) <code>📘 3. Three-Method Theory & Lab</code> (Foundation <code>F0–F17</code> + Method 1 Behavior + Method 2 Math/STA Proof + Method 3 RTL/Hardware), and<br>
+            4) <code>🎯 4. Post-Lab Mastery Quiz (3 Questions)</code> (Tests theory, V1→V9 architecture, and hands-on sub-commands!).
+          </div>
+        </div>
+        <div class="filter-bar">
+          <input type="text" id="search-input" placeholder="Search Page 1..100, RTL, Verdi, 14nm, DRC, PrimeTime, Setup/Hold..." oninput="renderChecklist()" style="flex:1;min-width:240px;">
+          <select id="filter-stage" onchange="renderChecklist()">
+            <option value="ALL">All Project Stages (V1 → V9 · Pages 1–100)</option>
+            <option value="V1">V1: Setup, Theory & 8-Bit Baseline Trap (Pages 1–28)</option>
+            <option value="V2">V2: 16-Bit Non-Saturating RTL & Hold Fix (Pages 29–32)</option>
+            <option value="V3">V3: 520 MHz 0000 & 0100 Testbenches (Pages 33–38)</option>
+            <option value="V4">V4: FF00 & SV Self-Checking Testbenches (Pages 39–44)</option>
+            <option value="V5">V5: VCS & Verdi nWave Waveform Capture (Pages 45–52)</option>
+            <option value="V6">V6: 520 MHz SDC, Synthesis & Floorplan (Pages 53–58)</option>
+            <option value="V7">V7: CTS, Routing & Merged GDSII (Pages 59–61)</option>
+            <option value="V8">V8: Layout GUI, 0/242 DRC & 3-Corner STA (Pages 62–64)</option>
+            <option value="V9">V9: Final Workbook, Python & GitHub Sign-Off (Pages 65–100)</option>
+          </select>
+          <select id="filter-status" onchange="renderChecklist()">
+            <option value="ALL">All Statuses (100 Pages)</option>
+            <option value="NEXT">Next Required Step</option>
+            <option value="PASS">Completed & Verified (PASS)</option>
+            <option value="FAIL">Needs Debug / Mismatch (FAIL)</option>
+            <option value="LOCKED">Locked (Pending Earlier Pages)</option>
+          </select>
+        </div>
+        <div id="checklist-container"></div>
+      </section>
+
+      <!-- TAB 3: LIVE TERMINAL MIRROR -->
+      <section id="tab-terminals" style="display:none;">
+        <div class="card" style="margin-bottom:16px;">
+          <h3><span>How Your Terminals Connect & Sync With This Console (Isolated From Main Project)</span></h3>
+          <div class="meta">
+            • <strong>Strict Folder Isolation</strong>: All new practice files on your MacBook Air are created in <code>~/Developer/motion-estimator-14nm-asic-manual/</code>, and on <code>mahmoodi.rcc.at.sfsu.edu</code> in <code>~/me_asic_new_v1/</code>. Your completed main project folders (<code>~/ENGR852_Project/</code> and the <code>main</code> GitHub branch) are never modified.<br>
+            • <strong>Closed-Loop Terminal Verifier</strong>: Whenever you run <code>snap_step "pageXXX_..." "..."</code>, <code>auto_bridge.sh</code> verifies the output against <code>curriculum_100pages.json</code> and immediately updates this console with either the <strong>Unlocked Post-Lab Theory & Quiz</strong> (on PASS) or the <strong>Auto-Debug Recovery One-Liner</strong> (on MISMATCH/FAIL).
+          </div>
+        </div>
+        <div class="card">
+          <h3><span>Full Live Terminal Stream & Command History</span></h3>
+          <div class="term-feed" id="full-term-feed" style="max-height:620px;"></div>
+        </div>
+      </section>
+
+      <!-- TAB 4: WAVEFORMS & LAYOUT GALLERY -->
+      <section id="tab-waveforms" style="display:none;">
+        <div class="card" style="margin-bottom:16px;">
+          <h3><span>How the Main Project Captured Waveforms & Layouts (And How Pages 45–64 Sync Them Here)</span></h3>
+          <div class="meta">
+            In <code>~/ENGR852_Project/22_v9_clean_verdi_waveforms/</code> and <code>20_v5b_520MHz_14nm_cts_area_fix/v9_closure/</code>, Synopsys VCS generates the 520 MHz FSDB waveform dumps (<code>waves_sat.fsdb</code>, <code>waves_hold.fsdb</code>, <code>waves_reg.fsdb</code>) and Synopsys Verdi nWave replays the automated TCL scripts (<code>fig7_orig8bit_row1.tcl</code> .. <code>fig12_16bit_ff00.tcl</code>) over XQuartz/Xvfb X11 to capture crisp hexadecimal waveforms. Running the one-liners on <strong>Pages 49–52 & Page 62</strong> inside <code>~/me_asic_new_v1</code> automatically syncs these exact waveforms into <code>practice_from_scratch/waveforms/</code>!
+          </div>
+        </div>
+        <div class="wave-grid" id="waveform-grid"></div>
+      </section>
+
+      <!-- TAB 5: GITHUB SUB-BRANCH SYNC -->
+      <section id="tab-github" style="display:none;">
+        <div class="card">
+          <h3><span>GitHub Sub-Branch Live Status (manual-practice-macbook-air)</span></h3>
+          <div class="meta" id="gh-details" style="margin-bottom:12px;"></div>
+          <a class="btn emerald" href="https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026/tree/manual-practice-macbook-air/practice_from_scratch" target="_blank" style="text-decoration:none;display:inline-block;">
+            ↗ Open GitHub Sub-Branch (manual-practice-macbook-air)
+          </a>
+        </div>
+      </section>
+
+      <!-- TAB 6: INTERACTIVE STUDY GUIDE (F0-F17, L1-L11, HW1-HW4) & 4 HARDWARE SIMULATORS -->
+      <section id="tab-study" style="display:none;">
+        <div class="card" style="margin-bottom:18px;border-left:4px solid var(--emerald);">
+          <h3><span>ENGR 852 Interactive Hardware & Timing Simulators (From Basic CMOS Electricity to 520 MHz 14nm ASIC)</span></h3>
+          <div class="meta">
+            Use the 4 interactive calculators below to experiment with <strong>Static Timing Analysis (Setup & Hold Slack)</strong>, <strong>8-Bit vs. 16-Bit SAD Saturation</strong>, <strong>CMOS RC Delay & Dynamic Power</strong>, and the <strong>16-PE Systolic Cycle Schedule (Cycles 0..4111)</strong>. Click any preset button to load exact Midterm or Project scenarios!
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- SIMULATOR 1: STA Setup & Hold Slack Calculator -->
+          <div class="card">
+            <h3><span>Simulator 1: Static Timing Analysis (Setup & Hold Slack Calculator)</span><span class="pill blue">Midterm Q3–Q10 & 520 MHz ASIC</span></h3>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
+              <button class="btn secondary" onclick="loadStaPreset('q4')">Preset: Midterm Q4/Q5 (20ns / -1ns Hold)</button>
+              <button class="btn secondary" onclick="loadStaPreset('q9')">Preset: Midterm Q9/Q10 (400MHz / -90ps / -820ps)</button>
+              <button class="btn emerald" onclick="loadStaPreset('asic_ss')">Preset: 520MHz 14nm ASIC (SS 0.72V)</button>
+              <button class="btn emerald" onclick="loadStaPreset('asic_ff')">Preset: 520MHz 14nm ASIC (FF 0.88V)</button>
+            </div>
+            <div class="sim-input-row">
+              <div class="sim-field"><label>Clock Period T_clk (ps)</label><input type="number" id="sta-tclk" value="1923" oninput="calcSta()"></div>
+              <div class="sim-field"><label>T_CQ,max (ps)</label><input type="number" id="sta-tcq-max" value="110" oninput="calcSta()"></div>
+              <div class="sim-field"><label>T_logic,max (ps)</label><input type="number" id="sta-tlog-max" value="1453" oninput="calcSta()"></div>
+              <div class="sim-field"><label>T_setup,max (ps)</label><input type="number" id="sta-tset" value="60" oninput="calcSta()"></div>
+              <div class="sim-field"><label>Setup Skew/Unc (ps)</label><input type="number" id="sta-skew-set" value="80" oninput="calcSta()"></div>
+              <div class="sim-field"><label>T_CQ,min (ps)</label><input type="number" id="sta-tcq-min" value="45" oninput="calcSta()"></div>
+              <div class="sim-field"><label>T_logic,min (ps)</label><input type="number" id="sta-tlog-min" value="55" oninput="calcSta()"></div>
+              <div class="sim-field"><label>T_hold,max (ps)</label><input type="number" id="sta-thold" value="30" oninput="calcSta()"></div>
+              <div class="sim-field"><label>Hold Skew (ps)</label><input type="number" id="sta-skew-hold" value="70" oninput="calcSta()"></div>
+            </div>
+            <div class="code-box" id="sta-result-box"></div>
+          </div>
+
+          <!-- SIMULATOR 2: 8-Bit vs 16-Bit SAD Saturation Calculator -->
+          <div class="card">
+            <h3><span>Simulator 2: 8-Bit (8'hFF) Saturation Trap vs. 16-Bit (16'hFFFF) SAD Lab</span><span class="pill green">V1 Bug → V2 Fix</span></h3>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
+              <button class="btn secondary" onclick="loadSadPreset(120, 120, 16)">Preset 1: Exact Match (0000)</button>
+              <button class="btn secondary" onclick="loadSadPreset(100, 101, 16)">Preset 2: +1 LSB Offset (0100)</button>
+              <button class="btn amber" onclick="loadSadPreset(255, 0, 1)">Preset 3: Max Contrast Row 1 (8-Bit Trap!)</button>
+              <button class="btn emerald" onclick="loadSadPreset(255, 0, 16)">Preset 4: Max Contrast Full 16x16 (FF00)</button>
+            </div>
+            <div class="sim-input-row">
+              <div class="sim-field"><label>Ref Pixel R (0..255)</label><input type="number" id="sad-r" min="0" max="255" value="255" oninput="calcSad()"></div>
+              <div class="sim-field"><label>Search Pixel S (0..255)</label><input type="number" id="sad-s" min="0" max="255" value="0" oninput="calcSad()"></div>
+              <div class="sim-field"><label>Rows Accumulated (1..16)</label><input type="number" id="sad-rows" min="1" max="16" value="16" oninput="calcSad()"></div>
+            </div>
+            <div class="code-box" id="sad-result-box"></div>
+          </div>
+
+          <!-- SIMULATOR 3: CMOS RC Delay & Dynamic Power Calculator -->
+          <div class="card">
+            <h3><span>Simulator 3: CMOS Physics, RC Delay (τ = R·C) & Power (α·C·V²·f)</span><span class="pill purple">Foundations F7–F12</span></h3>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
+              <button class="btn secondary" onclick="loadCmosPreset(0.72, 1.35, 520)">SAED14nm SS (0.72V, -40°C)</button>
+              <button class="btn emerald" onclick="loadCmosPreset(0.80, 1.00, 520)">SAED14nm TT (0.80V, 25°C)</button>
+              <button class="btn secondary" onclick="loadCmosPreset(0.88, 0.78, 520)">SAED14nm FF (0.88V, 125°C)</button>
+            </div>
+            <div class="sim-input-row">
+              <div class="sim-field"><label>Supply V_DD (Volts)</label><input type="number" step="0.02" id="cmos-vdd" value="0.80" oninput="calcCmos()"></div>
+              <div class="sim-field"><label>Eff. R_on (kΩ)</label><input type="number" step="0.05" id="cmos-ron" value="1.00" oninput="calcCmos()"></div>
+              <div class="sim-field"><label>Load C_load (fF)</label><input type="number" step="1" id="cmos-cload" value="18" oninput="calcCmos()"></div>
+              <div class="sim-field"><label>Clock Freq f (MHz)</label><input type="number" step="10" id="cmos-freq" value="520" oninput="calcCmos()"></div>
+              <div class="sim-field"><label>Activity α (0.05..1.0)</label><input type="number" step="0.05" id="cmos-alpha" value="0.20" oninput="calcCmos()"></div>
+            </div>
+            <div class="code-box" id="cmos-result-box"></div>
+          </div>
+
+          <!-- SIMULATOR 4: 16-PE Systolic Cycle & Address Stepper -->
+          <div class="card">
+            <h3><span>Simulator 4: 16-PE Systolic Cycle & Memory Address Stepper (0..4111)</span><span class="pill amber">control.v Schedule</span></h3>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
+              <button class="btn secondary" onclick="setCycleStep(0)">Cycle 0 (Start)</button>
+              <button class="btn secondary" onclick="setCycleStep(15)">Cycle 15 (16 PEs Active)</button>
+              <button class="btn secondary" onclick="setCycleStep(256)">Cycle 256 (0x0100 · PE0 Done)</button>
+              <button class="btn secondary" onclick="setCycleStep(271)">Cycle 271 (Row 0 All 16 PEs Done)</button>
+              <button class="btn emerald" onclick="setCycleStep(4111)">Cycle 4111 (0x100F · Completed Hold)</button>
+            </div>
+            <div class="sim-input-row">
+              <div class="sim-field" style="grid-column: span 2;">
+                <label>Scrub Cycle Counter `count` (0 .. 4111 = 13'h100F)</label>
+                <input type="range" id="cyc-slider" min="0" max="4111" value="256" oninput="syncCycleInput(this.value)">
+              </div>
+              <div class="sim-field">
+                <label>Exact Cycle `count`</label>
+                <input type="number" id="cyc-num" min="0" max="4111" value="256" oninput="syncCycleSlider(this.value)">
+              </div>
+            </div>
+            <div class="code-box" id="cyc-result-box"></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:18px;">
+          <h3><span>Lectures 1–11 & Homework 1–4 Three-Method Master Guide (Method 1 Behavior · Method 2 Proof · Method 3 RTL)</span></h3>
+          <div id="lectures-container"></div>
+        </div>
+
+        <div class="card">
+          <h3><span>Zero-to-ASIC Foundations (F0–F17): Basic Electricity, Electronics, Binary Math & CMOS Logic</span></h3>
+          <div id="foundations-container" class="grid-2" style="margin-top:12px;"></div>
+        </div>
+      </section>
+
+      <!-- TAB 7: INTERACTIVE MIDTERM (Q1-Q10) & V1-V9 EXAM PREP -->
+      <section id="tab-midterm" style="display:none;">
+        <div class="card" style="margin-bottom:16px;border-left:4px solid var(--blue);">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+            <div>
+              <h3 style="margin:0;"><span>ENGR 852 Interactive Midterm (Q1–Q10) & V1–V9 Project Exam Center</span></h3>
+              <div class="meta" style="margin-top:4px;">
+                Includes all <strong>10 actual ENGR 852 Midterm Questions (Q1–Q10)</strong> with your high-resolution <strong>3-page spiral-notebook visual sheets</strong> (click any sheet to zoom full-screen!) + <strong>5 V1–V9 Project Defense Questions (Q11–Q15)</strong>.
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span class="pill green" id="exam-score-pill">Exam Score: 0 / 15</span>
+              <button class="btn secondary" onclick="resetQuizScores()">↺ Reset Quiz Answers</button>
+            </div>
+          </div>
+        </div>
+        <div id="midterm-container"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Full-screen image zoom modal -->
+  <div id="img-modal" class="modal-backdrop" onclick="this.classList.remove('open')">
+    <img id="img-modal-target" src="" alt="Zoomed Spiral Notebook Sheet">
+  </div>
+
+  <script>
+    let CURRICULUM = [];
+    let STUDY = {};
+    let STATE = {};
+    let PAGE_SUBTAB = {}; // page_num -> 'exec' | 'subcmds' | 'study' | 'quiz'
+    let QUIZ_ANSWERS = JSON.parse(localStorage.getItem('engr852_quiz_answers') || '{}');
+    let USER_LEVEL = localStorage.getItem('engr852_user_level') || 'beginner';
+    let GITHUB_MODE = localStorage.getItem('engr852_github_mode') || 'owner';
+    let QUIZ_ORDER = localStorage.getItem('engr852_quiz_order') || (USER_LEVEL === 'advanced' ? 'hard_to_easy' : 'easy_to_hard');
+    let LEARNING_TASKS = JSON.parse(localStorage.getItem('engr852_learning_tasks') || '{}');
+    let HINT_OPEN = {};
+    let IS_RETURNING_VISITOR = Boolean(localStorage.getItem('engr852_visited_before'));
+    localStorage.setItem('engr852_visited_before', 'true');
+
+    function toggleOnboardingBody() {
+      const el = document.getElementById('onboarding-body');
+      const btn = document.getElementById('btn-toggle-onboard');
+      if (!el) return;
+      const hidden = el.style.display === 'none';
+      el.style.display = hidden ? 'block' : 'none';
+      if (btn) btn.textContent = hidden ? '▼ Collapse Step 0 Guide' : '▶ Expand Step 0 Guide';
+    }
+
+    function setUserLevel(lvl) {
+      USER_LEVEL = lvl;
+      localStorage.setItem('engr852_user_level', lvl);
+      if (lvl === 'advanced') {
+        QUIZ_ORDER = 'hard_to_easy';
+      } else {
+        QUIZ_ORDER = 'easy_to_hard';
+      }
+      localStorage.setItem('engr852_quiz_order', QUIZ_ORDER);
+      updateOnboardingPills();
+      renderChecklist();
+    }
+
+    function setGithubMode(mode) {
+      GITHUB_MODE = mode;
+      localStorage.setItem('engr852_github_mode', mode);
+      updateOnboardingPills();
+    }
+
+    function setQuizOrder(ord) {
+      QUIZ_ORDER = ord;
+      localStorage.setItem('engr852_quiz_order', ord);
+      renderChecklist();
+    }
+
+    function toggleHint(qKey) {
+      HINT_OPEN[qKey] = !HINT_OPEN[qKey];
+      renderChecklist();
+    }
+
+    function markLearningTask(taskId, jumpAction, jumpArg) {
+      LEARNING_TASKS[taskId] = true;
+      localStorage.setItem('engr852_learning_tasks', JSON.stringify(LEARNING_TASKS));
+      if (jumpAction === 'sim') {
+        const navBtns = document.querySelectorAll('nav button');
+        switchTab('study', navBtns[5]);
+      } else if (jumpAction === 'midterm') {
+        const navBtns = document.querySelectorAll('nav button');
+        switchTab('midterm', navBtns[6]);
+      } else {
+        renderChecklist();
+      }
+    }
+
+    function skipToQuiz(pageNum) {
+      PAGE_SUBTAB[pageNum] = 'quiz';
+      renderChecklist();
+    }
+
+    function updateOnboardingPills() {
+      const visBadge = document.getElementById('user-visitor-badge');
+      const doneCount = STATE.total_passed_pages || 0;
+      if (visBadge) {
+        visBadge.textContent = (IS_RETURNING_VISITOR || doneCount > 0)
+          ? `👋 RETURNING LEARNER · RESUME AT PAGE ${STATE.next_required_page || 1} (OR START FRESH)`
+          : `🧭 FIRST-TIME VISITOR · STEP 0 SMART LAUNCHPAD`;
+      }
+
+      ['beginner', 'intermediate', 'advanced'].forEach(l => {
+        const b = document.getElementById('lvl-btn-' + l);
+        if (b) b.className = (USER_LEVEL === l) ? 'btn emerald' : 'btn secondary';
+      });
+      ['owner', 'guest', 'local'].forEach(g => {
+        const b = document.getElementById('gh-btn-' + g);
+        if (b) b.className = (GITHUB_MODE === g) ? 'btn emerald' : 'btn secondary';
+      });
+
+      const lvlPill = document.getElementById('active-level-pill');
+      const lvlDesc = document.getElementById('lvl-desc-box');
+      if (USER_LEVEL === 'beginner') {
+        if (lvlPill) lvlPill.textContent = '🌱 LEVEL: BEGINNER (EASY → HARD)';
+        if (lvlDesc) lvlDesc.innerHTML = '<strong>🌱 Beginner Mode Active:</strong> Shows exact visual instructions on <em>which</em> Terminal window on your MacBook Air to click, how to copy-paste (<code>Cmd+V</code> + <code>Return</code>), what every prompt symbol (<code>%</code> vs <code>$</code>) means, and orders quizzes from <strong>Easy → Medium → Hard</strong> with hints!';
+      } else if (USER_LEVEL === 'intermediate') {
+        if (lvlPill) lvlPill.textContent = '⚙️ LEVEL: INTERMEDIATE (COURSE TRACK)';
+        if (lvlDesc) lvlDesc.innerHTML = '<strong>⚙️ Intermediate Mode Active:</strong> Highlights ENGR 852 Lecture 1–11 formulas, Ch. 10 Sec. 10.4 SAD derivations, Three-Method breakdowns, and progressive <strong>Easy → Medium → Hard</strong> problem sets.';
+      } else {
+        if (lvlPill) lvlPill.textContent = '🚀 LEVEL: ADVANCED (HARD → EASY CHALLENGE)';
+        if (lvlDesc) lvlDesc.innerHTML = '<strong>🚀 Advanced Engineer / Recruiter Mode Active:</strong> Highlights 14nm FinFET (`SAED14rvt`) physical closure, 3-corner PrimeTime STA equations, V1→V9 architectural diffs, and serves <strong>Hard → Easy (Challenge-First)</strong> synthesis & sign-off problems!';
+      }
+
+      const ghPill = document.getElementById('active-gh-pill');
+      const ghDesc = document.getElementById('gh-desc-box');
+      const step0Box = document.getElementById('step0-cmd-box');
+      if (GITHUB_MODE === 'owner') {
+        if (ghPill) ghPill.textContent = '👑 GITHUB: OWNER (huynguyen1017)';
+        if (ghDesc) ghDesc.innerHTML = '<strong>👑 Repository Owner Mode (`huynguyen1017`):</strong> Pre-configured for <code>huynguyen@MacBook-Air</code> and <code>926784856@mahmoodi.rcc.at.sfsu.edu</code>. Automatically pushes your step-by-step logs & screenshots to the <code>manual-practice-macbook-air</code> sub-branch while keeping <code>main</code> 100% untouched!';
+        if (step0Box) step0Box.textContent = 'mkdir -p ~/Developer/engr852_practice && cd ~/Developer/engr852_practice && if [ ! -d motion-estimator-asic-lab-notebook-2026 ]; then git clone https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026.git; fi && cd motion-estimator-asic-lab-notebook-2026 && git fetch origin manual-practice-macbook-air && git checkout manual-practice-macbook-air && git pull --rebase origin manual-practice-macbook-air && source practice_from_scratch/scripts/auto_bridge.sh && step0_fresh_start';
+      } else if (GITHUB_MODE === 'guest') {
+        if (ghPill) ghPill.textContent = '🔑 GITHUB: GUEST / FORK MODE';
+        if (ghDesc) ghDesc.innerHTML = '<strong>🔑 Student / Guest with GitHub Account:</strong> Run <code>gh auth login</code> (or configure SSH keys), clone the repository, and track your own practice sub-branch!';
+        if (step0Box) step0Box.textContent = 'gh auth status || gh auth login && mkdir -p ~/Developer/engr852_practice && cd ~/Developer/engr852_practice && if [ ! -d motion-estimator-asic-lab-notebook-2026 ]; then git clone https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026.git; fi && cd motion-estimator-asic-lab-notebook-2026 && git checkout -B manual-practice-macbook-air && source practice_from_scratch/scripts/auto_bridge.sh && step0_fresh_start';
+      } else {
+        if (ghPill) ghPill.textContent = '💻 LOCAL SANDBOX (NO GITHUB NEEDED)';
+        if (ghDesc) ghDesc.innerHTML = '<strong>💻 No GitHub Account Yet (`100% Local Sandbox Mode`):</strong> Sets <code>export ENGR852_SKIP_GIT_PUSH=1</code> so every one-liner, screenshot, auto-debugger, and quiz works 100% locally on your laptop without requiring a GitHub login! (Want a free GitHub account later? Visit <a href="https://github.com/signup" target="_blank" style="color:#60a5fa;">github.com/signup</a>).';
+        if (step0Box) step0Box.textContent = 'export ENGR852_SKIP_GIT_PUSH=1 && mkdir -p ~/Developer/engr852_practice && cd ~/Developer/engr852_practice && if [ ! -d motion-estimator-asic-lab-notebook-2026 ]; then git clone https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026.git; fi && cd motion-estimator-asic-lab-notebook-2026 && source practice_from_scratch/scripts/auto_bridge.sh && step0_fresh_start';
+      }
+    }
+
+    function copyStep0Command() {
+      const box = document.getElementById('step0-cmd-box');
+      if (box) copyText(box.textContent);
+    }
+
+    async function simulateHandshakeNow() {
+      try {
+        await fetch('/api/terminal_handshake', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user: 'huynguyen', host: 'MacBook-Air', tty: 'ttys005', shell: 'zsh', mode: GITHUB_MODE })
+        });
+        await refreshAll();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function resetAndStartFresh() {
+      try {
+        await fetch('/api/reset_progress', { method: 'POST' });
+        await refreshAll();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function zoomImage(url) {
+      if (!url) return;
+      document.getElementById('img-modal-target').src = url;
+      document.getElementById('img-modal').classList.add('open');
+    }
+
+    function switchTab(tabId, btn) {
+      for (const id of ['overview', 'checklist', 'terminals', 'waveforms', 'github', 'study', 'midterm']) {
+        const el = document.getElementById('tab-' + id);
+        if (el) el.style.display = (id === tabId) ? 'block' : 'none';
+      }
+      document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    }
+
+    function openPageInChecklist(pageNum, subTabName) {
+      PAGE_SUBTAB[pageNum] = subTabName || 'study';
+      const navBtns = document.querySelectorAll('nav button');
+      switchTab('checklist', navBtns[1]);
+      renderChecklist();
+      setTimeout(() => {
+        const card = document.getElementById('page-card-' + pageNum);
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 80);
+    }
+
+    function setPageSubtab(pageNum, tabName) {
+      PAGE_SUBTAB[pageNum] = tabName;
+      renderChecklist();
+    }
+
+    function copyText(txt) {
+      navigator.clipboard.writeText(txt);
+    }
+
+    function copyNextStep() {
+      const nextNum = STATE.next_required_page || 1;
+      const item = CURRICULUM.find(p => p.page_num === nextNum) || CURRICULUM[0];
+      if (item) copyText(item.one_liner);
+    }
+
+    async function simulateTerminalOutcome(pageNum, mode) {
+      try {
+        await fetch('/api/simulate_feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ page_num: pageNum, mode: mode })
+        });
+        if (mode === 'PASS') {
+          PAGE_SUBTAB[pageNum] = 'study';
+        } else {
+          PAGE_SUBTAB[pageNum] = 'exec';
+        }
+        await refreshAll();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function answerQuiz(qKey, chosenIdx, correctIdx) {
+      QUIZ_ANSWERS[qKey] = { chosen: chosenIdx, correct: chosenIdx === correctIdx };
+      localStorage.setItem('engr852_quiz_answers', JSON.stringify(QUIZ_ANSWERS));
+      updateQuizBadges();
+      renderChecklist();
+      renderMidtermBank();
+    }
+
+    function resetQuizScores() {
+      QUIZ_ANSWERS = {};
+      localStorage.removeItem('engr852_quiz_answers');
+      updateQuizBadges();
+      renderChecklist();
+      renderMidtermBank();
+    }
+
+    function updateQuizBadges() {
+      const vals = Object.values(QUIZ_ANSWERS);
+      const totalAns = vals.length;
+      const totalRight = vals.filter(v => v.correct).length;
+      document.getElementById('badge-quiz').textContent = `MASTERY QUIZ: ${totalRight}/${totalAns} CORRECT`;
+      document.getElementById('card-quiz-big').textContent = `${totalRight} Correct (${totalAns} Tried)`;
+      document.getElementById('nav-quiz-score').textContent = `${totalRight}✓`;
+
+      const examRight = Object.entries(QUIZ_ANSWERS)
+        .filter(([k, v]) => k.startsWith('exam_') && v.correct).length;
+      const ep = document.getElementById('exam-score-pill');
+      if (ep) ep.textContent = `Exam Score: ${examRight} / 15`;
+    }
+
+    async function refreshAll() {
+      try {
+        if (CURRICULUM.length === 0) {
+          const cr = await fetch('/api/curriculum');
+          CURRICULUM = await cr.json();
+        }
+        if (!STUDY.foundations) {
+          const st = await fetch('/api/study');
+          STUDY = await st.json();
+          renderStudyGuide();
+          renderMidtermBank();
+          calcSta();
+          calcSad();
+          calcCmos();
+          setCycleStep(256);
+        }
+        const sr = await fetch('/api/state');
+        STATE = await sr.json();
+        updateOnboardingPills();
+        updateQuizBadges();
+        renderUI();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function escapeHtml(s) {
+      return String(s || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function renderLiveFeedbackBanner() {
+      const fb = STATE.latest_feedback;
+      const banner = document.getElementById('live-feedback-banner');
+      const badgeVerif = document.getElementById('badge-verif');
+      if (!fb || !fb.page_num) {
+        banner.className = 'feedback-banner';
+        banner.style.display = 'none';
+        return;
+      }
+
+      if (fb.verification_state === 'VERIFIED_MATCH') {
+        badgeVerif.className = 'pill green';
+        badgeVerif.textContent = `VERIFIER: PAGE ${fb.page_num} MATCHED ✓`;
+        banner.className = 'feedback-banner pass';
+        banner.style.display = 'block';
+        banner.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+            <div>
+              <span class="pill green">✓ EXPECTED OUTCOME VERIFIED IN TERMINAL (EXIT CODE 0)</span>
+              <span class="pill blue" style="margin-left:6px;">Page ${fb.page_num} · ${escapeHtml(fb.v_stage || '')}</span>
+              <span class="pill purple" style="margin-left:6px;">Interactive Theory, YouTube Tutorials & 5-Q Quiz UNLOCKED!</span>
+              <h3 style="margin:8px 0 4px;font-size:16px;color:#f8fafc;">${escapeHtml(fb.title)}</h3>
+              <div style="font-size:12.5px;color:#d1fae5;">
+                Your terminal execution matched the expected algorithm markers (<code>${escapeHtml((fb.matched_markers || []).join(', ') || 'Exit Code 0')}</code>).
+                Click below to walk through the <strong>Small Commands Breakdown</strong>, <strong>Assigned Learning Path (Chapter + YouTube + Simulator)</strong>, and <strong>5-Question Adaptive Mastery Quiz</strong> for Page ${fb.page_num}, then proceed to <strong>Page ${Math.min(100, fb.page_num + 1)}</strong>!
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn amber" onclick="openPageInChecklist(${fb.page_num}, 'subcmds')">
+                🔍 1. Small Commands Lab (Page ${fb.page_num})
+              </button>
+              <button class="btn purple" onclick="openPageInChecklist(${fb.page_num}, 'study')">
+                📘 2. Assigned Learning & Video Lab (Page ${fb.page_num})
+              </button>
+              <button class="btn emerald" onclick="openPageInChecklist(${fb.page_num}, 'quiz')">
+                🎯 3. Take Page ${fb.page_num} Quiz (5 Qs)
+              </button>
+            </div>
+          </div>
+        `;
+      } else {
+        badgeVerif.className = 'pill red';
+        badgeVerif.textContent = `VERIFIER: PAGE ${fb.page_num} NEEDS DEBUG FIX!`;
+        banner.className = 'feedback-banner fail';
+        banner.style.display = 'block';
+        banner.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:300px;">
+              <span class="pill red">✗ TERMINAL OUTCOME MISMATCH DETECTED — AUTO-DEBUGGER ACTIVE</span>
+              <span class="pill amber" style="margin-left:6px;">Page ${fb.page_num} · Exit Code ${fb.exit_code}</span>
+              <h3 style="margin:8px 0 4px;font-size:16px;color:#fecaca;">Diagnostic & Recovery Prompt for ${escapeHtml(fb.title)}</h3>
+              <div style="font-size:12.5px;color:#fde68a;margin-bottom:6px;">
+                <strong>Why It Did Not Match Expected Outcome:</strong> ${escapeHtml(fb.mismatch_diagnosis || 'Terminal output was missing expected verification markers or returned a non-zero exit code.')}
+              </div>
+              <div style="font-size:12px;color:#cbd5e1;">
+                ${(fb.debug_steps_explained || []).map(escapeHtml).join('<br>')}
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn emerald" onclick='copyText(${JSON.stringify(fb.debug_fix_oneliner || "")})'>
+                🛠️ Copy Auto-Debug & Fix One-Liner (Page ${fb.page_num})
+              </button>
+              <button class="btn secondary" onclick="openPageInChecklist(${fb.page_num}, 'exec')">
+                ↗ Inspect Page ${fb.page_num} Details
+              </button>
+            </div>
+          </div>
+          <div style="margin-top:8px;font-size:11.5px;color:#fca5a5;font-weight:700;">
+            Copy & Paste This Auto-Debug Recovery Command Into Your Terminal to Fix & Achieve Expected Outcome:
+          </div>
+          <div class="code-box" style="border-color:#ef4444;color:#fde68a;">${escapeHtml(fb.debug_fix_oneliner || '')}</div>
+        `;
+      }
+    }
+
+    function renderUI() {
+      const doneCount = STATE.total_passed_pages || 0;
+      const nextNum = STATE.next_required_page || 1;
+      document.getElementById('nav-prog').textContent = `${doneCount}/100`;
+      document.getElementById('card-prog-big').textContent = `${doneCount} / 100 Pages`;
+      document.getElementById('card-prog-meta').textContent = `Highest In-Order: Page ${STATE.highest_sequential_page || 0} · Next Required: Page ${nextNum}`;
+
+      const tcPill = document.getElementById('term-conn-pill');
+      if (tcPill) {
+        tcPill.textContent = `🟢 TERMINAL CONNECTED: ${STATE.user || 'huynguyen'}@${STATE.host || 'MacBook-Air'} (${STATE.active_terminal || 'zsh'})`;
+      }
+
+      const ips = STATE.ip_addresses || {};
+      document.getElementById('card-mac-ip').textContent = ips.lan || '192.168.1.70';
+      document.getElementById('sidebar-ips').innerHTML = `Local: http://127.0.0.1:8788<br>LAN: http://${ips.lan || '192.168.1.70'}:8788<br>VPN: http://${ips.vpn || '130.212.163.69'}:8788`;
+
+      const gb = document.getElementById('guardrail-banner');
+      const badgeGuard = document.getElementById('badge-guard');
+      if (STATE.guardrail_alert) {
+        gb.classList.add('visible');
+        document.getElementById('guardrail-msg').textContent = STATE.guardrail_alert;
+        badgeGuard.className = 'pill red';
+        badgeGuard.textContent = 'ORDER GUARD: OUT-OF-ORDER BLOCKED!';
+      } else {
+        gb.classList.remove('visible');
+        badgeGuard.className = 'pill green';
+        badgeGuard.textContent = `ORDER GUARD: PAGE ${nextNum} READY`;
+      }
+
+      renderLiveFeedbackBanner();
+
+      // Next step hero
+      const nextItem = CURRICULUM.find(p => p.page_num === nextNum) || CURRICULUM[0];
+      if (nextItem) {
+        document.getElementById('card-stage-pill').textContent = nextItem.v_stage;
+        document.getElementById('next-step-badge').textContent = `NEXT REQUIRED STEP: PAGE ${nextItem.page_num} OF 100`;
+        document.getElementById('next-step-stage').textContent = nextItem.v_stage;
+        document.getElementById('next-step-env').textContent = nextItem.env_tag;
+        document.getElementById('next-step-title').textContent = nextItem.title;
+        document.getElementById('next-step-sub').textContent = `${nextItem.subtitle} — (${nextItem.where_badge})`;
+        document.getElementById('next-step-cmd').textContent = nextItem.one_liner;
+        document.getElementById('next-step-exp').textContent = `Expected Output: ${(nextItem.expected_out || [])[0] || ''}`;
+        const tm = nextItem.three_methods || {};
+        document.getElementById('next-step-methods').innerHTML = `
+          <div class="method-box m1"><h4>Method 1 · Understand Behavior</h4>${escapeHtml(tm.method1 || '')}</div>
+          <div class="method-box m2"><h4>Method 2 · Prove It (Math / STA)</h4>${escapeHtml(tm.method2 || '')}</div>
+          <div class="method-box m3"><h4>Method 3 · Think in RTL & Hardware</h4>${escapeHtml(tm.method3 || '')}</div>
+        `;
+      }
+
+      // Terminal feeds
+      const feed = (STATE.terminal_feed || []).slice().reverse();
+      const feedHtml = feed.length ? feed.map(f => `
+        <div class="feed-row">
+          <span class="pill ${f.status === 'PASS' || f.status === 'CONNECTED' ? 'green' : (f.status === 'BLOCKED_OUT_OF_ORDER' || f.status === 'FAIL' ? 'red' : 'blue')}">${escapeHtml(f.status)}</span>
+          <strong style="color:#93c5fd;margin-left:6px;">[${escapeHtml(f.time)}] ${escapeHtml(f.terminal)}</strong>
+          <span style="color:#94a3b8;">(${escapeHtml(f.host)} · IP: ${escapeHtml(f.ip || '')} · DISPLAY: ${escapeHtml(f.display || ':0')})</span>
+          <div style="color:#e2e8f0;margin-top:4px;">$ ${escapeHtml(f.command)}</div>
+          ${f.message ? `<div style="color:#fbbf24;margin-top:2px;">→ ${escapeHtml(f.message)}</div>` : ''}
+        </div>
+      `).join('') : '<div style="color:var(--muted);">Waiting for Step 0 or Page 1 execution from MacBook Air, XQuartz, or mahmoodi...</div>';
+      document.getElementById('overview-feed').innerHTML = feedHtml;
+      document.getElementById('full-term-feed').innerHTML = feedHtml;
+
+      // Latest screenshot
+      const donePages = Object.values(STATE.completed_pages || {}).sort((a, b) => b.page_num - a.page_num);
+      if (donePages.length && donePages[0].screenshot_file) {
+        document.getElementById('latest-shot-lbl').textContent = donePages[0].step_id;
+        document.getElementById('latest-shot-wrap').innerHTML = `
+          <img src="${donePages[0].screenshot_file}?t=${Date.now()}" onclick="zoomImage('${donePages[0].screenshot_file}')" style="max-width:100%;border-radius:8px;border:1px solid #334155;cursor:zoom-in;">
+        `;
+      }
+
+      // Waveform gallery
+      const wgrid = document.getElementById('waveform-grid');
+      wgrid.innerHTML = (STATE.waveform_gallery || []).map(w => `
+        <div class="wave-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span class="pill blue">Page ${w.page_num} · ${w.stage}</span>
+            <span class="pill ${w.live_captured ? 'green' : 'amber'}">${w.live_captured ? 'SYNCED TO SUB-BRANCH' : 'REFERENCE V9 TARGET'}</span>
+          </div>
+          <h4 style="margin:8px 0 4px;">${w.title}</h4>
+          <div style="font-size:12px;color:#cbd5e1;margin-bottom:6px;">${w.desc}</div>
+          <div class="code-box" style="font-size:11px;padding:7px;">${w.tcl_cmd}</div>
+          ${w.img_url ? `<img src="${w.img_url}" alt="${w.title}" onclick="zoomImage('${w.img_url}')">` : ''}
+        </div>
+      `).join('');
+
+      document.getElementById('gh-details').innerHTML = `
+        Repository: <strong>${(STATE.github || {}).repo}</strong><br>
+        Active Sub-Branch: <strong>${(STATE.github || {}).branch}</strong> (Main branch & main project folders remain 100% untouched)<br>
+        Latest Commit: <code>${(STATE.github || {}).last_commit || 'N/A'}</code><br>
+        Completed Pages Logged: <strong>${doneCount} / 100</strong>
+      `;
+
+      renderChecklist();
+    }
+
+    function renderChecklist() {
+      const q = (document.getElementById('search-input').value || '').toLowerCase();
+      const stg = document.getElementById('filter-stage').value;
+      const sts = document.getElementById('filter-status').value;
+      const nextNum = STATE.next_required_page || 1;
+      const doneMap = STATE.completed_pages || {};
+
+      const filtered = CURRICULUM.filter(p => {
+        const rec = doneMap[String(p.page_num)];
+        const isDone = rec && rec.status === 'PASS';
+        const isFail = rec && rec.status === 'FAIL';
+        const isNext = p.page_num === nextNum;
+        if (stg !== 'ALL' && !p.v_stage.startsWith(stg)) return false;
+        if (sts === 'PASS' && !isDone) return false;
+        if (sts === 'FAIL' && !isFail) return false;
+        if (sts === 'NEXT' && !isNext) return false;
+        if (sts === 'LOCKED' && (isDone || isFail || isNext)) return false;
+        if (q && !(
+          p.title.toLowerCase().includes(q) ||
+          p.one_liner.toLowerCase().includes(q) ||
+          p.step_id.toLowerCase().includes(q) ||
+          (p.foundation_text || '').toLowerCase().includes(q)
+        )) return false;
+        return true;
+      });
+
+      document.getElementById('checklist-container').innerHTML = filtered.map(p => {
+        const rec = doneMap[String(p.page_num)];
+        const isDone = rec && rec.status === 'PASS';
+        const isFail = rec && rec.status === 'FAIL';
+        const isNext = p.page_num === nextNum;
+        const cls = isFail ? 'fail' : (isDone ? 'done' : (isNext ? 'next' : 'locked'));
+        const activeSub = PAGE_SUBTAB[p.page_num] || (isDone ? 'study' : 'exec');
+        const vspec = p.verification_spec || {};
+        const lguide = p.level_guidance || {};
+        const ltasks = p.learning_tasks || [];
+
+        const statusBadge = isFail
+          ? `<span class="pill red">✗ OUTCOME MISMATCH / NEEDS DEBUG FIX (Exit ${rec.exit_code})</span>`
+          : (isDone
+              ? `<span class="pill green">✓ OUTCOME VERIFIED (PASS · ${rec.updated_at})</span>`
+              : (isNext
+                  ? `<span class="pill blue">▶ NEXT REQUIRED STEP (RUN NOW)</span>`
+                  : `<span class="pill amber">🔒 LOCKED (Complete Page ${p.page_num - 1} First)</span>`));
+
+        const rawQList = (p.quiz_questions || []).map((qItem, origIdx) => ({ ...qItem, origIdx }));
+        const sortedQList = rawQList.slice().sort((a, b) => {
+          const ra = a.difficulty_rank || (a.origIdx + 1);
+          const rb = b.difficulty_rank || (b.origIdx + 1);
+          return QUIZ_ORDER === 'hard_to_easy' ? (rb - ra) : (ra - rb);
+        });
+
+        let qCorrectCount = 0;
+        rawQList.forEach((qItem) => {
+          const a = QUIZ_ANSWERS[`p${p.page_num}_q${qItem.origIdx}`];
+          if (a && a.correct) qCorrectCount++;
+        });
+
+        let tasksDoneCount = 0;
+        ltasks.forEach(t => {
+          if (LEARNING_TASKS[t.task_id]) tasksDoneCount++;
+        });
+
+        // Level-Tailored Orientation Box inside Page Card
+        let levelGuidanceHtml = '';
+        if (USER_LEVEL === 'beginner' && lguide.beginner) {
+          levelGuidanceHtml = `
+            <div style="background:rgba(16,185,129,0.12);border:1px solid #059669;border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+                <strong style="color:#34d399;">🌱 Beginner Step-by-Step Guide for Page ${p.page_num}: Which Terminal Window & How to Execute</strong>
+                <span class="pill green">Target Window: ${escapeHtml(lguide.beginner.terminal_to_use || '')}</span>
+              </div>
+              <div style="color:#e2e8f0;margin-top:6px;line-height:1.55;">
+                ${(lguide.beginner.step_by_step_how_to || []).join('<br>')}
+              </div>
+            </div>
+          `;
+        } else if (USER_LEVEL === 'intermediate' && lguide.intermediate) {
+          levelGuidanceHtml = `
+            <div style="background:rgba(59,130,246,0.12);border:1px solid #2563eb;border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;">
+              <strong style="color:#60a5fa;">⚙️ Intermediate Course Focus (Page ${p.page_num}):</strong> ${escapeHtml(lguide.intermediate.focus || '')}
+            </div>
+          `;
+        } else if (USER_LEVEL === 'advanced' && lguide.advanced) {
+          levelGuidanceHtml = `
+            <div style="background:rgba(139,92,246,0.14);border:1px solid #7c3aed;border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;">
+              <strong style="color:#c4b5fd;">🚀 Advanced 14nm Sign-Off Context (Page ${p.page_num}):</strong> ${escapeHtml(lguide.advanced.deep_dive || '')}
+            </div>
+          `;
+        }
+
+        // Pipeline stages HTML
+        const pipeHtml = (p.pipeline_stages || []).map(st => `
+          <div class="pipe-stage">
+            <strong style="color:#f8fafc;display:block;margin-bottom:3px;">${escapeHtml(st.title)}</strong>
+            <span style="color:#94a3b8;">${(st.items || []).map(escapeHtml).join(' · ')}</span>
+          </div>
+        `).join('');
+
+        // Verification Table HTML
+        const rows = p.table_rows || [];
+        const tblHtml = rows.length ? `
+          <table class="tbl-verify">
+            <thead><tr>${rows[0].map(c => `<th>${escapeHtml(c)}</th>`).join('')}</tr></thead>
+            <tbody>
+              ${rows.slice(1).map(r => `<tr>${r.map(c => `<td>${escapeHtml(c)}</td>`).join('')}</tr>`).join('')}
+            </tbody>
+          </table>
+        ` : '';
+
+        // Closed-loop verification status box inside Page Card
+        const verifBoxHtml = isFail ? `
+          <div style="background:rgba(239,68,68,0.16);border:2px solid #ef4444;border-radius:9px;padding:12px 14px;margin:10px 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <strong style="color:#fca5a5;">[✗ OUTCOME MISMATCH DETECTED] Expected Outcome Not Reached on Page ${p.page_num}!</strong>
+              <button class="btn emerald" onclick='copyText(${JSON.stringify(vspec.debug_fix_oneliner || p.one_liner)})'>
+                🛠️ Copy Auto-Debug & Fix One-Liner
+              </button>
+            </div>
+            <div style="font-size:12px;color:#fde68a;margin-top:6px;">
+              <strong>Root-Cause Diagnosis:</strong> ${escapeHtml(vspec.mismatch_diagnosis || '')}
+            </div>
+            <div style="font-size:12px;color:#cbd5e1;margin-top:4px;">
+              ${(vspec.debug_steps_explained || []).map(escapeHtml).join('<br>')}
+            </div>
+            <div class="code-box" style="border-color:#ef4444;color:#fde68a;">${escapeHtml(vspec.debug_fix_oneliner || p.one_liner)}</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+              <div>
+                <strong style="font-size:11.5px;color:#34d399;">Expected Algorithm Outcome:</strong>
+                <div class="code-box" style="font-size:11px;">${escapeHtml((p.expected_out || []).join('\n'))}</div>
+              </div>
+              <div>
+                <strong style="font-size:11.5px;color:#fca5a5;">Actual Terminal Log Output:</strong>
+                <div class="code-box" style="font-size:11px;color:#fca5a5;">${escapeHtml(rec.log_excerpt || '')}</div>
+              </div>
+            </div>
+          </div>
+        ` : (isDone ? `
+          <div style="background:rgba(16,185,129,0.14);border:1px solid #10b981;border-radius:9px;padding:11px 14px;margin:10px 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <div>
+                <strong style="color:#34d399;">[✓ EXPECTED OUTCOME VERIFIED] Terminal Output Matched Expected Algorithm Results!</strong>
+                <div style="font-size:12px;color:#d1fae5;margin-top:3px;">
+                  Matched Verification Markers: <code>${escapeHtml((rec.matched_markers || vspec.required_markers || []).join(', ') || 'Exit Code 0')}</code>
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn amber" onclick="setPageSubtab(${p.page_num}, 'subcmds')">🔍 Small Commands Lab</button>
+                <button class="btn purple" onclick="setPageSubtab(${p.page_num}, 'study')">📘 Assigned Learning (${tasksDoneCount}/${ltasks.length})</button>
+                <button class="btn emerald" onclick="setPageSubtab(${p.page_num}, 'quiz')">🎯 Page ${p.page_num} Quiz (${qCorrectCount}/${rawQList.length}✓)</button>
+              </div>
+            </div>
+          </div>
+        ` : '');
+
+        // SUBTAB 1: One-Liner & Outcome Verifier
+        const execView = `
+          ${levelGuidanceHtml}
+          <div class="pipeline-row">${pipeHtml}</div>
+          ${verifBoxHtml}
+          <div style="margin:6px 0;font-size:11.5px;color:#fbbf24;font-weight:700;">
+            Box 5 · Combined Copy-Paste Page ${p.page_num} One-Liner (${escapeHtml(p.where_badge)}):
+          </div>
+          <div class="code-box">${escapeHtml(p.one_liner)}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+            <div style="font-size:11.5px;color:#a7f3d0;font-family:var(--mono);">
+              Expected Outcome Markers: ${escapeHtml((vspec.required_markers || []).join(' · '))} | ${(p.expected_out || [])[0] || ''}
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="btn secondary" onclick="simulateTerminalOutcome(${p.page_num}, 'MISMATCH')" title="Test what happens if terminal output fails or mismatches expected markers">
+                🧪 Test Mismatch / Auto-Debugger
+              </button>
+              <button class="btn secondary" onclick="simulateTerminalOutcome(${p.page_num}, 'PASS')" title="Test what happens when terminal output matches expected markers">
+                ✓ Simulate Verified Match & Unlock Lab
+              </button>
+            </div>
+          </div>
+          <details style="margin-top:8px;">
+            <summary>Show Box 2 Verification Table, Box 3 Beginner Trap, Box 4 Line-by-Line Code, Auto-Debug Recovery Command & Captured Log</summary>
+            <div style="margin-top:8px;">
+              <strong style="color:#93c5fd;font-size:12px;">Box 2 · Hardware-to-Verilog / Command-to-Action Verification Table:</strong>
+              ${tblHtml}
+              <div style="background:rgba(239,68,68,0.12);border:1px solid #dc2626;border-radius:7px;padding:8px 11px;margin:8px 0;font-size:12px;color:#fecaca;">
+                <strong>Box 3 · [!] Critical Engineering Note / Beginner Trap:</strong><br>
+                ${(p.trap_notes || []).map(escapeHtml).join('<br>')}
+              </div>
+              <strong style="color:#93c5fd;font-size:12px;">Box 4 · Line-by-Line Commented Code & Individual Terminal Commands:</strong>
+              <div class="code-box" style="color:#cbd5e1;">${escapeHtml((p.code_block || p.individual_commands || []).join('\n'))}</div>
+              <div style="background:rgba(245,158,11,0.12);border:1px solid #d97706;border-radius:7px;padding:8px 11px;margin:8px 0;font-size:12px;color:#fde68a;">
+                <strong>Box 6 · Auto-Debug Recovery One-Liner & Fallback Troubleshooting (If Outcome Mismatches → Copy Fix Below):</strong><br>
+                ${escapeHtml(vspec.mismatch_diagnosis || '')}
+                <div class="code-box" style="color:#fde68a;margin-top:6px;">${escapeHtml(vspec.debug_fix_oneliner || '')}</div>
+                ${(p.fallback_notes || []).map(escapeHtml).join('<br>')}
+              </div>
+            </div>
+            ${rec ? `
+              <div style="margin-top:8px;">
+                <strong style="color:#34d399;">Captured Live Terminal Output (${escapeHtml(rec.step_id)}.log):</strong>
+                <div class="code-box" style="color:#f8fafc;">${escapeHtml(rec.log_excerpt || '')}</div>
+                ${rec.screenshot_file ? `<img src="${rec.screenshot_file}?t=${Date.now()}" onclick="zoomImage('${rec.screenshot_file}')" style="max-width:100%;border-radius:8px;border:1px solid #334155;margin-top:6px;cursor:zoom-in;">` : ''}
+              </div>
+            ` : ''}
+          </details>
+        `;
+
+        // SUBTAB 2: Small Commands Deconstructor
+        const subcmds = p.subcommand_breakdown || [];
+        const subcmdView = `
+          <div style="background:rgba(245,158,11,0.12);border:1px solid #d97706;border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;">
+            <strong style="color:#fbbf24;">How the Small Commands Build Page ${p.page_num}'s Combined One-Liner:</strong>
+            <div style="color:#e2e8f0;margin-top:4px;">
+              Page ${p.page_num}'s combined one-liner chains <strong>${subcmds.length} small commands</strong> using <code>&amp;&amp;</code> inside <code>snap_step "${escapeHtml(p.step_id)}"</code>.
+              Study each small command below to see <strong>(1) What task it performs</strong>, <strong>(2) Its in-depth technical meaning</strong>, <strong>(3) How it correlates to ENGR 852 lectures</strong>, and <strong>(4) What it does in real 14nm chip design</strong>:
+            </div>
+          </div>
+          ${subcmds.map(sc => `
+            <div class="subcmd-card">
+              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+                <span class="pill amber">Small Command #${sc.seq} of ${subcmds.length}</span>
+                <button class="btn secondary" style="padding:3px 9px;font-size:11px;" onclick='copyText(${JSON.stringify(sc.cmd)})'>📋 Copy Small Command #${sc.seq}</button>
+              </div>
+              <div class="code-box" style="color:#fde68a;margin:6px 0;">$ ${escapeHtml(sc.cmd)}</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;margin-top:6px;">
+                <div><strong style="color:#60a5fa;">1. Hands-On Task Performed:</strong><br>${escapeHtml(sc.task_performed)}</div>
+                <div><strong style="color:#34d399;">2. In-Depth Technical Meaning:</strong><br>${escapeHtml(sc.in_depth_meaning)}</div>
+                <div><strong style="color:#c4b5fd;">3. ENGR 852 Lecture Correlation:</strong><br>${escapeHtml(sc.lecture_correlation)}</div>
+                <div><strong style="color:#fbbf24;">4. Role in 14nm ASIC Chip Design:</strong><br>${escapeHtml(sc.chip_design_role)}</div>
+              </div>
+            </div>
+          `).join('')}
+        `;
+
+        // SUBTAB 3: Assigned Pre-Quiz Learning Path (Chapter Walkthrough + Curated YouTube Tutorials + PhET Simulator + Midterm)
+        const tm = p.three_methods || {};
+        const ytTask = ltasks.find(t => t.type === 'YOUTUBE_VIDEO') || {};
+        const ytVideos = ytTask.videos || [];
+        const midTask = ltasks.find(t => t.type === 'MIDTERM_PRACTICE') || {};
+
+        const studyView = `
+          <!-- Assigned Learning Checklist Bar -->
+          <div style="background:rgba(16,185,129,0.12);border:1px solid #059669;border-radius:9px;padding:12px 14px;margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <div>
+                <span class="pill green">🎓 ASSIGNED LEARNING PATH (${tasksDoneCount} / ${ltasks.length} TASKS OPENED)</span>
+                <strong style="color:#f8fafc;margin-left:8px;font-size:13px;">Complete the 4 Interactive Study Tasks Below Before Taking the Quiz (Or Skip Straight to Quiz)</strong>
+              </div>
+              <button class="btn amber" onclick="skipToQuiz(${p.page_num})">⚡ Skip Learning Tasks & Jump Straight to Quiz →</button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:10px;">
+              ${ltasks.map(t => {
+                const isTaskDone = Boolean(LEARNING_TASKS[t.task_id]);
+                const actionStr = t.type === 'INTERACTIVE_SIM' ? `'sim'` : (t.type === 'MIDTERM_PRACTICE' ? `'midterm'` : `'read'`);
+                return `
+                  <div style="background:#0f172a;border:1px solid ${isTaskDone ? '#10b981' : '#334155'};border-radius:8px;padding:9px 11px;font-size:11.5px;display:flex;flex-direction:column;justify-content:space-between;gap:6px;">
+                    <div>
+                      <span class="pill ${isTaskDone ? 'green' : 'blue'}">${isTaskDone ? '✓ COMPLETED' : escapeHtml(t.badge)}</span>
+                      <div style="color:#e2e8f0;font-weight:600;margin-top:5px;">${escapeHtml(t.title)}</div>
+                    </div>
+                    <button class="btn ${isTaskDone ? 'secondary' : 'emerald'}" style="padding:4px 8px;font-size:11px;width:100%;" onclick="markLearningTask('${t.task_id}', ${actionStr})">
+                      ${isTaskDone ? '✓ Task Verified (Click to Re-Open)' : '▶ Open & Mark Task Verified'}
+                    </button>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- Task 1: Chapter Walkthrough & Three-Method Study Guide -->
+          <div style="background:rgba(139,92,246,0.12);border:1px solid #7c3aed;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:12.5px;line-height:1.5;" onclick="markLearningTask('p${p.page_num}_task1_lecture', 'read')">
+            <span class="pill purple">📖 Task 1 · ${escapeHtml(p.foundation_ref || 'Chapter 1–11 Foundation')}</span>
+            <div style="margin-top:6px;color:#e2e8f0;">${escapeHtml(p.foundation_text || '')}</div>
+          </div>
+          <div class="method-grid">
+            <div class="method-box m1">
+              <h4>Method 1 — Understand Behavior (Plain Words & Trace)</h4>
+              ${escapeHtml(tm.method1 || '')}
+            </div>
+            <div class="method-box m2">
+              <h4>Method 2 — Prove It (Math / Table / STA Timing)</h4>
+              <div style="white-space:pre-wrap;">${escapeHtml(tm.method2 || '')}</div>
+            </div>
+            <div class="method-box m3">
+              <h4>Method 3 — Think in RTL & 14nm Hardware</h4>
+              ${escapeHtml(tm.method3 || '')}
+            </div>
+          </div>
+
+          <!-- Task 2: Curated YouTube Video Tutorials -->
+          <div style="background:rgba(59,130,246,0.11);border:1px solid #2563eb;border-radius:9px;padding:12px;margin-top:12px;">
+            <strong style="color:#93c5fd;font-size:12.5px;display:block;margin-bottom:8px;">🎬 Task 2 · Curated YouTube Video Tutorials & Visual Demonstrations for Page ${p.page_num} (Click Any Video to Watch & Verify Task 2):</strong>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;">
+              ${ytVideos.map(v => `
+                <div style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:10px;font-size:12px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                    <span class="pill red">▶ YouTube Tutorial</span>
+                    <span class="pill blue">${escapeHtml(v.duration || '10 min')}</span>
+                  </div>
+                  <div style="font-weight:700;color:#f8fafc;margin:4px 0;">${escapeHtml(v.title)}</div>
+                  <div style="color:#cbd5e1;font-size:11.5px;margin-bottom:8px;">${escapeHtml(v.focus)}</div>
+                  <a href="${v.url}" target="_blank" class="btn emerald" style="text-decoration:none;display:inline-block;padding:5px 10px;font-size:11.5px;" onclick="markLearningTask('p${p.page_num}_task2_youtube', 'read')">
+                    ↗ Watch on YouTube & Mark Task 2 Done
+                  </a>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Task 3 & Task 4 Quick Launchers -->
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:12px;">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn blue" onclick="markLearningTask('p${p.page_num}_task3_simulator', 'sim')">
+                🎛️ Task 3: Open Interactive Hardware & STA Simulator
+              </button>
+              <button class="btn purple" onclick="markLearningTask('p${p.page_num}_task4_midterm', 'midterm')">
+                📝 Task 4: Practice Correlated Midterm (${escapeHtml(midTask.midterm_id || 'Q1–Q10')})
+              </button>
+            </div>
+            <button class="btn emerald" onclick="setPageSubtab(${p.page_num}, 'quiz')">
+              🎯 Proceed to Page ${p.page_num} Adaptive Mastery Quiz (${rawQList.length} Questions) →
+            </button>
+          </div>
+        `;
+
+        // SUBTAB 4: Gemini / Khan Academy / Brilliant-Style 5-Question Multi-Difficulty Quiz
+        const quizToolbar = `
+          <div style="background:rgba(30,41,59,0.9);border:1px solid #475569;border-radius:9px;padding:10px 13px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+            <div>
+              <strong style="color:#f8fafc;font-size:13px;">🎯 Page ${p.page_num} Interactive Mastery Quiz (5 Multi-Difficulty Questions · Hints + Why-Right/Why-Wrong Diagnostics)</strong>
+              <div style="font-size:11.5px;color:#cbd5e1;margin-top:2px;">
+                Inspired by Khan Academy, Brilliant & Gemini Interactive Quizzes: Click <strong>💡 Show Hint</strong> before answering, or click any choice to see <strong>why that specific option is right or wrong</strong>!
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="btn ${QUIZ_ORDER === 'easy_to_hard' ? 'emerald' : 'secondary'}" onclick="setQuizOrder('easy_to_hard')">
+                🌱 Order: Easy → Hard
+              </button>
+              <button class="btn ${QUIZ_ORDER === 'hard_to_easy' ? 'emerald' : 'secondary'}" onclick="setQuizOrder('hard_to_easy')">
+                🔥 Order: Hard → Easy (Challenge)
+              </button>
+            </div>
+          </div>
+        `;
+
+        const quizCardsHtml = sortedQList.map((qObj, dispIdx) => {
+          const qKey = `p${p.page_num}_q${qObj.origIdx}`;
+          const saved = QUIZ_ANSWERS[qKey];
+          const hintVisible = Boolean(HINT_OPEN[qKey]);
+          const diffBadgeCol = (qObj.difficulty_rank >= 4) ? 'red' : (qObj.difficulty_rank === 3 ? 'amber' : 'green');
+          const chosenDiag = (saved && qObj.choice_diagnostics && qObj.choice_diagnostics[saved.chosen])
+            ? qObj.choice_diagnostics[saved.chosen]
+            : '';
+
+          return `
+            <div class="quiz-card">
+              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:6px;">
+                <div>
+                  <span class="pill ${diffBadgeCol}">${escapeHtml(qObj.difficulty_label || `Question ${dispIdx + 1}`)}</span>
+                  <span class="pill blue" style="margin-left:6px;">Q${dispIdx + 1} of ${sortedQList.length}</span>
+                </div>
+                ${qObj.hint ? `
+                  <button class="btn secondary" style="padding:3px 9px;font-size:11px;" onclick="toggleHint('${qKey}')">
+                    💡 ${hintVisible ? 'Hide Hint' : 'Show Hint'}
+                  </button>
+                ` : ''}
+              </div>
+              <div style="font-weight:700;font-size:13px;color:#f8fafc;margin-bottom:8px;">
+                ${escapeHtml(qObj.q)}
+              </div>
+              ${(qObj.hint && hintVisible) ? `
+                <div style="background:rgba(245,158,11,0.14);border-left:3px solid #f59e0b;padding:8px 11px;border-radius:6px;font-size:12px;color:#fde68a;margin-bottom:8px;">
+                  <strong>💡 Hint:</strong> ${escapeHtml(qObj.hint)}
+                </div>
+              ` : ''}
+              ${(qObj.options || []).map((opt, oi) => {
+                let optCls = 'quiz-opt';
+                if (saved) {
+                  if (oi === qObj.answer) optCls += ' correct';
+                  else if (oi === saved.chosen && !saved.correct) optCls += ' wrong';
+                }
+                return `<button class="${optCls}" onclick="answerQuiz('${qKey}', ${oi}, ${qObj.answer})">${escapeHtml(opt)}</button>`;
+              }).join('')}
+              <div class="quiz-explain" style="display:${saved ? 'block' : 'none'};">
+                <div style="margin-bottom:6px;color:${saved && saved.correct ? '#34d399' : '#fca5a5'};font-weight:700;">
+                  ${saved && saved.correct ? '✓ CORRECT! Why Your Choice Is Right:' : '✗ NOT QUITE — Why Your Selected Option Is Wrong & How to Fix It:'}
+                </div>
+                ${chosenDiag ? `<div style="margin-bottom:8px;color:#f8fafc;">• <strong>Your Selection Analysis:</strong> ${escapeHtml(chosenDiag)}</div>` : ''}
+                <div style="color:#d1fae5;border-top:1px dashed #334155;padding-top:6px;">
+                  • <strong>Complete Answer Key & Derivation:</strong> ${escapeHtml(qObj.explain)}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        const quizView = quizToolbar + quizCardsHtml;
+
+        return `
+          <div class="page-item ${cls}" id="page-card-${p.page_num}">
+            <div class="page-hdr">
+              <div>
+                ${statusBadge}
+                <span class="pill blue" style="margin-left:6px;">${escapeHtml(p.v_stage)}</span>
+                <span class="pill secondary" style="margin-left:6px;">${escapeHtml(p.env_tag)}</span>
+                <span class="pill green" style="margin-left:6px;">Learning: ${tasksDoneCount}/${ltasks.length}</span>
+                <span class="pill purple" style="margin-left:6px;">Quiz: ${qCorrectCount}/${rawQList.length}✓</span>
+                <div class="page-title" style="margin-top:6px;">${escapeHtml(p.title)}</div>
+                <div style="font-size:12px;color:var(--muted);">${escapeHtml(p.subtitle)}</div>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn ${isNext ? 'emerald' : ''}" onclick='copyText(${JSON.stringify(p.one_liner)})'>
+                  📋 Copy Page ${p.page_num} One-Liner
+                </button>
+              </div>
+            </div>
+
+            <div class="subtab-bar">
+              <button class="subtab-btn ${activeSub === 'exec' ? 'active' : ''}" onclick="setPageSubtab(${p.page_num}, 'exec')">
+                ⚡ 1. One-Liner & Outcome Verifier
+              </button>
+              <button class="subtab-btn ${activeSub === 'subcmds' ? 'active' : ''}" onclick="setPageSubtab(${p.page_num}, 'subcmds')">
+                🔍 2. Small Commands Deconstructor (${subcmds.length} Steps)
+              </button>
+              <button class="subtab-btn ${activeSub === 'study' ? 'active' : ''}" onclick="setPageSubtab(${p.page_num}, 'study')">
+                📘 3. Assigned Learning, YouTube & Lab (${tasksDoneCount}/${ltasks.length})
+              </button>
+              <button class="subtab-btn ${activeSub === 'quiz' ? 'active' : ''}" onclick="setPageSubtab(${p.page_num}, 'quiz')">
+                🎯 4. Adaptive Mastery Quiz (${qCorrectCount}/${rawQList.length}✓)
+              </button>
+            </div>
+
+            <div style="display:${activeSub === 'exec' ? 'block' : 'none'};">${execView}</div>
+            <div style="display:${activeSub === 'subcmds' ? 'block' : 'none'};">${subcmdView}</div>
+            <div style="display:${activeSub === 'study' ? 'block' : 'none'};">${studyView}</div>
+            <div style="display:${activeSub === 'quiz' ? 'block' : 'none'};">${quizView}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // === TAB 6: SIMULATORS & STUDY GUIDE RENDERING ===
+    function loadStaPreset(name) {
+      const setVal = (id, v) => { document.getElementById(id).value = v; };
+      if (name === 'q4') {
+        setVal('sta-tclk', 20000); setVal('sta-tcq-max', 6000); setVal('sta-tlog-max', 10000);
+        setVal('sta-tset', 3000); setVal('sta-skew-set', 1000);
+        setVal('sta-tcq-min', 2000); setVal('sta-tlog-min', 0); setVal('sta-thold', 2000); setVal('sta-skew-hold', 1000);
+      } else if (name === 'q9') {
+        setVal('sta-tclk', 2500); setVal('sta-tcq-max', 950); setVal('sta-tlog-max', 590);
+        setVal('sta-tset', 300); setVal('sta-skew-set', 750);
+        setVal('sta-tcq-min', 300); setVal('sta-tlog-min', 30); setVal('sta-thold', 400); setVal('sta-skew-hold', 750);
+      } else if (name === 'asic_ss') {
+        setVal('sta-tclk', 1923); setVal('sta-tcq-max', 110); setVal('sta-tlog-max', 1453);
+        setVal('sta-tset', 60); setVal('sta-skew-set', 80);
+        setVal('sta-tcq-min', 45); setVal('sta-tlog-min', 55); setVal('sta-thold', 30); setVal('sta-skew-hold', 70);
+      } else if (name === 'asic_ff') {
+        setVal('sta-tclk', 1923); setVal('sta-tcq-max', 75); setVal('sta-tlog-max', 1018);
+        setVal('sta-tset', 40); setVal('sta-skew-set', 80);
+        setVal('sta-tcq-min', 35); setVal('sta-tlog-min', 55); setVal('sta-thold', 20); setVal('sta-skew-hold', 70);
+      }
+      calcSta();
+    }
+
+    function calcSta() {
+      const tclk = Number(document.getElementById('sta-tclk').value || 0);
+      const tcqMax = Number(document.getElementById('sta-tcq-max').value || 0);
+      const tlogMax = Number(document.getElementById('sta-tlog-max').value || 0);
+      const tset = Number(document.getElementById('sta-tset').value || 0);
+      const skewSet = Number(document.getElementById('sta-skew-set').value || 0);
+      const tcqMin = Number(document.getElementById('sta-tcq-min').value || 0);
+      const tlogMin = Number(document.getElementById('sta-tlog-min').value || 0);
+      const thold = Number(document.getElementById('sta-thold').value || 0);
+      const skewHold = Number(document.getElementById('sta-skew-hold').value || 0);
+
+      const tminSetup = tcqMax + tlogMax + tset + skewSet;
+      const setupSlack = tclk - tminSetup;
+      const fmaxMhz = tminSetup > 0 ? (1000000 / tminSetup).toFixed(2) : '0';
+      const fcurMhz = tclk > 0 ? (1000000 / tclk).toFixed(2) : '0';
+
+      const holdArr = tcqMin + tlogMin;
+      const holdReq = thold + skewHold;
+      const holdSlack = holdArr - holdReq;
+
+      document.getElementById('sta-result-box').textContent =
+`[1] SETUP CHECK (Slowest Max Path vs. Next Clock Edge T_clk = ${tclk} ps [${fcurMhz} MHz]):
+    T_req,setup = T_CQ,max (${tcqMax}) + T_logic,max (${tlogMax}) + T_setup (${tset}) + T_skew (${skewSet}) = ${tminSetup} ps
+    Setup Slack = T_clk (${tclk}) - T_req,setup (${tminSetup}) = ${setupSlack >= 0 ? '+' : ''}${setupSlack} ps  --> ${setupSlack >= 0 ? '✓ SETUP PASS' : '✗ SETUP VIOLATION!'}
+    Fastest Allowed Period T_min = ${tminSetup} ps (${(tminSetup/1000).toFixed(3)} ns)  =>  f_max = ${fmaxMhz} MHz
+
+[2] HOLD CHECK (Fastest Min Path vs. Same Clock Edge — Independent of T_clk!):
+    Min Arrival = T_CQ,min (${tcqMin}) + T_logic,min (${tlogMin}) = ${holdArr} ps
+    Hold Window = T_hold,max (${thold}) + T_skew (${skewHold}) = ${holdReq} ps
+    Hold Slack  = ${holdArr} - ${holdReq} = ${holdSlack >= 0 ? '+' : ''}${holdSlack} ps  --> ${holdSlack >= 0 ? '✓ HOLD PASS' : '✗ HOLD VIOLATION (Add >= ' + Math.abs(holdSlack) + ' ps delay buffer)!'}`;
+    }
+
+    function loadSadPreset(r, s, rows) {
+      document.getElementById('sad-r').value = r;
+      document.getElementById('sad-s').value = s;
+      document.getElementById('sad-rows').value = rows;
+      calcSad();
+    }
+
+    function calcSad() {
+      const r = Math.min(255, Math.max(0, Number(document.getElementById('sad-r').value || 0)));
+      const s = Math.min(255, Math.max(0, Number(document.getElementById('sad-s').value || 0)));
+      const rows = Math.min(16, Math.max(1, Number(document.getElementById('sad-rows').value || 1)));
+      const diff = Math.abs(r - s);
+      const pixels = rows * 16;
+      const trueSad = pixels * diff;
+      const sad8 = Math.min(255, trueSad);
+      const hex8 = '0x' + sad8.toString(16).toUpperCase().padStart(2, '0');
+      const hex16 = '0x' + trueSad.toString(16).toUpperCase().padStart(4, '0');
+      const cmp8 = sad8 < 255;
+      const cmp16 = trueSad < 65535;
+
+      document.getElementById('sad-result-box').textContent =
+`Per-Pixel |R - S| = |${r} - ${s}| = ${diff}   |   Pixels Accumulated = ${rows} rows * 16 = ${pixels} pixels
+Mathematical True SAD = ${pixels} * ${diff} = ${trueSad} (${hex16})
+
+• V1 8-Bit Baseline (rtl/8bit/top.v, Init BestDist = 8'hFF [255]):
+  Accumulate[7:0] = ${sad8} (${hex8}) ${trueSad > 255 ? '[SATURATED AT 8\'hFF!]' : '[No Overflow]'}
+  comp.v Strict '<' Check (${hex8} < 0xFF): ${cmp8 ? '1 -> newBest=1 (Latches motionX/Y)' : '0 -> newBest=0 (FAILS! motionX/Y remain xx!)'}
+
+• V2–V9 16-Bit Upgrade (rtl/16bit/top.v, Init BestDist = 16'hFFFF [65,535]):
+  Accumulate[15:0] = ${trueSad} (${hex16}) [100% Exact Full Precision]
+  comp.v Strict '<' Check (${hex16} < 0xFFFF): ${cmp16 ? '1 -> newBest=1 (PASS! Latches exact motionX/motionY)' : '0'}`;
+    }
+
+    function loadCmosPreset(vdd, ron, freq) {
+      document.getElementById('cmos-vdd').value = vdd;
+      document.getElementById('cmos-ron').value = ron;
+      document.getElementById('cmos-freq').value = freq;
+      calcCmos();
+    }
+
+    function calcCmos() {
+      const vdd = Number(document.getElementById('cmos-vdd').value || 0.8);
+      const ron = Number(document.getElementById('cmos-ron').value || 1.0);
+      const cload = Number(document.getElementById('cmos-cload').value || 18);
+      const freq = Number(document.getElementById('cmos-freq').value || 520);
+      const alpha = Number(document.getElementById('cmos-alpha').value || 0.2);
+
+      const tauPs = (ron * cload).toFixed(2);
+      const tpdPs = (0.69 * ron * cload).toFixed(2);
+      const energyFj = (cload * vdd * vdd).toFixed(2);
+      const pDynMw = (8230 * alpha * cload * 1e-15 * vdd * vdd * freq * 1e6 * 1e3).toFixed(3);
+
+      document.getElementById('cmos-result-box').textContent =
+`[1] RC Gate & Interconnect Delay (F9: τ = R_on · C_load):
+    τ_RC = ${ron} kΩ * ${cload} fF = ${tauPs} ps   |   50% Propagation Delay t_p ≈ 0.69·τ = ${tpdPs} ps
+
+[2] Dynamic Switching Energy & 8,230-Cell Chip Power (F10: P_dyn = α · C_total · V_DD² · f):
+    Energy per 0→1→0 Gate Cycle (C·V_DD²) = ${energyFj} fJ
+    Estimated 8,230-Cell Core Dynamic Power at ${freq} MHz (V_DD = ${vdd}V, α = ${alpha}) = ${pDynMw} mW`;
+    }
+
+    function setCycleStep(val) {
+      document.getElementById('cyc-slider').value = val;
+      document.getElementById('cyc-num').value = val;
+      renderCycleStep(val);
+    }
+    function syncCycleInput(val) {
+      document.getElementById('cyc-num').value = val;
+      renderCycleStep(Number(val));
+    }
+    function syncCycleSlider(val) {
+      const c = Math.min(4111, Math.max(0, Number(val || 0)));
+      document.getElementById('cyc-slider').value = c;
+      renderCycleStep(c);
+    }
+
+    function renderCycleStep(count) {
+      const hexCount = '13\'h' + count.toString(16).toUpperCase().padStart(4, '0');
+      const addrR = count & 0xFF;
+      const colJ = count & 0xF;
+      const rowI = (count >> 4) & 0xF;
+      const searchV = (count >> 8) & 0xF;
+      const activePes = Math.min(16, count + 1);
+      const completed = count >= 4111;
+      const timeNs = (count * 1.923).toFixed(2);
+
+      document.getElementById('cyc-result-box').textContent =
+`Cycle count = ${count} (${hexCount})   |   Physical Elapsed Time @ 520 MHz = ${timeNs} ns
+• Reference AddressR[7:0] = 8'h${addrR.toString(16).toUpperCase().padStart(2,'0')} (Pixel Row i=${rowI}, Col j=${colJ} of 16x16 Ref Block)
+• Vertical Search Row v   = ${searchV} (Displacement dy = ${searchV - 8})
+• Active Systolic PEs     = ${activePes} / 16 PEs (${activePes === 16 ? 'Full 16-PE Pipeline Operating in Parallel!' : 'Filling Rpipe[0..14] Shift Register'})
+• Completion Hold Flag    = Completed = ${completed ? '1\'b1 (Cycle 4111 Freeze Active -> BestDist, motionX, motionY Latched!)' : '1\'b0 (Searching...)'}`;
+    }
+
+    function renderStudyGuide() {
+      const lecs = STUDY.lectures_and_homeworks || [];
+      document.getElementById('lectures-container').innerHTML = lecs.map(l => `
+        <div class="page-item" style="margin-top:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+            <div>
+              <span class="pill blue">${escapeHtml(l.tag)}</span>
+              <span class="pill green" style="margin-left:6px;">${escapeHtml(l.pages_linked)}</span>
+              <div class="page-title" style="margin-top:5px;">${escapeHtml(l.title)}</div>
+            </div>
+          </div>
+          <div class="method-grid">
+            <div class="method-box m1"><h4>Method 1 · Understand Behavior</h4>${escapeHtml(l.method1)}</div>
+            <div class="method-box m2"><h4>Method 2 · Prove It (Math / Table)</h4>${escapeHtml(l.method2)}</div>
+            <div class="method-box m3"><h4>Method 3 · Think in RTL & Hardware</h4>${escapeHtml(l.method3)}</div>
+          </div>
+        </div>
+      `).join('');
+
+      const fnds = STUDY.foundations || [];
+      document.getElementById('foundations-container').innerHTML = fnds.map(f => `
+        <div class="card" style="background:#0f172a;">
+          <h3><span>${escapeHtml(f.id)} · ${escapeHtml(f.category)}</span></h3>
+          <div style="font-weight:700;font-size:14px;color:#f8fafc;margin-bottom:6px;">${escapeHtml(f.title)}</div>
+          <div style="font-size:12.5px;color:#cbd5e1;line-height:1.5;">${escapeHtml(f.basic_concept)}</div>
+          <div class="code-box" style="font-size:11.5px;padding:8px;">${escapeHtml(f.equation)}</div>
+          <div style="font-size:12px;color:#93c5fd;line-height:1.45;"><strong>14nm Project & Exam Link:</strong> ${escapeHtml(f.asic_connection)}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderMidtermBank() {
+      const bank = STUDY.midterm_and_exam_bank || [];
+      document.getElementById('midterm-container').innerHTML = bank.map((qObj, idx) => {
+        const qKey = `exam_${qObj.id}`;
+        const saved = QUIZ_ANSWERS[qKey];
+        const linkedBtns = (qObj.linked_pages || []).map(pn =>
+          `<button class="btn secondary" style="padding:4px 9px;font-size:11px;" onclick="openPageInChecklist(${pn}, 'study')">↗ Jump to Page ${pn}</button>`
+        ).join(' ');
+
+        return `
+          <div class="page-item ${saved && saved.correct ? 'done' : ''}">
+            <div class="page-hdr">
+              <div>
+                <span class="pill blue">${escapeHtml(qObj.id)} · ${escapeHtml(qObj.source)}</span>
+                <span class="pill purple" style="margin-left:6px;">${escapeHtml(qObj.topic)}</span>
+                ${saved ? (saved.correct ? '<span class="pill green" style="margin-left:6px;">✓ SOLVED</span>' : '<span class="pill red" style="margin-left:6px;">✗ REVIEW</span>') : ''}
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">${linkedBtns}</div>
+            </div>
+
+            <div class="code-box" style="color:#f8fafc;font-size:13px;margin-top:10px;">${escapeHtml(qObj.prompt)}</div>
+
+            <div style="margin-top:8px;">
+              ${(qObj.options || []).map((opt, oi) => {
+                let optCls = 'quiz-opt';
+                if (saved) {
+                  if (oi === qObj.correct_index) optCls += ' correct';
+                  else if (oi === saved.chosen && !saved.correct) optCls += ' wrong';
+                }
+                return `<button class="${optCls}" onclick="answerQuiz('${qKey}', ${oi}, ${qObj.correct_index})">${escapeHtml(opt)}</button>`;
+              }).join('')}
+            </div>
+
+            <div class="quiz-explain" style="display:${saved ? 'block' : 'none'};">
+              <strong>✓ Official Answer & Step-by-Step Whiteboard Proof:</strong>\n${escapeHtml(qObj.short_answer)}\n\n${escapeHtml(qObj.whiteboard_proof)}
+              ${qObj.rtl_fix ? `\n\n<strong>Synthesizable Verilog / STA Implementation:</strong>\n${escapeHtml(qObj.rtl_fix)}` : ''}
+            </div>
+
+            ${qObj.sheet_img ? `
+              <details style="margin-top:10px;" ${saved ? 'open' : ''}>
+                <summary>📓 View 3-Page Spiral-Notebook Visual Solution Sheet for ${escapeHtml(qObj.id)} (Click Image to Zoom Full-Screen)</summary>
+                <img src="${qObj.sheet_img}" alt="${escapeHtml(qObj.id)} Spiral Notebook Sheet" onclick="zoomImage('${qObj.sheet_img}')" style="width:100%;border-radius:9px;border:1px solid #334155;margin-top:8px;cursor:zoom-in;">
+              </details>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    refreshAll();
+    setInterval(refreshAll, 3500);
+  </script>
+</body>
+</html>
