@@ -5,8 +5,35 @@
 [![Physical DRC](https://img.shields.io/badge/IC_Validator_DRC-0_%2F_242_Violations_Clean-15803d)](#physical-implementation--3-corner-primetime-sign-off-results)
 [![PrimeTime STA](https://img.shields.io/badge/PrimeTime_3--Corner_STA-Setup_%26_Hold_Signed_Off-1d4ed8)](#physical-implementation--3-corner-primetime-sign-off-results)
 [![Verification](https://img.shields.io/badge/Verification-11%2F11_Stage_Gates_PASS-059669)](#verification--testbench-architecture)
+[![Interactive ASIC Academy](https://img.shields.io/badge/Interactive_ASIC_Academy-v1_Classic_%2B_v2_Adaptive_500_Qs-7c3aed)](#featured-recruiter-showcase-interactive-14nm-asic-lab-academy--closed-loop-terminal-verifier)
+[![Live Replication Sub-Branch](https://img.shields.io/badge/Live_Manual_Replication-manual--practice--macbook--air-ea580c)](https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026/tree/manual-practice-macbook-air/practice_from_scratch)
 
 An end-to-end RTL-to-GDSII ASIC implementation and verification showcase of a **16-PE Systolic Full-Search Block-Matching Motion Estimator** designed for **SFSU ENGR 852 (Advanced Digital Design)** using the **Synopsys 14nm FinFET (`SAED14 RVT`)** standard-cell library and EDA tool suite (**Synopsys VCS, Verdi nWave, Fusion Compiler, IC Validator, StarRC, and PrimeTime**).
+
+---
+
+## Featured Recruiter Showcase: Interactive 14nm ASIC Lab Academy & Closed-Loop Terminal Verifier
+
+In addition to the signed-off **520 MHz 14nm FinFET ASIC (`V1 → V9`)** on this `main` branch, this repository includes a full-stack **Interactive ASIC Engineering Academy & Live Terminal Telemetry Platform** that guides any learner—from an **Entry-Level Beginner** opening macOS Terminal for the first time to an **Advanced RTL / Physical Design Engineer**—through manually building, simulating, synthesizing, placing-and-routing, and signing off the entire chip across **100 self-contained pages (`WO-001` to `WO-100`)**:
+
+![Interactive ASIC Academy Recruiter Showcase](evidence/screenshots/interactive_asic_academy_recruiter_showcase.png)
+
+### Published Interactive Website Releases & Live Branches
+
+| Platform / Release | Target Audience & Key Capabilities | Direct Link / File |
+| :--- | :--- | :--- |
+| **v2 Adaptive Interactive ASIC Academy (Latest Release)** | **Step 0 Smart Onboarding & 2-Terminal Window Doctor** (auto-detects new vs. returning learners, diagnoses stale SSH `Broken pipe` windows vs. clean `zsh` terminals, supports **Owner / Guest / No-GitHub Local Sandbox** modes, and adapts between **Beginner / Intermediate / Advanced** tracks); **4-Task Assigned Learning Path** (**Chapters 1–11 Lecture Walkthroughs**, **Curated YouTube Video Tutorials**, **PhET-Style Live 8-Bit vs. 16-Bit SAD & 3-Corner STA Hardware Simulators**, and **Midterm Q1–Q10 Spiral-Notebook Sheets**); and **500 Multi-Difficulty Interactive Quiz Questions (`Easy → Hard` & `Hard → Easy`)** with **Hints** and **Per-Option Diagnostic Explanations ("Why Option A/B/C/D is Right or Wrong")**. | [`docs/interactive_asic_academy.html`](docs/interactive_asic_academy.html) |
+| **v1 Classic Interactive Operations Console (Archived Snapshot)** | Preserved milestone snapshot featuring the **100-Page One-Liner Checklist (`V1 → V9`)**, **Closed-Loop Terminal Outcome Verifier & Auto-Debugger**, **Small-Command Deconstructor**, **Three-Method Study Guide (`F0–F17`)**, and **300-Question Review Bank**. | [`docs/interactive_console_v1_classic.html`](docs/interactive_console_v1_classic.html) |
+| **Live Manual Replication Telemetry Branch (`manual-practice-macbook-air`)** | Dedicated sub-branch where every `snap_step` one-liner executed on the local `MacBook-Air` or SFSU's `mahmoodi` Linux EDA server automatically uploads real-time `.log` transcripts, rendered terminal `.png` screenshots, and verification telemetry while keeping `main` 100% untouched. | [`tree/manual-practice-macbook-air/practice_from_scratch`](https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026/tree/manual-practice-macbook-air/practice_from_scratch) |
+
+### Launch the Interactive ASIC Lab Academy Locally in 1 Command (`:8788`)
+
+```bash
+# Clone & launch the live Interactive ASIC Academy on http://127.0.0.1:8788
+git clone https://github.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026.git
+cd motion-estimator-asic-lab-notebook-2026
+python3 practice_from_scratch/web_console/server.py --port 8788
+```
 
 ---
 
