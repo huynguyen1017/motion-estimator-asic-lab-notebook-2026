@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-09 14:40:39 PST",
-  "epoch": 1794264039.921591,
+  "updated_at": "2026-11-09 14:41:46 PST",
+  "epoch": 1794264106.305324,
   "last_event": "STEP_COMPLETE",
   "active_terminal": "MACBOOK_AIR_TERMINAL",
   "host": "iMac.local",
@@ -8,41 +8,37 @@
   "ip_addresses": "192.168.1.70,130.212.163.69",
   "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
   "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-  "last_step_id": "page002_engr_852_course_project",
-  "last_command": "cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u3' ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v && ls -ld rtl/8bit rtl/16bit tb/8bit tb/16bit",
-  "last_status": "FAIL",
-  "last_exit_code": 2,
+  "last_step_id": "page003_brand_new_macbook_air",
+  "last_command": "xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'import PIL, reportlab, pptx, pypdf; print(\"MACBOOK_CLI_AND_VENV_READY\")'",
+  "last_status": "PASS",
+  "last_exit_code": 0,
   "guardrail_alert": "",
   "latest_feedback": {
-    "page_num": 2,
-    "step_id": "page002_engr_852_course_project",
-    "title": "Page 2: ENGR 852 Course Project Requirements Matrix & 90-100% Grading Rubric",
+    "page_num": 3,
+    "step_id": "page003_brand_new_macbook_air",
+    "title": "Page 3: Brand-New MacBook Air First Boot  -  macOS Terminal, Xcode CLI Tools, & Python Setup",
     "v_stage": "V1-PREP",
-    "status": "FAIL",
-    "verification_state": "OUTCOME_MISMATCH",
-    "exit_code": 2,
+    "status": "PASS",
+    "verification_state": "VERIFIED_MATCH",
+    "exit_code": 0,
     "matched_markers": [
-      "RUBRIC_CHECK",
-      "0000",
-      "0100",
-      "FF00"
+      "MACBOOK_CLI_AND_VENV_READY"
     ],
     "missing_markers": [],
     "expected_out": [
-      "RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA",
-      "top u1 (clock, start, BestDist, motionX, motionY, AddressR, AddressS1, AddressS2, R, S1, S2);",
-      "RMEM u2 (AddressR, R);",
-      "SMEM u3 (AddressS1, AddressS2, S1, S2);"
+      "/Library/Developer/CommandLineTools",
+      "git version 2.39+",
+      "MACBOOK_CLI_AND_VENV_READY"
     ],
-    "actual_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page002_engr_852_course_project\n# Timestamp                        : 2026-11-09 14:40:39 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u3' ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v && ls -ld rtl/8bit rtl/16bit tb/8bit tb/16bit\n# ==============================================================================\n\n$ cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u3' ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v && ls -ld rtl/8bit rtl/16bit tb/8bit tb/16bit\nRUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA\ngrep: /Users/huynguyen/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v: No such file or directory\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 2\n# Finished At : 2026-11-09 14:40:39 PST\n# ------------------------------------------------------------------------------",
-    "mismatch_diagnosis": "If Page 2 (`page002_engr_852_course_project`) failed or its terminal output did not match the expected outcome, the most common causes are: (1) `~/Developer/motion-estimator-14nm-asic-manual` subdirectories were not yet initialized, (2) `auto_bridge.sh` was not sourced in the current terminal tab, or (3) XQuartz / GlobalProtect VPN needed a refresh.",
-    "debug_fix_oneliner": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,constraints,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026 2>/dev/null || cd /Users/huynguyen/Developer/portfolio/motion-estimator-asic-lab-notebook-2026 && source practice_from_scratch/scripts/auto_bridge.sh && FORCE_STEP=1 snap_step \"page002_engr_852_course_project\" \"cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u3' ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v && ls -ld rtl/8bit rtl/16bit tb/8bit tb/16bit\"",
+    "actual_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page003_brand_new_macbook_air\n# Timestamp                        : 2026-11-09 14:41:38 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'import PIL, reportlab, pptx, pypdf; print(\"MACBOOK_CLI_AND_VENV_READY\")'\n# ==============================================================================\n\n$ xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'import PIL, reportlab, pptx, pypdf; print(\"MACBOOK_CLI_AND_VENV_READY\")'\n/Applications/Xcode.app/Contents/Developer\ngit version 2.56.0\nOpenSSH_10.5p1, LibreSSL 3.3.6\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:46 PST\n# ------------------------------------------------------------------------------",
+    "mismatch_diagnosis": "If Page 3 (`page003_brand_new_macbook_air`) failed or its terminal output did not match the expected outcome, the most common causes are: (1) `~/Developer/motion-estimator-14nm-asic-manual` subdirectories were not yet initialized, (2) `auto_bridge.sh` was not sourced in the current terminal tab, or (3) XQuartz / GlobalProtect VPN needed a refresh.",
+    "debug_fix_oneliner": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,constraints,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026 2>/dev/null || cd /Users/huynguyen/Developer/portfolio/motion-estimator-asic-lab-notebook-2026 && source practice_from_scratch/scripts/auto_bridge.sh && FORCE_STEP=1 snap_step \"page003_brand_new_macbook_air\" \"xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'import PIL, reportlab, pptx, pypdf; print(\\\"MACBOOK_CLI_AND_VENV_READY\\\")'\"",
     "debug_steps_explained": [
       "1. Auto-creates any missing directories inside your isolated practice folder `~/Developer/motion-estimator-14nm-asic-manual/` (leaving the main project untouched).",
       "2. Re-sources `practice_from_scratch/scripts/auto_bridge.sh` so `snap_step` and the `:8788` telemetry bridge are active.",
-      "3. Re-executes Page 2 (`page002_engr_852_course_project`), verifies the expected output markers `['RUBRIC_CHECK', '0000', '0100']`, and syncs the fixed result to `:8788` and GitHub `manual-practice-macbook-air`."
+      "3. Re-executes Page 3 (`page003_brand_new_macbook_air`), verifies the expected output markers `['MACBOOK_CLI_AND_VENV_READY']`, and syncs the fixed result to `:8788` and GitHub `manual-practice-macbook-air`."
     ],
-    "updated_at": "2026-11-09 14:40:39"
+    "updated_at": "2026-11-09 14:41:46"
   },
   "completed_pages": {
     "1": {
@@ -77,129 +73,24 @@
       "screenshot_file": "/files/screenshots/page002_engr_852_course_project_terminal.png",
       "log_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page002_engr_852_course_project\n# Timestamp                        : 2026-11-09 14:40:39 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u3' ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v && ls -ld rtl/8bit rtl/16bit tb/8bit tb/16bit\n# ==============================================================================\n\n$ cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u3' ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v && ls -ld rtl/8bit rtl/16bit tb/8bit tb/16bit\nRUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA\ngrep: /Users/huynguyen/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v: No such file or directory\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 2\n# Finished At : 2026-11-09 14:40:39 PST\n# ------------------------------------------------------------------------------",
       "updated_at": "2026-11-09 14:40:39"
+    },
+    "3": {
+      "page_num": 3,
+      "step_id": "page003_brand_new_macbook_air",
+      "status": "PASS",
+      "verification_state": "VERIFIED_MATCH",
+      "matched_markers": [
+        "MACBOOK_CLI_AND_VENV_READY"
+      ],
+      "missing_markers": [],
+      "exit_code": 0,
+      "log_file": "/files/logs/page003_brand_new_macbook_air.log",
+      "screenshot_file": "/files/screenshots/page003_brand_new_macbook_air_terminal.png",
+      "log_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page003_brand_new_macbook_air\n# Timestamp                        : 2026-11-09 14:41:38 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'import PIL, reportlab, pptx, pypdf; print(\"MACBOOK_CLI_AND_VENV_READY\")'\n# ==============================================================================\n\n$ xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'import PIL, reportlab, pptx, pypdf; print(\"MACBOOK_CLI_AND_VENV_READY\")'\n/Applications/Xcode.app/Contents/Developer\ngit version 2.56.0\nOpenSSH_10.5p1, LibreSSL 3.3.6\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:46 PST\n# ------------------------------------------------------------------------------",
+      "updated_at": "2026-11-09 14:41:46"
     }
   },
   "terminal_feed": [
-    {
-      "time": "14:38:13",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
-    {
-      "time": "14:38:14",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "status_now",
-      "command": "status_now",
-      "status": "INFO",
-      "message": "Checked local terminal state"
-    },
-    {
-      "time": "14:38:14",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
-    {
-      "time": "14:38:14",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "status_now",
-      "command": "status_now",
-      "status": "INFO",
-      "message": "Checked local terminal state"
-    },
-    {
-      "time": "14:39:09",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
-    {
-      "time": "14:39:10",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "page002_engr_852_course_project",
-      "command": "cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u",
-      "status": "FAIL",
-      "message": "Completed page002_engr_852_course_project (exit=2)"
-    },
-    {
-      "time": "14:39:24",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
-    {
-      "time": "14:39:24",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "page002_engr_852_course_project",
-      "command": "cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u",
-      "status": "FAIL",
-      "message": "Completed page002_engr_852_course_project (exit=2)"
-    },
-    {
-      "time": "14:39:34",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
-    {
-      "time": "14:39:35",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "page002_engr_852_course_project",
-      "command": "cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u",
-      "status": "FAIL",
-      "message": "Completed page002_engr_852_course_project (exit=2)"
-    },
     {
       "time": "14:39:53",
       "terminal": "MACBOOK_AIR_TERMINAL",
@@ -511,9 +402,129 @@
       "command": "cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u",
       "status": "FAIL",
       "message": "Completed page002_engr_852_course_project (exit=2)"
+    },
+    {
+      "time": "14:40:52",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "14:40:53",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "page003_brand_new_macbook_air",
+      "command": "xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'impo",
+      "status": "BLOCKED_OUT_OF_ORDER",
+      "message": "STOP! You attempted Page 3 (page003_brand_new_macbook_air), but your next sequential step is Page 2 (page002_...). Complete Page 2 first so your V1->V9 build stays in order (or set FORCE_STEP=1 to override)."
+    },
+    {
+      "time": "14:41:32",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "14:41:32",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "page003_brand_new_macbook_air",
+      "command": "xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'impo",
+      "status": "BLOCKED_OUT_OF_ORDER",
+      "message": "STOP! You attempted Page 3 (page003_brand_new_macbook_air), but your next sequential step is Page 2 (page002_...). Complete Page 2 first so your V1->V9 build stays in order (or set FORCE_STEP=1 to override)."
+    },
+    {
+      "time": "14:41:36",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "14:41:36",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "page003_brand_new_macbook_air",
+      "command": "xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'impo",
+      "status": "BLOCKED_OUT_OF_ORDER",
+      "message": "STOP! You attempted Page 3 (page003_brand_new_macbook_air), but your next sequential step is Page 2 (page002_...). Complete Page 2 first so your V1->V9 build stays in order (or set FORCE_STEP=1 to override)."
+    },
+    {
+      "time": "14:41:37",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "14:41:38",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "page003_brand_new_macbook_air",
+      "command": "xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'impo",
+      "status": "BLOCKED_OUT_OF_ORDER",
+      "message": "STOP! You attempted Page 3 (page003_brand_new_macbook_air), but your next sequential step is Page 2 (page002_...). Complete Page 2 first so your V1->V9 build stays in order (or set FORCE_STEP=1 to override)."
+    },
+    {
+      "time": "14:41:38",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "14:41:46",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "page003_brand_new_macbook_air",
+      "command": "xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'impo",
+      "status": "PASS",
+      "message": "Completed page003_brand_new_macbook_air (exit=0)"
     }
   ],
   "highest_sequential_page": 1,
   "next_required_page": 2,
-  "total_passed_pages": 1
+  "total_passed_pages": 2
 }
