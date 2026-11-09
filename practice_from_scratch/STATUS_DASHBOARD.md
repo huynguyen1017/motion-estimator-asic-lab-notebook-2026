@@ -1,7 +1,7 @@
 # ENGR 852 Live Manual Replication Status Dashboard (`manual-practice-macbook-air`)
 
-- **Last Updated**: `2026-11-09 15:18:54 PST`
-- **Latest Step**: `page001_master_roadmap` (Status: **PASS**, Exit Code: `0`)
+- **Last Updated**: `2026-11-09 15:18:56 PST`
+- **Latest Step**: `page025_baseline_8_bit_saturating` (Status: **PASS**, Exit Code: `0`)
 - **Active Terminal**: `MACBOOK_AIR_TERMINAL` (`huynguyen@iMac.local`, IP: `192.168.1.70,130.212.163.69`)
 - **Live Operations Console**: `http://127.0.0.1:8788/` | `http://192.168.1.70:8788/`
 
@@ -12,3 +12,4 @@
 | `page001_master_roadmap` | [logs/page001_master_roadmap.log](logs/page001_master_roadmap.log) | [screenshots/page001_master_roadmap_terminal.png](screenshots/page001_master_roadmap_terminal.png) |
 | `page002_engr_852_course_project` | [logs/page002_engr_852_course_project.log](logs/page002_engr_852_course_project.log) | [screenshots/page002_engr_852_course_project_terminal.png](screenshots/page002_engr_852_course_project_terminal.png) |
 | `page003_brand_new_macbook_air` | [logs/page003_brand_new_macbook_air.log](logs/page003_brand_new_macbook_air.log) | [screenshots/page003_brand_new_macbook_air_terminal.png](screenshots/page003_brand_new_macbook_air_terminal.png) |
+| `page025_baseline_8_bit_saturating` | [logs/page025_baseline_8_bit_saturating.log](logs/page025_baseline_8_bit_saturating.log) | [screenshots/page025_baseline_8_bit_saturating_terminal.png](screenshots/page025_baseline_8_bit_saturating_terminal.png) |
