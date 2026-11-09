@@ -1,20 +1,18 @@
-# Live Practice Telemetry (`manual-practice-macbook-air`)
+# Live Practice Telemetry ()
 
-> **Sub-Branch Isolation**: All hands-on practice terminal logs and auto-captured terminal-only screenshots are pushed exclusively to `manual-practice-macbook-air`, keeping `main` untouched.
+- **Latest Step**: `step05_baseline_8bit_trap`
+- **Host / Terminal**: `mahmoodi.rcc.at.sfsu.edu` (`926784856`)
+- **Timestamp**: `2026-11-08 18:28:40`
+- **Working Directory**: `/home/926784856/engr852_practice/subbranch_repo`
+- **Exit Code**: `1`
+- **Log File**: [`practice_from_scratch/logs/step05_baseline_8bit_trap.log`](logs/step05_baseline_8bit_trap.log)
+- **Auto-Captured Terminal Output Screenshot**:
 
-## Completed Practice Steps (Auto-Captured Terminal Logs & Screenshots)
+![step05_baseline_8bit_trap Terminal Output](screenshots/step05_baseline_8bit_trap_terminal.png)
 
-| Step | Host / Terminal | Status | Terminal Output Log | Auto-Captured Terminal Screenshot |
-| :--- | :--- | :--- | :--- | :--- |
-| **Step 01** | `huynguyen@MacBook-Air` | `EXIT=0 PASS` | [`step01_macbook_logger.log`](logs/step01_macbook_logger.log) | [`step01_macbook_logger_terminal.png`](screenshots/step01_macbook_logger_terminal.png) |
-| **Step 02** | `huynguyen@MacBook-Air` | `EXIT=0 PASS` | [`step02_git_subbranch.log`](logs/step02_git_subbranch.log) | [`step02_git_subbranch_terminal.png`](screenshots/step02_git_subbranch_terminal.png) |
-| **Step 03** | `huynguyen@MacBook-Air` | `EXIT=0 PASS` | [`step03_ssh_config_xquartz.log`](logs/step03_ssh_config_xquartz.log) | [`step03_ssh_config_xquartz_terminal.png`](screenshots/step03_ssh_config_xquartz_terminal.png) |
-| **Step 04** | `926784856@mahmoodi` | `EXIT=0 PASS` | [`step04_mahmoodi_remote_status.log`](logs/step04_mahmoodi_remote_status.log) | [`step04_mahmoodi_remote_status_terminal.png`](screenshots/step04_mahmoodi_remote_status_terminal.png) |
-
----
-
-### Step 04 — Live `mahmoodi` Session Verification (`[926784856@mahmoodi ~]$`)
-![Step 04 Terminal Output](screenshots/step04_mahmoodi_remote_status_terminal.png)
-
-### Step 02 — GitHub Sub-Branch Initialization (`manual-practice-macbook-air`)
-![Step 02 Terminal Output](screenshots/step02_git_subbranch_terminal.png)
+## Completed Step Evidence Index
+- **step01_macbook_logger**: [Log](logs/step01_macbook_logger.log) | [Terminal Screenshot](screenshots/step01_macbook_logger_terminal.png)
+- **step02_git_subbranch**: [Log](logs/step02_git_subbranch.log) | [Terminal Screenshot](screenshots/step02_git_subbranch_terminal.png)
+- **step03_ssh_config_xquartz**: [Log](logs/step03_ssh_config_xquartz.log) | [Terminal Screenshot](screenshots/step03_ssh_config_xquartz_terminal.png)
+- **step04_mahmoodi_remote_status**: [Log](logs/step04_mahmoodi_remote_status.log) | [Terminal Screenshot](screenshots/step04_mahmoodi_remote_status_terminal.png)
+- **step05_baseline_8bit_trap**: [Log](logs/step05_baseline_8bit_trap.log) | [Terminal Screenshot](screenshots/step05_baseline_8bit_trap_terminal.png)
