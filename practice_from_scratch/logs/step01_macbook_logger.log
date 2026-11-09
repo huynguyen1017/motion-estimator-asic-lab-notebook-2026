@@ -1,0 +1,8 @@
+huynguyen@MacBook-Air ~ % setopt interactivecomments
+grep -q "interactivecomments" ~/.zshrc 2>/dev/null || echo "setopt interactivecomments" >> ~/.zshrc
+export ENGR852_LOG="$HOME/engr852_macbook_session.log"
+touch "$ENGR852_LOG"
+precmd() { echo "=== [$(date '+%Y-%m-%d %H:%M:%S')] PWD=$(pwd) LAST_EXIT=$? ===" >> "$ENGR852_LOG"; }
+LOGGER_ACTIVE_ON_MACBOOK_AIR: /Users/huynguyen/engr852_macbook_session.log
+PWD=/Users/huynguyen
+STATUS: Step 1 Live Terminal Logger Initialized on MacBook Air (PASS)

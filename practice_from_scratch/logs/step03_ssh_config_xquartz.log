@@ -1,0 +1,11 @@
+huynguyen@MacBook-Air motion-estimator-asic-lab-notebook-2026 % tail -n 10 ~/.ssh/config
+Host mahmoodi mahmoodi.rcc.at.sfsu.edu
+    HostName mahmoodi.rcc.at.sfsu.edu
+    User 926784856
+    ForwardX11 yes
+    ForwardX11Trusted yes
+    ServerAliveInterval 30
+    ServerAliveCountMax 120
+    TCPKeepAlive yes
+huynguyen@MacBook-Air motion-estimator-asic-lab-notebook-2026 % echo "DISPLAY=$DISPLAY"
+DISPLAY=/var/run/com.apple.launchd.ozoh7JvYmw/org.xquartz:0
