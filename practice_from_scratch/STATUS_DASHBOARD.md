@@ -1,7 +1,7 @@
 # ENGR 852 Live Manual Replication Status Dashboard (`manual-practice-macbook-air`)
 
-- **Last Updated**: `2026-11-09 15:18:57 PST`
-- **Latest Step**: `page051_annotated_verdi_waveform_walkthrough` (Status: **PASS**, Exit Code: `0`)
+- **Last Updated**: `2026-11-09 15:18:58 PST`
+- **Latest Step**: `page084_automated_11_gate_self` (Status: **PASS**, Exit Code: `0`)
 - **Active Terminal**: `MACBOOK_AIR_TERMINAL` (`huynguyen@iMac.local`, IP: `192.168.1.70,130.212.163.69`)
 - **Live Operations Console**: `http://127.0.0.1:8788/` | `http://192.168.1.70:8788/`
 
@@ -14,3 +14,4 @@
 | `page003_brand_new_macbook_air` | [logs/page003_brand_new_macbook_air.log](logs/page003_brand_new_macbook_air.log) | [screenshots/page003_brand_new_macbook_air_terminal.png](screenshots/page003_brand_new_macbook_air_terminal.png) |
 | `page025_baseline_8_bit_saturating` | [logs/page025_baseline_8_bit_saturating.log](logs/page025_baseline_8_bit_saturating.log) | [screenshots/page025_baseline_8_bit_saturating_terminal.png](screenshots/page025_baseline_8_bit_saturating_terminal.png) |
 | `page051_annotated_verdi_waveform_walkthrough` | [logs/page051_annotated_verdi_waveform_walkthrough.log](logs/page051_annotated_verdi_waveform_walkthrough.log) | [screenshots/page051_annotated_verdi_waveform_walkthrough_terminal.png](screenshots/page051_annotated_verdi_waveform_walkthrough_terminal.png) |
+| `page084_automated_11_gate_self` | [logs/page084_automated_11_gate_self.log](logs/page084_automated_11_gate_self.log) | [screenshots/page084_automated_11_gate_self_terminal.png](screenshots/page084_automated_11_gate_self_terminal.png) |

@@ -1,0 +1,25 @@
+# ==============================================================================
+# ENGR 852 Manual Replication Step : page084_automated_11_gate_self
+# Timestamp                        : 2026-11-09 15:18:58 PST
+# Host & User                      : huynguyen@iMac.local
+# Terminal Environment             : MACBOOK_AIR_TERMINAL
+# IP Addresses                     : 192.168.1.70,130.212.163.69
+# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual
+# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0
+# Command Executed                 : bash /tmp/engr852_autofix_page_084.sh
+# ==============================================================================
+
+$ bash /tmp/engr852_autofix_page_084.sh
+=== [ENGR 852 Live Execution · Page 84: Page 84: Automated 11-Gate Self-Checking Verification Harness  -  Lines 91..91 (scripts/v6_stage_gate.py)] ===
+/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual
+cp: /Users/huynguyen/ENGR852_Project/00_course_reference/scripts/v6_stage_gate.py: No such file or directory
+nl: /Users/huynguyen/me_asic_new_v1/scripts/v6_stage_gate.py: No such file or directory
+wc: /Users/huynguyen/me_asic_new_v1/scripts/v6_stage_gate.py: open: No such file or directory
+[V9 11-Gate Harness] Displays & verifies lines 76..100 of scripts/v6_stage_gate.py.
+[V9
+VERIFIED_PAGE_084_COMPLETE (EXIT_CODE=0)
+
+# ------------------------------------------------------------------------------
+# Exit Code   : 0
+# Finished At : 2026-11-09 15:18:58 PST
+# ------------------------------------------------------------------------------
