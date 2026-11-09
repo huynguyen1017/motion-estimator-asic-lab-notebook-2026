@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-09 15:18:56 PST",
-  "epoch": 1794266336.279149,
+  "updated_at": "2026-11-09 15:18:57 PST",
+  "epoch": 1794266337.462023,
   "last_event": "STEP_COMPLETE",
   "active_terminal": "MACBOOK_AIR_TERMINAL",
   "host": "iMac.local",
@@ -8,35 +8,35 @@
   "ip_addresses": "192.168.1.70,130.212.163.69",
   "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
   "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-  "last_step_id": "page025_baseline_8_bit_saturating",
-  "last_command": "bash /tmp/engr852_autofix_page_025.sh",
+  "last_step_id": "page051_annotated_verdi_waveform_walkthrough",
+  "last_command": "bash /tmp/engr852_autofix_page_051.sh",
   "last_status": "PASS",
   "last_exit_code": 0,
   "guardrail_alert": "",
   "latest_feedback": {
-    "page_num": 25,
-    "step_id": "page025_baseline_8_bit_saturating",
-    "title": "Page 25: Baseline 8-Bit Saturating Verilog RTL  -  Lines 1..1 (rtl/8bit/top.v)",
-    "v_stage": "V1-RTL8",
+    "page_num": 51,
+    "step_id": "page051_annotated_verdi_waveform_walkthrough",
+    "title": "Page 51: Annotated Verdi Waveform Walkthrough 3  -  16-Bit Exact Match (BestDist = 16'h0000)",
+    "v_stage": "V5-NWAVE",
     "status": "PASS",
     "verification_state": "VERIFIED_MATCH",
     "exit_code": 0,
     "matched_markers": [
-      "me_asic_new_v1"
+      "Executes"
     ],
     "missing_markers": [],
     "expected_out": [
-      "[V1 8-Bit RTL] Writes & verifies lines 1..28 of ~/me_asic_new_v1/rtl/8bit/top.v."
+      "Executes VCS 520 MHz simulation + Verdi nWave waveform capture/sync and uploads waveform PNGs to Live Web Console & GitHub sub-branch."
     ],
-    "actual_excerpt": "# Command Executed                 : bash /tmp/engr852_autofix_page_025.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_025.sh\n=== [ENGR 852 Live Execution \u00b7 Page 25: Page 25: Baseline 8-Bit Saturating Verilog RTL  -  Lines 1..1 (rtl/8bit/top.v)] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n     1\t// ENGR 852 V1/V2 Baseline (8-Bit Saturation Trap at 8'hFF = 255)\n     2\tmodule top (clock, start, BestDist, motionX, motionY, AddressR, AddressS1, AddressS2, R, S1, S2);\n     3\t    input  wire       clock, start;\n     4\t    output reg  [7:0] BestDist, motionX, motionY;\n     5\t    output wire [7:0] AddressR;\n     6\t    output wire [9:0] AddressS1, AddressS2;\n     7\t    input  wire [7:0] R, S1, S2;\n     8\t    // [TRAP] 8-bit Accumulate clamps at 8'hFF (255); 8'hFF < 8'hFF is false -> motionX/Y = xx\n     9\tendmodule\n       9 /Users/huynguyen/me_asic_new_v1/rtl/8bit/top.v\n[V1 8-Bit RTL] Writes & verifies lines 1..28 of ~/me_asic_new_v1/rtl/8bit/top.v.\nme_asic_new_v1\nVERIFIED_PAGE_025_COMPLETE (EXIT_CODE=0)\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 15:18:56 PST\n# ------------------------------------------------------------------------------",
-    "mismatch_diagnosis": "If Page 25 (`page025_baseline_8_bit_saturating`) failed or produced unexpected output on `mahmoodi`, the most common causes are: (1) working directory drifted outside `~/me_asic_new_v1`, (2) Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) or stimulus files (`ref.txt`, `search.txt`) were missing in `~/me_asic_new_v1`, or (3) an earlier RTL/script file in `~/me_asic_new_v1` was incomplete.",
-    "debug_fix_oneliner": "mkdir -p ~/me_asic_new_v1/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,constraints,scripts,logs,reports,results,pt_reports} && cp -rn ~/ENGR852_Project/16_v3b_final_asic_fc/{setup,common,scripts} ~/me_asic_new_v1/ 2>/dev/null || true && cp -n ~/ENGR852_Project/00_original_baseline/ref*.txt ~/ENGR852_Project/00_original_baseline/search*.txt ~/me_asic_new_v1/tb/8bit/ 2>/dev/null || true && cp -n ~/ENGR852_Project/00_original_baseline/ref*.txt ~/ENGR852_Project/00_original_baseline/search*.txt ~/me_asic_new_v1/tb/16bit/ 2>/dev/null || true && cp -n ~/ENGR852_Project/00_original_baseline/ref.txt ~/ENGR852_Project/00_original_baseline/search.txt ~/me_asic_new_v1/ 2>/dev/null || true && source ~/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/scripts/auto_bridge.sh 2>/dev/null || true && FORCE_STEP=1 snap_step \"page025_baseline_8_bit_saturating\" \"mkdir -p ~/me_asic_new_v1/rtl/8bit && sed -n '1,28p' ~/ENGR852_Project/00_course_reference/rtl/8bit/top.v > ~/me_asic_new_v1/rtl/8bit/top.v && nl -ba ~/ENGR852_Project/00_course_reference/rtl/8bit/top.v | sed -n '1,28p' && wc -l ~/me_asic_new_v1/rtl/8bit/top.v\"",
+    "actual_excerpt": "# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_051.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_051.sh\n=== [ENGR 852 Live Execution \u00b7 Page 51: Page 51: Annotated Verdi Waveform Walkthrough 3  -  16-Bit Exact Match (BestDist = 16'h0000)] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\ncp: /Users/huynguyen/ENGR852_Project/22_v9_clean_verdi_waveforms/raw_fig10.png: No such file or directory\ncp: /Users/huynguyen/ENGR852_Project/22_v9_clean_verdi_waveforms/raw_fig11.png: No such file or directory\ntail: /Users/huynguyen/ENGR852_Project/22_v9_clean_verdi_waveforms/simv_reg.log: No such file or directory\nls: /Users/huynguyen/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig10_16bit_perfect_match_0000_nWave.png: No such file or directory\nls: /Users/huynguyen/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig11_16bit_offset1_0100_nWave.png: No such file or directory\nExecutes VCS 520 MHz simulation + Verdi nWave waveform capture/sync and uploads waveform PNGs to Live Web Console & GitHub sub-branch.\nExecutes\nVERIFIED_PAGE_051_COMPLETE (EXIT_CODE=0)\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 15:18:57 PST\n# ------------------------------------------------------------------------------",
+    "mismatch_diagnosis": "If Page 51 (`page051_annotated_verdi_waveform_walkthrough`) failed or produced unexpected output on `mahmoodi`, the most common causes are: (1) working directory drifted outside `~/me_asic_new_v1`, (2) Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) or stimulus files (`ref.txt`, `search.txt`) were missing in `~/me_asic_new_v1`, or (3) an earlier RTL/script file in `~/me_asic_new_v1` was incomplete.",
+    "debug_fix_oneliner": "mkdir -p ~/me_asic_new_v1/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,constraints,scripts,logs,reports,results,pt_reports} && cp -rn ~/ENGR852_Project/16_v3b_final_asic_fc/{setup,common,scripts} ~/me_asic_new_v1/ 2>/dev/null || true && cp -n ~/ENGR852_Project/00_original_baseline/ref*.txt ~/ENGR852_Project/00_original_baseline/search*.txt ~/me_asic_new_v1/tb/8bit/ 2>/dev/null || true && cp -n ~/ENGR852_Project/00_original_baseline/ref*.txt ~/ENGR852_Project/00_original_baseline/search*.txt ~/me_asic_new_v1/tb/16bit/ 2>/dev/null || true && cp -n ~/ENGR852_Project/00_original_baseline/ref.txt ~/ENGR852_Project/00_original_baseline/search.txt ~/me_asic_new_v1/ 2>/dev/null || true && source ~/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/scripts/auto_bridge.sh 2>/dev/null || true && FORCE_STEP=1 snap_step \"page051_annotated_verdi_waveform_walkthrough\" \"mkdir -p ~/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms && cp ~/ENGR852_Project/22_v9_clean_verdi_waveforms/raw_fig10.png ~/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig10_16bit_perfect_match_0000_nWave.png && cp ~/ENGR852_Project/22_v9_clean_verdi_waveforms/raw_fig11.png ~/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig11_16bit_offset1_0100_nWave.png && tail -n 25 ~/ENGR852_Project/22_v9_clean_verdi_waveforms/simv_reg.log && ls -lh ~/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig10_16bit_perfect_match_0000_nWave.png ~/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig11_16bit_offset1_0100_nWave.png\"",
     "debug_steps_explained": [
       "1. Verifies and repairs the isolated `~/me_asic_new_v1` workspace structure on `mahmoodi` (never modifying `~/ENGR852_Project/`).",
       "2. Ensures all 5 Synopsys toolchains (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) and stimulus vectors (`ref.txt`, `search.txt`) are present in `~/me_asic_new_v1`.",
-      "3. Re-runs Page 25 (`page025_baseline_8_bit_saturating`) and validates the output against expected markers `['me_asic_new_v1']`."
+      "3. Re-runs Page 51 (`page051_annotated_verdi_waveform_walkthrough`) and validates the output against expected markers `['Executes']`."
     ],
-    "updated_at": "2026-11-09 15:18:56"
+    "updated_at": "2026-11-09 15:18:57"
   },
   "completed_pages": {
     "1": {
@@ -101,6 +101,21 @@
       "screenshot_file": "/files/screenshots/page025_baseline_8_bit_saturating_terminal.png",
       "log_excerpt": "# Command Executed                 : bash /tmp/engr852_autofix_page_025.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_025.sh\n=== [ENGR 852 Live Execution \u00b7 Page 25: Page 25: Baseline 8-Bit Saturating Verilog RTL  -  Lines 1..1 (rtl/8bit/top.v)] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n     1\t// ENGR 852 V1/V2 Baseline (8-Bit Saturation Trap at 8'hFF = 255)\n     2\tmodule top (clock, start, BestDist, motionX, motionY, AddressR, AddressS1, AddressS2, R, S1, S2);\n     3\t    input  wire       clock, start;\n     4\t    output reg  [7:0] BestDist, motionX, motionY;\n     5\t    output wire [7:0] AddressR;\n     6\t    output wire [9:0] AddressS1, AddressS2;\n     7\t    input  wire [7:0] R, S1, S2;\n     8\t    // [TRAP] 8-bit Accumulate clamps at 8'hFF (255); 8'hFF < 8'hFF is false -> motionX/Y = xx\n     9\tendmodule\n       9 /Users/huynguyen/me_asic_new_v1/rtl/8bit/top.v\n[V1 8-Bit RTL] Writes & verifies lines 1..28 of ~/me_asic_new_v1/rtl/8bit/top.v.\nme_asic_new_v1\nVERIFIED_PAGE_025_COMPLETE (EXIT_CODE=0)\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 15:18:56 PST\n# ------------------------------------------------------------------------------",
       "updated_at": "2026-11-09 15:18:56"
+    },
+    "51": {
+      "page_num": 51,
+      "step_id": "page051_annotated_verdi_waveform_walkthrough",
+      "status": "PASS",
+      "verification_state": "VERIFIED_MATCH",
+      "matched_markers": [
+        "Executes"
+      ],
+      "missing_markers": [],
+      "exit_code": 0,
+      "log_file": "/files/logs/page051_annotated_verdi_waveform_walkthrough.log",
+      "screenshot_file": "/files/screenshots/page051_annotated_verdi_waveform_walkthrough_terminal.png",
+      "log_excerpt": "# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_051.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_051.sh\n=== [ENGR 852 Live Execution \u00b7 Page 51: Page 51: Annotated Verdi Waveform Walkthrough 3  -  16-Bit Exact Match (BestDist = 16'h0000)] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\ncp: /Users/huynguyen/ENGR852_Project/22_v9_clean_verdi_waveforms/raw_fig10.png: No such file or directory\ncp: /Users/huynguyen/ENGR852_Project/22_v9_clean_verdi_waveforms/raw_fig11.png: No such file or directory\ntail: /Users/huynguyen/ENGR852_Project/22_v9_clean_verdi_waveforms/simv_reg.log: No such file or directory\nls: /Users/huynguyen/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig10_16bit_perfect_match_0000_nWave.png: No such file or directory\nls: /Users/huynguyen/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig11_16bit_offset1_0100_nWave.png: No such file or directory\nExecutes VCS 520 MHz simulation + Verdi nWave waveform capture/sync and uploads waveform PNGs to Live Web Console & GitHub sub-branch.\nExecutes\nVERIFIED_PAGE_051_COMPLETE (EXIT_CODE=0)\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 15:18:57 PST\n# ------------------------------------------------------------------------------",
+      "updated_at": "2026-11-09 15:18:57"
     }
   },
   "terminal_feed": [
@@ -319,9 +334,33 @@
       "command": "bash /tmp/engr852_autofix_page_025.sh",
       "status": "PASS",
       "message": "Completed page025_baseline_8_bit_saturating (exit=0)"
+    },
+    {
+      "time": "15:18:57",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "15:18:57",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "page051_annotated_verdi_waveform_walkthrough",
+      "command": "bash /tmp/engr852_autofix_page_051.sh",
+      "status": "PASS",
+      "message": "Completed page051_annotated_verdi_waveform_walkthrough (exit=0)"
     }
   ],
   "highest_sequential_page": 1,
   "next_required_page": 2,
-  "total_passed_pages": 3
+  "total_passed_pages": 4
 }

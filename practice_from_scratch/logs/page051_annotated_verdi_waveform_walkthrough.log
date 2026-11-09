@@ -1,0 +1,27 @@
+# ==============================================================================
+# ENGR 852 Manual Replication Step : page051_annotated_verdi_waveform_walkthrough
+# Timestamp                        : 2026-11-09 15:18:57 PST
+# Host & User                      : huynguyen@iMac.local
+# Terminal Environment             : MACBOOK_AIR_TERMINAL
+# IP Addresses                     : 192.168.1.70,130.212.163.69
+# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual
+# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0
+# Command Executed                 : bash /tmp/engr852_autofix_page_051.sh
+# ==============================================================================
+
+$ bash /tmp/engr852_autofix_page_051.sh
+=== [ENGR 852 Live Execution · Page 51: Page 51: Annotated Verdi Waveform Walkthrough 3  -  16-Bit Exact Match (BestDist = 16'h0000)] ===
+/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual
+cp: /Users/huynguyen/ENGR852_Project/22_v9_clean_verdi_waveforms/raw_fig10.png: No such file or directory
+cp: /Users/huynguyen/ENGR852_Project/22_v9_clean_verdi_waveforms/raw_fig11.png: No such file or directory
+tail: /Users/huynguyen/ENGR852_Project/22_v9_clean_verdi_waveforms/simv_reg.log: No such file or directory
+ls: /Users/huynguyen/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig10_16bit_perfect_match_0000_nWave.png: No such file or directory
+ls: /Users/huynguyen/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig11_16bit_offset1_0100_nWave.png: No such file or directory
+Executes VCS 520 MHz simulation + Verdi nWave waveform capture/sync and uploads waveform PNGs to Live Web Console & GitHub sub-branch.
+Executes
+VERIFIED_PAGE_051_COMPLETE (EXIT_CODE=0)
+
+# ------------------------------------------------------------------------------
+# Exit Code   : 0
+# Finished At : 2026-11-09 15:18:57 PST
+# ------------------------------------------------------------------------------
