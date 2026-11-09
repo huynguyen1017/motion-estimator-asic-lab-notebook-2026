@@ -279,9 +279,9 @@ def draw_left_column(c, wp):
     # --- 3. Baby-Steps Terminal Execution Sequence Box ---
     steps = list(wp.get("steps", []))
     if len(steps) < 4:
-        steps.append(("MacBook-Air", "./.venv/bin/python3 scripts/v6_stage_gate.py --scope full", "Run automated 11-gate self-check to confirm zero regressions before next page."))
+        steps.append(("VERIFY", "echo \"EXIT_CODE=$?\" && pwd", "Confirm previous command exited with 0 (no errors) before proceeding."))
     if len(steps) < 5:
-        steps.append(("mahmoodi", "echo $? && ls -lt | head -n 4", "Verify exit code 0 and confirm timestamped output artifacts exist on server."))
+        steps.append(("VERIFY", "ls -la | head -n 6", "Confirm expected files/directories are present in the current working directory."))
     step_lines = []
     for idx, (env_tag, cmd_str, explain_str) in enumerate(steps, 1):
         for wcmd in wrap_text(c, f"Step {idx} [{env_tag}]: $ {cmd_str}", "Courier-Bold", 6.1, lw - 12):
@@ -668,8 +668,8 @@ def render_6_notebook_spreads(wos):
     """
     os.makedirs(SPREAD_DIR, exist_ok=True)
     spread_defs = [
-        ("ENGR852_Visual_Spread_01_XQuartz_VPN_SSH_Setup.png", wos[1], wos[3], wos[6]),
-        ("ENGR852_Visual_Spread_02_Server_Isolation_and_Tools.png", wos[4], wos[7], wos[8]),
+        ("ENGR852_Visual_Spread_01_XQuartz_VPN_SSH_Setup.png", wos[0], wos[1], wos[2]),
+        ("ENGR852_Visual_Spread_02_Server_Isolation_and_Tools.png", wos[4], wos[5], wos[9]),
         ("ENGR852_Visual_Spread_03_Chapter10_SAD_and_MotionVectors.png", wos[10], wos[13], wos[17]),
         ("ENGR852_Visual_Spread_04_8Bit_Trap_vs_16Bit_Datapath.png", wos[12], wos[21], wos[23]),
         ("ENGR852_Visual_Spread_05_Testbenches_0000_0100_FF00.png", wos[26], wos[31], wos[34]),
@@ -849,8 +849,16 @@ def main():
         for b in wp["problem_bullets"]:
             md_lines.append(f"- {clean_glyphs(b)}")
         md_lines.append("")
-        md_lines.append(f"### Complete Uncut Unit: `{clean_glyphs(wp['code_title'])}`")
-        md_lines.append("```")
+        md_lines.append("### Step-by-Step Terminal Commands (Which Window & What to Type)")
+        for s_idx, (env_tag, cmd_str, exp_str) in enumerate(wp.get("steps", []), 1):
+            md_lines.append(f"{s_idx}. **`[{clean_glyphs(env_tag)}]`**: `{clean_glyphs(cmd_str)}`  \n   *Explanation*: {clean_glyphs(exp_str)}")
+        md_lines.append("")
+        md_lines.append("### Self-Healing Troubleshooting (If an Error Occurs)")
+        for err_s, rc_s, fix_s in wp.get("recoveries", []):
+            md_lines.append(f"- **If you see `{clean_glyphs(err_s)}`** (*Cause*: {clean_glyphs(rc_s)}) -> **Run Fix**: `{clean_glyphs(fix_s)}`")
+        md_lines.append("")
+        md_lines.append(f"### Complete Uncut Copy-Paste Unit: `{clean_glyphs(wp['code_title'])}`")
+        md_lines.append("```bash")
         for cl in wp["code_lines"]:
             md_lines.append(clean_glyphs(cl))
         md_lines.append("```")
