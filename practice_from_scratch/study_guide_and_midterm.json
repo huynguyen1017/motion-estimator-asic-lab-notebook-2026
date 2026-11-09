@@ -1,0 +1,558 @@
+{
+  "course": "ENGR 852 \u2014 Advanced Digital Design & 14nm ASIC Verification",
+  "foundations": [
+    {
+      "id": "F0",
+      "category": "Math & Units",
+      "title": "F0: Physical Quantities vs. Symbols & Subscripts",
+      "basic_concept": "Every engineering symbol has a base physical quantity (V = voltage, I = current, R = resistance, C = capacitance, t = time, f = frequency, P = power) and a subscript telling you WHICH node or path it belongs to.",
+      "equation": "t_CQ (Clock-to-Q delay), t_logic (Gate propagation delay), t_setup (Flip-flop setup window), V_DD (Positive supply voltage = 0.80V in SAED14nm TT)",
+      "asic_connection": "In our 520 MHz Motion Estimator, reading PrimeTime STA reports (`v9_pt_tt.rpt`) requires separating `t_CQ`, `t_logic`, `t_setup`, and `t_skew` so we never mix launch-path delays with capture-path requirements."
+    },
+    {
+      "id": "F1",
+      "category": "Math & Units",
+      "title": "F1: Reciprocals & Clock Period vs. Frequency (f = 1 / T)",
+      "basic_concept": "Clock period T is the time per clock cycle (seconds/nanoseconds/picoseconds); clock frequency f is how many cycles occur per second (Hz/MHz/GHz). Because f = 1/T, making gates slower (larger T) lowers the maximum clock frequency f_max.",
+      "equation": "f = 1 / T   <=>   T = 1 / f   |   At 520 MHz: T_clk = 1 / (520 x 10^6 Hz) = 1.923077 ns = 1923.08 ps",
+      "asic_connection": "Our SDC constraint (`create_clock -period 1.923 [get_ports clock]`) sets the 520 MHz target; in Midterm Q4 (T = 20 ns -> f = 50 MHz) and Q9 (f = 400 MHz -> T = 2.5 ns = 2500 ps), this reciprocal is always Step 1."
+    },
+    {
+      "id": "F2",
+      "category": "Binary & Logic",
+      "title": "F2: Exponents, Powers of 2 (2^n) & Unsigned Dynamic Range",
+      "basic_concept": "With n binary wires (bits), each wire doubles the number of distinct bit patterns: 2^n total states, representing unsigned integers from 0 to 2^n - 1.",
+      "equation": "8-bit bus: 2^8 = 256 states (0 .. 255 = 8'hFF)  |  16-bit bus: 2^16 = 65,536 states (0 .. 65,535 = 16'hFFFF)",
+      "asic_connection": "A 16x16 macroblock has 256 pixels, each with max difference 255. Worst-case SAD = 256 x 255 = 65,280 (16'hFF00). An 8-bit bus caps at 255 (8'hFF), causing the catastrophic V1 Row-1 saturation bug; upgrading to 16 bits (max 65,535) solves it completely!"
+    },
+    {
+      "id": "F3",
+      "category": "Binary & Logic",
+      "title": "F3: Boolean Algebra, De Morgan's Laws & Factoring",
+      "basic_concept": "Hardware gates implement Boolean algebra: NOT (~A), AND (A & B), OR (A | B), XOR (A ^ B). Factoring common terms reduces gate count, silicon area, and dynamic power.",
+      "equation": "Adjacency: X*Y + X*Y' = X*(Y + Y') = X*1 = X  |  De Morgan: ~(A & B) = (~A) | (~B),  ~(A | B) = (~A) & (~B)",
+      "asic_connection": "Used directly in HW1 Problem 1 (Mux-to-Boolean simplification `Out = B'C + AC'`) and by Synopsys Fusion Compiler (`compile_fusion`) when optimizing our 16 PE absolute-difference and adder trees into SAED14nm standard cells."
+    },
+    {
+      "id": "F4",
+      "category": "Binary & Logic",
+      "title": "F4: Binary Place Values, Hexadecimal & Truth Tables",
+      "basic_concept": "Binary weights are powers of 2 (... 128, 64, 32, 16, 8, 4, 2, 1). Every 4 binary bits group into 1 hexadecimal digit (`4'b0000 = 0x0` .. `4'b1111 = 0xF`). A truth table exhaustively lists all 2^n input combinations.",
+      "equation": "16'hFF00 = 1111_1111_0000_0000_2 = 65,280_10  |  16'h0100 = 0000_0001_0000_0000_2 = 256_10",
+      "asic_connection": "In Synopsys Verdi nWave (Pages 45-52), reading bus values in hexadecimal (`0000`, `0100`, `FF00`, `FB`, `07`, `F8`) lets you verify 16-bit SAD sums and 8-bit two's-complement motion vectors at a glance."
+    },
+    {
+      "id": "F5",
+      "category": "Binary & Logic",
+      "title": "F5: Unsigned vs. Two's-Complement Signed Numbers & Overflow vs. Saturation",
+      "basic_concept": "Unsigned bits are all positive weights. In 8-bit two's complement, the MSB has weight -128 (or 4-bit signed weight -8). When an unsigned sum exceeds 2^n - 1, wrap-around drops the carry bit, whereas saturating arithmetic clamps the output to all 1s (`8'hFF` or `4'd15`).",
+      "equation": "Motion vectors: -8 = 8'hF8, -5 = 8'hFB, +7 = 8'h07  |  8-bit saturating PE: if (carry) Accumulate <= 8'hFF;",
+      "asic_connection": "Explains both Midterm Q2 (4-bit saturating adder `wire [4:0] raw = {1'b0,A} + {1'b0,B}; assign Out = raw[4] ? 4'd15 : raw[3:0];`) AND our V1 8-bit PE saturation trap vs. V2 16-bit non-saturating accumulator!"
+    },
+    {
+      "id": "F6",
+      "category": "Math & Units",
+      "title": "F6: Engineering Prefixes (m, u, n, p, f, M, G) & Unit Consistency",
+      "basic_concept": "Never add nanoseconds (10^-9 s) to picoseconds (10^-12 s) without converting to a common unit first (1 ns = 1000 ps).",
+      "equation": "1 GHz = 10^9 Hz (T = 1 ns = 1000 ps)  |  400 MHz -> T = 2.5 ns = 2500 ps  |  520 MHz -> T = 1.923 ns = 1923 ps",
+      "asic_connection": "In Midterm Q9/Q10, converting 400 MHz to 2500 ps before subtracting `T_req = 2590 ps` gives the exact setup slack `-90 ps` without decimal-point errors."
+    },
+    {
+      "id": "F7",
+      "category": "Electricity & CMOS",
+      "title": "F7: Electric Charge (Q) & Electric Current (I = dQ / dt)",
+      "basic_concept": "Electric charge Q (in coulombs, carried by electrons/holes) stored on a wire or transistor gate must be added or removed to switch a logic signal between 0 and 1. Current I is the rate of charge flow per unit time.",
+      "equation": "I = Delta_Q / Delta_t   =>   Delta_t = Delta_Q / I = (C * V_DD) / I_drive",
+      "asic_connection": "Higher transistor drive current `I_drive` (e.g., multi-fin 14nm FinFETs or higher supply voltage `FF 0.88V`) charges load capacitance faster, reducing gate delay `t_logic`."
+    },
+    {
+      "id": "F8",
+      "category": "Electricity & CMOS",
+      "title": "F8: Voltage (V), Ground (0V), Supply (V_DD) & Logic Thresholds",
+      "basic_concept": "Voltage is electric potential energy per unit charge relative to Ground (VSS = 0 V). Digital CMOS represents logic `0` near 0 V and logic `1` near V_DD, with a switching threshold near V_DD / 2.",
+      "equation": "SAED14nm Process Corners: SS = 0.72V (-40C), TT = 0.80V (25C), FF = 0.88V (125C)",
+      "asic_connection": "In Pages 63-64, PrimeTime signs off our routed Motion Estimator across all 3 voltage/temperature corners (`0.72V SS` setup WNS = `+0.22 ns`, `0.80V TT` = `+0.54 ns`, `0.88V FF` = `+0.71 ns`)."
+    },
+    {
+      "id": "F9",
+      "category": "Electricity & CMOS",
+      "title": "F9: Resistance (R), Capacitance (C) & RC Time Constant (tau = R_on * C_load)",
+      "basic_concept": "Every conducting transistor channel has an effective on-resistance `R_on`, and every metal wire + downstream transistor gate has capacitance `C_load`. Charging `C_load` through `R_on` takes an exponential RC time constant.",
+      "equation": "tau = R_on * C_load   |   t_pHL, t_pLH approx 0.69 * R_on * C_load",
+      "asic_connection": "StarRC parasitic extraction (Pages 60-64) extracts wire resistance `R` and coupling capacitance `C` into `top.spef` so PrimeTime computes real physical interconnect delay instead of zero-wire-delay estimates."
+    },
+    {
+      "id": "F10",
+      "category": "Electricity & CMOS",
+      "title": "F10: Dynamic Switching Energy (E = C*V^2) & Total Chip Power",
+      "basic_concept": "Every 0->1->0 cycle on a capacitive node dissipates `C * V_DD^2` of energy as heat. Total CMOS power is dynamic switching power plus static subthreshold/gate leakage power.",
+      "equation": "P_total = P_dyn + P_leak = alpha * C_eff * V_DD^2 * f_clk + I_leak * V_DD",
+      "asic_connection": "Because our 16-PE design uses external testbench ROM/RAM ports (`R`, `S1`, `S2`) with 0 internal SRAM macros and compact 125.07 x 62.80 um routing, total cell capacitance `C_eff` and power remain minimal at 520 MHz."
+    },
+    {
+      "id": "F11",
+      "category": "Electricity & CMOS",
+      "title": "F11: Silicon Semiconductor Physics, N-Type/P-Type Doping & 14nm FinFETs",
+      "basic_concept": "Pure silicon has 4 valence electrons. Doping with phosphorus/arsenic (5 valence electrons) creates N-type silicon (mobile electrons); doping with boron (3 valence electrons) creates P-type silicon (mobile holes). In 14nm FinFETs, a 3D vertical silicon fin is wrapped on 3 sides by the gate for superior electrostatic control and low leakage.",
+      "equation": "NMOS conducts when V_GS > V_th (Gate = 1)  |  PMOS conducts when V_SG > |V_thp| (Gate = 0)",
+      "asic_connection": "Our physical implementation targets the Synopsys `SAED14nm_EDK` 14nm FinFET standard-cell library (`saed14rvt_tt0p8v25c.db`), achieving 8,230 cells and 0/242 DRC violations."
+    },
+    {
+      "id": "F12",
+      "category": "Electricity & CMOS",
+      "title": "F12: CMOS Inverter, Pull-Up PMOS / Pull-Down NMOS Networks & Contention",
+      "basic_concept": "Complementary MOS (CMOS) pairs a PMOS pull-up network (connected to V_DD) with an NMOS pull-down network (connected to VSS). For any valid input, one network turns ON and the other turns OFF\u2014avoiding direct V_DD-to-VSS short-circuit contention.",
+      "equation": "Inverter: In=0 -> PMOS ON, NMOS OFF -> Out=1  |  Two outputs wired together (1 vs 0) -> Short-Circuit X Contention!",
+      "asic_connection": "Directly explains Midterm Q1 & HW2 Problem 1: assigning the same `reg C` from two separate `always` blocks wires two hardware drivers onto one net, causing physical contention (`1'bX`) unless arbitrated by a single mux or tri-state enable."
+    },
+    {
+      "id": "F13",
+      "category": "RTL & Timing",
+      "title": "F13: Multiplexers (Combinational Steering) vs. D Flip-Flops (Edge Storage)",
+      "basic_concept": "A multiplexer (MUX) is purely combinational: its output changes immediately whenever its select or data inputs change. A D Flip-Flop (DFF) is edge-triggered sequential memory: it ignores changes on D except at the active rising clock edge (`posedge clock`).",
+      "equation": "2:1 Mux: Y = S ? D1 : D0 (`always @(*)`)  |  DFF: `always @(posedge clock) Q <= D;`",
+      "asic_connection": "In each of our 16 Processing Elements (`pe.v`), a combinational absolute-difference circuit (`|R - S|`) + 16-bit adder feeds an edge-triggered 16-bit accumulator register (`Accumulate <= AccumulateIn`)."
+    },
+    {
+      "id": "F14",
+      "category": "RTL & Timing",
+      "title": "F14: Combinational Critical Path, Setup/Hold Slack & Pipeline Throughput",
+      "basic_concept": "Between any two DFFs, the slowest path (max gate delay) sets the minimum clock period `T_min` (Setup check, next clock edge), while the fastest path (min gate delay) must not overwrite the capture DFF during its hold window on the SAME clock edge (Hold check).",
+      "equation": "Setup: T_clk >= t_CQ,max + t_logic,max + t_setup + t_skew  |  Hold Slack = t_CQ,min + t_logic,min - t_skew - t_hold >= 0",
+      "asic_connection": "Tested in Midterm Q3, Q4, Q5, Q7, Q8, Q9, Q10 and verified in our 14nm Motion Estimator where 16 PEs operate in parallel every 1.923 ns cycle to complete all 256 candidates in 4,111 cycles (7.91 us per macroblock)."
+    },
+    {
+      "id": "F15",
+      "category": "RTL & Timing",
+      "title": "F15: Verilog Blocking (`=`) vs. Non-Blocking (`<=`) Procedural Assignments",
+      "basic_concept": "Blocking (`=`) updates the target immediately in sequential statement order (used inside `always @(*)` for combinational logic). Non-blocking (`<=`) samples all right-hand sides at the clock edge and schedules left-hand updates in the Non-Blocking Assignment (NBA) region (used inside `always @(posedge clk)` for sequential DFFs).",
+      "equation": "Ring Shift (`posedge clk`): `B <= A; C <= B; A <= C;` (Order-independent simultaneous DFF shift!)",
+      "asic_connection": "Tested in Midterm Q1 & Q6 and HW2 Problem 2 (`swap` / `shift` registers), and used across all 449 flip-flops in our Motion Estimator (`top.v`, `pe.v`, `control.v`)."
+    },
+    {
+      "id": "F16",
+      "category": "Motion Estimator Architecture",
+      "title": "F16: 2D Video Macroblock Pixels, SAD Equation & Dual-Bus S1/S2 Memory Addressing",
+      "basic_concept": "Block-matching motion estimation compares a 16x16 Reference block R(i,j) against 256 overlapping 16x16 candidate blocks S(i+u, j+v) across a [-8, +7] search window (`31x31` search area). The candidate with the minimum Sum of Absolute Differences (SAD) gives the motion vector (motionX, motionY).",
+      "equation": "SAD(u,v) = sum_{i=0..15} sum_{j=0..15} |R(i,j) - S(i+u, j+v)|   |   Max SAD = 256 * 255 = 65,280 (16'hFF00)",
+      "asic_connection": "Our `control.v` generates `AddressR[7:0]` (0..255) and staggered `AddressS1[9:0]` / `AddressS2[9:0]` (0..1023) while a 16-stage `Rpipe` shifts reference pixels across `PE0..PE15` so all 16 horizontal displacements `u in [-8..+7]` compute simultaneously!"
+    },
+    {
+      "id": "F17",
+      "category": "Universal Design Routine",
+      "title": "F17: The 9-Step Universal ASIC Engineering Routine (Step 0 -> Step 8)",
+      "basic_concept": "Every problem in ENGR 852\u2014from a 5-line Midterm quiz question to the 100-page 14nm Motion Estimator ASIC\u2014is solved with the exact same 9-step engineering workflow.",
+      "equation": "Step 0: Classify -> Step 1: Ports/Widths -> Step 2: Drivers -> Step 3: Hardware Elements -> Step 4: Math/Table Proof -> Step 5: Timing/Width Corner Check -> Step 6: Synthesizable RTL -> Step 7: Self-Checking TB -> Step 8: Physical/STA Sign-Off",
+      "asic_connection": "This 9-step routine structures every page of our 100-page manual (`V1` through `V9`) and guarantees zero skipped gates."
+    }
+  ],
+  "lectures_and_homeworks": [
+    {
+      "id": "L1-L2",
+      "tag": "Lectures 1\u20132",
+      "title": "ASIC Design Flow, High-Level Golden Modeling & Behavioral vs. Structural Verilog",
+      "pages_linked": "Pages 1\u201312, Pages 25\u201344",
+      "method1": "Before writing gate-level or RTL hardware, engineers write a high-level C/MATLAB/Python golden model to debug the algorithm quickly and generate expected reference vectors (`ref.txt`, `search.txt`) for automated testbench scoreboards.",
+      "method2": "Co-verification equation: For every stimulus vector X_k, assert `Y_RTL(k + L_pipeline) === Y_Golden_C(k)`. Fixing an algorithm bug in C takes minutes; fixing it after 14nm Place-and-Route takes weeks.",
+      "method3": "In our Motion Estimator, Python/SystemVerilog golden reference models compute all 256 candidate SAD sums and verify that `BestDist`, `motionX`, and `motionY` match 100% across `0000`, `0100`, `FF00`, and multi-seed random tests."
+    },
+    {
+      "id": "L3-HW1",
+      "tag": "Lecture 3 \u00b7 HW1 (R1\u2013R3)",
+      "title": "CMOS Switch Networks, Multiplexer Logic Synthesis & Structural Hierarchy",
+      "pages_linked": "Pages 13\u201324, Pages 25\u201332",
+      "method1": "A 2:1 mux (`Y = S' I0 + S I1`) or 8:1 mux can implement any Boolean function by tying data inputs to `{0, 1, D, D'}` via Shannon expansion. Structural Verilog builds larger width modules (e.g., 8-bit adder or 16-PE array) by instantiating 1-bit/1-PE building blocks.",
+      "method2": "HW1 P1 Proof: `w1 = A'B + AC'`, `Out = C'w1 + C B' = B'C + AC'`. HW1 P2 Full Adder on 8:1 Mux: tie `ABC = 000..111` to `Sum = m(1,2,4,7)` and `Cout = m(3,5,6,7)`.",
+      "method3": "In `top.v`, we structurally instantiate 16 identical Processing Elements (`PE pe0..pe15` via `generate for (i=0; i<16; i=i+1)`) and a 16-to-1 multiplexer (`comp.v`) that selects one PE's SAD sum per clock cycle."
+    },
+    {
+      "id": "L4-L5-HW2",
+      "tag": "Lectures 4\u20135 \u00b7 HW2 (R4\u2013R6)",
+      "title": "Procedural Blocks (`always @(*)` vs `posedge clk`), Blocking `=` vs Nonblocking `<=`, & Single-Driver Rule",
+      "pages_linked": "Pages 25\u201332, Midterm Q1 & Q6",
+      "method1": "Rule 1: Never assign the same `reg` from two different `always` blocks (causes multi-driver short-circuit contention). Rule 2: Use blocking `=` in combinational `always @(*)` with complete defaults (no unintentional latches), and non-blocking `<=` in clocked `always @(posedge clk)`.",
+      "method2": "In `always @(posedge clk) begin B <= A; C <= B; A <= C; end`, all right-hand sides (`A_old, B_old, C_old`) are sampled before the edge and updated in the NBA region, forming a race-free 3-DFF circular shift ring.",
+      "method3": "In `rtl/16bit/top.v` (`control.v`), `count <= count + 13'd1` and `BestDist <= ...` are driven in single clocked procedural blocks, plus the Cycle-4111 completion freeze (`else if (count == 13'h100f) Completed <= 1'b1;`) prevents wrap-around corruption."
+    },
+    {
+      "id": "L6-L7-HW4",
+      "tag": "Lectures 6\u20137 \u00b7 HW3/HW4 (R7)",
+      "title": "Finite State Machines (FSMs), Counter Control Schedules & Pipelined Datapaths",
+      "pages_linked": "Pages 27\u201332, Pages 45\u201352",
+      "method1": "Complex control schedules can be implemented either as symbolic state machines (IDLE -> LOAD -> COMPUTE -> HOLD) or deterministic cycle-counter schedules (`count[12:0]` from `0` to `4111`).",
+      "method2": "Our Motion Estimator control counter decomposes `count[12:0]` into: `count[3:0]` (pixel column `j = 0..15`), `count[7:4]` (pixel row `i = 0..15`), and `count[11:8]` (vertical search row `v = 0..15`). Total cycles = `16 * 256 + 15 = 4,111` (`13'h100F`).",
+      "method3": "Hardware separation: `control.v` generates memory addresses (`AddressR`, `AddressS1`, `AddressS2`) and 16 one-hot `newDist[15:0]` strobes; `pe.v` computes SAD; `comp.v` compares `pe_sad < BestDist` and latches `(motionX, motionY)`."
+    },
+    {
+      "id": "L8-L9-MIDTERM",
+      "tag": "Lectures 8\u20139 \u00b7 Midterm Q3\u2013Q5, Q7\u2013Q10",
+      "title": "Static Timing Analysis (STA), Setup & Hold Slack, Input/Output Delays & Clock Skew",
+      "pages_linked": "Pages 53\u201364, Midterm Q3\u2013Q10",
+      "method1": "Static Timing Analysis (STA) exhaustively checks every timing path (Reg-to-Reg, Input-to-Reg, Reg-to-Output) without requiring input test vectors. Setup checks the slowest (MAX) path against the next clock edge; Hold checks the fastest (MIN) path against the same clock edge.",
+      "method2": "Reg-to-Reg Setup: `Slack_setup = T_clk - (t_CQ,max + t_logic,max + t_setup + t_skew)`. Reg-to-Reg Hold: `Slack_hold = (t_CQ,min + t_logic,min) - (t_hold,max + t_skew)`. Input-to-Reg (`Q7`): `t_logic <= T_clk - t_in_delay - t_setup - t_unc`. Reg-to-Out (`Q8`): `t_logic <= T_clk - t_CQ - t_out_delay - t_unc`.",
+      "method3": "In Pages 53 & 63\u201364, `constraints/top_520mhz.sdc` defines `create_clock -period 1.923` (520 MHz), and Synopsys PrimeTime (`pt_shell`) verifies positive setup slack (`+0.71 ns FF`, `+0.54 ns TT`, `+0.22 ns SS`) and `0.00 ns` hold violations with StarRC SPEF parasitics."
+    },
+    {
+      "id": "L10-L11-PROJECT",
+      "tag": "Lectures 10\u201311 \u00b7 Ch. 10 Sec. 10.4 & 14nm Physical Design",
+      "title": "16-PE Systolic Motion Estimator Architecture & SAED14nm FinFET Place-and-Route Sign-Off",
+      "pages_linked": "Pages 13\u201324, Pages 53\u201376",
+      "method1": "Ch. 10 Sec. 10.4 maps the 2D block-matching SAD algorithm onto a 1D array of 16 Processing Elements (`PE0..PE15`). Broadcast reference pixel `R` shifts through `Rpipe[0..14]` while `S1` and `S2` feed candidate pixels via a 2:1 mux per PE.",
+      "method2": "8-Bit Baseline Bug Proof: Max SAD = `256 * 255 = 65,280 (16'hFF00)`. An 8-bit PE saturates at `255 (8'hFF)` in Row 1 (`16 * 255 = 4,080 >> 255`), and `8'hFF < 8'hFF` evaluates to `0`, leaving `motionX/Y = xx`. Widening `Accumulate` and `BestDist` to 16 bits (`16'hFFFF` init) restores full dynamic range.",
+      "method3": "Implemented in Synopsys Fusion Compiler (`fc_shell`) on `SAED14nm` FinFET: `125.07 x 62.80 um` core (`7,854.4 um^2`), 8,230 cells (449 FFs, 0 SRAM macros), `M7` clock tree (`max_routing_layer M7`), standalone ICV `0/242 DRC CLEAN`, and 3-corner PrimeTime STA closure at 520 MHz."
+    }
+  ],
+  "midterm_and_exam_bank": [
+    {
+      "id": "Q1",
+      "source": "ENGR 852 Midterm \u2014 Question 1",
+      "topic": "Verilog RTL \u00b7 Multiple Procedural Drivers",
+      "linked_pages": [
+        25,
+        26,
+        27
+      ],
+      "sheet_img": "/files/midterm_sheets/midterm_q1.jpg",
+      "prompt": "Consider the following Verilog fragment:\n  reg C;\n  always @(*) if (B) C = A;\n  always @(posedge clock) if (D) C <= E;\nWhat is the primary problem with this code?",
+      "options": [
+        "A) Value of signal C is not known if D is zero.",
+        "B) Signal C is not initialized.",
+        "C) Value of signal C is not known if B is zero.",
+        "D) There is nothing wrong with this code.",
+        "E) Signal C has multiple drivers causing possible conflict of state."
+      ],
+      "correct_index": 4,
+      "short_answer": "Option E \u2014 Signal C has multiple drivers (a level-sensitive latch from Block 1 and an edge-triggered DFF from Block 2) wired to the same net.",
+      "whiteboard_proof": "1. Block 1 (`always @(*) if (B) C = A;`) infers a level-sensitive latch driving C.\n2. Block 2 (`always @(posedge clock) if (D) C <= E;`) infers a rising-edge D flip-flop also driving C.\n3. When B=1, D=1, A=0, E=1, the latch drives 0 while the DFF drives 1 -> short-circuit contention (`C = 1'bX`).\n4. Golden Rule: A synthesizable `reg` may ONLY be assigned inside ONE `always` block.",
+      "rtl_fix": "module q1_fixed_single_driver (\n  input wire clock, B, D, A, E,\n  output reg C\n);\n  always @(posedge clock) begin\n    if (D)      C <= E; // Priority 1: synchronous load E\n    else if (B) C <= A; // Priority 2: synchronous load A\n  end\nendmodule"
+    },
+    {
+      "id": "Q2",
+      "source": "ENGR 852 Midterm \u2014 Question 2",
+      "topic": "ASIC Methodology \u00b7 C/MATLAB Golden Reference Model",
+      "linked_pages": [
+        13,
+        14,
+        42,
+        43
+      ],
+      "sheet_img": "/files/midterm_sheets/midterm_q2.jpg",
+      "prompt": "It is often valuable to simulate the chip's function in a high-level language such as C or MATLAB before starting the logic design because:",
+      "options": [
+        "A) It moves the job of hardware optimization to the high-level 'algorithm' people who know the most about intrinsic parallelism of hardware.",
+        "B) The instructor in your university course said to do it this way and you always do exactly as he/she advises.",
+        "C) It is trivial to convert C to Verilog.",
+        "D) It is not valuable.",
+        "E) It saves time overall to establish that the algorithm to be implemented in the chip is fully debugged before starting hardware design. Moreover, a C model of the design will be very useful for hardware design verification."
+      ],
+      "correct_index": 4,
+      "short_answer": "Option E \u2014 Debugging the algorithm & fixed-point bit widths in C/MATLAB first is 100x faster than debugging gates, and the debugged model serves as the Golden Reference in the RTL testbench.",
+      "whiteboard_proof": "1. Algorithm bugs (like 8-bit SAD overflow at 255 vs 16-bit 65,280) are caught in minutes in C/Python before writing RTL.\n2. The C/Python golden model exports reference stimulus (`ref.txt`, `search.txt`) and expected outputs (`BestDist`, `motionX`, `motionY`) to automatically check every RTL clock cycle.",
+      "rtl_fix": "// 4-Bit Saturating Adder Golden Reference vs Synthesizable RTL:\nmodule sat_add4(input wire [3:0] A, B, output wire [3:0] Out);\n  wire [4:0] raw = {1'b0, A} + {1'b0, B}; // 5-bit intermediate prevents wrap\n  assign Out = raw[4] ? 4'd15 : raw[3:0]; // Clamp at 15 if carry bit raw[4]==1\nendmodule"
+    },
+    {
+      "id": "Q3",
+      "source": "ENGR 852 Midterm \u2014 Question 3",
+      "topic": "Static Timing Analysis \u00b7 Hold Violation Definition",
+      "linked_pages": [
+        53,
+        59,
+        63,
+        64
+      ],
+      "sheet_img": "/files/midterm_sheets/midterm_q3.jpg",
+      "prompt": "A 'hold violation' refers to which of the following?",
+      "options": [
+        "A) The logic is so fast that a transition can race through successive logic stages in the hold+skew time associated with a single clock edge.",
+        "B) The logic is so slow that a transition can be delayed at the following register to the extent that it occurs during the hold time of a flip-flop.",
+        "C) The clock frequency is so slow that logic transitions can race through successive logic stages within one clock period.",
+        "D) A penalty resulting in suspension under World Wrestling Federation Rules.",
+        "E) A violation of fastened seatbelt rule when you are in an airplane taking off."
+      ],
+      "correct_index": 0,
+      "short_answer": "Option A (Choice 1) \u2014 A hold violation occurs on the SAME clock edge when the minimum contamination path (`t_CQ,min + t_logic,min`) is faster than `t_hold + t_skew`.",
+      "whiteboard_proof": "1. Hold constraint checks the SAME rising clock edge: `t_CQ,min + t_logic,min >= t_hold + t_skew`.\n2. Hold Slack = `(t_CQ,min + t_logic,min) - (t_hold + t_skew)`.\n3. Notice `T_clk` (clock period/frequency) is NOT in the hold equation! Slowing down the clock frequency NEVER fixes a same-edge hold violation; physical design fixes hold by inserting delay buffers on fast paths.",
+      "rtl_fix": "// In Synopsys Fusion Compiler / PrimeTime:\n// set_fix_hold [all_clocks]\n// Inserts non-inverting delay buffers on short contamination paths so t_CQ,min + t_logic,min >= t_hold + t_skew."
+    },
+    {
+      "id": "Q4",
+      "source": "ENGR 852 Midterm \u2014 Question 4",
+      "topic": "Static Timing Analysis \u00b7 Fastest Clock Period (Setup Critical Path)",
+      "linked_pages": [
+        53,
+        54,
+        63
+      ],
+      "sheet_img": "/files/midterm_sheets/midterm_q4.jpg",
+      "prompt": "What is the fastest possible clock period for the circuit implemented with 2-input AND, OR, XOR gates?\n  reg [2:0] A; wire [2:0] B;\n  always @(posedge clock) A <= B;\n  assign B = {(A[0]^A[1])|A[2], A[0]&A[2], A[1]};\nGiven (min:typ:max): T_setup = (1:2:3) ns, T_hold = (1:1.5:2) ns, T_skew = (1:1:1) ns, T_clock-to-Q = (2:3:6) ns, T_logic = (1:3:5) ns per gate.",
+      "options": [
+        "A) 19 ns",
+        "B) 15 ns",
+        "C) 20 ns",
+        "D) 21 ns",
+        "E) 4 ns"
+      ],
+      "correct_index": 2,
+      "short_answer": "Option C \u2014 20 ns (f_max = 50 MHz). The longest path is B[2] = (A[0]^A[1])|A[2] which traverses 2 series gates (XOR -> OR).",
+      "whiteboard_proof": "1. Use MAX delays for worst-case Setup: `T_CQ,max = 6 ns`, `T_gate,max = 5 ns`, `T_setup,max = 3 ns`, adverse `T_skew = 1 ns`.\n2. Count gate levels per bit of `B[2:0]`:\n   - `B[0] = A[1]`: 0 gates -> `6 + 0 + 3 + 1 = 10 ns`\n   - `B[1] = A[0]&A[2]`: 1 gate (AND) -> `6 + 5 + 3 + 1 = 15 ns` (Trap B!)\n   - `B[2] = (A[0]^A[1])|A[2]`: 2 gates (XOR -> OR) -> `6 + (2 * 5) + 3 + 1 = 20 ns`!\n3. Trap A (`19 ns`) forgets the `1 ns` clock skew.",
+      "rtl_fix": "// Setup Critical Path Equation:\n// T_clk,min = T_CQ,max (6 ns) + 2 * T_gate,max (10 ns) + T_setup,max (3 ns) + T_skew (1 ns) = 20 ns."
+    },
+    {
+      "id": "Q5",
+      "source": "ENGR 852 Midterm \u2014 Question 5",
+      "topic": "Static Timing Analysis \u00b7 0-Gate Fast Path Hold Violation",
+      "linked_pages": [
+        53,
+        59,
+        64
+      ],
+      "sheet_img": "/files/midterm_sheets/midterm_q5.jpg",
+      "prompt": "For the exact same circuit and delays as Question 4:\n  assign B = {(A[0]^A[1])|A[2], A[0]&A[2], A[1]};\n  T_setup=#(1:2:3)ns, T_hold=#(1:1.5:2)ns, T_skew=#(1:1:1)ns, T_clock-to-Q=#(2:3:6)ns, T_logic=#(1:3:5)ns.\nIs there a potential hold violation?",
+      "options": [
+        "A) Yes, the fastest logic is 1 ns too fast.",
+        "B) Yes, the fastest logic is 2 ns too fast.",
+        "C) No, minimum arrival is 3 ns which equals required hold 3 ns.",
+        "D) No, because the 20 ns clock period gives 4 ns of margin.",
+        "E) Yes, the slowest logic is 1 ns too slow."
+      ],
+      "correct_index": 0,
+      "short_answer": "Option A \u2014 Yes, the fastest logic (`B[0] = A[1]`, 0 gates) arrives in `2 ns` vs `3 ns` required (`Hold Slack = -1 ns`, 1 ns too fast!).",
+      "whiteboard_proof": "1. Use MIN delays for launching path and MAX hold + skew for capture requirement:\n   - `T_CQ,min = 2 ns`, `T_gate,min = 1 ns`, `T_hold,max = 2 ns`, `T_skew = 1 ns`.\n2. Required Hold Window = `T_hold,max (2 ns) + T_skew (1 ns) = 3 ns`.\n3. Check all 3 paths:\n   - `B[2]` (2 gates): `2 + 2(1) = 4 ns >= 3 ns` (Slack = +1 ns, SAFE)\n   - `B[1]` (1 gate): `2 + 1(1) = 3 ns >= 3 ns` (Slack = 0 ns, BORDERLINE)\n   - `B[0] = A[1]` (0 gates, direct wire!): `2 + 0 = 2 ns < 3 ns` -> `Hold Slack = 2 - 3 = -1 ns` (1 ns TOO FAST!).",
+      "rtl_fix": "// Fix: Insert a non-inverting buffer with >= 1 ns min delay on the direct shift wire B[0] = A[1]."
+    },
+    {
+      "id": "Q6",
+      "source": "ENGR 852 Midterm \u2014 Question 6",
+      "topic": "Verilog RTL \u00b7 3-Stage Circular Shift Register Ring with Non-Blocking `<=`",
+      "linked_pages": [
+        28,
+        30,
+        31
+      ],
+      "sheet_img": "/files/midterm_sheets/midterm_q6.jpg",
+      "prompt": "Which code fragment correctly captures 3 D Flip-Flops in a ring where DFF1 output A feeds DFF2 input, DFF2 output B feeds DFF3 input, and DFF3 output C loops back to DFF1 input?",
+      "options": [
+        "A) always @(posedge clock) begin A <= B; B <= C; C <= A; end",
+        "B) always @(posedge clock) begin B <= A; C <= B; A <= C; end",
+        "C) always @(posedge clock) begin B = A; C = B; A = C; end",
+        "D) always @(posedge clock) C <= B <= A;",
+        "E) always @(*) begin B <= A; C <= B; A <= C; end"
+      ],
+      "correct_index": 1,
+      "short_answer": "Option B \u2014 `always @(posedge clock) begin B <= A; C <= B; A <= C; end`. Each DFF captures its upstream neighbor's Q output simultaneously on `posedge clock`.",
+      "whiteboard_proof": "1. Trace D-inputs from the problem statement:\n   - DFF2 (output B) is fed by DFF1 (output A) -> `B <= A;`\n   - DFF3 (output C) is fed by DFF2 (output B) -> `C <= B;`\n   - DFF1 (output A) is fed by DFF3 (output C) -> `A <= C;`\n2. Because non-blocking `<=` samples all RHS values (`A, B, C`) before the clock edge and updates LHS in the NBA region, statement order inside `always @(posedge clock)` does not cause race-through!\n3. Trap A shifts backwards; Trap C uses blocking `=` which collapses `B=A; C=A; A=A;`; Trap D is illegal chained relational syntax.",
+      "rtl_fix": "// Exact match to Rpipe[0..14] in our Motion Estimator top.v:\n// always @(posedge clock) begin Rpipe[0] <= R; Rpipe[1] <= Rpipe[0]; ... end"
+    },
+    {
+      "id": "Q7",
+      "source": "ENGR 852 Midterm \u2014 Question 7",
+      "topic": "Synopsys SDC & STA \u00b7 Max Logic Delay on Input-to-Register Path",
+      "linked_pages": [
+        53,
+        54,
+        63
+      ],
+      "sheet_img": "/files/midterm_sheets/midterm_q7.jpg",
+      "prompt": "Given RTL:\n  input A, B, clock; output reg C;\n  always @(posedge clock) C <= A + B;\nAnd Synopsys SDC constraints:\n  create_clock -period 10\n  set_clock_skew -uncertainty 1.0\n  set_input_delay 2.0\n  set_output_delay 2.0\nWith flip-flop parameters T_setup = 1 ns, T_clk-Q = 2 ns. What is the maximum allowed delay for logic A+B?",
+      "options": [
+        "A) 6 ns",
+        "B) 5 ns",
+        "C) 4 ns",
+        "D) 7 ns",
+        "E) None of these"
+      ],
+      "correct_index": 0,
+      "short_answer": "Option A \u2014 6 ns (`10 ns [period] - 2 ns [input_delay] - 1 ns [setup] - 1 ns [uncertainty] = 6 ns`).",
+      "whiteboard_proof": "1. Identify path type: `A, B` are primary input ports, and `C` is an internal flip-flop (`output reg C`). The adder `A+B` sits BEFORE flip-flop `C` -> this is an **Input-to-Register** path!\n2. Data Arrival Time at DFF C: `T_arr = set_input_delay (2.0 ns) + T_logic(A+B)`.\n3. Data Required Time at DFF C: `T_req = T_period (10.0 ns) - T_uncertainty (1.0 ns) - T_setup (1.0 ns) = 8.0 ns`.\n4. Max logic delay: `2.0 + T_logic <= 8.0  =>  T_logic,max = 6.0 ns`!\n5. Trap Alert: `T_clk-Q (2 ns)` and `set_output_delay (2 ns)` are AFTER flip-flop C and are NOT on the `A+B` path!",
+      "rtl_fix": "// Input-to-Reg Budget Formula:\n// T_logic,max = T_clk - set_input_delay - T_setup - T_uncertainty = 10 - 2 - 1 - 1 = 6 ns."
+    },
+    {
+      "id": "Q8",
+      "source": "ENGR 852 Midterm \u2014 Question 8",
+      "topic": "Synopsys SDC & STA \u00b7 Max Logic Delay on Register-to-Output Path",
+      "linked_pages": [
+        53,
+        54,
+        63
+      ],
+      "sheet_img": "/files/midterm_sheets/midterm_q8.jpg",
+      "prompt": "Given RTL:\n  input A, B, clock; output C; reg Ain, Bin;\n  always @(posedge clock) begin Ain <= A; Bin <= B; end\n  assign C = Ain + Bin;\nWith the exact same constraints as Question 7 (`Period = 10 ns`, `uncertainty = 1.0 ns`, `input_delay = 2.0 ns`, `output_delay = 2.0 ns`, `T_setup = 1 ns`, `T_clk-Q = 2 ns`), what is the maximum allowed delay for logic `Ain + Bin`?",
+      "options": [
+        "A) 6 ns",
+        "B) 5 ns",
+        "C) 4 ns",
+        "D) 7 ns",
+        "E) None of these"
+      ],
+      "correct_index": 1,
+      "short_answer": "Option B \u2014 5 ns (`10 ns [period] - 2 ns [T_clk-Q] - 2 ns [output_delay] - 1 ns [uncertainty] = 5 ns`).",
+      "whiteboard_proof": "1. Identify path type: `Ain, Bin` are internal flip-flops, and `assign C = Ain + Bin;` drives primary output port `C` (a wire). Thus `Ain+Bin` is on a **Register-to-Output** path!\n2. Data Arrival at port C: `T_arr = T_clk-Q (2.0 ns) + T_logic(Ain+Bin)`.\n3. Data Required at port C: `T_req = T_period (10.0 ns) - T_uncertainty (1.0 ns) - set_output_delay (2.0 ns) = 7.0 ns`.\n4. Max logic delay: `2.0 + T_logic <= 7.0  =>  T_logic,max = 5.0 ns`!\n5. Trap Alert: Do NOT subtract internal `T_setup (1 ns)` here\u2014the external receiver's setup requirement is already included inside `set_output_delay = 2.0 ns`!",
+      "rtl_fix": "// Reg-to-Output Budget Formula:\n// T_logic,max = T_clk - T_clk-Q - set_output_delay - T_uncertainty = 10 - 2 - 2 - 1 = 5 ns."
+    },
+    {
+      "id": "Q9",
+      "source": "ENGR 852 Midterm \u2014 Question 9",
+      "topic": "Static Timing Analysis \u00b7 Worst-Case Setup Slack at 400 MHz (Multi-Gate + 2:1 Mux)",
+      "linked_pages": [
+        53,
+        63,
+        64
+      ],
+      "sheet_img": "/files/midterm_sheets/midterm_q9.jpg",
+      "prompt": "In the 6-DFF AND-OR-MUX circuit running at f_clk = 400 MHz (T_clk = 2500 ps):\n  Clock skew = 750 ps, T_clock_Q = (300:450:950) ps, AND = (70:120:210) ps,\n  OR = (50:110:200) ps, Mux D0/D1 = (40:90:180) ps, Mux S = (30:80:170) ps,\n  T_setup = (100:200:300) ps, T_hold = (200:300:400) ps.\nWhat is the worst-case setup time slack?",
+      "options": [
+        "A) +110 ps",
+        "B) -90 ps",
+        "C) +90 ps",
+        "D) -300 ps",
+        "E) +330 ps"
+      ],
+      "correct_index": 1,
+      "short_answer": "Option B \u2014 `-90 ps` (`T_clk [2500 ps] - T_req,max [2590 ps] = -90 ps`).",
+      "whiteboard_proof": "1. Convert 400 MHz to picoseconds: `T_clk = 1 / (400 x 10^6) = 2.5 ns = 2500 ps`.\n2. Enumerate all 3 path categories using MAX delays (`T_CQ,max = 950 ps`, `T_setup,max = 300 ps`, adverse `Skew = 750 ps`):\n   - **Path P2/P3 (Critical Slowest: DFF -> AND -> OR -> Mux D0 -> Capture DFF)**:\n     `T_req = 950 (T_CQ) + 210 (AND) + 200 (OR) + 180 (Mux D0) + 300 (T_setup) + 750 (Skew) = 2590 ps`.\n     `Setup Slack = 2500 - 2590 = -90 ps` (VIOLATION by 90 ps!).\n   - **Path P1 (Upper DFF -> Top AND -> Mux D1)**: `950 + 210 + 180 + 300 + 750 = 2390 ps` (`Slack = +110 ps`).\n   - **Path P4 (Select DFF -> Mux S)**: `950 + 170 + 300 + 750 = 2170 ps` (`Slack = +330 ps`).\n3. Trap Alert: Top AND and Bottom AND operate in PARALLEL, so count `210 ps` once (not twice!).",
+      "rtl_fix": "// Worst Setup Slack = T_clk (2500 ps) - [950 + 210 + 200 + 180 + 300 + 750] (2590 ps) = -90 ps."
+    },
+    {
+      "id": "Q10",
+      "source": "ENGR 852 Midterm \u2014 Question 10",
+      "topic": "Static Timing Analysis \u00b7 Worst-Case Hold Slack on Fast Mux Select Path",
+      "linked_pages": [
+        53,
+        59,
+        63,
+        64
+      ],
+      "sheet_img": "/files/midterm_sheets/midterm_q10.jpg",
+      "prompt": "For the exact same 6-DFF circuit and delays as Question 9 (`Clock skew = 750 ps`, `T_clock_Q = (300:450:950) ps`, `AND = (70:120:210) ps`, `OR = (50:110:200) ps`, `Mux D0/D1 = (40:90:180) ps`, `Mux S = (30:80:170) ps`, `T_setup = (100:200:300) ps`, `T_hold = (200:300:400) ps` at 400 MHz), what is the worst-case hold time slack?",
+      "options": [
+        "A) -620 ps",
+        "B) -740 ps",
+        "C) -690 ps",
+        "D) -820 ps",
+        "E) +1680 ps"
+      ],
+      "correct_index": 3,
+      "short_answer": "Option D \u2014 `-820 ps` (`Min Arrival on Select Path P4 [300 + 30 = 330 ps] - Max Hold Req [400 + 750 = 1150 ps] = -820 ps`).",
+      "whiteboard_proof": "1. Hold is evaluated on the SAME clock edge (`400 MHz / 2500 ps` is a distractor and is NEVER used in hold slack!).\n2. Minimize arrival time using MIN component delays (`T_CQ,min = 300 ps`): Shortest contamination path is **Path P4 (Bottom Select DFF -> Mux Select pin S, min delay = 30 ps)**:\n   `T_arr,min = 300 ps + 30 ps = 330 ps`.\n3. Maximize hold requirement using `T_hold,max = 400 ps` + `Skew = 750 ps`:\n   `T_req,hold = 400 ps + 750 ps = 1150 ps`.\n4. Worst Hold Slack = `330 ps - 1150 ps = -820 ps`!\n5. Trap A (`-620 ps`) happens if you accidentally pick `T_hold,min (200 ps)` instead of `T_hold,max (400 ps)`.",
+      "rtl_fix": "// Worst Hold Slack = (T_CQ,min [300] + T_Mux_S,min [30]) - (T_hold,max [400] + Skew [750]) = 330 - 1150 = -820 ps."
+    },
+    {
+      "id": "Q11",
+      "source": "ENGR 852 Project Exam (V1 -> V2)",
+      "topic": "Motion Estimator Architecture \u00b7 Why 8-Bit Baseline Fails at Row 1 (`8'hFF` Saturation Trap)",
+      "linked_pages": [
+        15,
+        16,
+        26,
+        49,
+        50
+      ],
+      "sheet_img": "",
+      "prompt": "In the professor's original 8-bit Motion Estimator baseline (`rtl/8bit/top.v`), why do `motionX` and `motionY` remain uninitialized (`8'hxx`) at the end of a max-contrast macroblock search (`|R - S| = 255` for all 256 pixels)?",
+      "options": [
+        "A) Because the clock frequency 520 MHz violates setup timing in RTL simulation.",
+        "B) Because each PE's 8-bit accumulator saturates at 8'hFF (255) during Row 0, and `comp.v` uses a strict `<` comparison (`pe_sad < BestDist`, i.e., `8'hFF < 8'hFF` is FALSE), so `newBest` never asserts!",
+        "C) Because `RMEM` and `SMEM` are synthesized inside `top.v` and run out of address bits.",
+        "D) Because `start` is active-low instead of active-high."
+      ],
+      "correct_index": 1,
+      "short_answer": "Option B \u2014 After just 1 pixel of difference 255 (or by Row 1), the 8-bit accumulator clamps to `8'hFF`. Since `BestDist` initializes to `8'hFF`, `8'hFF < 8'hFF` is always `0` (`newBest = 0`), so `motionX/Y` are never written!",
+      "whiteboard_proof": "1. True max SAD for a 16x16 block is `256 * 255 = 65,280 (16'hFF00)`.\n2. In V1 8-bit RTL: `{AccumulateCarry, AccumulateIn} = Accumulate + difference; if (AccumulateCarry) AccumulateIn = 8'hFF;`.\n3. In `comp.v`: `BestDist` starts at `8'hFF`, and `newBest = 1` only when `pe_sad < BestDist`. Since `8'hFF < 8'hFF` is false (`0`), `motionX` and `motionY` never latch a candidate!",
+      "rtl_fix": "// V2 16-Bit Upgrade:\n// 1. Widen Accumulate[15:0] and BestDist[15:0] (init 16'hFFFF).\n// 2. Now 256 * 255 = 16'hFF00 < 16'hFFFF is TRUE -> newBest=1!"
+    },
+    {
+      "id": "Q12",
+      "source": "ENGR 852 Project Exam (V2 -> V5)",
+      "topic": "Motion Estimator Control \u00b7 Cycle 4,111 (`13'h100F`) Hold & Wrap-Around Fix",
+      "linked_pages": [
+        29,
+        30,
+        31,
+        50
+      ],
+      "sheet_img": "",
+      "prompt": "Why does the 16-PE systolic Motion Estimator require exactly 4,111 clock cycles (`count == 13'h100F`) per macroblock search, and what happens if `control.v` does not freeze at `count == 13'h100F`?",
+      "options": [
+        "A) 4,111 cycles is `16 vertical rows * 256 pixels/row + 15 pipeline fill cycles = 4,111`; without a hold state at `13'h100F`, `count` wraps around and overwrites `BestDist` before the testbench reads it.",
+        "B) 4,111 cycles is `256 candidates * 16 cycles`; without a hold state, the clock stops oscillating.",
+        "C) 4,111 cycles is required to refresh dynamic DRAM capacitors.",
+        "D) 4,111 cycles is set by the 14nm DRC antenna rule."
+      ],
+      "correct_index": 0,
+      "short_answer": "Option A \u2014 16 vertical search rows x 256 cycles/row = 4,096 cycles, plus 15 cycles for `PE15` (at the end of `Rpipe[0..14]`) to finish accumulating its 256th pixel (`4096 + 15 = 4111 = 13'h100F`).",
+      "whiteboard_proof": "1. `PE0` starts at `count = 0` and finishes its 256th pixel at `count = 256` (`0x0100`).\n2. `PE15` receives `R` delayed by 15 `Rpipe` stages, so its last row finishes 15 cycles after `4096`: `4096 + 15 = 4111` (`13'h100F`).\n3. Adding `else if (count == 13'h100f) Completed <= 1'b1;` holds `BestDist`, `motionX`, and `motionY` steady after cycle 4,111.",
+      "rtl_fix": "always @(posedge clock) begin\n  if (start == 1'b0) begin count <= 13'b0; Completed <= 1'b0; end\n  else if (count == 13'h100f) Completed <= 1'b1; // Freeze at cycle 4111\n  else count <= count + 13'd1;\nend"
+    },
+    {
+      "id": "Q13",
+      "source": "ENGR 852 Project Exam (V3 -> V5)",
+      "topic": "520 MHz Directed Testbenches \u00b7 Decoding Hex Outputs (`0000`, `0100`, `FF00`, `FB`, `07`, `F8`)",
+      "linked_pages": [
+        33,
+        36,
+        39,
+        51,
+        52
+      ],
+      "sheet_img": "",
+      "prompt": "In `top_tb.v` (+1 LSB offset testbench at 520 MHz), every pixel in the target candidate at displacement `(-5, +7)` differs from `R` by exactly `+1` LSB. What hexadecimal values of `BestDist`, `motionX`, and `motionY` are latched at completion?",
+      "options": [
+        "A) BestDist = 16'h0001, motionX = 8'h05, motionY = 8'h07",
+        "B) BestDist = 16'h0100 (256), motionX = 8'hFB (-5), motionY = 8'h07 (+7)",
+        "C) BestDist = 16'h00FF (255), motionX = 8'hFB (-5), motionY = 8'hF9 (-7)",
+        "D) BestDist = 16'hFF00 (65280), motionX = 8'h07 (+7), motionY = 8'hF8 (-8)"
+      ],
+      "correct_index": 1,
+      "short_answer": "Option B \u2014 `256 pixels * 1 LSB = 256 = 16'h0100` (which would have overflowed 8-bit `255`!), `motionX = -5 = 256 - 5 = 251 = 8'hFB`, and `motionY = +7 = 8'h07`.",
+      "whiteboard_proof": "1. Total SAD = `sum_{256 pixels} |R - (R+1)| = 256 * 1 = 256_10 = 16'h0100`.\n2.Notice why `+1 LSB` is the ultimate surgical test: `256` is the very first integer (`255 + 1`) that overflows an 8-bit unsigned bus!\n3. Two's complement 8-bit encoding: `-5 = ~5 + 1 = 8'b1111_1011 = 8'hFB`; `+7 = 8'b0000_0111 = 8'h07`.",
+      "rtl_fix": "// Verified in V9_fig11_16bit_offset1_0100_nWave.png:\n// BestDist = 16'h0100, motionX = 8'hfb (-5), motionY = 8'h07 (+7)"
+    },
+    {
+      "id": "Q14",
+      "source": "ENGR 852 Project Exam (V6 -> V9)",
+      "topic": "Physical Implementation \u00b7 Why `RMEM` and `SMEM` Are Excluded from Synthesizable `top.v`",
+      "linked_pages": [
+        2,
+        25,
+        55,
+        62
+      ],
+      "sheet_img": "",
+      "prompt": "Why does the ENGR 852 project specification keep `RMEM` (256x8) and `SMEM` (1024x8) inside the testbench (`top_tb.v`) rather than synthesizing them inside `top.v`?",
+      "options": [
+        "A) Because Verilog does not support arrays.",
+        "B) Because synthesizing behavioral memory arrays into flip-flops or SRAM macros inside `top.v` would explode the core area (>10x larger) instead of measuring the pure 16-PE systolic motion-estimator datapath & control core (`8,230 cells, 449 FFs, 0 SRAM macros`).",
+        "C) Because `fc_shell` cannot route more than 100 nets.",
+        "D) Because `AddressR` is only 4 bits wide."
+      ],
+      "correct_index": 1,
+      "short_answer": "Option B \u2014 Keeping `RMEM` and `SMEM` as external memory models bridged via ports (`AddressR[7:0]`, `AddressS1[9:0]`, `AddressS2[9:0]`, `R[7:0]`, `S1[7:0]`, `S2[7:0]`) ensures we synthesize only the 16-PE datapath & controller (449 FFs, 7,854.4 um^2).",
+      "whiteboard_proof": "1. A 1024x8 + 256x8 memory synthesized as registers would add `1,280 * 8 = 10,240` flip-flops\u2014more than 22x the 449 flip-flops in the entire 16-PE Motion Estimator!\n2. In a real video SoC, frame buffers live in external SRAM/DRAM tiles connected to the Motion Estimator via address/data buses.",
+      "rtl_fix": "// Top-level ASIC boundary:\nmodule top (clock, start, BestDist, motionX, motionY, AddressR, AddressS1, AddressS2, R, S1, S2);"
+    },
+    {
+      "id": "Q15",
+      "source": "ENGR 852 Project Exam (V6 -> V8)",
+      "topic": "SAED14nm Physical Closure \u00b7 520 MHz 3-Corner PrimeTime STA & `M7` CTS Rule",
+      "linked_pages": [
+        53,
+        59,
+        62,
+        63,
+        64
+      ],
+      "sheet_img": "",
+      "prompt": "In our SAED14nm FinFET physical implementation (`125.07 x 62.80 um`), why is `ss0p72vm40c` (`0.72V, -40C`) the most critical corner for 520 MHz (`1.923 ns`) Setup timing (`WNS = +0.22 ns`), whereas `ff0p88v125c` (`0.88V, 125C`) is the most critical corner for Hold timing?",
+      "options": [
+        "A) Lower supply voltage (`0.72V`) and Slow-Slow (`SS`) threshold voltage reduce transistor drive current `I_drive`, maximizing gate delay `t_logic,max` (hardest for Setup); Higher supply voltage (`0.88V`) and Fast-Fast (`FF`) transistors minimize `t_logic,min` (fastest contamination race, hardest for Hold).",
+        "B) Because `0.72V` increases dynamic power.",
+        "C) Because clock period changes at different temperatures.",
+        "D) Because StarRC SPEF disables capacitance at `0.72V`."
+      ],
+      "correct_index": 0,
+      "short_answer": "Option A \u2014 By `Delta_t = (C_load * V_DD) / I_drive(V_DD - V_th)`, `SS 0.72V` has the slowest gate transitions (`WNS = +0.22 ns` setup slack at 520 MHz), while `FF 0.88V` has the fastest transitions (`WNS = +0.71 ns` setup slack, tightest hold margin `0.00 ns`).",
+      "whiteboard_proof": "1. Across our 3 sign-off corners at `T_clk = 1.923 ns (520 MHz)`:\n   - `ff0p88v125c`: Setup WNS = `+0.71 ns`, Hold WNS = `0.00 ns` (0 violations)\n   - `tt0p8v25c`: Setup WNS = `+0.54 ns`, Hold WNS = `0.00 ns` (0 violations)\n   - `ss0p72vm40c`: Setup WNS = `+0.22 ns`, Hold WNS = `0.00 ns` (0 violations)\n2. Positive slack at all 3 corners proves the chip runs reliably up to `1 / (1.923 - 0.22 ns) = 587 MHz` even in the worst-case slow corner!",
+      "rtl_fix": "# PrimeTime 3-Corner Sign-Off Command:\npt_shell -f scripts/v5_prime_time_extracted_corners.tcl | tee logs/v9_pt_3corner.log"
+    }
+  ]
+}
