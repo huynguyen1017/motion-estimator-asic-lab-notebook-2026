@@ -1,6 +1,6 @@
 {
   "updated_at": "2026-11-09 14:41:49 PST",
-  "epoch": 1794264109.556382,
+  "epoch": 1794264109.7451708,
   "last_event": "STEP_COMPLETE",
   "active_terminal": "MACBOOK_AIR_TERMINAL",
   "host": "iMac.local",
@@ -30,7 +30,7 @@
       "git version 2.39+",
       "MACBOOK_CLI_AND_VENV_READY"
     ],
-    "actual_excerpt": "\n$ xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'import PIL, reportlab, pptx, pypdf; print(\"MACBOOK_CLI_AND_VENV_READY\")'\n/Applications/Xcode.app/Contents/Developer\ngit version 2.56.0\nOpenSSH_10.5p1, LibreSSL 3.3.6\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:48 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:49 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:49 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY",
+    "actual_excerpt": "MACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:48 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:49 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:49 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:49 PST\n# ------------------------------------------------------------------------------",
     "mismatch_diagnosis": "If Page 3 (`page003_brand_new_macbook_air`) failed or its terminal output did not match the expected outcome, the most common causes are: (1) `~/Developer/motion-estimator-14nm-asic-manual` subdirectories were not yet initialized, (2) `auto_bridge.sh` was not sourced in the current terminal tab, or (3) XQuartz / GlobalProtect VPN needed a refresh.",
     "debug_fix_oneliner": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,constraints,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026 2>/dev/null || cd /Users/huynguyen/Developer/portfolio/motion-estimator-asic-lab-notebook-2026 && source practice_from_scratch/scripts/auto_bridge.sh && FORCE_STEP=1 snap_step \"page003_brand_new_macbook_air\" \"xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'import PIL, reportlab, pptx, pypdf; print(\\\"MACBOOK_CLI_AND_VENV_READY\\\")'\"",
     "debug_steps_explained": [
@@ -86,23 +86,11 @@
       "exit_code": 0,
       "log_file": "/files/logs/page003_brand_new_macbook_air.log",
       "screenshot_file": "/files/screenshots/page003_brand_new_macbook_air_terminal.png",
-      "log_excerpt": "\n$ xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'import PIL, reportlab, pptx, pypdf; print(\"MACBOOK_CLI_AND_VENV_READY\")'\n/Applications/Xcode.app/Contents/Developer\ngit version 2.56.0\nOpenSSH_10.5p1, LibreSSL 3.3.6\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:48 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:49 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:49 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY",
+      "log_excerpt": "MACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:48 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:49 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:49 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:49 PST\n# ------------------------------------------------------------------------------",
       "updated_at": "2026-11-09 14:41:49"
     }
   },
   "terminal_feed": [
-    {
-      "time": "14:39:55",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
     {
       "time": "14:39:55",
       "terminal": "MACBOOK_AIR_TERMINAL",
@@ -489,6 +477,18 @@
     },
     {
       "time": "14:41:48",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "page003_brand_new_macbook_air",
+      "command": "xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'impo",
+      "status": "PASS",
+      "message": "Completed page003_brand_new_macbook_air (exit=0)"
+    },
+    {
+      "time": "14:41:49",
       "terminal": "MACBOOK_AIR_TERMINAL",
       "host": "iMac.local",
       "ip": "192.168.1.70,130.212.163.69",
