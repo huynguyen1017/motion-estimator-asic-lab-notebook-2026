@@ -1,6 +1,6 @@
 {
   "updated_at": "2026-11-09 14:39:55 PST",
-  "epoch": 1794263995.248446,
+  "epoch": 1794263995.445863,
   "last_event": "STEP_COMPLETE",
   "active_terminal": "MACBOOK_AIR_TERMINAL",
   "host": "iMac.local",
@@ -21,20 +21,20 @@
     "status": "FAIL",
     "verification_state": "OUTCOME_MISMATCH",
     "exit_code": 2,
-    "matched_markers": [],
-    "missing_markers": [
+    "matched_markers": [
       "RUBRIC_CHECK",
       "0000",
       "0100",
       "FF00"
     ],
+    "missing_markers": [],
     "expected_out": [
       "RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA",
       "top u1 (clock, start, BestDist, motionX, motionY, AddressR, AddressS1, AddressS2, R, S1, S2);",
       "RMEM u2 (AddressR, R);",
       "SMEM u3 (AddressS1, AddressS2, S1, S2);"
     ],
-    "actual_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page002_engr_852_course_project\n# Timestamp                        : 2026-11-09 14:39:55 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL",
+    "actual_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page002_engr_852_course_project\n# Timestamp                        : 2026-11-09 14:39:55 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u3' ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v && ls -ld rtl/8bit rtl/16bit tb/8bit tb/16bit\n# ==============================================================================\n\n$ cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u3' ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v && ls -ld rtl/8bit rtl/16bit tb/8bit tb/16bit\nRUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA\ngrep: /Users/huynguyen/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v: No such file or directory\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 2\n# Finished At : 2026-11-09 14:39:55 PST\n# ------------------------------------------------------------------------------",
     "mismatch_diagnosis": "If Page 2 (`page002_engr_852_course_project`) failed or its terminal output did not match the expected outcome, the most common causes are: (1) `~/Developer/motion-estimator-14nm-asic-manual` subdirectories were not yet initialized, (2) `auto_bridge.sh` was not sourced in the current terminal tab, or (3) XQuartz / GlobalProtect VPN needed a refresh.",
     "debug_fix_oneliner": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,constraints,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026 2>/dev/null || cd /Users/huynguyen/Developer/portfolio/motion-estimator-asic-lab-notebook-2026 && source practice_from_scratch/scripts/auto_bridge.sh && FORCE_STEP=1 snap_step \"page002_engr_852_course_project\" \"cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u3' ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v && ls -ld rtl/8bit rtl/16bit tb/8bit tb/16bit\"",
     "debug_steps_explained": [
@@ -65,17 +65,17 @@
       "step_id": "page002_engr_852_course_project",
       "status": "FAIL",
       "verification_state": "OUTCOME_MISMATCH",
-      "matched_markers": [],
-      "missing_markers": [
+      "matched_markers": [
         "RUBRIC_CHECK",
         "0000",
         "0100",
         "FF00"
       ],
-      "exit_code": 0,
+      "missing_markers": [],
+      "exit_code": 2,
       "log_file": "/files/logs/page002_engr_852_course_project.log",
       "screenshot_file": "/files/screenshots/page002_engr_852_course_project_terminal.png",
-      "log_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page002_engr_852_course_project\n# Timestamp                        : 2026-11-09 14:39:55 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL",
+      "log_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page002_engr_852_course_project\n# Timestamp                        : 2026-11-09 14:39:55 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u3' ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v && ls -ld rtl/8bit rtl/16bit tb/8bit tb/16bit\n# ==============================================================================\n\n$ cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u3' ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v && ls -ld rtl/8bit rtl/16bit tb/8bit tb/16bit\nRUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA\ngrep: /Users/huynguyen/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v: No such file or directory\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 2\n# Finished At : 2026-11-09 14:39:55 PST\n# ------------------------------------------------------------------------------",
       "updated_at": "2026-11-09 14:39:55"
     }
   },
@@ -322,6 +322,30 @@
     },
     {
       "time": "14:39:54",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "14:39:55",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "page002_engr_852_course_project",
+      "command": "cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u",
+      "status": "FAIL",
+      "message": "Completed page002_engr_852_course_project (exit=2)"
+    },
+    {
+      "time": "14:39:55",
       "terminal": "MACBOOK_AIR_TERMINAL",
       "host": "iMac.local",
       "ip": "192.168.1.70,130.212.163.69",
