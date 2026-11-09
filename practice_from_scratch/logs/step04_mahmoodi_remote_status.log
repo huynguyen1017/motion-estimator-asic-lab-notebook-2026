@@ -1,0 +1,13 @@
+[926784856@mahmoodi ~]$ export REMOTE_LOG="$HOME/engr852_mahmoodi_session.log"
+[926784856@mahmoodi ~]$ PROMPT_COMMAND='echo "=== [$(date "+%Y-%m-%d %H:%M:%S")] REMOTE_PWD=$(pwd) ===" >> "$REMOTE_LOG"'
+[926784856@mahmoodi ~]$ alias remote_status='echo "=== CURRENT MAHMOODI STATE ==="; hostname; pwd; ls -la; tail -n 20 "$REMOTE_LOG"'
+[926784856@mahmoodi ~]$ echo "REMOTE_LOGGER_READY: $REMOTE_LOG"
+REMOTE_LOGGER_READY: /home/926784856/engr852_mahmoodi_session.log
+[926784856@mahmoodi ~]$ remote_status
+=== CURRENT MAHMOODI STATE ===
+mahmoodi.rcc.at.sfsu.edu
+/home/926784856
+-rw-r--r--.   1 926784856 domain users    171 Nov  8 17:27 engr852_mahmoodi_session.log
+drwx------.  24 926784856 domain users   4096 Nov  7 10:31 ENGR852_Project
+-rw-------.   1 926784856 domain users    350 Nov  8 17:27 .Xauthority
+=== [2026-11-08 17:27:57] REMOTE_PWD=/home/926784856 ===
