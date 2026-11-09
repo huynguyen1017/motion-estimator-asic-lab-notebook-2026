@@ -1,0 +1,27 @@
+# ==============================================================================
+# ENGR 852 Manual Replication Step : page001_master_roadmap
+# Timestamp                        : 2026-11-09 10:12:16 PST
+# Host & User                      : huynguyen@iMac.local
+# Terminal Environment             : MACBOOK_AIR_TERMINAL
+# IP Addresses                     : 192.168.1.70,130.212.163.69
+# Working Directory                : /Users/huynguyen/Developer/coursework/sfsu/2026-fall/sfsu-engr852-2026-fall/team-projects/motion-estimator
+# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0
+# Command Executed                 : mkdir -p ~/Developer/motion-estimator-14nm-asic-manual && cd ~/Developer/motion-estimator-14nm-asic-manual && mkdir -p rtl/8bit rtl/16bit tb/8bit tb/16bit scripts docs deliverables evidence/screenshots && pwd && ls -la
+# ==============================================================================
+
+$ mkdir -p ~/Developer/motion-estimator-14nm-asic-manual && cd ~/Developer/motion-estimator-14nm-asic-manual && mkdir -p rtl/8bit rtl/16bit tb/8bit tb/16bit scripts docs deliverables evidence/screenshots && pwd && ls -la
+/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual
+total 0
+drwxr-xr-x   8 huynguyen  staff  256 Nov  9 10:12 .
+drwx------  12 huynguyen  staff  384 Nov  9 10:12 ..
+drwxr-xr-x   2 huynguyen  staff   64 Nov  9 10:12 deliverables
+drwxr-xr-x   2 huynguyen  staff   64 Nov  9 10:12 docs
+drwxr-xr-x   3 huynguyen  staff   96 Nov  9 10:12 evidence
+drwxr-xr-x   4 huynguyen  staff  128 Nov  9 10:12 rtl
+drwxr-xr-x   2 huynguyen  staff   64 Nov  9 10:12 scripts
+drwxr-xr-x   4 huynguyen  staff  128 Nov  9 10:12 tb
+
+# ------------------------------------------------------------------------------
+# Exit Code   : 0
+# Finished At : 2026-11-09 10:12:16 PST
+# ------------------------------------------------------------------------------

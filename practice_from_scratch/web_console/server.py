@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
 """
-ENGR 852 Live Operations, Interactive Study Guide, Midterm Exam Prep & 100-Page Sequential Replication Console
-(`http://127.0.0.1:8788/`, `http://192.168.1.70:8788/`, `http://130.212.163.69:8788/`)
+ENGR 852 Live Operations, Closed-Loop Terminal Verifier, Sub-Command Deconstructor,
+Three-Method Study Guide & Midterm Exam Prep Console (`http://127.0.0.1:8788/`)
 
 Capabilities:
-  1. Preserves the exact dark-theme Operations Console structure and all 5 original views while adding:
-       - Deeply interactive 6-Box Visual Notebook + Three-Method Study Guide + 2 Interactive Review Questions
-         on EVERY single page card (Pages 1..100, V1 -> V9, 200 page-linked questions total).
-       - Tab 6: Interactive Study Guide (Foundations F0-F17 from basic electricity/CMOS/math to RTL,
-         Lectures 1-11 & HW1-HW4 Three-Method cards) + 4 Live Hardware/Timing Simulators:
-           (a) Setup & Hold Slack STA Calculator (with Midterm Q3-Q10 & 520 MHz 14nm ASIC presets)
-           (b) 8-Bit (8'hFF) Saturation vs. 16-Bit (16'hFFFF) Full-Precision SAD Calculator
-           (c) CMOS RC Delay (tau = R*C) & Dynamic Power (P = alpha*C*V^2*f + P_leak) Lab
-           (d) 16-PE Systolic Array Cycle & Memory Address (count = 0..4111) Interactive Stepper
-       - Tab 7: Interactive Midterm (Q1-Q10 with high-res 3-page spiral-notebook sheets) & V1-V9 Final Exam Prep.
-  2. Enforces the Sequential Order Guardrail (`Page 1 -> Page 2 -> ... -> Page 100`) and syncs live with
-     MacBook Air (`zsh`), XQuartz (`DISPLAY=:0`), `926784856@mahmoodi.rcc.at.sfsu.edu`, and GitHub sub-branch
-     `manual-practice-macbook-air`.
+  1. Closed-Loop Expected-Outcome Verification & Auto-Debugger:
+     - Automatically compares real-time terminal execution logs (`practice_from_scratch/logs/page*.log`)
+       against each page's `verification_spec` (`expected_exit_code == 0` + `required_markers`).
+     - If Outcome Matches (`VERIFIED_MATCH`): Prompts the user with the Post-Execution Interactive
+       Learning & Lab Mode (Side-by-Side Expected vs. Actual Output, Sub-Command Deconstructor,
+       Three-Method Theory Walkthrough, and 3-Question Page Mastery Quiz).
+     - If Outcome Mismatches or Fails (`OUTCOME_MISMATCH`): Prompts the user with a Root-Cause
+       Diagnosis and a 1-Click Copyable Auto-Debug & Fix One-Liner (`debug_fix_oneliner`) that
+       repairs prerequisites in the isolated practice workspace (`~/Developer/motion-estimator-14nm-asic-manual`
+       locally and `~/me_asic_new_v1` on `mahmoodi`) without touching the main project.
+  2. Full Sub-Command Deconstructor on all 100 Pages:
+     - Explains every small command inside each page's combined one-liner: (a) Task Performed,
+       (b) In-Depth Meaning, (c) ENGR 852 Lecture Correlation, and (d) Chip Design Role.
 """
 
 import json
@@ -97,6 +97,9 @@ def load_study_guide():
 
 
 def build_merged_state():
+    curr_list = load_curriculum()
+    curr_map = {int(item["page_num"]): item for item in curr_list if "page_num" in item}
+
     with STATE_LOCK:
         state = {
             "updated_at": time.strftime("%Y-%m-%d %H:%M:%S %Z"),
@@ -117,6 +120,7 @@ def build_merged_state():
                 "last_commit": "",
             },
             "guardrail_alert": "",
+            "latest_feedback": {},
             "completed_pages": {},
             "terminal_feed": [],
         }
@@ -126,6 +130,7 @@ def build_merged_state():
                 if isinstance(saved, dict):
                     state["active_terminal"] = saved.get("active_terminal", state["active_terminal"])
                     state["guardrail_alert"] = saved.get("guardrail_alert", "")
+                    state["latest_feedback"] = saved.get("latest_feedback", {})
                     state["completed_pages"] = saved.get("completed_pages", {})
                     state["terminal_feed"] = saved.get("terminal_feed", [])
                     state["mahmoodi"]["last_pwd"] = saved.get("pwd", "~/me_asic_new_v1")
@@ -134,6 +139,9 @@ def build_merged_state():
                 pass
 
         LOGS_DIR.mkdir(parents=True, exist_ok=True)
+        newest_mtime = 0.0
+        newest_pnum = None
+
         for lf in sorted(LOGS_DIR.glob("page*.log")):
             sname = lf.stem
             if len(sname) >= 7 and sname[:4] == "page" and sname[4:7].isdigit():
@@ -146,18 +154,56 @@ def build_merged_state():
                             ec = int(ln.split(":", 1)[1].strip())
                         except Exception:
                             ec = 0
+                citem = curr_map.get(pnum, {})
+                vspec = citem.get("verification_spec", {})
+                req_markers = vspec.get("required_markers", [])
+                matched = [mk for mk in req_markers if mk.lower() in txt.lower()]
+                missing = [mk for mk in req_markers if mk.lower() not in txt.lower()]
+                is_pass = (ec == 0) and (len(missing) == 0 or len(matched) > 0 or not req_markers)
+                verif_state = "VERIFIED_MATCH" if is_pass else "OUTCOME_MISMATCH"
+                mtime = lf.stat().st_mtime
+                if mtime >= newest_mtime:
+                    newest_mtime = mtime
+                    newest_pnum = pnum
+
                 state["completed_pages"][str(pnum)] = {
                     "page_num": pnum,
                     "step_id": sname,
-                    "status": "PASS" if ec == 0 else "FAIL",
+                    "status": "PASS" if is_pass else "FAIL",
+                    "verification_state": verif_state,
+                    "matched_markers": matched,
+                    "missing_markers": missing,
                     "exit_code": ec,
                     "log_file": f"/files/logs/{lf.name}",
                     "screenshot_file": f"/files/screenshots/{sname}_terminal.png"
                     if (SHOTS_DIR / f"{sname}_terminal.png").exists()
                     else "",
-                    "log_excerpt": "\n".join(txt.splitlines()[-22:]),
-                    "updated_at": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(lf.stat().st_mtime)),
+                    "log_excerpt": "\n".join(txt.splitlines()[-24:]),
+                    "updated_at": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(mtime)),
                 }
+
+        # Populate latest_feedback from the most recently executed page log if not already set
+        if newest_pnum is not None and not state.get("latest_feedback"):
+            rec = state["completed_pages"][str(newest_pnum)]
+            citem = curr_map.get(newest_pnum, {})
+            vspec = citem.get("verification_spec", {})
+            state["latest_feedback"] = {
+                "page_num": newest_pnum,
+                "step_id": rec["step_id"],
+                "title": citem.get("title", f"Page {newest_pnum}"),
+                "v_stage": citem.get("v_stage", ""),
+                "status": rec["status"],
+                "verification_state": rec["verification_state"],
+                "exit_code": rec["exit_code"],
+                "matched_markers": rec["matched_markers"],
+                "missing_markers": rec["missing_markers"],
+                "expected_out": citem.get("expected_out", []),
+                "actual_excerpt": rec["log_excerpt"],
+                "mismatch_diagnosis": vspec.get("mismatch_diagnosis", ""),
+                "debug_fix_oneliner": vspec.get("debug_fix_oneliner", citem.get("one_liner", "")),
+                "debug_steps_explained": vspec.get("debug_steps_explained", []),
+                "updated_at": rec["updated_at"],
+            }
 
         done_nums = sorted(int(k) for k, v in state["completed_pages"].items() if v.get("status") == "PASS")
         highest_seq = 0
@@ -247,7 +293,6 @@ def build_merged_state():
 
 
 def background_git_and_remote_sync():
-    """Periodically pulls new logs/screenshots/live_state.json pushed from MacBook Air or mahmoodi."""
     while True:
         time.sleep(6)
         try:
@@ -279,7 +324,7 @@ INDEX_HTML = r"""<!doctype html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>ENGR 852 | Interactive ASIC Operations Console, Study Guide & Midterm Prep (Pages 1–100)</title>
+  <title>ENGR 852 | Interactive ASIC Operations Console, Sub-Command Lab, Study Guide & Midterm Prep</title>
   <style>
     :root {
       --bg: #0b1120;
@@ -469,6 +514,22 @@ INDEX_HTML = r"""<!doctype html>
       display: none;
     }
     .alert-banner.visible { display: block; }
+    .feedback-banner {
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      display: none;
+    }
+    .feedback-banner.pass {
+      display: block;
+      background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(59,130,246,0.15));
+      border: 2px solid var(--emerald);
+    }
+    .feedback-banner.fail {
+      display: block;
+      background: linear-gradient(135deg, rgba(239,68,68,0.20), rgba(245,158,11,0.16));
+      border: 2px solid var(--red);
+    }
     .next-step-hero {
       background: linear-gradient(135deg, rgba(16,185,129,0.14), rgba(37,99,235,0.14));
       border: 2px solid var(--emerald);
@@ -505,6 +566,7 @@ INDEX_HTML = r"""<!doctype html>
     }
     .btn.emerald { background: #059669; }
     .btn.amber { background: #d97706; }
+    .btn.red { background: #dc2626; }
     .btn.purple { background: #7c3aed; }
     .btn.secondary { background: #334155; }
     .btn:hover { opacity: 0.92; }
@@ -531,6 +593,7 @@ INDEX_HTML = r"""<!doctype html>
       margin-bottom: 14px;
     }
     .page-item.done { border-left: 5px solid var(--emerald); }
+    .page-item.fail { border: 2px solid var(--red); box-shadow: 0 0 18px rgba(239,68,68,0.22); }
     .page-item.next { border: 2px solid var(--blue); box-shadow: 0 0 18px rgba(59,130,246,0.22); }
     .page-item.locked { opacity: 0.88; border-left: 4px solid #475569; }
     .page-hdr {
@@ -608,6 +671,16 @@ INDEX_HTML = r"""<!doctype html>
     .method-box.m2 h4 { color: #34d399; }
     .method-box.m3 { border-left: 4px solid var(--purple); }
     .method-box.m3 h4 { color: #c4b5fd; }
+    .subcmd-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-left: 4px solid var(--amber);
+      border-radius: 8px;
+      padding: 11px 13px;
+      margin-bottom: 9px;
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
     .quiz-card {
       background: #0f172a;
       border: 1px solid #334155;
@@ -729,7 +802,6 @@ INDEX_HTML = r"""<!doctype html>
       font-weight: 600;
       margin-top: 6px;
     }
-    /* Modal for full-screen notebook sheet zoom */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -755,7 +827,7 @@ INDEX_HTML = r"""<!doctype html>
       <div class="brand-icon">M</div>
       <div>
         ENGR 852 Console
-        <small>100-PAGE V1→V9 · STUDY & EXAM</small>
+        <small>100-PAGE V1→V9 · LAB & EXAM</small>
       </div>
     </div>
     <div class="workspace-label">OPERATIONS & REPLICATION</div>
@@ -791,8 +863,8 @@ INDEX_HTML = r"""<!doctype html>
       </button>
     </nav>
     <div class="sidebar-bottom">
-      <div><span class="dot-online"></span><strong>Sequential Guardrail Active</strong></div>
-      <div style="margin-top:4px;">Walks Page 1 → Page 100 (V1 → V9) with integrated 3-Method Study Guide & Midterm Prep.</div>
+      <div><span class="dot-online"></span><strong>Closed-Loop Verifier Active</strong></div>
+      <div style="margin-top:4px;">Detects terminal outcomes, auto-debugs mismatches, and unlocks Theory + Quiz per page.</div>
       <div style="margin-top:6px;font-family:var(--mono);font-size:10.5px;" id="sidebar-ips"></div>
     </div>
   </aside>
@@ -801,12 +873,12 @@ INDEX_HTML = r"""<!doctype html>
     <header class="topbar">
       <div>
         <strong>ENGR 852 520 MHz SAED14nm Motion Estimator ASIC</strong>
-        <span style="color:var(--muted);margin-left:8px;font-size:13px;">Interactive 100-Page One-Liner, 3-Method Study Guide & Midterm Console</span>
+        <span style="color:var(--muted);margin-left:8px;font-size:13px;">Closed-Loop Terminal Verifier, Sub-Command Lab, 3-Method Study Guide & Midterm Console</span>
       </div>
       <div class="top-badges">
         <span id="badge-guard" class="pill green">ORDER GUARD: IN-SEQUENCE</span>
+        <span id="badge-verif" class="pill blue">VERIFIER: READY</span>
         <span id="badge-quiz" class="pill purple">MASTERY QUIZ: 0 ANSWERED</span>
-        <span id="badge-gh" class="pill amber">BRANCH: manual-practice-macbook-air</span>
         <button class="btn secondary" onclick="refreshAll()">↻ Sync Now</button>
       </div>
     </header>
@@ -818,6 +890,9 @@ INDEX_HTML = r"""<!doctype html>
         <div id="guardrail-msg" style="font-family:var(--mono);font-size:12.5px;"></div>
       </div>
 
+      <!-- CLOSED-LOOP TERMINAL EXECUTION FEEDBACK BANNER (PASS -> THEORY & QUIZ | FAIL -> AUTO-DEBUGGER) -->
+      <div id="live-feedback-banner" class="feedback-banner"></div>
+
       <!-- TAB 1: OVERVIEW -->
       <section id="tab-overview">
         <div class="grid-4">
@@ -827,9 +902,9 @@ INDEX_HTML = r"""<!doctype html>
             <div class="meta" id="card-prog-meta">Next Required Step: Page 1</div>
           </div>
           <div class="card">
-            <h3><span>Concept & Midterm Mastery</span><span class="pill purple">F0–F17 · Q1–Q15</span></h3>
+            <h3><span>Concept & Midterm Mastery</span><span class="pill purple">300 Page Qs + 15 Exam</span></h3>
             <div class="big" id="card-quiz-big">0 Correct</div>
-            <div class="meta">200 Page Review Questions +<br>15 Midterm & V1–V9 Exam Problems</div>
+            <div class="meta">300 Page Review Questions +<br>15 Midterm & V1–V9 Exam Problems</div>
           </div>
           <div class="card">
             <h3><span>MacBook Air + XQuartz X11</span><span class="pill green" id="card-xq-pill">X11 READY</span></h3>
@@ -837,13 +912,13 @@ INDEX_HTML = r"""<!doctype html>
             <div class="meta" id="card-mac-meta">LAN: http://192.168.1.70:8788<br>VPN: http://130.212.163.69:8788</div>
           </div>
           <div class="card">
-            <h3><span>SFSU EDA Server (mahmoodi)</span><span class="pill amber">5 Tools OK</span></h3>
+            <h3><span>SFSU EDA Server (mahmoodi)</span><span class="pill amber">Isolated Dir</span></h3>
             <div class="big" style="font-size:17px;">926784856@mahmoodi</div>
-            <div class="meta" id="card-mahmoodi-meta">Dir: ~/me_asic_new_v1<br>vcs · verdi · fc_shell · icv · pt_shell</div>
+            <div class="meta" id="card-mahmoodi-meta">Practice Dir: ~/me_asic_new_v1<br>(Main Project 100% Untouched)</div>
           </div>
         </div>
 
-        <!-- Next Required Step Hero Card (Now with Interactive 3-Method & Quiz Preview!) -->
+        <!-- Next Required Step Hero Card -->
         <div class="next-step-hero" id="next-step-box">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
             <div>
@@ -854,11 +929,14 @@ INDEX_HTML = r"""<!doctype html>
               <div style="color:#cbd5e1;font-size:13px;" id="next-step-sub"></div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button class="btn emerald" onclick="copyNextStep()" style="padding:9px 15px;font-size:12.5px;">
+              <button class="btn emerald" onclick="copyNextStep()" style="padding:9px 14px;font-size:12.5px;">
                 📋 Copy Next Page One-Liner
               </button>
-              <button class="btn purple" onclick="openPageInChecklist(STATE.next_required_page || 1)" style="padding:9px 15px;font-size:12.5px;">
-                📘 Open Interactive 3-Method Guide & Quiz
+              <button class="btn amber" onclick="openPageInChecklist(STATE.next_required_page || 1, 'subcmds')" style="padding:9px 14px;font-size:12.5px;">
+                🔍 Small Commands Breakdown
+              </button>
+              <button class="btn purple" onclick="openPageInChecklist(STATE.next_required_page || 1, 'study')" style="padding:9px 14px;font-size:12.5px;">
+                📘 3-Method Guide & Quiz
               </button>
             </div>
           </div>
@@ -882,15 +960,16 @@ INDEX_HTML = r"""<!doctype html>
         </div>
       </section>
 
-      <!-- TAB 2: 100-PAGE CHECKLIST (With Interactive Sub-Tabs for 1-Liner, 3-Method Guide, & Review Quiz) -->
+      <!-- TAB 2: 100-PAGE CHECKLIST -->
       <section id="tab-checklist" style="display:none;">
-        <div class="card" style="margin-bottom:14px;border-left:4px solid var(--purple);">
-          <h3><span>Interactive 100-Page Manual (V1 → V9) + Three-Method Study Guide + 200 Review Questions</span></h3>
+        <div class="card" style="margin-bottom:14px;border-left:4px solid var(--emerald);">
+          <h3><span>Interactive 100-Page Manual (V1 → V9) · Closed-Loop Terminal Verifier, Sub-Command Deconstructor & 300 Review Questions</span></h3>
           <div class="meta">
-            Every page below includes <strong>3 interactive tabs</strong>:
-            <code>⚡ 1. One-Liner & 6-Box Notebook</code> (Copy-paste one-liner, terminal dry-run preview, verification table, beginner trap & troubleshooting),
-            <code>📘 2. Three-Method Study Guide (Basic → Advanced)</code> (Zero-to-ASIC foundation bridge <code>F0–F17</code> + Method 1 Behavior + Method 2 Math/STA Proof + Method 3 RTL/Hardware), and
-            <code>🎯 3. Interactive Review Quiz (2 Questions)</code> (Instant grading & whiteboard explanation!).
+            Every page below connects your <strong>real-time terminal execution</strong> to <strong>4 interactive learning panels</strong>:<br>
+            1) <code>⚡ 1. One-Liner & Outcome Verifier</code> (Executes & checks expected outcome; if mismatched, prompts an <strong>Auto-Debug Recovery One-Liner</strong>!),<br>
+            2) <code>🔍 2. Small Commands Deconstructor</code> (Walks through every small command inside the one-liner, its task, in-depth meaning, ENGR 852 lecture link, and chip-design role),<br>
+            3) <code>📘 3. Three-Method Theory & Lab</code> (Foundation <code>F0–F17</code> + Method 1 Behavior + Method 2 Math/STA Proof + Method 3 RTL/Hardware), and<br>
+            4) <code>🎯 4. Post-Lab Mastery Quiz (3 Questions)</code> (Tests theory, V1→V9 architecture, and hands-on sub-commands!).
           </div>
         </div>
         <div class="filter-bar">
@@ -910,7 +989,8 @@ INDEX_HTML = r"""<!doctype html>
           <select id="filter-status" onchange="renderChecklist()">
             <option value="ALL">All Statuses (100 Pages)</option>
             <option value="NEXT">Next Required Step</option>
-            <option value="PASS">Completed (PASS)</option>
+            <option value="PASS">Completed & Verified (PASS)</option>
+            <option value="FAIL">Needs Debug / Mismatch (FAIL)</option>
             <option value="LOCKED">Locked (Pending Earlier Pages)</option>
           </select>
         </div>
@@ -920,10 +1000,10 @@ INDEX_HTML = r"""<!doctype html>
       <!-- TAB 3: LIVE TERMINAL MIRROR -->
       <section id="tab-terminals" style="display:none;">
         <div class="card" style="margin-bottom:16px;">
-          <h3><span>How Your Terminals Connect & Sync With This Console</span></h3>
+          <h3><span>How Your Terminals Connect & Sync With This Console (Isolated From Main Project)</span></h3>
           <div class="meta">
-            • <strong>MacBook Air Local Terminal (zsh)</strong> & <strong>XQuartz xterm</strong>: Sourcing <code>practice_from_scratch/scripts/auto_bridge.sh</code> hooks <code>snap_step</code>, <code>status_now</code>, and <code>remote_status</code> directly to <code>http://192.168.1.70:8788/api/telemetry</code> and GitHub <code>manual-practice-macbook-air</code>.<br>
-            • <strong>University EDA Server (926784856@mahmoodi.rcc.at.sfsu.edu)</strong>: Automatically loads <code>auto_bridge.sh</code> from <code>~/.bashrc</code>, exports all 5 Synopsys tools in <code>bash</code>, and pushes every executed page log + PNG screenshot to <code>manual-practice-macbook-air</code>.
+            • <strong>Strict Folder Isolation</strong>: All new practice files on your MacBook Air are created in <code>~/Developer/motion-estimator-14nm-asic-manual/</code>, and on <code>mahmoodi.rcc.at.sfsu.edu</code> in <code>~/me_asic_new_v1/</code>. Your completed main project folders (<code>~/ENGR852_Project/</code> and the <code>main</code> GitHub branch) are never modified.<br>
+            • <strong>Closed-Loop Terminal Verifier</strong>: Whenever you run <code>snap_step "pageXXX_..." "..."</code>, <code>auto_bridge.sh</code> verifies the output against <code>curriculum_100pages.json</code> and immediately updates this console with either the <strong>Unlocked Post-Lab Theory & Quiz</strong> (on PASS) or the <strong>Auto-Debug Recovery One-Liner</strong> (on MISMATCH/FAIL).
           </div>
         </div>
         <div class="card">
@@ -937,7 +1017,7 @@ INDEX_HTML = r"""<!doctype html>
         <div class="card" style="margin-bottom:16px;">
           <h3><span>How the Main Project Captured Waveforms & Layouts (And How Pages 45–64 Sync Them Here)</span></h3>
           <div class="meta">
-            In <code>~/ENGR852_Project/22_v9_clean_verdi_waveforms/</code> and <code>20_v5b_520MHz_14nm_cts_area_fix/v9_closure/</code>, Synopsys VCS generates the 520 MHz FSDB waveform dumps (<code>waves_sat.fsdb</code>, <code>waves_hold.fsdb</code>, <code>waves_reg.fsdb</code>) and Synopsys Verdi nWave replays the automated TCL scripts (<code>fig7_orig8bit_row1.tcl</code> .. <code>fig12_16bit_ff00.tcl</code>) over XQuartz/Xvfb X11 to capture crisp hexadecimal waveforms. Running the one-liners on <strong>Pages 49–52 & Page 62</strong> automatically syncs these exact waveforms into <code>practice_from_scratch/waveforms/</code>!
+            In <code>~/ENGR852_Project/22_v9_clean_verdi_waveforms/</code> and <code>20_v5b_520MHz_14nm_cts_area_fix/v9_closure/</code>, Synopsys VCS generates the 520 MHz FSDB waveform dumps (<code>waves_sat.fsdb</code>, <code>waves_hold.fsdb</code>, <code>waves_reg.fsdb</code>) and Synopsys Verdi nWave replays the automated TCL scripts (<code>fig7_orig8bit_row1.tcl</code> .. <code>fig12_16bit_ff00.tcl</code>) over XQuartz/Xvfb X11 to capture crisp hexadecimal waveforms. Running the one-liners on <strong>Pages 49–52 & Page 62</strong> inside <code>~/me_asic_new_v1</code> automatically syncs these exact waveforms into <code>practice_from_scratch/waveforms/</code>!
           </div>
         </div>
         <div class="wave-grid" id="waveform-grid"></div>
@@ -1046,13 +1126,11 @@ INDEX_HTML = r"""<!doctype html>
           </div>
         </div>
 
-        <!--Lectures & Homeworks Three-Method Cards -->
         <div class="card" style="margin-bottom:18px;">
           <h3><span>Lectures 1–11 & Homework 1–4 Three-Method Master Guide (Method 1 Behavior · Method 2 Proof · Method 3 RTL)</span></h3>
           <div id="lectures-container"></div>
         </div>
 
-        <!-- Zero-to-Course Foundations F0-F17 -->
         <div class="card">
           <h3><span>Zero-to-ASIC Foundations (F0–F17): Basic Electricity, Electronics, Binary Math & CMOS Logic</span></h3>
           <div id="foundations-container" class="grid-2" style="margin-top:12px;"></div>
@@ -1089,7 +1167,7 @@ INDEX_HTML = r"""<!doctype html>
     let CURRICULUM = [];
     let STUDY = {};
     let STATE = {};
-    let PAGE_SUBTAB = {}; // page_num -> 'exec' | 'study' | 'quiz'
+    let PAGE_SUBTAB = {}; // page_num -> 'exec' | 'subcmds' | 'study' | 'quiz'
     let QUIZ_ANSWERS = JSON.parse(localStorage.getItem('engr852_quiz_answers') || '{}');
 
     function zoomImage(url) {
@@ -1107,8 +1185,8 @@ INDEX_HTML = r"""<!doctype html>
       if (btn) btn.classList.add('active');
     }
 
-    function openPageInChecklist(pageNum) {
-      PAGE_SUBTAB[pageNum] = 'study';
+    function openPageInChecklist(pageNum, subTabName) {
+      PAGE_SUBTAB[pageNum] = subTabName || 'study';
       const navBtns = document.querySelectorAll('nav button');
       switchTab('checklist', navBtns[1]);
       renderChecklist();
@@ -1131,6 +1209,24 @@ INDEX_HTML = r"""<!doctype html>
       const nextNum = STATE.next_required_page || 1;
       const item = CURRICULUM.find(p => p.page_num === nextNum) || CURRICULUM[0];
       if (item) copyText(item.one_liner);
+    }
+
+    async function simulateTerminalOutcome(pageNum, mode) {
+      try {
+        await fetch('/api/simulate_feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ page_num: pageNum, mode: mode })
+        });
+        if (mode === 'PASS') {
+          PAGE_SUBTAB[pageNum] = 'study';
+        } else {
+          PAGE_SUBTAB[pageNum] = 'exec';
+        }
+        await refreshAll();
+      } catch (e) {
+        console.error(e);
+      }
     }
 
     function answerQuiz(qKey, chosenIdx, correctIdx) {
@@ -1188,6 +1284,88 @@ INDEX_HTML = r"""<!doctype html>
       }
     }
 
+    function escapeHtml(s) {
+      return String(s || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function renderLiveFeedbackBanner() {
+      const fb = STATE.latest_feedback;
+      const banner = document.getElementById('live-feedback-banner');
+      const badgeVerif = document.getElementById('badge-verif');
+      if (!fb || !fb.page_num) {
+        banner.className = 'feedback-banner';
+        banner.style.display = 'none';
+        return;
+      }
+
+      if (fb.verification_state === 'VERIFIED_MATCH') {
+        badgeVerif.className = 'pill green';
+        badgeVerif.textContent = `VERIFIER: PAGE ${fb.page_num} MATCHED ✓`;
+        banner.className = 'feedback-banner pass';
+        banner.style.display = 'block';
+        banner.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+            <div>
+              <span class="pill green">✓ EXPECTED OUTCOME VERIFIED IN TERMINAL (EXIT CODE 0)</span>
+              <span class="pill blue" style="margin-left:6px;">Page ${fb.page_num} · ${escapeHtml(fb.v_stage || '')}</span>
+              <span class="pill purple" style="margin-left:6px;">Interactive Theory, Sub-Command Lab & Quiz UNLOCKED!</span>
+              <h3 style="margin:8px 0 4px;font-size:16px;color:#f8fafc;">${escapeHtml(fb.title)}</h3>
+              <div style="font-size:12.5px;color:#d1fae5;">
+                Your terminal execution matched the expected algorithm markers (<code>${escapeHtml((fb.matched_markers || []).join(', ') || 'Exit Code 0')}</code>).
+                Click below to walk through the <strong>Small Commands Breakdown</strong>, <strong>3-Method Theory</strong>, and <strong>3-Question Post-Lab Mastery Quiz</strong> for Page ${fb.page_num}, then proceed to <strong>Page ${Math.min(100, fb.page_num + 1)}</strong>!
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn amber" onclick="openPageInChecklist(${fb.page_num}, 'subcmds')">
+                🔍 1. Small Commands Lab (Page ${fb.page_num})
+              </button>
+              <button class="btn purple" onclick="openPageInChecklist(${fb.page_num}, 'study')">
+                📘 2. Three-Method Theory (Page ${fb.page_num})
+              </button>
+              <button class="btn emerald" onclick="openPageInChecklist(${fb.page_num}, 'quiz')">
+                🎯 3. Take Page ${fb.page_num} Quiz (3 Qs)
+              </button>
+            </div>
+          </div>
+        `;
+      } else {
+        badgeVerif.className = 'pill red';
+        badgeVerif.textContent = `VERIFIER: PAGE ${fb.page_num} NEEDS DEBUG FIX!`;
+        banner.className = 'feedback-banner fail';
+        banner.style.display = 'block';
+        banner.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:300px;">
+              <span class="pill red">✗ TERMINAL OUTCOME MISMATCH DETECTED — AUTO-DEBUGGER ACTIVE</span>
+              <span class="pill amber" style="margin-left:6px;">Page ${fb.page_num} · Exit Code ${fb.exit_code}</span>
+              <h3 style="margin:8px 0 4px;font-size:16px;color:#fecaca;">Diagnostic & Recovery Prompt for ${escapeHtml(fb.title)}</h3>
+              <div style="font-size:12.5px;color:#fde68a;margin-bottom:6px;">
+                <strong>Why It Did Not Match Expected Outcome:</strong> ${escapeHtml(fb.mismatch_diagnosis || 'Terminal output was missing expected verification markers or returned a non-zero exit code.')}
+              </div>
+              <div style="font-size:12px;color:#cbd5e1;">
+                ${(fb.debug_steps_explained || []).map(escapeHtml).join('<br>')}
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn emerald" onclick='copyText(${JSON.stringify(fb.debug_fix_oneliner || "")})'>
+                🛠️ Copy Auto-Debug & Fix One-Liner (Page ${fb.page_num})
+              </button>
+              <button class="btn secondary" onclick="openPageInChecklist(${fb.page_num}, 'exec')">
+                ↗ Inspect Page ${fb.page_num} Details
+              </button>
+            </div>
+          </div>
+          <div style="margin-top:8px;font-size:11.5px;color:#fca5a5;font-weight:700;">
+            Copy & Paste This Auto-Debug Recovery Command Into Your Terminal to Fix & Achieve Expected Outcome:
+          </div>
+          <div class="code-box" style="border-color:#ef4444;color:#fde68a;">${escapeHtml(fb.debug_fix_oneliner || '')}</div>
+        `;
+      }
+    }
+
     function renderUI() {
       const doneCount = STATE.total_passed_pages || 0;
       const nextNum = STATE.next_required_page || 1;
@@ -1199,7 +1377,6 @@ INDEX_HTML = r"""<!doctype html>
       document.getElementById('card-mac-ip').textContent = ips.lan || '192.168.1.70';
       document.getElementById('sidebar-ips').innerHTML = `Local: http://127.0.0.1:8788<br>LAN: http://${ips.lan || '192.168.1.70'}:8788<br>VPN: http://${ips.vpn || '130.212.163.69'}:8788`;
 
-      // Guardrail alert
       const gb = document.getElementById('guardrail-banner');
       const badgeGuard = document.getElementById('badge-guard');
       if (STATE.guardrail_alert) {
@@ -1212,6 +1389,8 @@ INDEX_HTML = r"""<!doctype html>
         badgeGuard.className = 'pill green';
         badgeGuard.textContent = `ORDER GUARD: PAGE ${nextNum} READY`;
       }
+
+      renderLiveFeedbackBanner();
 
       // Next step hero
       const nextItem = CURRICULUM.find(p => p.page_num === nextNum) || CURRICULUM[0];
@@ -1226,9 +1405,9 @@ INDEX_HTML = r"""<!doctype html>
         document.getElementById('next-step-exp').textContent = `Expected Output: ${(nextItem.expected_out || [])[0] || ''}`;
         const tm = nextItem.three_methods || {};
         document.getElementById('next-step-methods').innerHTML = `
-          <div class="method-box m1"><h4>Method 1 · Understand Behavior</h4>${tm.method1 || ''}</div>
-          <div class="method-box m2"><h4>Method 2 · Prove It (Math / STA)</h4>${tm.method2 || ''}</div>
-          <div class="method-box m3"><h4>Method 3 · Think in RTL & Hardware</h4>${tm.method3 || ''}</div>
+          <div class="method-box m1"><h4>Method 1 · Understand Behavior</h4>${escapeHtml(tm.method1 || '')}</div>
+          <div class="method-box m2"><h4>Method 2 · Prove It (Math / STA)</h4>${escapeHtml(tm.method2 || '')}</div>
+          <div class="method-box m3"><h4>Method 3 · Think in RTL & Hardware</h4>${escapeHtml(tm.method3 || '')}</div>
         `;
       }
 
@@ -1236,11 +1415,11 @@ INDEX_HTML = r"""<!doctype html>
       const feed = (STATE.terminal_feed || []).slice().reverse();
       const feedHtml = feed.length ? feed.map(f => `
         <div class="feed-row">
-          <span class="pill ${f.status === 'PASS' ? 'green' : (f.status === 'BLOCKED_OUT_OF_ORDER' ? 'red' : 'blue')}">${f.status}</span>
-          <strong style="color:#93c5fd;margin-left:6px;">[${f.time}] ${f.terminal}</strong>
-          <span style="color:#94a3b8;">(${f.host} · IP: ${f.ip || ''} · DISPLAY: ${f.display || ':0'})</span>
-          <div style="color:#e2e8f0;margin-top:4px;">$ ${f.command}</div>
-          ${f.message ? `<div style="color:#fbbf24;margin-top:2px;">→ ${f.message}</div>` : ''}
+          <span class="pill ${f.status === 'PASS' ? 'green' : (f.status === 'BLOCKED_OUT_OF_ORDER' || f.status === 'FAIL' ? 'red' : 'blue')}">${escapeHtml(f.status)}</span>
+          <strong style="color:#93c5fd;margin-left:6px;">[${escapeHtml(f.time)}] ${escapeHtml(f.terminal)}</strong>
+          <span style="color:#94a3b8;">(${escapeHtml(f.host)} · IP: ${escapeHtml(f.ip || '')} · DISPLAY: ${escapeHtml(f.display || ':0')})</span>
+          <div style="color:#e2e8f0;margin-top:4px;">$ ${escapeHtml(f.command)}</div>
+          ${f.message ? `<div style="color:#fbbf24;margin-top:2px;">→ ${escapeHtml(f.message)}</div>` : ''}
         </div>
       `).join('') : '<div style="color:var(--muted);">Waiting for Page 1 execution from MacBook Air, XQuartz, or mahmoodi...</div>';
       document.getElementById('overview-feed').innerHTML = feedHtml;
@@ -1270,27 +1449,14 @@ INDEX_HTML = r"""<!doctype html>
         </div>
       `).join('');
 
-      // GitHub details
       document.getElementById('gh-details').innerHTML = `
         Repository: <strong>${(STATE.github || {}).repo}</strong><br>
-        Active Sub-Branch: <strong>${(STATE.github || {}).branch}</strong> (Main branch remains 100% untouched)<br>
+        Active Sub-Branch: <strong>${(STATE.github || {}).branch}</strong> (Main branch & main project folders remain 100% untouched)<br>
         Latest Commit: <code>${(STATE.github || {}).last_commit || 'N/A'}</code><br>
         Completed Pages Logged: <strong>${doneCount} / 100</strong>
       `;
 
       renderChecklist();
-    }
-
-    function escapeHtml(s) {
-      return String(s || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-    }
-
-    function toggleDryRun(pnum) {
-      const el = document.getElementById('dryrun-box-' + pnum);
-      if (el) el.style.display = (el.style.display === 'none') ? 'block' : 'none';
     }
 
     function renderChecklist() {
@@ -1301,12 +1467,15 @@ INDEX_HTML = r"""<!doctype html>
       const doneMap = STATE.completed_pages || {};
 
       const filtered = CURRICULUM.filter(p => {
-        const isDone = doneMap[String(p.page_num)] && doneMap[String(p.page_num)].status === 'PASS';
+        const rec = doneMap[String(p.page_num)];
+        const isDone = rec && rec.status === 'PASS';
+        const isFail = rec && rec.status === 'FAIL';
         const isNext = p.page_num === nextNum;
         if (stg !== 'ALL' && !p.v_stage.startsWith(stg)) return false;
         if (sts === 'PASS' && !isDone) return false;
+        if (sts === 'FAIL' && !isFail) return false;
         if (sts === 'NEXT' && !isNext) return false;
-        if (sts === 'LOCKED' && (isDone || isNext)) return false;
+        if (sts === 'LOCKED' && (isDone || isFail || isNext)) return false;
         if (q && !(
           p.title.toLowerCase().includes(q) ||
           p.one_liner.toLowerCase().includes(q) ||
@@ -1319,17 +1488,20 @@ INDEX_HTML = r"""<!doctype html>
       document.getElementById('checklist-container').innerHTML = filtered.map(p => {
         const rec = doneMap[String(p.page_num)];
         const isDone = rec && rec.status === 'PASS';
+        const isFail = rec && rec.status === 'FAIL';
         const isNext = p.page_num === nextNum;
-        const cls = isDone ? 'done' : (isNext ? 'next' : 'locked');
-        const activeSub = PAGE_SUBTAB[p.page_num] || 'exec';
+        const cls = isFail ? 'fail' : (isDone ? 'done' : (isNext ? 'next' : 'locked'));
+        const activeSub = PAGE_SUBTAB[p.page_num] || (isDone ? 'study' : 'exec');
+        const vspec = p.verification_spec || {};
 
-        const statusBadge = isDone
-          ? `<span class="pill green">✓ COMPLETED (PASS · ${rec.updated_at})</span>`
-          : (isNext
-              ? `<span class="pill blue">▶ NEXT REQUIRED STEP (RUN NOW)</span>`
-              : `<span class="pill amber">🔒 LOCKED (Complete Page ${p.page_num - 1} First)</span>`);
+        const statusBadge = isFail
+          ? `<span class="pill red">✗ OUTCOME MISMATCH / NEEDS DEBUG FIX (Exit ${rec.exit_code})</span>`
+          : (isDone
+              ? `<span class="pill green">✓ OUTCOME VERIFIED (PASS · ${rec.updated_at})</span>`
+              : (isNext
+                  ? `<span class="pill blue">▶ NEXT REQUIRED STEP (RUN NOW)</span>`
+                  : `<span class="pill amber">🔒 LOCKED (Complete Page ${p.page_num - 1} First)</span>`));
 
-        // Count quiz questions answered on this page
         const qList = p.quiz_questions || [];
         let qCorrectCount = 0;
         qList.forEach((_, qi) => {
@@ -1356,27 +1528,74 @@ INDEX_HTML = r"""<!doctype html>
           </table>
         ` : '';
 
-        // Subtab 1: Execution & 6-Box Notebook
+        // Closed-loop verification status box inside Page Card
+        const verifBoxHtml = isFail ? `
+          <div style="background:rgba(239,68,68,0.16);border:2px solid #ef4444;border-radius:9px;padding:12px 14px;margin:10px 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <strong style="color:#fca5a5;">[✗ OUTCOME MISMATCH DETECTED] Expected Outcome Not Reached on Page ${p.page_num}!</strong>
+              <button class="btn emerald" onclick='copyText(${JSON.stringify(vspec.debug_fix_oneliner || p.one_liner)})'>
+                🛠️ Copy Auto-Debug & Fix One-Liner
+              </button>
+            </div>
+            <div style="font-size:12px;color:#fde68a;margin-top:6px;">
+              <strong>Root-Cause Diagnosis:</strong> ${escapeHtml(vspec.mismatch_diagnosis || '')}
+            </div>
+            <div style="font-size:12px;color:#cbd5e1;margin-top:4px;">
+              ${(vspec.debug_steps_explained || []).map(escapeHtml).join('<br>')}
+            </div>
+            <div class="code-box" style="border-color:#ef4444;color:#fde68a;">${escapeHtml(vspec.debug_fix_oneliner || p.one_liner)}</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+              <div>
+                <strong style="font-size:11.5px;color:#34d399;">Expected Algorithm Outcome:</strong>
+                <div class="code-box" style="font-size:11px;">${escapeHtml((p.expected_out || []).join('\n'))}</div>
+              </div>
+              <div>
+                <strong style="font-size:11.5px;color:#fca5a5;">Actual Terminal Log Output:</strong>
+                <div class="code-box" style="font-size:11px;color:#fca5a5;">${escapeHtml(rec.log_excerpt || '')}</div>
+              </div>
+            </div>
+          </div>
+        ` : (isDone ? `
+          <div style="background:rgba(16,185,129,0.14);border:1px solid #10b981;border-radius:9px;padding:11px 14px;margin:10px 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <div>
+                <strong style="color:#34d399;">[✓ EXPECTED OUTCOME VERIFIED] Terminal Output Matched Expected Algorithm Results!</strong>
+                <div style="font-size:12px;color:#d1fae5;margin-top:3px;">
+                  Matched Verification Markers: <code>${escapeHtml((rec.matched_markers || vspec.required_markers || []).join(', ') || 'Exit Code 0')}</code>
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn amber" onclick="setPageSubtab(${p.page_num}, 'subcmds')">🔍 Small Commands Lab</button>
+                <button class="btn purple" onclick="setPageSubtab(${p.page_num}, 'study')">📘 3-Method Theory</button>
+                <button class="btn emerald" onclick="setPageSubtab(${p.page_num}, 'quiz')">🎯 Page ${p.page_num} Quiz (${qCorrectCount}/${qList.length}✓)</button>
+              </div>
+            </div>
+          </div>
+        ` : '');
+
+        // SUBTAB 1: One-Liner & Outcome Verifier
         const execView = `
           <div class="pipeline-row">${pipeHtml}</div>
+          ${verifBoxHtml}
           <div style="margin:6px 0;font-size:11.5px;color:#fbbf24;font-weight:700;">
             Box 5 · Combined Copy-Paste Page ${p.page_num} One-Liner (${escapeHtml(p.where_badge)}):
           </div>
           <div class="code-box">${escapeHtml(p.one_liner)}</div>
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
             <div style="font-size:11.5px;color:#a7f3d0;font-family:var(--mono);">
-              Expected Output: ${escapeHtml((p.expected_out || [])[0] || '')}
+              Expected Outcome Markers: ${escapeHtml((vspec.required_markers || []).join(' · '))} | ${(p.expected_out || [])[0] || ''}
             </div>
-            <button class="btn secondary" onclick="toggleDryRun(${p.page_num})">▶ Simulate / Preview Full Terminal Output</button>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="btn secondary" onclick="simulateTerminalOutcome(${p.page_num}, 'MISMATCH')" title="Test what happens if terminal output fails or mismatches expected markers">
+                🧪 Test Mismatch / Auto-Debugger
+              </button>
+              <button class="btn secondary" onclick="simulateTerminalOutcome(${p.page_num}, 'PASS')" title="Test what happens when terminal output matches expected markers">
+                ✓ Simulate Verified Match & Unlock Lab
+              </button>
+            </div>
           </div>
-          <div id="dryrun-box-${p.page_num}" class="code-box" style="display:none;color:#38bdf8;border-color:#0284c7;">
-# === INTERACTIVE TERMINAL PREVIEW FOR PAGE ${p.page_num} (${escapeHtml(p.step_id)}) ===
-$ ${escapeHtml(p.one_liner)}
-${(p.expected_out || []).map(escapeHtml).join('\n')}
-# Exit Code   : 0 (PASS -> Unlocks Page ${Math.min(100, p.page_num + 1)})
-          </div>
-          <details>
-            <summary>Show Box 2 Verification Table, Box 3 Beginner Trap, Box 4 Line-by-Line Code & Box 6 Troubleshooting</summary>
+          <details style="margin-top:8px;">
+            <summary>Show Box 2 Verification Table, Box 3 Beginner Trap, Box 4 Line-by-Line Code, Auto-Debug Recovery Command & Captured Log</summary>
             <div style="margin-top:8px;">
               <strong style="color:#93c5fd;font-size:12px;">Box 2 · Hardware-to-Verilog / Command-to-Action Verification Table:</strong>
               ${tblHtml}
@@ -1387,11 +1606,13 @@ ${(p.expected_out || []).map(escapeHtml).join('\n')}
               <strong style="color:#93c5fd;font-size:12px;">Box 4 · Line-by-Line Commented Code & Individual Terminal Commands:</strong>
               <div class="code-box" style="color:#cbd5e1;">${escapeHtml((p.code_block || p.individual_commands || []).join('\n'))}</div>
               <div style="background:rgba(245,158,11,0.12);border:1px solid #d97706;border-radius:7px;padding:8px 11px;margin:8px 0;font-size:12px;color:#fde68a;">
-                <strong>Box 6 · Live Verification Checks & Fallback Troubleshooting (If XYZ Fails → Option A / B):</strong><br>
+                <strong>Box 6 · Auto-Debug Recovery One-Liner & Fallback Troubleshooting (If Outcome Mismatches → Copy Fix Below):</strong><br>
+                ${escapeHtml(vspec.mismatch_diagnosis || '')}
+                <div class="code-box" style="color:#fde68a;margin-top:6px;">${escapeHtml(vspec.debug_fix_oneliner || '')}</div>
                 ${(p.fallback_notes || []).map(escapeHtml).join('<br>')}
               </div>
             </div>
-            ${isDone && rec ? `
+            ${rec ? `
               <div style="margin-top:8px;">
                 <strong style="color:#34d399;">Captured Live Terminal Output (${escapeHtml(rec.step_id)}.log):</strong>
                 <div class="code-box" style="color:#f8fafc;">${escapeHtml(rec.log_excerpt || '')}</div>
@@ -1401,7 +1622,34 @@ ${(p.expected_out || []).map(escapeHtml).join('\n')}
           </details>
         `;
 
-        // Subtab 2: Three-Method Study Guide (Basic -> Advanced)
+        // SUBTAB 2: Small Commands Deconstructor (How Small Commands Build the One-Liner + Lecture & Chip Design Role)
+        const subcmds = p.subcommand_breakdown || [];
+        const subcmdView = `
+          <div style="background:rgba(245,158,11,0.12);border:1px solid #d97706;border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;">
+            <strong style="color:#fbbf24;">How the Small Commands Build Page ${p.page_num}'s Combined One-Liner:</strong>
+            <div style="color:#e2e8f0;margin-top:4px;">
+              Page ${p.page_num}'s combined one-liner chains <strong>${subcmds.length} small commands</strong> using <code>&amp;&amp;</code> inside <code>snap_step "${escapeHtml(p.step_id)}"</code>.
+              Study each small command below to see <strong>(1) What task it performs</strong>, <strong>(2) Its in-depth technical meaning</strong>, <strong>(3) How it correlates to ENGR 852 lectures</strong>, and <strong>(4) What it does in real 14nm chip design</strong>:
+            </div>
+          </div>
+          ${subcmds.map(sc => `
+            <div class="subcmd-card">
+              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+                <span class="pill amber">Small Command #${sc.seq} of ${subcmds.length}</span>
+                <button class="btn secondary" style="padding:3px 9px;font-size:11px;" onclick='copyText(${JSON.stringify(sc.cmd)})'>📋 Copy Small Command #${sc.seq}</button>
+              </div>
+              <div class="code-box" style="color:#fde68a;margin:6px 0;">$ ${escapeHtml(sc.cmd)}</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;margin-top:6px;">
+                <div><strong style="color:#60a5fa;">1. Hands-On Task Performed:</strong><br>${escapeHtml(sc.task_performed)}</div>
+                <div><strong style="color:#34d399;">2. In-Depth Technical Meaning:</strong><br>${escapeHtml(sc.in_depth_meaning)}</div>
+                <div><strong style="color:#c4b5fd;">3. ENGR 852 Lecture Correlation:</strong><br>${escapeHtml(sc.lecture_correlation)}</div>
+                <div><strong style="color:#fbbf24;">4. Role in 14nm ASIC Chip Design:</strong><br>${escapeHtml(sc.chip_design_role)}</div>
+              </div>
+            </div>
+          `).join('')}
+        `;
+
+        // SUBTAB 3: Three-Method Study Guide (Basic -> Advanced)
         const tm = p.three_methods || {};
         const studyView = `
           <div style="background:rgba(139,92,246,0.12);border:1px solid #7c3aed;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:12.5px;line-height:1.5;">
@@ -1423,12 +1671,17 @@ ${(p.expected_out || []).map(escapeHtml).join('\n')}
             </div>
           </div>
           <div style="margin-top:10px;">
-            <strong style="color:#93c5fd;font-size:12px;">Command & Signal Meaning Breakdown for Page ${p.page_num}:</strong>
+            <strong style="color:#93c5fd;font-size:12px;">Hardware Signal & Script Meaning Summary for Page ${p.page_num}:</strong>
             <div class="code-box" style="color:#e2e8f0;">${escapeHtml((p.cmd_explanations || []).join('\n'))}</div>
+          </div>
+          <div style="margin-top:10px;display:flex;justify-content:flex-end;">
+            <button class="btn emerald" onclick="setPageSubtab(${p.page_num}, 'quiz')">
+              🎯 Proceed to Page ${p.page_num} Post-Lab Mastery Quiz (${qList.length} Questions) →
+            </button>
           </div>
         `;
 
-        // Subtab 3: Interactive Review Quiz (2 Questions per Page)
+        // SUBTAB 4: Interactive Review Quiz (3 Questions per Page)
         const quizView = qList.map((qObj, qi) => {
           const qKey = `p${p.page_num}_q${qi}`;
           const saved = QUIZ_ANSWERS[qKey];
@@ -1463,24 +1716,30 @@ ${(p.expected_out || []).map(escapeHtml).join('\n')}
                 <div class="page-title" style="margin-top:6px;">${escapeHtml(p.title)}</div>
                 <div style="font-size:12px;color:var(--muted);">${escapeHtml(p.subtitle)}</div>
               </div>
-              <button class="btn ${isNext ? 'emerald' : ''}" onclick='copyText(${JSON.stringify(p.one_liner)})'>
-                📋 Copy Page ${p.page_num} One-Liner
-              </button>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn ${isNext ? 'emerald' : ''}" onclick='copyText(${JSON.stringify(p.one_liner)})'>
+                  📋 Copy Page ${p.page_num} One-Liner
+                </button>
+              </div>
             </div>
 
             <div class="subtab-bar">
               <button class="subtab-btn ${activeSub === 'exec' ? 'active' : ''}" onclick="setPageSubtab(${p.page_num}, 'exec')">
-                ⚡ 1. One-Liner & 6-Box Notebook
+                ⚡ 1. One-Liner & Outcome Verifier
+              </button>
+              <button class="subtab-btn ${activeSub === 'subcmds' ? 'active' : ''}" onclick="setPageSubtab(${p.page_num}, 'subcmds')">
+                🔍 2. Small Commands Deconstructor (${subcmds.length} Steps)
               </button>
               <button class="subtab-btn ${activeSub === 'study' ? 'active' : ''}" onclick="setPageSubtab(${p.page_num}, 'study')">
-                📘 2. Three-Method Study Guide (Basic → Advanced)
+                📘 3. Three-Method Theory & Lab
               </button>
               <button class="subtab-btn ${activeSub === 'quiz' ? 'active' : ''}" onclick="setPageSubtab(${p.page_num}, 'quiz')">
-                🎯 3. Interactive Review Quiz (${qCorrectCount}/${qList.length}✓)
+                🎯 4. Post-Lab Mastery Quiz (${qCorrectCount}/${qList.length}✓)
               </button>
             </div>
 
             <div style="display:${activeSub === 'exec' ? 'block' : 'none'};">${execView}</div>
+            <div style="display:${activeSub === 'subcmds' ? 'block' : 'none'};">${subcmdView}</div>
             <div style="display:${activeSub === 'study' ? 'block' : 'none'};">${studyView}</div>
             <div style="display:${activeSub === 'quiz' ? 'block' : 'none'};">${quizView}</div>
           </div>
@@ -1492,22 +1751,18 @@ ${(p.expected_out || []).map(escapeHtml).join('\n')}
     function loadStaPreset(name) {
       const setVal = (id, v) => { document.getElementById(id).value = v; };
       if (name === 'q4') {
-        // Midterm Q4/Q5: T_clk=20000ps (20ns), Tcq_max=6000, Tlog_max=10000 (2 gates * 5ns), Tset=3000, Skew=1000; Hold: Tcq_min=2000, Tlog_min=0 (B[0]=A[1]), Thold=2000, Skew=1000
         setVal('sta-tclk', 20000); setVal('sta-tcq-max', 6000); setVal('sta-tlog-max', 10000);
         setVal('sta-tset', 3000); setVal('sta-skew-set', 1000);
         setVal('sta-tcq-min', 2000); setVal('sta-tlog-min', 0); setVal('sta-thold', 2000); setVal('sta-skew-hold', 1000);
       } else if (name === 'q9') {
-        // Midterm Q9/Q10: 400 MHz -> 2500 ps; Tcq_max=950, Tlog_max=210+200+180=590, Tset=300, Skew=750; Hold P4: Tcq_min=300, Tlog_min=30, Thold=400, Skew=750
         setVal('sta-tclk', 2500); setVal('sta-tcq-max', 950); setVal('sta-tlog-max', 590);
         setVal('sta-tset', 300); setVal('sta-skew-set', 750);
         setVal('sta-tcq-min', 300); setVal('sta-tlog-min', 30); setVal('sta-thold', 400); setVal('sta-skew-hold', 750);
       } else if (name === 'asic_ss') {
-        // 520 MHz (1923 ps) SAED14nm SS 0.72V corner (+220 ps setup slack, 0 ps hold slack)
         setVal('sta-tclk', 1923); setVal('sta-tcq-max', 110); setVal('sta-tlog-max', 1453);
         setVal('sta-tset', 60); setVal('sta-skew-set', 80);
         setVal('sta-tcq-min', 45); setVal('sta-tlog-min', 55); setVal('sta-thold', 30); setVal('sta-skew-hold', 70);
       } else if (name === 'asic_ff') {
-        // 520 MHz (1923 ps) SAED14nm FF 0.88V corner (+710 ps setup slack, 0 ps hold slack)
         setVal('sta-tclk', 1923); setVal('sta-tcq-max', 75); setVal('sta-tlog-max', 1018);
         setVal('sta-tset', 40); setVal('sta-skew-set', 80);
         setVal('sta-tcq-min', 35); setVal('sta-tlog-min', 55); setVal('sta-thold', 20); setVal('sta-skew-hold', 70);
@@ -1589,17 +1844,14 @@ Mathematical True SAD = ${pixels} * ${diff} = ${trueSad} (${hex16})
 
     function calcCmos() {
       const vdd = Number(document.getElementById('cmos-vdd').value || 0.8);
-      const ron = Number(document.getElementById('cmos-ron').value || 1.0); // kOhm
-      const cload = Number(document.getElementById('cmos-cload').value || 18); // fF
-      const freq = Number(document.getElementById('cmos-freq').value || 520); // MHz
+      const ron = Number(document.getElementById('cmos-ron').value || 1.0);
+      const cload = Number(document.getElementById('cmos-cload').value || 18);
+      const freq = Number(document.getElementById('cmos-freq').value || 520);
       const alpha = Number(document.getElementById('cmos-alpha').value || 0.2);
 
-      // tau = R (10^3) * C (10^-15) = R*C * 10^-12 s = R*C ps
       const tauPs = (ron * cload).toFixed(2);
       const tpdPs = (0.69 * ron * cload).toFixed(2);
-      // Energy per switching cycle E = C * V^2 (fJ)
       const energyFj = (cload * vdd * vdd).toFixed(2);
-      // Dynamic power across 8,230 cells: P_dyn = N_cells * alpha * C * V^2 * f
       const pDynMw = (8230 * alpha * cload * 1e-15 * vdd * vdd * freq * 1e6 * 1e3).toFixed(3);
 
       document.getElementById('cmos-result-box').textContent =
@@ -1681,7 +1933,7 @@ Mathematical True SAD = ${pixels} * ${diff} = ${trueSad} (${hex16})
         const qKey = `exam_${qObj.id}`;
         const saved = QUIZ_ANSWERS[qKey];
         const linkedBtns = (qObj.linked_pages || []).map(pn =>
-          `<button class="btn secondary" style="padding:4px 9px;font-size:11px;" onclick="openPageInChecklist(${pn})">↗ Jump to Page ${pn}</button>`
+          `<button class="btn secondary" style="padding:4px 9px;font-size:11px;" onclick="openPageInChecklist(${pn}, 'study')">↗ Jump to Page ${pn}</button>`
         ).join(' ');
 
         return `
@@ -1806,6 +2058,49 @@ class ConsoleRequestHandler(BaseHTTPRequestHandler):
             except Exception as e:
                 self._send_json({"ok": False, "error": str(e)}, status=400)
             return
+
+        if parsed.path == "/api/simulate_feedback":
+            length = int(self.headers.get("Content-Length", "0"))
+            raw = self.rfile.read(length) if length > 0 else b"{}"
+            try:
+                req = json.loads(raw.decode("utf-8", errors="ignore"))
+                pnum = int(req.get("page_num", 1))
+                mode = req.get("mode", "PASS")
+                curr_list = load_curriculum()
+                citem = next((x for x in curr_list if int(x.get("page_num", 0)) == pnum), {})
+                vspec = citem.get("verification_spec", {})
+                with STATE_LOCK:
+                    saved = {}
+                    if LIVE_STATE_JSON.exists():
+                        try:
+                            saved = json.loads(LIVE_STATE_JSON.read_text(encoding="utf-8"))
+                        except Exception:
+                            saved = {}
+                    is_pass = mode == "PASS"
+                    saved["latest_feedback"] = {
+                        "page_num": pnum,
+                        "step_id": citem.get("step_id", f"page{pnum:03d}"),
+                        "title": citem.get("title", f"Page {pnum}"),
+                        "v_stage": citem.get("v_stage", ""),
+                        "status": "PASS" if is_pass else "FAIL",
+                        "verification_state": "VERIFIED_MATCH" if is_pass else "OUTCOME_MISMATCH",
+                        "exit_code": 0 if is_pass else 1,
+                        "matched_markers": vspec.get("required_markers", []) if is_pass else [],
+                        "missing_markers": [] if is_pass else vspec.get("required_markers", []),
+                        "expected_out": citem.get("expected_out", []),
+                        "actual_excerpt": "\n".join(citem.get("expected_out", [])) if is_pass else f"zsh: error on Page {pnum} — missing expected output markers {vspec.get('required_markers', [])}",
+                        "mismatch_diagnosis": vspec.get("mismatch_diagnosis", ""),
+                        "debug_fix_oneliner": vspec.get("debug_fix_oneliner", citem.get("one_liner", "")),
+                        "debug_steps_explained": vspec.get("debug_steps_explained", []),
+                        "updated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    }
+                    LIVE_STATE_JSON.parent.mkdir(parents=True, exist_ok=True)
+                    LIVE_STATE_JSON.write_text(json.dumps(saved, indent=2), encoding="utf-8")
+                self._send_json({"ok": True, "latest_feedback": saved["latest_feedback"]})
+            except Exception as e:
+                self._send_json({"ok": False, "error": str(e)}, status=400)
+            return
+
         self.send_error(404, "Not Found")
 
 

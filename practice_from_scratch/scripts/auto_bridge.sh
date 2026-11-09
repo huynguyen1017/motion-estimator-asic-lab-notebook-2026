@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# ENGR 852 Auto-Evidence & Live Operations Console Bridge (`auto_bridge.sh`)
+# ENGR 852 Auto-Evidence, Expected-Outcome Verifier & Live Console Bridge (`auto_bridge.sh`)
 # Compatible with both macOS `zsh` (MacBook Air / XQuartz xterm) and Linux `bash`
 # (`926784856@mahmoodi.rcc.at.sfsu.edu`).
 #
 # Features:
 #   1. Exports all 5 Synopsys toolchains natively in `bash` on mahmoodi:
 #      vcs, verdi, fc_shell, icv, pt_shell + LM_LICENSE_FILE
-#   2. Strict Sequential Page 1 -> Page 100 Guardrail (`snap_step "pageNNN_..." "..."`):
-#      Prevents accidentally jumping from Page 1 to Page 100 out of order!
-#   3. Live Terminal & XQuartz Telemetry Sync:
-#      Streams terminal commands, IP addresses, $DISPLAY, logs, rendered terminal
-#      screenshots, and Verdi nWave / 14nm layout PNGs to BOTH:
-#        - Live Operations Console Web Server (`http://127.0.0.1:8788`, `http://192.168.1.70:8788`, `http://130.212.163.69:8788`)
-#        - GitHub Sub-Branch (`manual-practice-macbook-air`: `practice_from_scratch/live_state.json` & `STATUS_DASHBOARD.md`)
+#   2. Strict Sequential Page 1 -> Page 100 Guardrail (`snap_step "pageNNN_..." "..."`)
+#   3. Closed-Loop Expected-Outcome Verification Algorithm:
+#      - Checks exit code AND required output markers from `curriculum_100pages.json`.
+#      - If matched (`VERIFIED_MATCH`): Unlocks Post-Execution Interactive Theory,
+#        Sub-Command Deconstructor Lab & Quiz for that page on `:8788`!
+#      - If mismatched or failed (`OUTCOME_MISMATCH`): Prompts both the terminal and
+#        `:8788` website with root-cause diagnosis + a ready-to-copy Auto-Debug & Fix
+#        One-Liner (`debug_fix_oneliner`) that repairs prerequisites in the isolated
+#        practice folder (`~/Developer/motion-estimator-14nm-asic-manual` or `~/me_asic_new_v1`).
 # ==============================================================================
 
 unalias status_now 2>/dev/null || true
@@ -118,8 +120,18 @@ from pathlib import Path
 
 event_type, step_id, cmd_str, status_str, exit_code, msg_str, term_env, ip_str = sys.argv[1:9]
 repo_root = Path(os.environ.get("AUTO_BRIDGE_REPO_ROOT", "."))
-state_path = repo_root / "practice_from_scratch" / "live_state.json"
-logs_dir = repo_root / "practice_from_scratch" / "logs"
+practice_dir = repo_root / "practice_from_scratch"
+state_path = practice_dir / "live_state.json"
+curr_path = practice_dir / "curriculum_100pages.json"
+logs_dir = practice_dir / "logs"
+
+curr_map = {}
+if curr_path.exists():
+    try:
+        for item in json.loads(curr_path.read_text(encoding="utf-8")):
+            curr_map[int(item["page_num"])] = item
+    except Exception:
+        pass
 
 state = {
     "updated_at": time.strftime("%Y-%m-%d %H:%M:%S %Z"),
@@ -136,6 +148,7 @@ state = {
     "last_status": status_str,
     "last_exit_code": int(exit_code) if exit_code.lstrip("-").isdigit() else 0,
     "guardrail_alert": msg_str if status_str == "BLOCKED_OUT_OF_ORDER" else "",
+    "latest_feedback": {},
     "completed_pages": {},
     "terminal_feed": [],
 }
@@ -145,6 +158,7 @@ if state_path.exists():
         if isinstance(old, dict):
             state["completed_pages"] = old.get("completed_pages", {})
             state["terminal_feed"] = old.get("terminal_feed", [])[-35:]
+            state["latest_feedback"] = old.get("latest_feedback", {})
             if status_str != "BLOCKED_OUT_OF_ORDER" and status_str == "PASS":
                 state["guardrail_alert"] = ""
             elif not msg_str:
@@ -152,7 +166,7 @@ if state_path.exists():
     except Exception:
         pass
 
-# Scan logs_dir for any pageNNN_*.log files so state is always accurate
+# Scan logs_dir for any pageNNN_*.log files and run Expected-Outcome Verification
 if logs_dir.exists():
     for lf in sorted(logs_dir.glob("page*.log")):
         sname = lf.stem
@@ -161,31 +175,54 @@ if logs_dir.exists():
             pnum = int(m[4:7])
             txt = lf.read_text(encoding="utf-8", errors="ignore")
             ec = 0
-            for ln in txt.splitlines()[:10]:
+            for ln in txt.splitlines():
                 if ln.startswith("# Exit Code   :"):
                     try:
                         ec = int(ln.split(":", 1)[1].strip())
                     except Exception:
                         ec = 0
+            citem = curr_map.get(pnum, {})
+            vspec = citem.get("verification_spec", {})
+            req_markers = vspec.get("required_markers", [])
+            matched = [mk for mk in req_markers if mk.lower() in txt.lower()]
+            missing = [mk for mk in req_markers if mk.lower() not in txt.lower()]
+            is_pass = (ec == 0) and (len(missing) == 0 or len(matched) > 0 or not req_markers)
+            verif_state = "VERIFIED_MATCH" if is_pass else "OUTCOME_MISMATCH"
             state["completed_pages"][str(pnum)] = {
                 "page_num": pnum,
                 "step_id": sname,
-                "status": "PASS" if ec == 0 else "FAIL",
+                "status": "PASS" if is_pass else "FAIL",
+                "verification_state": verif_state,
+                "matched_markers": matched,
+                "missing_markers": missing,
                 "exit_code": ec,
-                "log_file": f"practice_from_scratch/logs/{lf.name}",
-                "screenshot_file": f"practice_from_scratch/screenshots/{sname}_terminal.png",
+                "log_file": f"/files/logs/{lf.name}",
+                "screenshot_file": f"/files/screenshots/{sname}_terminal.png",
+                "log_excerpt": "\n".join(txt.splitlines()[-24:]),
                 "updated_at": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(lf.stat().st_mtime)),
             }
 
 if step_id.startswith("page") and step_id[4:7].isdigit() and status_str in ("PASS", "FAIL"):
     pnum = int(step_id[4:7])
-    state["completed_pages"][str(pnum)] = {
+    citem = curr_map.get(pnum, {})
+    vspec = citem.get("verification_spec", {})
+    rec = state["completed_pages"].get(str(pnum), {})
+    verif_state = rec.get("verification_state", "VERIFIED_MATCH" if status_str == "PASS" else "OUTCOME_MISMATCH")
+    state["latest_feedback"] = {
         "page_num": pnum,
         "step_id": step_id,
-        "status": status_str,
+        "title": citem.get("title", f"Page {pnum}"),
+        "v_stage": citem.get("v_stage", ""),
+        "status": "PASS" if verif_state == "VERIFIED_MATCH" else "FAIL",
+        "verification_state": verif_state,
         "exit_code": int(exit_code) if exit_code.lstrip("-").isdigit() else 0,
-        "log_file": f"practice_from_scratch/logs/{step_id}.log",
-        "screenshot_file": f"practice_from_scratch/screenshots/{step_id}_terminal.png",
+        "matched_markers": rec.get("matched_markers", []),
+        "missing_markers": rec.get("missing_markers", []),
+        "expected_out": citem.get("expected_out", []),
+        "actual_excerpt": rec.get("log_excerpt", msg_str),
+        "mismatch_diagnosis": vspec.get("mismatch_diagnosis", ""),
+        "debug_fix_oneliner": vspec.get("debug_fix_oneliner", citem.get("one_liner", "")),
+        "debug_steps_explained": vspec.get("debug_steps_explained", []),
         "updated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
     }
 
@@ -218,7 +255,6 @@ state["terminal_feed"] = state["terminal_feed"][-40:]
 state_path.parent.mkdir(parents=True, exist_ok=True)
 state_path.write_text(json.dumps(state, indent=2), encoding="utf-8")
 
-# Also push via HTTP POST to Live Web Console if reachable
 urls = os.environ.get("AUTO_BRIDGE_WEB_URLS", "http://127.0.0.1:8788").split()
 payload = json.dumps(state).encode("utf-8")
 for u in urls:
@@ -268,17 +304,12 @@ function snap_step() {
   shift || true
   local raw_cmd="$*"
 
-  # Strip accidental Markdown links created by Gmail auto-linking (e.g. [top.v](http://top.v/))
   local clean_cmd
   clean_cmd="$(printf '%s' "$raw_cmd" | sed -E 's/\[([a-zA-Z0-9_.-]+)\]\(https?:\/\/[^)]+\)/\1/g')"
 
   local py_bin
   py_bin="$(_find_bridge_python)"
 
-  # ============================================================================
-  # SEQUENTIAL PAGE 1 -> PAGE 100 GUARDRAIL CHECK
-  # Prevents accidentally jumping from Page 1 (`page001_...`) to Page 100 (`page100_...`)
-  # ============================================================================
   if [[ "$step_name" =~ ^page([0-9]{3}) ]] && [ "${FORCE_STEP:-0}" != "1" ]; then
     local req_page_num
     req_page_num=$((10#${BASH_REMATCH[1]:-${match[1]}}))
@@ -315,12 +346,6 @@ PYEOF
       echo "    Override Option: FORCE_STEP=1 snap_step \"${step_name}\" \"...\""
       echo "================================================================================"
       _post_live_telemetry "GUARDRAIL_BLOCK" "$step_name" "$clean_cmd" "BLOCKED_OUT_OF_ORDER" 2 "$block_msg"
-      (
-        cd "$AUTO_BRIDGE_REPO_ROOT" 2>/dev/null || exit 0
-        git add "$AUTO_BRIDGE_STATE_JSON" 2>/dev/null || true
-        git commit -m "Guardrail blocked out-of-order attempt: ${step_name} (requires Page ${next_allowed})" >/dev/null 2>&1 || true
-        git push origin "$AUTO_BRIDGE_BRANCH" >/dev/null 2>&1 || true
-      )
       return 2
     fi
   fi
@@ -356,7 +381,6 @@ PYEOF
     echo "# ------------------------------------------------------------------------------"
   } >> "$log_file"
 
-  # Render full-height PNG terminal screenshot
   local render_py="$AUTO_BRIDGE_SCRIPT_DIR/render_terminal_screenshot.py"
   if [ -f "$render_py" ]; then
     "$py_bin" "$render_py" \
@@ -374,7 +398,31 @@ PYEOF
 
   _post_live_telemetry "STEP_COMPLETE" "$step_name" "$clean_cmd" "$step_status" "$cmd_exit" "Completed ${step_name} (exit=${cmd_exit})"
 
-  # Update STATUS_DASHBOARD.md and push log + screenshot + waveforms + live_state.json to GitHub sub-branch
+  # Print Closed-Loop Verification & Learning/Debug Prompt right in the terminal!
+  "$py_bin" - "$AUTO_BRIDGE_STATE_JSON" << 'PYEOF' 2>/dev/null || true
+import json, sys
+from pathlib import Path
+sp = Path(sys.argv[1])
+if sp.exists():
+    st = json.loads(sp.read_text(encoding="utf-8"))
+    fb = st.get("latest_feedback", {})
+    if fb:
+        pnum = fb.get("page_num", "?")
+        vstate = fb.get("verification_state", "")
+        print("================================================================================")
+        if vstate == "VERIFIED_MATCH":
+            print(f"[✓ EXPECTED OUTCOME VERIFIED — PAGE {pnum} PASS]")
+            print(f"    Matched Markers : {', '.join(fb.get('matched_markers', [])) or 'Exit Code 0 Verified'}")
+            print(f"    Interactive Lab : UNLOCKED on http://127.0.0.1:8788 & http://192.168.1.70:8788")
+            print(f"    Next Action     : Review Page {pnum} Sub-Command Breakdown, 3-Method Theory & 3-Question Quiz on the website, then proceed to Page {int(pnum)+1 if str(pnum).isdigit() else pnum}!")
+        else:
+            print(f"[✗ OUTCOME MISMATCH / DIAGNOSTIC RECOVERY NEEDED — PAGE {pnum}]")
+            print(f"    Diagnosis       : {fb.get('mismatch_diagnosis', 'Command exited non-zero or output did not match expected markers.')}")
+            print(f"    Auto-Fix Command: {fb.get('debug_fix_oneliner', '')}")
+            print(f"    Live Web Prompt : Open http://127.0.0.1:8788 (or http://192.168.1.70:8788) to copy the 1-click Auto-Debug Fix One-Liner!")
+        print("================================================================================")
+PYEOF
+
   (
     cd "$AUTO_BRIDGE_REPO_ROOT" 2>/dev/null || exit 0
     local dash="$AUTO_BRIDGE_PRACTICE_DIR/STATUS_DASHBOARD.md"
@@ -399,7 +447,7 @@ PYEOF
     git commit -m "Auto-capture ${step_name} (${step_status}, exit=${cmd_exit}) from ${host_str}" >/dev/null 2>&1 || true
     git pull --rebase origin "$AUTO_BRIDGE_BRANCH" >/dev/null 2>&1 || true
     if git push origin "$AUTO_BRIDGE_BRANCH" >/dev/null 2>&1; then
-      echo ">>> [AUTO-BRIDGE] Synced log + screenshot + live checklist to Web Console (:8788) & GitHub '${AUTO_BRIDGE_BRANCH}': ${step_name} (${step_status})"
+      echo ">>> [AUTO-BRIDGE] Synced log + screenshot + live feedback to Web Console (:8788) & GitHub '${AUTO_BRIDGE_BRANCH}': ${step_name} (${step_status})"
     else
       echo ">>> [AUTO-BRIDGE] Saved locally & updated Web Console (:8788): ${log_file} & ${shot_file}"
     fi

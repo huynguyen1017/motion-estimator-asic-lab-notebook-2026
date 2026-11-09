@@ -1,0 +1,78 @@
+{
+  "updated_at": "2026-11-09 10:12:16 PST",
+  "epoch": 1794247936.71924,
+  "last_event": "STEP_COMPLETE",
+  "active_terminal": "MACBOOK_AIR_TERMINAL",
+  "host": "iMac.local",
+  "user": "huynguyen",
+  "ip_addresses": "192.168.1.70,130.212.163.69",
+  "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+  "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+  "last_step_id": "page001_master_roadmap",
+  "last_command": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual && cd ~/Developer/motion-estimator-14nm-asic-manual && mkdir -p rtl/8bit rtl/16bit tb/8bit tb/16bit scripts docs deliverables evidence/screenshots && pwd && ls -la",
+  "last_status": "PASS",
+  "last_exit_code": 0,
+  "guardrail_alert": "",
+  "latest_feedback": {
+    "page_num": 1,
+    "step_id": "page001_master_roadmap",
+    "title": "Page 1: Master Roadmap  -  Rebuilding the 520 MHz 14nm Motion Estimator on a Brand-New Laptop",
+    "v_stage": "V1-PREP",
+    "status": "PASS",
+    "verification_state": "VERIFIED_MATCH",
+    "exit_code": 0,
+    "matched_markers": [
+      "motion-estimator-14nm-asic-manual"
+    ],
+    "missing_markers": [],
+    "expected_out": [
+      "AUTO_BRIDGE_READY: branch=manual-practice-macbook-air | live_web=http://127.0.0.1:8788",
+      "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "drwxr-xr-x ... deliverables  docs  evidence  rtl  scripts  tb",
+      ">>> [AUTO-BRIDGE] Uploaded log + screenshot + live state to Web Console & GitHub 'manual-practice-macbook-air': page001_master_roadmap"
+    ],
+    "actual_excerpt": "# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/coursework/sfsu/2026-fall/sfsu-engr852-2026-fall/team-projects/motion-estimator\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : mkdir -p ~/Developer/motion-estimator-14nm-asic-manual && cd ~/Developer/motion-estimator-14nm-asic-manual && mkdir -p rtl/8bit rtl/16bit tb/8bit tb/16bit scripts docs deliverables evidence/screenshots && pwd && ls -la\n# ==============================================================================\n\n$ mkdir -p ~/Developer/motion-estimator-14nm-asic-manual && cd ~/Developer/motion-estimator-14nm-asic-manual && mkdir -p rtl/8bit rtl/16bit tb/8bit tb/16bit scripts docs deliverables evidence/screenshots && pwd && ls -la\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\ntotal 0\ndrwxr-xr-x   8 huynguyen  staff  256 Nov  9 10:12 .\ndrwx------  12 huynguyen  staff  384 Nov  9 10:12 ..\ndrwxr-xr-x   2 huynguyen  staff   64 Nov  9 10:12 deliverables\ndrwxr-xr-x   2 huynguyen  staff   64 Nov  9 10:12 docs\ndrwxr-xr-x   3 huynguyen  staff   96 Nov  9 10:12 evidence\ndrwxr-xr-x   4 huynguyen  staff  128 Nov  9 10:12 rtl\ndrwxr-xr-x   2 huynguyen  staff   64 Nov  9 10:12 scripts\ndrwxr-xr-x   4 huynguyen  staff  128 Nov  9 10:12 tb\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 10:12:16 PST\n# ------------------------------------------------------------------------------",
+    "mismatch_diagnosis": "If Page 1 (`page001_master_roadmap_rebuilding_520`) failed or its terminal output did not match the expected outcome, the most common causes are: (1) `~/Developer/motion-estimator-14nm-asic-manual` subdirectories were not yet initialized, (2) `auto_bridge.sh` was not sourced in the current terminal tab, or (3) XQuartz / GlobalProtect VPN needed a refresh.",
+    "debug_fix_oneliner": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,constraints,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026 2>/dev/null || cd /Users/huynguyen/Developer/portfolio/motion-estimator-asic-lab-notebook-2026 && source practice_from_scratch/scripts/auto_bridge.sh && FORCE_STEP=1 snap_step \"page001_master_roadmap_rebuilding_520\" \"mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/motion-estimator-14nm-asic-manual && pwd && ls -la ~/Developer/motion-estimator-14nm-asic-manual\"",
+    "debug_steps_explained": [
+      "1. Auto-creates any missing directories inside your isolated practice folder `~/Developer/motion-estimator-14nm-asic-manual/` (leaving the main project untouched).",
+      "2. Re-sources `practice_from_scratch/scripts/auto_bridge.sh` so `snap_step` and the `:8788` telemetry bridge are active.",
+      "3. Re-executes Page 1 (`page001_master_roadmap_rebuilding_520`), verifies the expected output markers `['motion-estimator-14nm-asic-manual']`, and syncs the fixed result to `:8788` and GitHub `manual-practice-macbook-air`."
+    ],
+    "updated_at": "2026-11-09 10:12:16"
+  },
+  "completed_pages": {
+    "1": {
+      "page_num": 1,
+      "step_id": "page001_master_roadmap",
+      "status": "PASS",
+      "verification_state": "VERIFIED_MATCH",
+      "matched_markers": [
+        "motion-estimator-14nm-asic-manual"
+      ],
+      "missing_markers": [],
+      "exit_code": 0,
+      "log_file": "/files/logs/page001_master_roadmap.log",
+      "screenshot_file": "/files/screenshots/page001_master_roadmap_terminal.png",
+      "log_excerpt": "# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/coursework/sfsu/2026-fall/sfsu-engr852-2026-fall/team-projects/motion-estimator\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : mkdir -p ~/Developer/motion-estimator-14nm-asic-manual && cd ~/Developer/motion-estimator-14nm-asic-manual && mkdir -p rtl/8bit rtl/16bit tb/8bit tb/16bit scripts docs deliverables evidence/screenshots && pwd && ls -la\n# ==============================================================================\n\n$ mkdir -p ~/Developer/motion-estimator-14nm-asic-manual && cd ~/Developer/motion-estimator-14nm-asic-manual && mkdir -p rtl/8bit rtl/16bit tb/8bit tb/16bit scripts docs deliverables evidence/screenshots && pwd && ls -la\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\ntotal 0\ndrwxr-xr-x   8 huynguyen  staff  256 Nov  9 10:12 .\ndrwx------  12 huynguyen  staff  384 Nov  9 10:12 ..\ndrwxr-xr-x   2 huynguyen  staff   64 Nov  9 10:12 deliverables\ndrwxr-xr-x   2 huynguyen  staff   64 Nov  9 10:12 docs\ndrwxr-xr-x   3 huynguyen  staff   96 Nov  9 10:12 evidence\ndrwxr-xr-x   4 huynguyen  staff  128 Nov  9 10:12 rtl\ndrwxr-xr-x   2 huynguyen  staff   64 Nov  9 10:12 scripts\ndrwxr-xr-x   4 huynguyen  staff  128 Nov  9 10:12 tb\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 10:12:16 PST\n# ------------------------------------------------------------------------------",
+      "updated_at": "2026-11-09 10:12:16"
+    }
+  },
+  "terminal_feed": [
+    {
+      "time": "10:12:16",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "page001_master_roadmap",
+      "command": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual && cd ~/Developer/motion-estimator-14nm-asic-manual && mkdir -p rtl/8bit rtl/16bit tb/8bit tb/16bit scripts docs deliverables evidence/screenshots && pwd && ls -la",
+      "status": "PASS",
+      "message": "Completed page001_master_roadmap (exit=0)"
+    }
+  ],
+  "highest_sequential_page": 1,
+  "next_required_page": 2,
+  "total_passed_pages": 1
+}

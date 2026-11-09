@@ -504,7 +504,7 @@
       ],
       "correct_index": 1,
       "short_answer": "Option B \u2014 `256 pixels * 1 LSB = 256 = 16'h0100` (which would have overflowed 8-bit `255`!), `motionX = -5 = 256 - 5 = 251 = 8'hFB`, and `motionY = +7 = 8'h07`.",
-      "whiteboard_proof": "1. Total SAD = `sum_{256 pixels} |R - (R+1)| = 256 * 1 = 256_10 = 16'h0100`.\n2.Notice why `+1 LSB` is the ultimate surgical test: `256` is the very first integer (`255 + 1`) that overflows an 8-bit unsigned bus!\n3. Two's complement 8-bit encoding: `-5 = ~5 + 1 = 8'b1111_1011 = 8'hFB`; `+7 = 8'b0000_0111 = 8'h07`.",
+      "whiteboard_proof": "1. Total SAD = `sum_{256 pixels} |R - (R+1)| = 256 * 1 = 256_10 = 16'h0100`.\n2. Notice why `+1 LSB` is the ultimate surgical test: `256` is the very first integer (`255 + 1`) that overflows an 8-bit unsigned bus!\n3. Two's complement 8-bit encoding: `-5 = ~5 + 1 = 8'b1111_1011 = 8'hFB`; `+7 = 8'b0000_0111 = 8'h07`.",
       "rtl_fix": "// Verified in V9_fig11_16bit_offset1_0100_nWave.png:\n// BestDist = 16'h0100, motionX = 8'hfb (-5), motionY = 8'h07 (+7)"
     },
     {
