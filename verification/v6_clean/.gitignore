@@ -1,6 +1,0 @@
-qa_runs/*.simv
-*.simv
-*.vcd
-*.fsdb
-simv*
-csrc/

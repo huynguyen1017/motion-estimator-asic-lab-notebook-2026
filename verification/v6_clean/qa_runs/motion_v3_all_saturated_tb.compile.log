@@ -1,3 +1,0 @@
-../../rtl/top.v:250: warning: @* is sensitive to all 256 words in array 'Rmem'.
-../../rtl/top.v:271: warning: @* is sensitive to all 1024 words in array 'Smem'.
-../../rtl/top.v:272: warning: @* is sensitive to all 1024 words in array 'Smem'.

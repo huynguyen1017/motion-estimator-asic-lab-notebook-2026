@@ -1,8 +1,0 @@
-[2026-11-05 10:33:15 PST] CLONING_ORIGINAL_V3B_TO_PRESERVED_V5
-V5_BLOCKS_CREATED_FLOORPLAN_UTILIZATION_035
-[2026-11-05 10:33:17 PST] CLONE_OK
-[2026-11-05 10:33:17 PST] BEGIN floorplan
-[2026-11-05 10:33:34 PST] END floorplan exit=0
-258:Error: Directory '/home/926784856/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/results/write_floorplan_files' already exists (FILE-008)
-260:            	stopped at line 48 due to error. (CMD-081)
-[2026-11-05 10:33:34 PST] STOPPED: floorplan tool errors

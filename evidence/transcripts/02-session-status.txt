@@ -1,8 +1,0 @@
-Public transcript: transcribed from output supplied by Huy Nguyen.
-Student identifier redacted. No output lines are omitted from this status check.
-
-[<student-id>@mahmoodi ~]$ pwd; ls; echo "DISPLAY=$DISPLAY"
-/home/<student-id>
-
-DISPLAY=localhost:12.0
-[<student-id>@mahmoodi ~]$
