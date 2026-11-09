@@ -1,0 +1,11 @@
+==================================================================
+STEP:      step06_upgrade_16bit_rtl
+HOST:      mahmoodi.rcc.at.sfsu.edu (926784856)
+TIMESTAMP: 2026-11-08 18:51:19 PST
+PWD:       /home/926784856/motion-estimator-asic-lab-notebook-2026
+COMMAND:   mkdir -p ~/engr852_practice/02_rtl_16bit && cp -f ~/ENGR852_Project/02_vcs_16bit_fix_20261104/top.v ~/engr852_practice/02_rtl_16bit/top.v && diff -u ~/engr852_practice/01_baseline_8bit/top.v ~/engr852_practice/02_rtl_16bit/top.v || true
+------------------------------------------------------------------
+cp: cannot stat '/home/926784856/ENGR852_Project/02_vcs_16bit_fix_20261104/top.v': No such file or directory
+------------------------------------------------------------------
+EXIT_CODE: 0
+==================================================================
