@@ -1,0 +1,37 @@
+==================================================================
+STEP:      step10_final_verification
+HOST:      mahmoodi.rcc.at.sfsu.edu (926784856)
+TIMESTAMP: 2026-11-08 18:51:51 PST
+PWD:       /home/926784856/motion-estimator-asic-lab-notebook-2026
+COMMAND:   remote_status && git -C ~/motion-estimator-asic-lab-notebook-2026 log -n 8 --oneline
+------------------------------------------------------------------
+=== CURRENT MAHMOODI STATE ===
+Host: mahmoodi.rcc.at.sfsu.edu | User: 926784856 | Time: 2026-11-08 18:51:51 PST
+PWD:  /home/926784856/motion-estimator-asic-lab-notebook-2026
+Git Sub-Branch Status (/home/926784856/motion-estimator-asic-lab-notebook-2026):
+## manual-practice-macbook-air...origin/manual-practice-macbook-air
+?? practice_from_scratch/logs/step10_final_verification.log
+Executed Step Logs Recorded So Far:
+total 44K
+-rw-r--r--. 1 926784856 domain users   63 Nov  8 18:28 macbook_air_step1.log
+-rw-r--r--. 1 926784856 domain users  497 Nov  8 18:28 step01_macbook_logger.log
+-rw-r--r--. 1 926784856 domain users  940 Nov  8 18:28 step02_git_subbranch.log
+-rw-r--r--. 1 926784856 domain users  454 Nov  8 18:28 step03_ssh_config_xquartz.log
+-rw-r--r--. 1 926784856 domain users  865 Nov  8 18:28 step04_mahmoodi_remote_status.log
+-rw-r--r--. 1 926784856 domain users 1.9K Nov  8 18:51 step05_baseline_8bit_trap.log
+-rw-r--r--. 1 926784856 domain users  824 Nov  8 18:51 step06_upgrade_16bit_rtl.log
+-rw-r--r--. 1 926784856 domain users 1.3K Nov  8 18:51 step07_three_testbenches.log
+-rw-r--r--. 1 926784856 domain users 1.1K Nov  8 18:51 step08_physical_design_14nm.log
+-rw-r--r--. 1 926784856 domain users  773 Nov  8 18:51 step09_primetime_3corner_sta.log
+-rw-r--r--. 1 926784856 domain users  836 Nov  8 18:51 step10_final_verification.log
+0b08044 Auto-upload [step09_primetime_3corner_sta] terminal output log & screenshot (exit=1 on mahmoodi.rcc.at.sfsu.edu)
+7a173c5 Auto-upload [step08_physical_design_14nm] terminal output log & screenshot (exit=1 on mahmoodi.rcc.at.sfsu.edu)
+468eab5 Auto-upload [step07_three_testbenches] terminal output log & screenshot (exit=1 on mahmoodi.rcc.at.sfsu.edu)
+6a21962 Auto-upload [step06_upgrade_16bit_rtl] terminal output log & screenshot (exit=0 on mahmoodi.rcc.at.sfsu.edu)
+868446f Auto-upload [step05_baseline_8bit_trap] terminal output log & screenshot (exit=127 on mahmoodi.rcc.at.sfsu.edu)
+90c1c57 Remove pre-built main folders from manual-practice-macbook-air; keep only executed steps 1-5 logs/screenshots and fix auto_bridge.sh
+4fb5280 Auto-upload [step05_baseline_8bit_trap] terminal output log & screenshot (exit=1 on mahmoodi.rcc.at.sfsu.edu)
+ede86da Fix bash alias collision in auto_bridge.sh by using unalias + 'function name {' syntax
+------------------------------------------------------------------
+EXIT_CODE: 0
+==================================================================
