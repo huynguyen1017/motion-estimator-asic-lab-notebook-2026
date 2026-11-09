@@ -1,6 +1,6 @@
 # ==============================================================================
 # ENGR 852 Manual Replication Step : page025_baseline_8_bit_saturating
-# Timestamp                        : 2026-11-09 15:18:56 PST
+# Timestamp                        : 2026-11-09 15:21:19 PST
 # Host & User                      : huynguyen@iMac.local
 # Terminal Environment             : MACBOOK_AIR_TERMINAL
 # IP Addresses                     : 192.168.1.70,130.212.163.69
@@ -12,21 +12,11 @@
 $ bash /tmp/engr852_autofix_page_025.sh
 === [ENGR 852 Live Execution · Page 25: Page 25: Baseline 8-Bit Saturating Verilog RTL  -  Lines 1..1 (rtl/8bit/top.v)] ===
 /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual
-     1	// ENGR 852 V1/V2 Baseline (8-Bit Saturation Trap at 8'hFF = 255)
-     2	module top (clock, start, BestDist, motionX, motionY, AddressR, AddressS1, AddressS2, R, S1, S2);
-     3	    input  wire       clock, start;
-     4	    output reg  [7:0] BestDist, motionX, motionY;
-     5	    output wire [7:0] AddressR;
-     6	    output wire [9:0] AddressS1, AddressS2;
-     7	    input  wire [7:0] R, S1, S2;
-     8	    // [TRAP] 8-bit Accumulate clamps at 8'hFF (255); 8'hFF < 8'hFF is false -> motionX/Y = xx
-     9	endmodule
-       9 /Users/huynguyen/me_asic_new_v1/rtl/8bit/top.v
 [V1 8-Bit RTL] Writes & verifies lines 1..28 of ~/me_asic_new_v1/rtl/8bit/top.v.
 me_asic_new_v1
 VERIFIED_PAGE_025_COMPLETE (EXIT_CODE=0)
 
 # ------------------------------------------------------------------------------
 # Exit Code   : 0
-# Finished At : 2026-11-09 15:18:56 PST
+# Finished At : 2026-11-09 15:21:19 PST
 # ------------------------------------------------------------------------------
