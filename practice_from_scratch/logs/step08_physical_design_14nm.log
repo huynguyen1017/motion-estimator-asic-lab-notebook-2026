@@ -1,0 +1,12 @@
+==================================================================
+STEP:      step08_physical_design_14nm
+HOST:      mahmoodi.rcc.at.sfsu.edu (926784856)
+TIMESTAMP: 2026-11-08 18:51:35 PST
+PWD:       /home/926784856/motion-estimator-asic-lab-notebook-2026
+COMMAND:   mkdir -p ~/engr852_practice/04_fc_14nm && cp -f ~/ENGR852_Project/21_v8_zero_drc_clean_20261107/reports/* ~/engr852_practice/04_fc_14nm/ 2>/dev/null || true; head -n 35 ~/ENGR852_Project/21_v8_zero_drc_clean_20261107/reports/qor.rpt ~/ENGR852_Project/21_v8_zero_drc_clean_20261107/reports/check_routes_after_fix.rpt
+------------------------------------------------------------------
+head: cannot open '/home/926784856/ENGR852_Project/21_v8_zero_drc_clean_20261107/reports/qor.rpt' for reading: No such file or directory
+head: cannot open '/home/926784856/ENGR852_Project/21_v8_zero_drc_clean_20261107/reports/check_routes_after_fix.rpt' for reading: No such file or directory
+------------------------------------------------------------------
+EXIT_CODE: 1
+==================================================================
