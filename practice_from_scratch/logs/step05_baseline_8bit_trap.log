@@ -1,15 +1,31 @@
 ==================================================================
 STEP:      step05_baseline_8bit_trap
 HOST:      mahmoodi.rcc.at.sfsu.edu (926784856)
-TIMESTAMP: 2026-11-08 18:28:40
-PWD:       /home/926784856/engr852_practice/subbranch_repo
-COMMAND:   mkdir -p ~/engr852_practice/{01_baseline_8bit,02_rtl_16bit,03_vcs_520mhz,04_fc_14nm,05_pt_sta,06_verdi_nwave} && cp -r /packages/synopsys/setup/Fusion_Compiler_setup/* ~/engr852_practice/01_baseline_8bit/ 2>/dev/null || true; cp ~/ENGR852_Project/00_original_baseline/{top.v,top_tb.v,top_tb_direct.v,ref.txt,search.txt,Makefile} ~/engr852_practice/01_baseline_8bit/ && cd ~/engr852_practice/01_baseline_8bit && grep -n "BestDist" top.v && vcs -full64 -sverilog -debug_access+all top.v top_tb.v -o simv_8bit && ./simv_8bit | tail -n 25
+TIMESTAMP: 2026-11-08 18:50:50 PST
+PWD:       /home/926784856/motion-estimator-asic-lab-notebook-2026
+COMMAND:   mkdir -p ~/engr852_practice/01_baseline_8bit && cp -f ~/ENGR852_Project/00_original_baseline/{top.v,top_tb.v,top_tb_direct.v,ref.txt,search.txt,Makefile} ~/engr852_practice/01_baseline_8bit/ && cd ~/engr852_practice/01_baseline_8bit && grep -n 'BestDist' top.v && vcs -full64 -sverilog -debug_access+all top.v top_tb.v -o simv_8bit && ./simv_8bit | tail -n 25
 ------------------------------------------------------------------
-cp: cannot stat '/home/926784856/ENGR852_Project/00_original_baseline/top.v': No such file or directory
-cp: cannot stat '/home/926784856/ENGR852_Project/00_original_baseline/top_tb.v': No such file or directory
-cp: cannot stat '/home/926784856/ENGR852_Project/00_original_baseline/top_tb_direct.v': No such file or directory
-cp: cannot stat '/home/926784856/ENGR852_Project/00_original_baseline/ref.txt': No such file or directory
-cp: cannot stat '/home/926784856/ENGR852_Project/00_original_baseline/search.txt': No such file or directory
-cp: cannot stat '/home/926784856/ENGR852_Project/00_original_baseline/Makefile': No such file or directory
+3:module top (clock, start, BestDist, motionX, motionY, AddressR, AddressS1, AddressS2, R, S1, S2, completed);
+6:	output [7:0] BestDist;
+12:	wire [7:0] BestDist;
+29:	Comparator comp_u(clock, CompStart, Accumulate, PEready, VectorX, VectorY, BestDist, motionX, motionY);
+138:module Comparator (clock, CompStart, PEout, PEready, vectorX, vectorY, BestDist, motionX, motionY);
+144:	output [7:0] BestDist; // best distortion vector so far
+146:	reg [7:0] BestDist, newDist;
+152:	  if (CompStart == 0) BestDist <= 8'hFF; // initialize to highest value
+155:	      BestDist <= newDist;
+160:	always @ (BestDist or PEout or PEready or CompStart)
+189:	    else if (newDist < BestDist) newBest = 1;
+bash: vcs: command not found...
+
+ * Waiting in queue... 
+ * Loading list of packages.... 
+The following packages have to be installed:
+ python3-vcstool-0.3.0-2.el8.noarch	Tool to invoke vcs commands on multiple repositories
+
+ * Waiting in queue... 
+ * Waiting for authentication... Failed to install packages: Failed to obtain authentication.
+
 ------------------------------------------------------------------
-EXIT_CODE: 1
+EXIT_CODE: 127
+==================================================================
