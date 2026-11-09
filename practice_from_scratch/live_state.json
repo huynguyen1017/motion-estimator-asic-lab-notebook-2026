@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-09 15:19:01 PST",
-  "epoch": 1794266341.078857,
+  "updated_at": "2026-11-09 15:21:18 PST",
+  "epoch": 1794266478.690503,
   "last_event": "STEP_COMPLETE",
   "active_terminal": "MACBOOK_AIR_TERMINAL",
   "host": "iMac.local",
@@ -8,35 +8,38 @@
   "ip_addresses": "192.168.1.70,130.212.163.69",
   "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
   "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-  "last_step_id": "page051_annotated_verdi_waveform_walkthrough",
-  "last_command": "bash /tmp/engr852_autofix_page_051.sh",
+  "last_step_id": "page001_master_roadmap",
+  "last_command": "bash /tmp/engr852_autofix_page_001.sh",
   "last_status": "PASS",
   "last_exit_code": 0,
   "guardrail_alert": "",
   "latest_feedback": {
-    "page_num": 51,
-    "step_id": "page051_annotated_verdi_waveform_walkthrough",
-    "title": "Page 51: Annotated Verdi Waveform Walkthrough 3  -  16-Bit Exact Match (BestDist = 16'h0000)",
-    "v_stage": "V5-NWAVE",
+    "page_num": 1,
+    "step_id": "page001_master_roadmap",
+    "title": "Page 1: Master Roadmap  -  Rebuilding the 520 MHz 14nm Motion Estimator on a Brand-New Laptop",
+    "v_stage": "V1-PREP",
     "status": "PASS",
     "verification_state": "VERIFIED_MATCH",
     "exit_code": 0,
     "matched_markers": [
-      "Executes"
+      "motion-estimator-14nm-asic-manual"
     ],
     "missing_markers": [],
     "expected_out": [
-      "Executes VCS 520 MHz simulation + Verdi nWave waveform capture/sync and uploads waveform PNGs to Live Web Console & GitHub sub-branch."
+      "AUTO_BRIDGE_READY: branch=manual-practice-macbook-air | live_web=http://127.0.0.1:8788",
+      "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "drwxr-xr-x ... deliverables  docs  evidence  rtl  scripts  tb",
+      ">>> [AUTO-BRIDGE] Uploaded log + screenshot + live state to Web Console & GitHub 'manual-practice-macbook-air': page001_master_roadmap"
     ],
-    "actual_excerpt": "# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_051.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_051.sh\n=== [ENGR 852 Live Execution \u00b7 Page 51: Page 51: Annotated Verdi Waveform Walkthrough 3  -  16-Bit Exact Match (BestDist = 16'h0000)] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\ncp: /Users/huynguyen/ENGR852_Project/22_v9_clean_verdi_waveforms/raw_fig10.png: No such file or directory\ncp: /Users/huynguyen/ENGR852_Project/22_v9_clean_verdi_waveforms/raw_fig11.png: No such file or directory\ntail: /Users/huynguyen/ENGR852_Project/22_v9_clean_verdi_waveforms/simv_reg.log: No such file or directory\nls: /Users/huynguyen/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig10_16bit_perfect_match_0000_nWave.png: No such file or directory\nls: /Users/huynguyen/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig11_16bit_offset1_0100_nWave.png: No such file or directory\nExecutes VCS 520 MHz simulation + Verdi nWave waveform capture/sync and uploads waveform PNGs to Live Web Console & GitHub sub-branch.\nExecutes\nVERIFIED_PAGE_051_COMPLETE (EXIT_CODE=0)\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 15:19:00 PST\n# ------------------------------------------------------------------------------",
-    "mismatch_diagnosis": "If Page 51 (`page051_annotated_verdi_waveform_walkthrough`) failed or produced unexpected output on `mahmoodi`, the most common causes are: (1) working directory drifted outside `~/me_asic_new_v1`, (2) Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) or stimulus files (`ref.txt`, `search.txt`) were missing in `~/me_asic_new_v1`, or (3) an earlier RTL/script file in `~/me_asic_new_v1` was incomplete.",
-    "debug_fix_oneliner": "mkdir -p ~/me_asic_new_v1/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,constraints,scripts,logs,reports,results,pt_reports} && cp -rn ~/ENGR852_Project/16_v3b_final_asic_fc/{setup,common,scripts} ~/me_asic_new_v1/ 2>/dev/null || true && cp -n ~/ENGR852_Project/00_original_baseline/ref*.txt ~/ENGR852_Project/00_original_baseline/search*.txt ~/me_asic_new_v1/tb/8bit/ 2>/dev/null || true && cp -n ~/ENGR852_Project/00_original_baseline/ref*.txt ~/ENGR852_Project/00_original_baseline/search*.txt ~/me_asic_new_v1/tb/16bit/ 2>/dev/null || true && cp -n ~/ENGR852_Project/00_original_baseline/ref.txt ~/ENGR852_Project/00_original_baseline/search.txt ~/me_asic_new_v1/ 2>/dev/null || true && source ~/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/scripts/auto_bridge.sh 2>/dev/null || true && FORCE_STEP=1 snap_step \"page051_annotated_verdi_waveform_walkthrough\" \"mkdir -p ~/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms && cp ~/ENGR852_Project/22_v9_clean_verdi_waveforms/raw_fig10.png ~/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig10_16bit_perfect_match_0000_nWave.png && cp ~/ENGR852_Project/22_v9_clean_verdi_waveforms/raw_fig11.png ~/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig11_16bit_offset1_0100_nWave.png && tail -n 25 ~/ENGR852_Project/22_v9_clean_verdi_waveforms/simv_reg.log && ls -lh ~/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig10_16bit_perfect_match_0000_nWave.png ~/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/waveforms/V9_fig11_16bit_offset1_0100_nWave.png\"",
+    "actual_excerpt": "# ENGR 852 Manual Replication Step : page001_master_roadmap\n# Timestamp                        : 2026-11-09 15:21:18 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_001.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_001.sh\n=== [ENGR 852 Live Execution \u00b7 Page 1: Page 1: Master Roadmap  -  Rebuilding the 520 MHz 14nm Motion Estimator on a Brand-New Laptop] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\nAUTO_BRIDGE_READY: branch=manual-practice-macbook-air | live_web=http://127.0.0.1:8788\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\ndrwxr-xr-x ... deliverables  docs  evidence  rtl  scripts  tb\n>>> [AUTO-BRIDGE] Uploaded log + screenshot + live state to Web Console & GitHub 'manual-practice-macbook-air': page001_master_roadmap\nmotion-estimator-14nm-asic-manual\nVERIFIED_PAGE_001_COMPLETE (EXIT_CODE=0)\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 15:21:18 PST\n# ------------------------------------------------------------------------------",
+    "mismatch_diagnosis": "If Page 1 (`page001_master_roadmap_rebuilding_520`) failed or its terminal output did not match the expected outcome, the most common causes are: (1) `~/Developer/motion-estimator-14nm-asic-manual` subdirectories were not yet initialized, (2) `auto_bridge.sh` was not sourced in the current terminal tab, or (3) XQuartz / GlobalProtect VPN needed a refresh.",
+    "debug_fix_oneliner": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,constraints,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026 2>/dev/null || cd /Users/huynguyen/Developer/portfolio/motion-estimator-asic-lab-notebook-2026 && source practice_from_scratch/scripts/auto_bridge.sh && FORCE_STEP=1 snap_step \"page001_master_roadmap_rebuilding_520\" \"mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/motion-estimator-14nm-asic-manual && pwd && ls -la ~/Developer/motion-estimator-14nm-asic-manual\"",
     "debug_steps_explained": [
-      "1. Verifies and repairs the isolated `~/me_asic_new_v1` workspace structure on `mahmoodi` (never modifying `~/ENGR852_Project/`).",
-      "2. Ensures all 5 Synopsys toolchains (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) and stimulus vectors (`ref.txt`, `search.txt`) are present in `~/me_asic_new_v1`.",
-      "3. Re-runs Page 51 (`page051_annotated_verdi_waveform_walkthrough`) and validates the output against expected markers `['Executes']`."
+      "1. Auto-creates any missing directories inside your isolated practice folder `~/Developer/motion-estimator-14nm-asic-manual/` (leaving the main project untouched).",
+      "2. Re-sources `practice_from_scratch/scripts/auto_bridge.sh` so `snap_step` and the `:8788` telemetry bridge are active.",
+      "3. Re-executes Page 1 (`page001_master_roadmap_rebuilding_520`), verifies the expected output markers `['motion-estimator-14nm-asic-manual']`, and syncs the fixed result to `:8788` and GitHub `manual-practice-macbook-air`."
     ],
-    "updated_at": "2026-11-09 15:19:01"
+    "updated_at": "2026-11-09 15:21:18"
   },
   "completed_pages": {
     "1": {
@@ -51,8 +54,8 @@
       "exit_code": 0,
       "log_file": "/files/logs/page001_master_roadmap.log",
       "screenshot_file": "/files/screenshots/page001_master_roadmap_terminal.png",
-      "log_excerpt": "# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_001.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_001.sh\n=== [ENGR 852 Live Execution \u00b7 Page 1: Page 1: Master Roadmap  -  Rebuilding the 520 MHz 14nm Motion Estimator on a Brand-New Laptop] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\nCloning into 'motion-estimator-asic-lab-notebook-2026'...\nfatal: not a git repository (or any of the parent directories): .git\nfatal: not a git repository (or any of the parent directories): .git\nfatal: not a git repository (or any of the parent directories): .git\n/tmp/engr852_autofix_page_001.sh: line 12: practice_from_scratch/scripts/auto_bridge.sh: No such file or directory\nAUTO_BRIDGE_READY: branch=manual-practice-macbook-air | live_web=http://127.0.0.1:8788\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\ndrwxr-xr-x ... deliverables  docs  evidence  rtl  scripts  tb\n>>> [AUTO-BRIDGE] Uploaded log + screenshot + live state to Web Console & GitHub 'manual-practice-macbook-air': page001_master_roadmap\nmotion-estimator-14nm-asic-manual\nVERIFIED_PAGE_001_COMPLETE (EXIT_CODE=0)\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 15:18:54 PST\n# ------------------------------------------------------------------------------",
-      "updated_at": "2026-11-09 15:18:54"
+      "log_excerpt": "# ENGR 852 Manual Replication Step : page001_master_roadmap\n# Timestamp                        : 2026-11-09 15:21:18 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_001.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_001.sh\n=== [ENGR 852 Live Execution \u00b7 Page 1: Page 1: Master Roadmap  -  Rebuilding the 520 MHz 14nm Motion Estimator on a Brand-New Laptop] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\nAUTO_BRIDGE_READY: branch=manual-practice-macbook-air | live_web=http://127.0.0.1:8788\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\ndrwxr-xr-x ... deliverables  docs  evidence  rtl  scripts  tb\n>>> [AUTO-BRIDGE] Uploaded log + screenshot + live state to Web Console & GitHub 'manual-practice-macbook-air': page001_master_roadmap\nmotion-estimator-14nm-asic-manual\nVERIFIED_PAGE_001_COMPLETE (EXIT_CODE=0)\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 15:21:18 PST\n# ------------------------------------------------------------------------------",
+      "updated_at": "2026-11-09 15:21:18"
     },
     "2": {
       "page_num": 2,
@@ -460,6 +463,30 @@
       "command": "bash /tmp/engr852_autofix_page_051.sh",
       "status": "PASS",
       "message": "Completed page051_annotated_verdi_waveform_walkthrough (exit=0)"
+    },
+    {
+      "time": "15:21:18",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "15:21:18",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "page001_master_roadmap",
+      "command": "bash /tmp/engr852_autofix_page_001.sh",
+      "status": "PASS",
+      "message": "Completed page001_master_roadmap (exit=0)"
     }
   ],
   "highest_sequential_page": 1,
