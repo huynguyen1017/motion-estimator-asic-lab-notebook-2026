@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-11-09 10:12:16 PST",
-  "epoch": 1794247936.71924,
-  "last_event": "STEP_COMPLETE",
-  "active_terminal": "MACBOOK_TERMINAL (zsh, ttys005)",
-  "host": "MacBook-Air",
+  "updated_at": "2026-11-09 13:46:31 PST",
+  "epoch": 1794260791.193829,
+  "last_event": "TERMINAL_CONNECTED",
+  "active_terminal": "MACBOOK_AIR_TERMINAL",
+  "host": "iMac.local",
   "user": "huynguyen",
   "ip_addresses": "192.168.1.70,130.212.163.69",
   "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
   "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-  "last_step_id": "page001_master_roadmap",
-  "last_command": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual && cd ~/Developer/motion-estimator-14nm-asic-manual && mkdir -p rtl/8bit rtl/16bit tb/8bit tb/16bit scripts docs deliverables evidence/screenshots && pwd && ls -la",
-  "last_status": "PASS",
+  "last_step_id": "step0_terminal_handshake",
+  "last_command": "source auto_bridge.sh",
+  "last_status": "CONNECTED",
   "last_exit_code": 0,
   "guardrail_alert": "",
   "latest_feedback": {
@@ -55,7 +55,7 @@
       "log_file": "/files/logs/page001_master_roadmap.log",
       "screenshot_file": "/files/screenshots/page001_master_roadmap_terminal.png",
       "log_excerpt": "# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/coursework/sfsu/2026-fall/sfsu-engr852-2026-fall/team-projects/motion-estimator\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : mkdir -p ~/Developer/motion-estimator-14nm-asic-manual && cd ~/Developer/motion-estimator-14nm-asic-manual && mkdir -p rtl/8bit rtl/16bit tb/8bit tb/16bit scripts docs deliverables evidence/screenshots && pwd && ls -la\n# ==============================================================================\n\n$ mkdir -p ~/Developer/motion-estimator-14nm-asic-manual && cd ~/Developer/motion-estimator-14nm-asic-manual && mkdir -p rtl/8bit rtl/16bit tb/8bit tb/16bit scripts docs deliverables evidence/screenshots && pwd && ls -la\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\ntotal 0\ndrwxr-xr-x   8 huynguyen  staff  256 Nov  9 10:12 .\ndrwx------  12 huynguyen  staff  384 Nov  9 10:12 ..\ndrwxr-xr-x   2 huynguyen  staff   64 Nov  9 10:12 deliverables\ndrwxr-xr-x   2 huynguyen  staff   64 Nov  9 10:12 docs\ndrwxr-xr-x   3 huynguyen  staff   96 Nov  9 10:12 evidence\ndrwxr-xr-x   4 huynguyen  staff  128 Nov  9 10:12 rtl\ndrwxr-xr-x   2 huynguyen  staff   64 Nov  9 10:12 scripts\ndrwxr-xr-x   4 huynguyen  staff  128 Nov  9 10:12 tb\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 10:12:16 PST\n# ------------------------------------------------------------------------------",
-      "updated_at": "2026-11-09 10:12:16"
+      "updated_at": "2026-11-09 11:21:29"
     }
   },
   "terminal_feed": [
@@ -82,6 +82,18 @@
       "status": "CONNECTED",
       "exit_code": 0,
       "message": "Terminal auto-connected (huynguyen@MacBook-Air, mode=owner) \u2014 Ready for Page 1!"
+    },
+    {
+      "time": "13:46:31",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
     }
   ],
   "highest_sequential_page": 1,
