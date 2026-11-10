@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-09 16:51:39 PST",
-  "epoch": 1794271899.43906,
+  "updated_at": "2026-11-09 16:51:59 PST",
+  "epoch": 1794271919.8854249,
   "last_event": "STEP_COMPLETE",
   "active_terminal": "MACBOOK_AIR_TERMINAL",
   "host": "iMac.local",
@@ -8,41 +8,37 @@
   "ip_addresses": "192.168.1.70,130.212.163.69",
   "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
   "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-  "last_step_id": "page002_engr_852_course_project",
-  "last_command": "bash /tmp/engr852_autofix_page_002.sh",
-  "last_status": "PASS",
-  "last_exit_code": 0,
+  "last_step_id": "page003_brand_new_macbook_air",
+  "last_command": "bash /tmp/engr852_autofix_page_003.sh",
+  "last_status": "FAIL",
+  "last_exit_code": 2,
   "guardrail_alert": "",
   "latest_feedback": {
-    "page_num": 2,
-    "step_id": "page002_engr_852_course_project",
-    "title": "Page 2: ENGR 852 Course Project Requirements Matrix & 90-100% Grading Rubric",
+    "page_num": 3,
+    "step_id": "page003_brand_new_macbook_air",
+    "title": "Page 3: Brand-New MacBook Air First Boot  -  macOS Terminal, Xcode CLI Tools, & Python Setup",
     "v_stage": "V1-PREP",
-    "status": "PASS",
-    "verification_state": "VERIFIED_MATCH",
-    "exit_code": 0,
-    "matched_markers": [
-      "RUBRIC_CHECK",
-      "0000",
-      "0100",
-      "FF00"
+    "status": "FAIL",
+    "verification_state": "OUTCOME_MISMATCH",
+    "exit_code": 2,
+    "matched_markers": [],
+    "missing_markers": [
+      "MACBOOK_CLI_AND_VENV_READY"
     ],
-    "missing_markers": [],
     "expected_out": [
-      "RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA",
-      "top u1 (clock, start, BestDist, motionX, motionY, AddressR, AddressS1, AddressS2, R, S1, S2);",
-      "RMEM u2 (AddressR, R);",
-      "SMEM u3 (AddressS1, AddressS2, S1, S2);"
+      "/Library/Developer/CommandLineTools",
+      "git version 2.39+",
+      "MACBOOK_CLI_AND_VENV_READY"
     ],
-    "actual_excerpt": "# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_002.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_002.sh\n=== [ENGR 852 Live Execution \u00b7 Page 2: Page 2: ENGR 852 Course Project Requirements Matrix & 90-100% Grading Rubric] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\nRUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA\ntop u1 (clock, start, BestDist, motionX, motionY, AddressR, AddressS1, AddressS2, R, S1, S2);\nRMEM u2 (AddressR, R);\nSMEM u3 (AddressS1, AddressS2, S1, S2);\nRUBRIC_CHECK\n0000\n0100\nFF00\nVERIFIED_PAGE_002_COMPLETE (EXIT_CODE=0)\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 16:51:39 PST\n# ------------------------------------------------------------------------------",
-    "mismatch_diagnosis": "If Page 2 (`page002_engr_852_course_project`) failed or its terminal output did not match the expected outcome, the most common causes are: (1) `~/Developer/motion-estimator-14nm-asic-manual` subdirectories were not yet initialized, (2) `auto_bridge.sh` was not sourced in the current terminal tab, or (3) XQuartz / GlobalProtect VPN needed a refresh.",
-    "debug_fix_oneliner": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,constraints,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026 2>/dev/null || cd /Users/huynguyen/Developer/portfolio/motion-estimator-asic-lab-notebook-2026 && source practice_from_scratch/scripts/auto_bridge.sh && FORCE_STEP=1 snap_step \"page002_engr_852_course_project\" \"cd ~/Developer/motion-estimator-14nm-asic-manual && echo 'RUBRIC_CHECK: [1] top.v (0 RAM macros) [2] top_520mhz.sdc (1.923ns) [3] TBs (0000/0100/FF00) [4] 14nm Layout (0/242 DRC) [5] 3-Corner PrimeTime STA' && grep -E 'top u1|RMEM u2|SMEM u3' ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026/tb/16bit/top_tb_direct.v && ls -ld rtl/8bit rtl/16bit tb/8bit tb/16bit\"",
+    "actual_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page003_brand_new_macbook_air\n# Timestamp                        : 2026-11-09 16:51:58 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_003.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_003.sh\n=== [ENGR 852 Live Execution \u00b7 Page 3: Page 3: Brand-New MacBook Air First Boot  -  macOS Terminal, Xcode CLI Tools, & Python Setup] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n/tmp/engr852_autofix_page_003.sh: line 11: unexpected EOF while looking for matching `''\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 2\n# Finished At : 2026-11-09 16:51:59 PST\n# ------------------------------------------------------------------------------",
+    "mismatch_diagnosis": "If Page 3 (`page003_brand_new_macbook_air`) failed or its terminal output did not match the expected outcome, the most common causes are: (1) `~/Developer/motion-estimator-14nm-asic-manual` subdirectories were not yet initialized, (2) `auto_bridge.sh` was not sourced in the current terminal tab, or (3) XQuartz / GlobalProtect VPN needed a refresh.",
+    "debug_fix_oneliner": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,constraints,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026 2>/dev/null || cd /Users/huynguyen/Developer/portfolio/motion-estimator-asic-lab-notebook-2026 && source practice_from_scratch/scripts/auto_bridge.sh && FORCE_STEP=1 snap_step \"page003_brand_new_macbook_air\" \"xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'import PIL, reportlab, pptx, pypdf; print(\\\"MACBOOK_CLI_AND_VENV_READY\\\")'\"",
     "debug_steps_explained": [
       "1. Auto-creates any missing directories inside your isolated practice folder `~/Developer/motion-estimator-14nm-asic-manual/` (leaving the main project untouched).",
       "2. Re-sources `practice_from_scratch/scripts/auto_bridge.sh` so `snap_step` and the `:8788` telemetry bridge are active.",
-      "3. Re-executes Page 2 (`page002_engr_852_course_project`), verifies the expected output markers `['RUBRIC_CHECK', '0000', '0100']`, and syncs the fixed result to `:8788` and GitHub `manual-practice-macbook-air`."
+      "3. Re-executes Page 3 (`page003_brand_new_macbook_air`), verifies the expected output markers `['MACBOOK_CLI_AND_VENV_READY']`, and syncs the fixed result to `:8788` and GitHub `manual-practice-macbook-air`."
     ],
-    "updated_at": "2026-11-09 16:51:39"
+    "updated_at": "2026-11-09 16:51:59"
   },
   "completed_pages": {
     "1": {
@@ -81,17 +77,17 @@
     "3": {
       "page_num": 3,
       "step_id": "page003_brand_new_macbook_air",
-      "status": "PASS",
-      "verification_state": "VERIFIED_MATCH",
-      "matched_markers": [
+      "status": "FAIL",
+      "verification_state": "OUTCOME_MISMATCH",
+      "matched_markers": [],
+      "missing_markers": [
         "MACBOOK_CLI_AND_VENV_READY"
       ],
-      "missing_markers": [],
-      "exit_code": 0,
+      "exit_code": 2,
       "log_file": "/files/logs/page003_brand_new_macbook_air.log",
       "screenshot_file": "/files/screenshots/page003_brand_new_macbook_air_terminal.png",
-      "log_excerpt": "MACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:48 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:49 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:49 PST\n# ------------------------------------------------------------------------------\nMACBOOK_CLI_AND_VENV_READY\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 14:41:49 PST\n# ------------------------------------------------------------------------------",
-      "updated_at": "2026-11-09 14:41:50"
+      "log_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page003_brand_new_macbook_air\n# Timestamp                        : 2026-11-09 16:51:58 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_003.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_003.sh\n=== [ENGR 852 Live Execution \u00b7 Page 3: Page 3: Brand-New MacBook Air First Boot  -  macOS Terminal, Xcode CLI Tools, & Python Setup] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n/tmp/engr852_autofix_page_003.sh: line 11: unexpected EOF while looking for matching `''\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 2\n# Finished At : 2026-11-09 16:51:59 PST\n# ------------------------------------------------------------------------------",
+      "updated_at": "2026-11-09 16:51:59"
     },
     "25": {
       "page_num": 25,
@@ -155,30 +151,6 @@
     }
   },
   "terminal_feed": [
-    {
-      "time": "15:18:59",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "page100_final_100_verification_certificate",
-      "command": "bash /tmp/engr852_autofix_page_100.sh",
-      "status": "PASS",
-      "message": "Completed page100_final_100_verification_certificate (exit=0)"
-    },
-    {
-      "time": "15:19:00",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
     {
       "time": "15:19:01",
       "terminal": "MACBOOK_AIR_TERMINAL",
@@ -586,9 +558,33 @@
       "command": "bash /tmp/engr852_autofix_page_002.sh",
       "status": "PASS",
       "message": "Completed page002_engr_852_course_project (exit=0)"
+    },
+    {
+      "time": "16:51:57",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "16:51:59",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "page003_brand_new_macbook_air",
+      "command": "bash /tmp/engr852_autofix_page_003.sh",
+      "status": "FAIL",
+      "message": "Completed page003_brand_new_macbook_air (exit=2)"
     }
   ],
-  "highest_sequential_page": 3,
-  "next_required_page": 4,
-  "total_passed_pages": 7
+  "highest_sequential_page": 2,
+  "next_required_page": 3,
+  "total_passed_pages": 6
 }
