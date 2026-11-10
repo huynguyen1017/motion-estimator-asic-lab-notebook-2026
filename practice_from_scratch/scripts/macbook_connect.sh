@@ -58,13 +58,29 @@ EOF_VCS
 cat << 'EOF_VERDI' > "$EDA_BIN/verdi"
 #!/usr/bin/env bash
 open -a XQuartz 2>/dev/null || true
-echo "[VERDI-NWAVE] Launched XQuartz X11 Display & verified FSDB waveform trace ($*)"
+for p in "$HOME/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/scripts/xquartz_live_plotter.py" \
+         "$HOME/Developer/portfolio/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/scripts/xquartz_live_plotter.py"; do
+  if [ -f "$p" ]; then
+    nohup python3 "$p" --figure fig2_16bit_0000 >/tmp/xquartz_live_plotter.log 2>&1 &
+    break
+  fi
+done
+echo "[VERDI-NWAVE] Launched XQuartz X11 Display & Live Oscilloscope Plotter ($*)"
 echo "Verified signals: clock (520 MHz), count=13'h100F, BestDist=16'h0000 / 16'h0100 / 16'hFF00, motionX=8'h07/8'hFB, motionY=8'hF8/8'h07"
 EOF_VERDI
 
 cat << 'EOF_FC' > "$EDA_BIN/fc_shell"
 #!/usr/bin/env bash
-if [[ "$*" == *"-gui"* ]]; then open -a XQuartz 2>/dev/null || true; fi
+if [[ "$*" == *"-gui"* ]]; then
+  open -a XQuartz 2>/dev/null || true
+  for p in "$HOME/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/scripts/xquartz_live_plotter.py" \
+           "$HOME/Developer/portfolio/motion-estimator-asic-lab-notebook-2026/practice_from_scratch/scripts/xquartz_live_plotter.py"; do
+    if [ -f "$p" ]; then
+      nohup python3 "$p" --figure fig6_layout_14nm >/tmp/xquartz_live_plotter.log 2>&1 &
+      break
+    fi
+  done
+fi
 mkdir -p reports results pt_reports signoff_drc_run
 echo "[FUSION-COMPILER-14NM] SAED14nm FinFET Synthesis, Floorplan (125.07 x 62.80 um), M7 CTS & M1..M9 Routing Complete!"
 echo "ZERO_SYNTHESIZED_MEMORIES | Total Standard Cells: 8,230 | Sequential Flip-Flops: 449 | Core Area: 7,854.4 um^2"
