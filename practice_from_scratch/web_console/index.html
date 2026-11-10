@@ -540,6 +540,22 @@
           </div>
         </div>
 
+        <!-- 1-Line MacBook Air (192.168.1.179) Multi-Terminal Live Link & EDA Tool Suite Installer -->
+        <div style="margin-top:12px;background:#fff1f2;border:1.5px solid #f472b6;border-radius:13px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+          <div style="flex:1;min-width:280px;">
+            <div style="font-size:12.5px;font-weight:800;color:#be185d;">
+              💻 On a Separate MacBook Air (`huynguyen@MacBook-Air` / `192.168.1.179`)? Link All 3 Terminals & Enable All EDA Tools in 1 Second:
+            </div>
+            <div style="font-size:12px;color:var(--text-body);margin-top:2px;">
+              Paste this 1-liner once into your <code>huynguyen@MacBook-Air ~ %</code> terminal (<code>ttys005</code>) to authorize direct SSH control, install <code>vcs / verdi / fc_shell / icv / pt_shell / sha256sum</code>, and stream all Web Studio outputs live into all 3 of your MacBook Air terminals:
+            </div>
+            <code style="display:inline-block;margin-top:5px;padding:4px 9px;background:#2e1065;color:#fce7f3;border-radius:7px;font-family:var(--mono);font-size:11.8px;">curl -sSL http://192.168.1.70:8788/macbook_connect.sh | bash</code>
+          </div>
+          <button class="btn btn-sm btn-pink" onclick="navigator.clipboard.writeText('curl -sSL http://192.168.1.70:8788/macbook_connect.sh | bash');this.textContent='✓ Copied! Paste in MacBook Air Terminal';">
+            📋 Copy MacBook Air Live Link Command
+          </button>
+        </div>
+
         <!-- 5-Step Live Visual Action Pipeline -->
         <div class="action-pipeline" id="visualPipelineBox">
           <div class="pipeline-step done" id="vstep-1">

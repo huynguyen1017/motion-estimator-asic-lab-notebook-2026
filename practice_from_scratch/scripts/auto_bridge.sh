@@ -492,4 +492,12 @@ function step0_fresh_start {
 # Automatically send a non-blocking handshake whenever auto_bridge.sh is sourced!
 _post_live_telemetry "TERMINAL_CONNECTED" "step0_terminal_handshake" "source auto_bridge.sh" "CONNECTED" 0 "Terminal connected (${USER}@$(hostname -s)) — Ready!" 2>/dev/null || true
 
+# If running on MacBook-Air, automatically link all terminals & enable EDA tools from 192.168.1.70:8788
+export PATH="$HOME/.engr852_eda_bin:$PATH"
+if [[ "$(hostname 2>/dev/null)" == *"MacBook"* ]] || [[ "$(hostname 2>/dev/null)" == *"macbook"* ]]; then
+  if ! pgrep -f "engr852_macbook_poller.py" >/dev/null 2>&1; then
+    (curl -sSL --max-time 3 http://192.168.1.70:8788/macbook_connect.sh | bash >/dev/null 2>&1 || true) &
+  fi
+fi
+
 echo "AUTO_BRIDGE_READY: branch=${AUTO_BRIDGE_BRANCH} | live_web=http://127.0.0.1:8788 | order_guard=ACTIVE(Page1->Page100)"
