@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>ENGR 852 | Rose & Lavender Interactive ASIC Studio · Live MacBook Terminal, XQuartz, AI Debugger & 500-Q Mastery</title>
+  <title>ENGR 852 | v5.0 Full-Viewport Interactive ASIC Studio · Live MacBook Terminal, Formulas, Flashcards & Auto-Rotating Resources</title>
   <style>
     :root {
       --bg-gradient: linear-gradient(135deg, #fff5f8 0%, #f9f0ff 50%, #f0fdfa 100%);
-      --card-bg: rgba(255, 255, 255, 0.94);
+      --card-bg: rgba(255, 255, 255, 0.96);
       --card-soft: #fdf4ff;
       --card-rose: #fff1f2;
       --card-mint: #ecfdf5;
       --border: #f5d0fe;
       --border-rose: #fbcfe8;
       --text-main: #2e1065;
-      --text-body: #334155;
+      --text-body: #1e293b;
       --text-muted: #64748b;
       --pink: #ec4899;
       --pink-dark: #db2777;
@@ -31,27 +31,30 @@
     html, body {
       margin: 0;
       padding: 0;
+      width: 100%;
       min-height: 100vh;
       font-family: var(--sans);
       background: var(--bg-gradient);
       background-attachment: fixed;
       color: var(--text-main);
+      overflow-x: hidden;
     }
-    /* Top Header Bar */
+    /* Sticky Full-Width Top Header Bar */
     .studio-header {
       position: sticky;
       top: 0;
-      z-index: 40;
-      background: rgba(255, 255, 255, 0.92);
+      z-index: 50;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(16px);
       border-bottom: 2px solid var(--border-rose);
-      padding: 12px 24px;
+      padding: 10px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
       flex-wrap: wrap;
-      box-shadow: 0 4px 20px rgba(236, 72, 153, 0.08);
+      box-shadow: 0 4px 18px rgba(236, 72, 153, 0.08);
     }
     .brand-box {
       display: flex;
@@ -59,9 +62,9 @@
       gap: 12px;
     }
     .brand-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 13px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
       background: linear-gradient(135deg, #ec4899 0%, #a855f7 55%, #f43f5e 100%);
       color: #fff;
       font-weight: 900;
@@ -69,11 +72,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 6px 16px rgba(236, 72, 153, 0.32);
+      box-shadow: 0 5px 14px rgba(236, 72, 153, 0.32);
+      flex-shrink: 0;
     }
     .brand-box h1 {
       margin: 0;
-      font-size: 17px;
+      font-size: clamp(15px, 1.35vw, 18.5px);
       font-weight: 800;
       background: linear-gradient(90deg, #be185d, #7e22ce);
       -webkit-background-clip: text;
@@ -81,7 +85,7 @@
     }
     .brand-box p {
       margin: 2px 0 0 0;
-      font-size: 12px;
+      font-size: 11.8px;
       color: var(--text-muted);
     }
     .header-actions {
@@ -94,10 +98,10 @@
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 12px;
+      gap: 5px;
+      padding: 4px 11px;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 11.8px;
       font-weight: 700;
       border: 1px solid var(--border-rose);
       background: #fff1f2;
@@ -118,31 +122,40 @@
       border-color: #fecdd3;
       color: #be123c;
     }
-    /* Single Clean 5-Tab Bar (Zero Duplication!) */
+    /* Full-Width 6-Tab Navigation Bar */
     .main-nav-bar {
+      position: sticky;
+      top: 61px;
+      z-index: 45;
+      width: 100%;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 12px 20px;
-      background: rgba(253, 244, 255, 0.85);
-      border-bottom: 1px solid var(--border);
+      justify-content: stretch;
+      gap: 8px;
+      padding: 8px 18px;
+      background: rgba(253, 244, 255, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1.5px solid var(--border);
       flex-wrap: wrap;
     }
     .nav-tab-btn {
+      flex: 1;
+      min-width: 185px;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      border-radius: 999px;
+      justify-content: center;
+      gap: 7px;
+      padding: 9px 14px;
+      border-radius: 12px;
       border: 1.5px solid #f5d0fe;
       background: #ffffff;
       color: #6b21a8;
-      font-size: 13px;
+      font-size: 12.8px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.18s ease;
-      box-shadow: 0 2px 8px rgba(168, 85, 247, 0.06);
+      transition: all 0.16s ease;
+      box-shadow: 0 2px 6px rgba(168, 85, 247, 0.06);
+      text-align: center;
     }
     .nav-tab-btn:hover {
       border-color: var(--pink);
@@ -153,16 +166,18 @@
       background: linear-gradient(135deg, #ec4899 0%, #9333ea 100%);
       border-color: transparent;
       color: #ffffff;
-      box-shadow: 0 6px 18px rgba(236, 72, 153, 0.32);
+      box-shadow: 0 5px 16px rgba(236, 72, 153, 0.32);
     }
-    /* Main Container */
+    /* 100% FULL-VIEWPORT FLUID CONTAINER (ZERO WASTED MARGIN!) */
     .page-container {
-      max-width: 1520px;
-      margin: 0 auto;
-      padding: 20px 24px 60px 24px;
+      width: 100%;
+      max-width: 100vw;
+      margin: 0;
+      padding: 14px 18px 48px 18px;
     }
     .tab-pane {
       display: none;
+      width: 100%;
     }
     .tab-pane.active {
       display: block;
@@ -171,10 +186,10 @@
     .studio-card {
       background: var(--card-bg);
       border: 1.5px solid var(--border-rose);
-      border-radius: 18px;
-      padding: 18px 20px;
-      margin-bottom: 18px;
-      box-shadow: 0 10px 28px rgba(236, 72, 153, 0.07);
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 24px rgba(236, 72, 153, 0.06);
     }
     .studio-card.mint-card {
       border-color: #6ee7b7;
@@ -193,16 +208,16 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
-      padding: 9px 16px;
-      border-radius: 12px;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 11px;
       border: 1.5px solid #f5d0fe;
       background: #ffffff;
       color: #6b21a8;
-      font-size: 13px;
+      font-size: 12.6px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.16s ease;
+      transition: all 0.15s ease;
       text-decoration: none;
     }
     .btn:hover {
@@ -214,7 +229,7 @@
       background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
       border-color: transparent;
       color: #ffffff;
-      box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
+      box-shadow: 0 4px 12px rgba(236, 72, 153, 0.28);
     }
     .btn-pink:hover {
       background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);
@@ -224,7 +239,7 @@
       background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
       border-color: transparent;
       color: #ffffff;
-      box-shadow: 0 5px 15px rgba(147, 51, 234, 0.28);
+      box-shadow: 0 4px 12px rgba(147, 51, 234, 0.25);
     }
     .btn-lavender:hover {
       background: linear-gradient(135deg, #c084fc 0%, #9333ea 100%);
@@ -234,35 +249,35 @@
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       border-color: transparent;
       color: #ffffff;
-      box-shadow: 0 5px 15px rgba(16, 185, 129, 0.28);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
     }
     .btn-mint:hover {
       background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
       color: #ffffff;
     }
     .btn-sm {
-      padding: 6px 12px;
-      font-size: 12px;
-      border-radius: 9px;
+      padding: 5px 11px;
+      font-size: 11.8px;
+      border-radius: 8px;
     }
     /* Live Visual Action Stepper (5 Stages) */
     .action-pipeline {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 10px;
-      margin-top: 12px;
+      margin-top: 10px;
     }
-    @media (max-width: 980px) {
+    @media (max-width: 1024px) {
       .action-pipeline {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       }
     }
     .pipeline-step {
-      padding: 11px 13px;
-      border-radius: 13px;
+      padding: 9px 12px;
+      border-radius: 12px;
       border: 1.5px solid #f5d0fe;
       background: #ffffff;
-      transition: all 0.25s ease;
+      transition: all 0.22s ease;
     }
     .pipeline-step.done {
       border-color: #34d399;
@@ -273,48 +288,91 @@
       background: #fff1f2;
       box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.18);
     }
-    /* Split 2-Column Lab Layout */
+    /* ====================================================================== */
+    /* FULL-VIEWPORT STICKY SPLIT WORKSPACE (ZERO EMPTY SPACE ON RIGHT/LEFT!) */
+    /* ====================================================================== */
     .lab-split {
       display: grid;
-      grid-template-columns: minmax(440px, 48%) minmax(460px, 52%);
-      gap: 18px;
+      grid-template-columns: minmax(520px, 53%) minmax(460px, 47%);
+      gap: 16px;
       align-items: start;
+      width: 100%;
     }
-    @media (max-width: 1120px) {
+    .lab-right-sticky {
+      position: sticky;
+      top: 116px;
+      align-self: start;
+    }
+    @media (max-width: 1140px) {
       .lab-split {
+        grid-template-columns: 1fr;
+      }
+      .lab-right-sticky {
+        position: static;
+      }
+    }
+    /* 2-Column Sub-Commands Grid inside Left Column so it never stretches 2500px! */
+    .subcmd-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 12px;
+    }
+    /* Responsive Grids for Study Guide, Questions, Simulators & Stages */
+    .grid-spacious-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(540px, 1fr));
+      gap: 16px;
+      width: 100%;
+    }
+    @media (max-width: 720px) {
+      .grid-spacious-2 {
         grid-template-columns: 1fr;
       }
     }
     .grid-2 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
       gap: 14px;
+      width: 100%;
     }
     .grid-3 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 14px;
+      width: 100%;
+    }
+    /* Question Split Layout (Question & Options on Left | Formula & Proof on Right) */
+    .question-split-card {
+      display: grid;
+      grid-template-columns: minmax(380px, 55%) minmax(340px, 45%);
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 980px) {
+      .question-split-card {
+        grid-template-columns: 1fr;
+      }
     }
     /* Sub-Tabs inside cards */
     .segment-bar {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
-      padding: 6px;
+      padding: 5px;
       background: #fdf4ff;
       border: 1px solid #f5d0fe;
-      border-radius: 13px;
-      margin-bottom: 14px;
+      border-radius: 12px;
+      margin-bottom: 12px;
     }
     .segment-btn {
       flex: 1;
-      min-width: 125px;
+      min-width: 135px;
       padding: 8px 12px;
       border-radius: 9px;
       border: none;
       background: transparent;
       color: #6b21a8;
-      font-size: 12.5px;
+      font-size: 12.4px;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.15s ease;
@@ -324,11 +382,46 @@
       color: #ffffff;
       box-shadow: 0 3px 10px rgba(236, 72, 153, 0.25);
     }
+    /* ====================================================================== */
+    /* FULL-WIDTH MATHEMATICAL FORMULA & HARDWARE EQUATION RENDERER           */
+    /* No vertical scrollbars, no mid-number wrapping!                        */
+    /* ====================================================================== */
+    .formula-box {
+      width: 100%;
+      padding: 13px 16px;
+      background: linear-gradient(135deg, #1e1035 0%, #2e1065 100%);
+      color: #fdf2f8;
+      border-radius: 13px;
+      border: 1.5px solid #d8b4fe;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.68;
+      white-space: pre-wrap;
+      word-break: normal;
+      overflow-wrap: anywhere;
+      overflow-x: auto;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    .formula-line {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 3px 0;
+      border-bottom: 1px dashed rgba(216, 180, 254, 0.22);
+    }
+    .formula-line:last-child {
+      border-bottom: none;
+    }
+    .formula-bullet {
+      color: #f472b6;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
     /* Code & One-Liner Boxes */
     .code-box {
       margin: 0;
-      padding: 13px 15px;
-      background: #2e1065;
+      padding: 12px 14px;
+      background: #230d42;
       color: #fce7f3;
       border-radius: 12px;
       border: 1.5px solid #d8b4fe;
@@ -336,22 +429,22 @@
       font-size: 12px;
       line-height: 1.55;
       white-space: pre-wrap;
-      word-break: break-all;
-      max-height: 150px;
-      overflow-y: auto;
+      word-break: normal;
+      overflow-wrap: anywhere;
+      overflow-x: auto;
     }
     /* Terminal Window */
     .terminal-card {
-      background: #1e1035;
+      background: #190d2c;
       border: 2px solid #f472b6;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 12px 32px rgba(147, 51, 234, 0.2);
-      margin-bottom: 16px;
+      box-shadow: 0 10px 28px rgba(147, 51, 234, 0.18);
+      margin-bottom: 14px;
     }
     .terminal-header {
       background: linear-gradient(90deg, #fce7f3 0%, #f3e8ff 100%);
-      padding: 10px 15px;
+      padding: 9px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -360,45 +453,45 @@
     .terminal-dots {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
     }
     .tdot {
-      width: 12px;
-      height: 12px;
+      width: 11px;
+      height: 11px;
       border-radius: 50%;
     }
     .tdot.r { background: #fb7185; }
     .tdot.y { background: #fbbf24; }
     .tdot.g { background: #34d399; }
     .terminal-screen {
-      padding: 14px 16px;
+      padding: 13px 15px;
       font-family: var(--mono);
       font-size: 12.2px;
-      line-height: 1.58;
+      line-height: 1.56;
       color: #fdf2f8;
-      min-height: 250px;
-      max-height: 360px;
+      min-height: 220px;
+      max-height: 330px;
       overflow-y: auto;
       white-space: pre-wrap;
       word-break: break-word;
-      background: #190d2c;
+      background: #150a26;
     }
     .terminal-input-bar {
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 14px;
-      background: #281447;
+      padding: 9px 13px;
+      background: #251142;
       border-top: 1px solid rgba(244, 114, 182, 0.3);
       flex-wrap: wrap;
     }
     .terminal-input {
       flex: 1;
-      min-width: 200px;
+      min-width: 180px;
       padding: 8px 12px;
       border-radius: 9px;
       border: 1.5px solid #c084fc;
-      background: #140923;
+      background: #120721;
       color: #fff;
       font-family: var(--mono);
       font-size: 12.2px;
@@ -414,8 +507,9 @@
       border: 1.5px solid #e9d5ff;
       background: #ffffff;
       color: var(--text-main);
-      font-size: 13px;
+      font-size: 13.2px;
       font-weight: 600;
+      line-height: 1.45;
       cursor: pointer;
       transition: all 0.14s ease;
     }
@@ -434,10 +528,52 @@
       background: #fff1f2;
       color: #9f1239;
     }
+    /* ====================================================================== */
+    /* UNIVERSITY STUDENT 3D FLIP FLASHCARD COMPONENT                         */
+    /* ====================================================================== */
+    .flashcard-stage {
+      perspective: 1200px;
+      width: 100%;
+      min-height: 310px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      min-height: 310px;
+      transition: transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-style: preserve-3d;
+    }
+    .flashcard-stage.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+    .flashcard-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 18px;
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 12px 32px rgba(147, 51, 234, 0.12);
+      overflow-y: auto;
+    }
+    .flashcard-front {
+      background: linear-gradient(135deg, #ffffff 0%, #fdf4ff 60%, #fff1f2 100%);
+      border: 2px solid #f472b6;
+    }
+    .flashcard-back {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 65%, #faf5ff 100%);
+      border: 2px solid #10b981;
+      transform: rotateY(180deg);
+    }
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(46, 16, 101, 0.82);
+      background: rgba(46, 16, 101, 0.84);
       backdrop-filter: blur(6px);
       display: none;
       align-items: center;
@@ -449,8 +585,8 @@
       display: flex;
     }
     .modal-backdrop img {
-      max-width: 94vw;
-      max-height: 90vh;
+      max-width: 95vw;
+      max-height: 92vh;
       border-radius: 16px;
       border: 3px solid #fbcfe8;
       background: #fff;
@@ -458,13 +594,13 @@
   </style>
 </head>
 <body>
-  <!-- Sticky Header -->
+  <!-- Sticky Full-Viewport Header -->
   <header class="studio-header">
     <div class="brand-box">
       <div class="brand-icon">🌸</div>
       <div>
-        <h1>ENGR 852 · 14nm FinFET ASIC Interactive Studio & Live Lab IDE</h1>
-        <p>Live MacBook Terminal.app & XQuartz Bridge · Self-Healing AI Debugger · 100-Page Manual (V1→V9) · 500-Q Mastery</p>
+        <h1>ENGR 852 · 14nm FinFET ASIC Interactive Studio & University Learning IDE (v5.0)</h1>
+        <p>Full-Viewport Responsive · Live MacBook Terminal & XQuartz · Full Formulas · Auto-Rotating Web Resources & 600+ Flashcards</p>
       </div>
     </div>
 
@@ -472,7 +608,7 @@
       <!-- Page Selector -->
       <div style="display:flex;align-items:center;gap:6px;background:#fdf4ff;padding:4px 10px;border-radius:999px;border:1.5px solid #f5d0fe;">
         <button class="btn btn-sm" onclick="stepIdePage(-1)">◀ Prev</button>
-        <select id="globalPageSelect" onchange="selectIdePage(parseInt(this.value,10))" style="border:none;background:transparent;color:#6b21a8;font-weight:800;font-size:12.5px;outline:none;"></select>
+        <select id="globalPageSelect" onchange="selectIdePage(parseInt(this.value,10))" style="border:none;background:transparent;color:#6b21a8;font-weight:800;font-size:12.4px;outline:none;max-width:340px;"></select>
         <button class="btn btn-sm" onclick="stepIdePage(1)">Next ▶</button>
       </div>
 
@@ -485,10 +621,11 @@
 
       <span class="badge mint" id="topProgressBadge">✓ 1 / 100 Verified</span>
       <span class="badge lavender" id="topQuizBadge">🎯 Quiz: 0 Correct</span>
+      <span class="badge" id="topFlashcardBadge">🃏 Flashcards: 0 Mastered</span>
     </div>
   </header>
 
-  <!-- Single Clean 5-Tab Bar (No Duplicate Menus!) -->
+  <!-- Full-Viewport 6-Tab Navigation Bar -->
   <nav class="main-nav-bar">
     <button class="nav-tab-btn active" data-tab="tab-lab" onclick="switchTab('tab-lab')">
       🌸 1. Guided Lab & Live Terminal (Pages 1–100)
@@ -503,16 +640,19 @@
       📈 4. Waveforms (Figs 7–11) & 14nm Chip Layout
     </button>
     <button class="nav-tab-btn" data-tab="tab-study" onclick="switchTab('tab-study')">
-      🎓 5. Study Guide (F0–F17), 500-Q Quiz & Midterm (Q1–Q15)
+      🎓 5. Study Guide (F0–F17), Formulas & Midterm (Q1–Q15)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-discovery" onclick="switchTab('tab-discovery')">
+      🌐 6. Auto-Rotating Web Resources & 3D Flashcards
     </button>
   </nav>
 
   <div class="page-container">
     <!-- ==================================================================== -->
-    <!-- TAB 1: GUIDED LAB & LIVE TERMINAL (PAGES 1-100)                      -->
+    <!-- TAB 1: GUIDED LAB & LIVE TERMINAL (PAGES 1-100, FULL-BLEED SPLIT)    -->
     <!-- ==================================================================== -->
     <section id="tab-lab" class="tab-pane active">
-      <!-- Live Visual Action Stage ("See Every Action Happening Live") -->
+      <!-- Top Action & VPN-Proof MacBook Air Live Link Banner -->
       <div class="studio-card lavender-card">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;">
           <div>
@@ -520,11 +660,11 @@
               <span class="badge mint" id="liveActionStatusBadge">🟢 LIVE MACBOOK TERMINAL & XQUARTZ BRIDGE READY</span>
               <span class="badge lavender" id="liveActionStageBadge">Page 1 · V1-PREP</span>
             </div>
-            <h2 id="liveActionHeadline" style="margin:6px 0 3px 0;font-size:18px;color:var(--text-main);">
-              Live Visual Action Monitor — Watch Your Commands Execute Across Terminal, XQuartz & Verilog
+            <h2 id="liveActionHeadline" style="margin:5px 0 2px 0;font-size:17.5px;color:var(--text-main);">
+              Live Full-Stack ASIC Lab — Execute, Auto-Debug, Study Formulas & Mirror to macOS Terminal.app
             </h2>
-            <p id="liveActionSubtext" style="margin:0;font-size:13px;color:var(--text-body);">
-              Clicking <b>"▶ Run This Page Live"</b> executes the step, mirrors the live command & output directly into your open macOS <code>Terminal.app</code> window, launches <code>XQuartz.app</code> for GUI steps, and verifies the result!
+            <p id="liveActionSubtext" style="margin:0;font-size:12.8px;color:var(--text-body);">
+              Clicking <b>"▶ Run Page Live"</b> executes the step, mirrors the live command & output directly into your open macOS <code>Terminal.app</code> window, launches <code>XQuartz.app</code> for GUI steps, and verifies the result!
             </p>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -540,52 +680,54 @@
           </div>
         </div>
 
-        <!-- 1-Line MacBook Air (192.168.1.179) Multi-Terminal Live Link & EDA Tool Suite Installer -->
-        <div style="margin-top:12px;background:#fff1f2;border:1.5px solid #f472b6;border-radius:13px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
-          <div style="flex:1;min-width:280px;">
+        <!-- VPN-Proof MacBook Air Multi-Terminal Live Link (Works Even With GlobalProtect VPN Connected!) -->
+        <div style="margin-top:10px;background:#fff1f2;border:1.5px solid #f472b6;border-radius:12px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+          <div style="flex:1;min-width:300px;">
             <div style="font-size:12.5px;font-weight:800;color:#be185d;">
-              💻 On a Separate MacBook Air (`huynguyen@MacBook-Air` / `192.168.1.179`)? Link All 3 Terminals & Enable All EDA Tools in 1 Second:
+              💻 On <code>huynguyen@MacBook-Air</code> with GlobalProtect VPN Connected? Use This VPN-Proof 1-Liner to Link All 3 Terminals & Start Local Studio (<code>127.0.0.1:8788</code>):
             </div>
-            <div style="font-size:12px;color:var(--text-body);margin-top:2px;">
-              Paste this 1-liner once into your <code>huynguyen@MacBook-Air ~ %</code> terminal (<code>ttys005</code>) to authorize direct SSH control, install <code>vcs / verdi / fc_shell / icv / pt_shell / sha256sum</code>, and stream all Web Studio outputs live into all 3 of your MacBook Air terminals:
+            <div style="font-size:11.8px;color:var(--text-body);margin-top:2px;">
+              Because SFSU GlobalProtect VPN blocks LAN IP <code>192.168.1.70</code>, this GitHub-hosted command works <b>100% of the time on GlobalProtect VPN</b> — it installs all 6 EDA tools (<code>vcs / verdi / fc_shell / icv / pt_shell / sha256sum</code>), starts your own local <code>http://127.0.0.1:8788</code> server on MacBook Air, and mirrors live outputs to all 3 of your open Terminal windows (<code>ttys000 / ttys005</code>):
             </div>
-            <code style="display:inline-block;margin-top:5px;padding:4px 9px;background:#2e1065;color:#fce7f3;border-radius:7px;font-family:var(--mono);font-size:11.8px;">curl -sSL http://192.168.1.70:8788/macbook_connect.sh | bash</code>
+            <code style="display:block;margin-top:5px;padding:6px 10px;background:#230d42;color:#fce7f3;border-radius:8px;font-family:var(--mono);font-size:11.6px;overflow-x:auto;">curl -sSL https://raw.githubusercontent.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026/manual-practice-macbook-air/practice_from_scratch/scripts/macbook_connect.sh | bash</code>
           </div>
-          <button class="btn btn-sm btn-pink" onclick="navigator.clipboard.writeText('curl -sSL http://192.168.1.70:8788/macbook_connect.sh | bash');this.textContent='✓ Copied! Paste in MacBook Air Terminal';">
-            📋 Copy MacBook Air Live Link Command
-          </button>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="btn btn-sm btn-pink" onclick="navigator.clipboard.writeText('curl -sSL https://raw.githubusercontent.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026/manual-practice-macbook-air/practice_from_scratch/scripts/macbook_connect.sh | bash');this.textContent='✓ Copied VPN-Proof Command!';">
+              📋 Copy VPN-Proof MacBook Air Command
+            </button>
+          </div>
         </div>
 
         <!-- 5-Step Live Visual Action Pipeline -->
         <div class="action-pipeline" id="visualPipelineBox">
           <div class="pipeline-step done" id="vstep-1">
             <div style="font-size:11.5px;font-weight:800;color:#be185d;">1. 💻 macOS Terminal.app</div>
-            <div style="font-size:12px;color:var(--text-body);margin-top:3px;" id="vstep-1-txt">Mirrors output live to open Terminal tabs</div>
+            <div style="font-size:11.8px;color:var(--text-body);margin-top:2px;" id="vstep-1-txt">Mirrors output live to open Terminal tabs</div>
           </div>
           <div class="pipeline-step done" id="vstep-2">
             <div style="font-size:11.5px;font-weight:800;color:#7e22ce;">2. 🖥️ XQuartz X11 App</div>
-            <div style="font-size:12px;color:var(--text-body);margin-top:3px;" id="vstep-2-txt">X11 Display :0 ready for Verdi/Layout</div>
+            <div style="font-size:11.8px;color:var(--text-body);margin-top:2px;" id="vstep-2-txt">X11 Display :0 ready for Verdi/Layout</div>
           </div>
           <div class="pipeline-step" id="vstep-3">
             <div style="font-size:11.5px;font-weight:800;color:#be185d;">3. ⚙️ Hardware / Tool Run</div>
-            <div style="font-size:12px;color:var(--text-body);margin-top:3px;" id="vstep-3-txt">Ready to execute page command</div>
+            <div style="font-size:11.8px;color:var(--text-body);margin-top:2px;" id="vstep-3-txt">Ready to execute page command</div>
           </div>
           <div class="pipeline-step" id="vstep-4">
             <div style="font-size:11.5px;font-weight:800;color:#047857;">4. ✅ Outcome Verifier</div>
-            <div style="font-size:12px;color:var(--text-body);margin-top:3px;" id="vstep-4-txt">Checks exit code 0 & expected markers</div>
+            <div style="font-size:11.8px;color:var(--text-body);margin-top:2px;" id="vstep-4-txt">Checks exit code 0 & expected markers</div>
           </div>
           <div class="pipeline-step" id="vstep-5">
             <div style="font-size:11.5px;font-weight:800;color:#7e22ce;">5. 📸 Screenshot & GitHub</div>
-            <div style="font-size:12px;color:var(--text-body);margin-top:3px;" id="vstep-5-txt">Saves PNG proof & unlocks Quiz</div>
+            <div style="font-size:11.8px;color:var(--text-body);margin-top:2px;" id="vstep-5-txt">Saves PNG proof & unlocks Quiz</div>
           </div>
         </div>
       </div>
 
-      <!-- 2-Column Split Workspace -->
+      <!-- 2-Column Full-Viewport Split Workspace (Sticky Right Pane = Zero Wasted Space!) -->
       <div class="lab-split">
-        <!-- LEFT COLUMN: Current Page Guide, One-Liner, Sub-Commands, Learning/Videos & Page Quiz -->
+        <!-- LEFT COLUMN: Current Page Guide, One-Liner, 2-Column Sub-Commands Grid, Learning/Videos & Page Quiz -->
         <div>
-          <div class="studio-card">
+          <div class="studio-card" style="margin-bottom:0;">
             <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
               <div style="display:flex;align-items:center;gap:6px;">
                 <button class="btn btn-sm" onclick="stepIdePage(-1)">◀ Prev Page</button>
@@ -600,12 +742,12 @@
             </h2>
 
             <!-- Level-Specific Friendly Guidance Box -->
-            <div id="ideLevelCallout" style="background:#fdf4ff;border-left:4px solid #ec4899;border-radius:11px;padding:11px 14px;font-size:12.5px;color:var(--text-body);line-height:1.58;margin-bottom:14px;"></div>
+            <div id="ideLevelCallout" style="background:#fdf4ff;border-left:4px solid #ec4899;border-radius:11px;padding:10px 14px;font-size:12.6px;color:var(--text-body);line-height:1.56;margin-bottom:12px;"></div>
 
             <!-- Clean One-Liner Command Box -->
-            <div style="background:#fff5f8;border:1.5px solid #fbcfe8;border-radius:14px;padding:13px;margin-bottom:16px;">
+            <div style="background:#fff5f8;border:1.5px solid #fbcfe8;border-radius:13px;padding:12px 14px;margin-bottom:14px;">
               <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
-                <span style="font-size:12px;font-weight:800;color:#be185d;">
+                <span style="font-size:12.2px;font-weight:800;color:#be185d;">
                   🌸 Page <span id="ideCmdPageLbl">1</span> Combined Copy-Paste One-Liner
                 </span>
                 <div style="display:flex;gap:6px;flex-wrap:wrap;">
@@ -616,16 +758,19 @@
               <pre class="code-box" id="ideOneLinerBox">Loading...</pre>
             </div>
 
-            <!-- 3 Clear Sub-Tabs on the Left Card -->
+            <!-- 4 Sub-Tabs on the Left Card -->
             <div class="segment-bar">
               <button class="segment-btn active" id="ideSubBtn-subcmds" onclick="switchIdeLeftSubtab('subcmds')">
-                🔬 1. Small Commands Breakdown
+                🔬 1. Sub-Commands Grid
               </button>
               <button class="segment-btn" id="ideSubBtn-theory" onclick="switchIdeLeftSubtab('theory')">
-                🎬 2. Learning & YouTube Videos
+                📘 2. Formulas, Lecture & Videos
               </button>
               <button class="segment-btn" id="ideSubBtn-quiz" onclick="switchIdeLeftSubtab('quiz')">
                 🎯 3. Page 5-Question Quiz
+              </button>
+              <button class="segment-btn" id="ideSubBtn-flashcards" onclick="switchIdeLeftSubtab('flashcards')">
+                🃏 4. Page Flashcards & Web Resources
               </button>
             </div>
 
@@ -633,8 +778,8 @@
           </div>
         </div>
 
-        <!-- RIGHT COLUMN: Live Mirrored MacBook Air Terminal + Self-Healing AI Debugger + Code Editor -->
-        <div>
+        <!-- RIGHT COLUMN (STICKY): Live Mirrored Terminal + Self-Healing AI Debugger + Active Page Formula & Flashcard Companion -->
+        <div class="lab-right-sticky">
           <!-- Live Terminal Window -->
           <div class="terminal-card">
             <div class="terminal-header">
@@ -642,7 +787,7 @@
                 <span class="tdot r"></span>
                 <span class="tdot y"></span>
                 <span class="tdot g"></span>
-                <span style="margin-left:8px;font-family:var(--mono);font-size:12px;font-weight:800;color:#6b21a8;">
+                <span style="margin-left:8px;font-family:var(--mono);font-size:11.8px;font-weight:800;color:#6b21a8;">
                   huynguyen@MacBook-Air — Live Terminal Mirror (Synced with macOS Terminal.app)
                 </span>
               </div>
@@ -652,7 +797,7 @@
               </div>
             </div>
 
-            <div class="terminal-screen" id="webTerminalScreen">🌸 Welcome to ENGR 852 Rose & Lavender Live Terminal Studio (v4.0)!
+            <div class="terminal-screen" id="webTerminalScreen">🌸 Welcome to ENGR 852 Full-Viewport Interactive ASIC Studio (v5.0)!
 • Every command you run here ALSO prints live inside your open macOS Terminal.app window!
 • Practice Workspace : ~/Developer/motion-estimator-14nm-asic-manual & ~/me_asic_new_v1
 • Click "[▶ Run Page Live]" or "[✨ AI Auto-Fix & Verify Page]" to watch the live execution!
@@ -673,11 +818,11 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
             </div>
           </div>
 
-          <!-- Right Workbench Card: AI Debugger | Code Editor | Terminal Screenshot -->
-          <div class="studio-card">
+          <!-- Right Workbench Card: AI Debugger | Code Editor | Terminal Screenshot | Live Formula & Flashcard Companion -->
+          <div class="studio-card" style="margin-bottom:0;">
             <div class="segment-bar">
               <button class="segment-btn active" id="ideRightBtn-aidebug" onclick="switchIdeRightSubtab('aidebug')">
-                ✨ 1. AI Auto-Debugger & Result
+                ✨ 1. AI Debugger & Formula Companion
               </button>
               <button class="segment-btn" id="ideRightBtn-editor" onclick="switchIdeRightSubtab('editor')">
                 📝 2. Verilog / TCL Code Editor
@@ -689,6 +834,8 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
 
             <div id="ideRightPane-aidebug">
               <div id="aiDebugBox"></div>
+              <!-- Companion Formula + Quick Rotating Study Card so Right Column is Always Rich & Balanced -->
+              <div id="rightCompanionBox" style="margin-top:12px;"></div>
             </div>
 
             <div id="ideRightPane-editor" style="display:none;">
@@ -700,7 +847,7 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
                 </div>
               </div>
               <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;" id="editorFileMeta"></div>
-              <textarea id="ideCodeEditor" style="width:100%;min-height:240px;background:#190d2c;color:#fdf2f8;border:1.5px solid #d8b4fe;border-radius:12px;padding:12px;font-family:var(--mono);font-size:12px;line-height:1.55;" spellcheck="false"></textarea>
+              <textarea id="ideCodeEditor" style="width:100%;min-height:260px;background:#150a26;color:#fdf2f8;border:1.5px solid #d8b4fe;border-radius:12px;padding:12px;font-family:var(--mono);font-size:12px;line-height:1.55;" spellcheck="false"></textarea>
             </div>
 
             <div id="ideRightPane-screenshot" style="display:none;">
@@ -723,7 +870,7 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
               🗺️ V1 → V9 Complete Project Builder & 100-Page Interactive Map
             </h2>
             <p style="margin:0;font-size:13px;color:var(--text-body);">
-              Build the entire 520 MHz 14nm Motion Estimator project stage-by-stage (`V1` through `V9`), or click <b>"🌸 Auto-Build & Verify All 100 Pages Live"</b> to watch every page execute and verify in sequence!
+              Build the entire 520 MHz 14nm Motion Estimator project stage-by-stage (<code>V1</code> through <code>V9</code>), or click <b>"🌸 Auto-Build & Verify All 100 Pages Live"</b> to watch every page execute and verify in sequence!
             </p>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -736,7 +883,7 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
         <div id="batchBuildProgressBox" style="margin-top:12px;display:none;"></div>
       </div>
 
-      <div class="grid-3" id="v1v9StagesGrid"></div>
+      <div class="grid-3" id="v1v9StagesGrid" style="margin-bottom:16px;"></div>
 
       <div class="studio-card">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
@@ -746,7 +893,7 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
             id="currSearchInput"
             placeholder="🔍 Search page title, command, Verilog module..."
             oninput="renderCurriculumExplorer()"
-            style="padding:8px 14px;border-radius:999px;border:1.5px solid #f5d0fe;background:#fff;color:var(--text-main);font-size:12.5px;min-width:260px;"
+            style="padding:8px 14px;border-radius:999px;border:1.5px solid #f5d0fe;background:#fff;color:var(--text-main);font-size:12.5px;min-width:280px;"
           >
         </div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;" id="currStageFilterBar"></div>
@@ -761,13 +908,13 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       <div class="studio-card lavender-card">
         <h2 style="margin:0 0 4px 0;font-size:19px;">🎛️ Interactive Hardware & 14nm FinFET Timing Simulators (4 Visual Labs)</h2>
         <p style="margin:0;font-size:13px;color:var(--text-body);">
-          Drag the sliders below to see how the <b>8-Bit <code>0xFF</code> Saturation Bug vs. 16-Bit <code>0xFF00</code> Fix</b>, <b>520 MHz 3-Corner Setup/Hold STA</b>, <b>16-PE Systolic Array Cycle Counter</b>, and <b>14nm FinFET Power</b> work in real time.
+          Drag the sliders below to explore how the <b>8-Bit <code>0xFF</code> Saturation Bug vs. 16-Bit <code>0xFF00</code> Fix</b>, <b>520 MHz 3-Corner Setup/Hold STA</b>, <b>16-PE Systolic Array Cycle Counter</b>, and <b>14nm FinFET Dynamic/Leakage Power</b> work in real time.
         </p>
       </div>
 
-      <div class="grid-2">
+      <div class="grid-spacious-2">
         <div class="studio-card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
             <span class="badge coral">LAB 1 · V2 8-BIT BUG vs. V3 16-BIT FIX</span>
             <div style="display:flex;gap:5px;">
               <button class="btn btn-sm" onclick="setSadSimPreset(0, 256)">0x0000</button>
@@ -809,7 +956,7 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
         </div>
 
         <div class="studio-card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
             <span class="badge lavender">LAB 3 · 16-PE SYSTOLIC CYCLE STEPPER</span>
             <div style="display:flex;gap:5px;">
               <button class="btn btn-sm" onclick="setSystolicCycle(0)">Cycle 0</button>
@@ -862,33 +1009,34 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
           <button class="btn btn-lavender" onclick="launchXquartzAndTerminalNow()">🖥️ Open XQuartz X11 Application Now</button>
         </div>
       </div>
-      <div class="grid-2" id="waveformGalleryGrid"></div>
+      <div class="grid-spacious-2" id="waveformGalleryGrid"></div>
     </section>
 
     <!-- ==================================================================== -->
-    <!-- TAB 5: STUDY GUIDE (F0-F17), 500-Q QUIZ & MIDTERM (Q1-Q15)           -->
+    <!-- TAB 5: SPACIOUS STUDY GUIDE (F0-F17), FORMULAS, 500-Q & MIDTERM      -->
     <!-- ==================================================================== -->
     <section id="tab-study" class="tab-pane">
       <div class="studio-card lavender-card">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
           <div>
-            <h2 style="margin:0 0 4px 0;font-size:19px;">🎓 Complete Study Guide (F0–F17), 500-Question Mastery Quiz & Midterm Exam (Q1–Q15)</h2>
+            <h2 style="margin:0 0 4px 0;font-size:19px;">🎓 Full-Width Study Guide (F0–F17 Formulas), Three-Method RTL, Midterm Exam (Q1–Q15) & 500-Q Mastery</h2>
             <p style="margin:0;font-size:13px;color:var(--text-body);">
-              Includes every Foundation topic (<code>F0–F17</code>), Three-Method RTL module, all 15 Midterm & Project Exam questions with handwritten spiral-notebook sheets, and the 500-Question Page Quiz Bank!
+              Redesigned with <b>full-width mathematical formula blocks (zero scrollbars or broken numbers)</b> and <b>spacious 2-column question cards</b> with side-by-side derivations and handwritten notebook sheets!
             </p>
           </div>
-          <div style="display:flex;gap:8px;align-items:center;">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
             <span class="badge mint" id="quizCenterScorePill">Score: 0 / 0 Correct</span>
+            <button class="btn btn-sm btn-lavender" onclick="switchTab('tab-discovery')">🃏 Study in 3D Flashcards Studio</button>
             <button class="btn btn-sm" onclick="resetQuizProgress()">↺ Reset Quiz Answers</button>
           </div>
         </div>
 
         <div class="segment-bar" style="margin-bottom:0;">
-          <button class="segment-btn active" id="studyBtn-midterm" onclick="switchStudySubtab('midterm')">
-            📝 1. Midterm & Project Exam (Q1–Q15 + Notebook Sheets)
+          <button class="segment-btn active" id="studyBtn-foundations" onclick="switchStudySubtab('foundations')">
+            📘 1. Foundations (F0–F17 Full Formulas) & Three-Method RTL Guide
           </button>
-          <button class="segment-btn" id="studyBtn-foundations" onclick="switchStudySubtab('foundations')">
-            📘 2. Foundations (F0–F17) & Three-Method RTL Guide
+          <button class="segment-btn" id="studyBtn-midterm" onclick="switchStudySubtab('midterm')">
+            📝 2. Midterm & Project Exam (Q1–Q15 + Handwritten Notebook Sheets)
           </button>
           <button class="segment-btn" id="studyBtn-pagequiz" onclick="switchStudySubtab('pagequiz')">
             🎯 3. 500-Question Page Mastery Quiz Bank (Pages 1–100)
@@ -896,18 +1044,18 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
         </div>
       </div>
 
-      <div id="studyPane-midterm" class="studio-card">
-        <div id="midtermQuestionsGrid"></div>
+      <div id="studyPane-foundations">
+        <div id="studyGuideF0F17Grid"></div>
       </div>
 
-      <div id="studyPane-foundations" class="studio-card" style="display:none;">
-        <div id="studyGuideF0F17Grid"></div>
+      <div id="studyPane-midterm" style="display:none;">
+        <div id="midtermQuestionsGrid"></div>
       </div>
 
       <div id="studyPane-pagequiz" class="studio-card" style="display:none;">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-            <label style="font-size:13px;font-weight:800;">Select Page Quiz (5 Questions per Page):</label>
+            <label style="font-size:13.5px;font-weight:800;">Select Page Quiz (5 Questions per Page):</label>
             <select id="quizBankPageSelect" onchange="renderQuizBankForPage(parseInt(this.value,10))" style="padding:7px 12px;border-radius:10px;border:1.5px solid #f5d0fe;background:#fff;color:#6b21a8;font-weight:800;"></select>
             <button class="btn btn-sm" onclick="stepQuizBankPage(-1)">◀ Prev Page</button>
             <button class="btn btn-sm" onclick="stepQuizBankPage(1)">Next Page ▶</button>
@@ -919,19 +1067,171 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
         <div id="quizBankQuestionsBox"></div>
       </div>
     </section>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 6: AUTO-ROTATING WEB RESOURCES, INTERNET SEARCH & 3D FLASHCARDS  -->
+    <!-- ==================================================================== -->
+    <section id="tab-discovery" class="tab-pane">
+      <!-- Top Control Hub -->
+      <div class="studio-card mint-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;">
+          <div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <span class="badge mint" id="rotStatusBadge">🔄 Auto-Rotating Resource & Flashcard Engine Active</span>
+              <span class="badge lavender" id="flashcardTotalCountBadge">639 University Flashcards Loaded</span>
+            </div>
+            <h2 style="margin:6px 0 3px 0;font-size:19.5px;color:var(--text-main);">
+              🌐 Live Internet Engineering Discovery, Auto-Rotating Resources & University 3D Study Flashcards
+            </h2>
+            <p style="margin:0;font-size:13px;color:var(--text-body);">
+              Continuously rotates and updates learning materials from <b>live internet encyclopedias (Wikipedia MediaWiki API)</b>, <b>peer-reviewed papers (OpenAlex API)</b>, and <b>university VLSI courses (SFSU ENGR 852, UC Berkeley EECS 151, MIT 6.375, Stanford EE 271)</b> — paired with an interactive <b>3D Flip Flashcards Deck</b>!
+            </p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-pink" onclick="fetchAndRotateResources('', true)">
+              🔄 Rotate & Fetch Fresh Resources Now
+            </button>
+            <button class="btn btn-lavender" id="btnToggleAutoRotateRes" onclick="toggleAutoRotateResources()">
+              ⏱️ Auto-Rotate Resources (25s): ON
+            </button>
+            <button class="btn btn-mint" onclick="toggleAddCustomResourceForm()">
+              ➕ Add Custom Flashcard / Study Note
+            </button>
+          </div>
+        </div>
+
+        <!-- Custom Resource / Flashcard Creator Form (Collapsible) -->
+        <div id="customResourceFormBox" style="display:none;margin-top:14px;background:#ffffff;border:1.5px solid #6ee7b7;border-radius:14px;padding:14px;">
+          <h4 style="margin:0 0 10px 0;font-size:15px;color:#047857;">➕ Add New Study Resource & University Flashcard (Saved to Studio & Deck)</h4>
+          <div class="grid-3" style="margin-bottom:10px;">
+            <input type="text" id="custTitle" placeholder="Concept / Question Title (e.g. Setup Slack Equation)" style="padding:9px 12px;border-radius:9px;border:1.5px solid #d8b4fe;font-size:12.5px;">
+            <input type="text" id="custCategory" placeholder="Category (e.g. Static Timing Analysis)" style="padding:9px 12px;border-radius:9px;border:1.5px solid #d8b4fe;font-size:12.5px;">
+            <input type="text" id="custFormula" placeholder="Formula / Equation (e.g. Slack = T_clk - T_cq - T_logic - T_setup)" style="padding:9px 12px;border-radius:9px;border:1.5px solid #d8b4fe;font-size:12.5px;">
+          </div>
+          <textarea id="custSummary" placeholder="Detailed explanation, derivation, or Verilog/TCL example..." style="width:100%;min-height:70px;padding:9px 12px;border-radius:9px;border:1.5px solid #d8b4fe;font-size:12.5px;margin-bottom:10px;"></textarea>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-sm btn-mint" onclick="submitCustomResource()">💾 Save to Resources & Flashcard Deck</button>
+            <button class="btn btn-sm" onclick="toggleAddCustomResourceForm()">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-Column Split: LEFT = Interactive 3D University Flashcards Studio | RIGHT = Live Internet Search & Auto-Rotating Resources -->
+      <div class="lab-split">
+        <!-- LEFT: UNIVERSITY 3D FLIP FLASHCARDS STUDIO -->
+        <div>
+          <div class="studio-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+              <div>
+                <h3 style="margin:0;font-size:17px;">🃏 University Student 3D Flip Flashcards Deck</h3>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">
+                  Click the card (or press <code>Space</code>) to flip between Question/Prompt and Full Formula Derivation!
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn btn-sm" onclick="shuffleFlashcardDeck()">🔀 Shuffle Deck</button>
+                <button class="btn btn-sm" id="btnAutoPlayCards" onclick="toggleAutoPlayFlashcards()">▶ Auto-Play (15s): OFF</button>
+              </div>
+            </div>
+
+            <!-- Deck Category Filter Pills -->
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;" id="flashcardCategoryBar"></div>
+
+            <!-- Progress & Card Index Bar -->
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+              <button class="btn btn-sm" onclick="stepFlashcard(-1)">◀ Prev Card</button>
+              <span class="badge lavender" id="flashcardCounterBadge">Card 1 of 100</span>
+              <button class="btn btn-sm" onclick="stepFlashcard(1)">Next Card ▶</button>
+            </div>
+
+            <!-- 3D Flip Card Stage -->
+            <div class="flashcard-stage" id="flashcardStage" onclick="flipCurrentFlashcard()">
+              <div class="flashcard-inner">
+                <!-- FRONT -->
+                <div class="flashcard-face flashcard-front" id="flashcardFrontBox"></div>
+                <!-- BACK -->
+                <div class="flashcard-face flashcard-back" id="flashcardBackBox"></div>
+              </div>
+            </div>
+
+            <!-- Spaced-Repetition Rating Controls -->
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid #f5d0fe;">
+              <span style="font-size:12.2px;font-weight:700;color:var(--text-muted);">Rate Your Mastery (Spaced Repetition):</span>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn btn-sm" style="border-color:#fda4af;background:#fff1f2;color:#be123c;" onclick="rateFlashcard('again')">
+                  🔁 Needs Review (Again)
+                </button>
+                <button class="btn btn-sm" style="border-color:#d8b4fe;background:#faf5ff;color:#6b21a8;" onclick="rateFlashcard('good')">
+                  👍 Got It (Good)
+                </button>
+                <button class="btn btn-sm btn-mint" onclick="rateFlashcard('easy')">
+                  🌟 Mastered (Easy)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: LIVE INTERNET SEARCH & AUTO-ROTATING LEARNING RESOURCES -->
+        <div>
+          <div class="studio-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+              <h3 style="margin:0;font-size:17px;">🌐 Live Internet Search & Auto-Rotating Resource Feed</h3>
+              <span class="badge mint" id="resLastRotatedLbl">Updated Just Now</span>
+            </div>
+
+            <!-- Live Internet Search Bar -->
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+              <input
+                type="text"
+                id="liveWebSearchInput"
+                placeholder="🌐 Search Wikipedia, OpenAlex Papers & VLSI Courses (e.g. FinFET, Systolic Array, Setup Slack, Verilog)..."
+                onkeydown="if(event.key==='Enter'){searchLiveWebResources();}"
+                style="flex:1;min-width:240px;padding:9px 14px;border-radius:11px;border:1.5px solid #d8b4fe;font-size:12.6px;"
+              >
+              <button class="btn btn-sm btn-pink" onclick="searchLiveWebResources()">🔍 Search Internet Live</button>
+              <button class="btn btn-sm btn-lavender" onclick="fetchAndRotateResources('', true)">🔄 Rotate Topics</button>
+            </div>
+
+            <!-- Quick Topic Chips -->
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+              <button class="btn btn-sm" onclick="quickSearchTopic('FinFET 14nm CMOS transistor')">FinFET 14nm</button>
+              <button class="btn btn-sm" onclick="quickSearchTopic('Systolic array motion estimation')">Systolic Array</button>
+              <button class="btn btn-sm" onclick="quickSearchTopic('Static timing analysis setup hold slack')">Setup/Hold STA</button>
+              <button class="btn btn-sm" onclick="quickSearchTopic('Two complement saturation arithmetic')">2's-Comp & Saturation</button>
+              <button class="btn btn-sm" onclick="quickSearchTopic('Clock tree synthesis Elmore delay')">Clock Tree (CTS)</button>
+              <button class="btn btn-sm" onclick="quickSearchTopic('Design rule checking LVS')">DRC & LVS</button>
+            </div>
+
+            <!-- Discovered & Rotating Resource Cards List -->
+            <div id="liveResourcesFeedBox"></div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 
   <!-- Image Zoom Modal -->
   <div class="modal-backdrop" id="imgModal" onclick="this.classList.remove('open')">
     <img id="imgModalTarget" src="" alt="Zoomed Figure">
   </div>
-
   <script>
     let CURRICULUM = [];
     let STUDY_AND_MIDTERM = {};
     let LIVE_STATE = {};
-    let CURRENT_LEVEL = localStorage.getItem('engr852_v4_level') || 'beginner';
-    let IDE_CURRENT_PAGE = parseInt(localStorage.getItem('engr852_v4_page') || '1', 10);
+    let DISCOVERED_RESOURCES = [];
+    let FLASHCARD_DECK = [];
+    let FILTERED_FLASHCARDS = [];
+    let FLASHCARD_INDEX = 0;
+    let FLASHCARD_CAT_FILTER = 'ALL';
+    let FLASHCARD_MASTERY = {};
+    let AUTO_ROTATE_RES_ENABLED = true;
+    let AUTO_ROTATE_RES_TIMER = null;
+    let AUTO_PLAY_CARDS_ENABLED = false;
+    let AUTO_PLAY_CARDS_TIMER = null;
+
+    let CURRENT_LEVEL = localStorage.getItem('engr852_v5_level') || 'beginner';
+    let IDE_CURRENT_PAGE = parseInt(localStorage.getItem('engr852_v5_page') || '1', 10);
     let IDE_LEFT_SUBTAB = 'subcmds';
     let IDE_RIGHT_SUBTAB = 'aidebug';
     let CURR_STAGE_FILTER = 'ALL';
@@ -945,6 +1245,11 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       QUIZ_STATE = JSON.parse(localStorage.getItem('engr852_v4_quiz') || '{}');
     } catch (e) {
       QUIZ_STATE = {};
+    }
+    try {
+      FLASHCARD_MASTERY = JSON.parse(localStorage.getItem('engr852_v5_flashcards') || '{}');
+    } catch (e) {
+      FLASHCARD_MASTERY = {};
     }
 
     const V_STAGES_META = [
@@ -966,6 +1271,38 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;');
+    }
+
+    /* ====================================================================== */
+    /* CRISP MATHEMATICAL FORMULA & HARDWARE EQUATION FORMATTER               */
+    /* Splits multi-part equations cleanly onto full-width lines with symbols */
+    /* ====================================================================== */
+    function formatFormulaDisplayHtml(rawFormula) {
+      if (!rawFormula) return '';
+      const cleaned = String(rawFormula)
+        .replace(/<->/g, ' ⇔ ')
+        .replace(/=>/g, ' ⇒ ')
+        .replace(/->/g, ' → ')
+        .replace(/<=/g, ' ≤ ')
+        .replace(/>=/g, ' ≥ ')
+        .replace(/\^2\b/g, '²')
+        .replace(/\^8\b/g, '⁸')
+        .replace(/\^16\b/g, '¹⁶')
+        .replace(/\^n\b/g, 'ⁿ');
+      const parts = cleaned.split(/\s*\|\s*|\n+/).map(x => x.trim()).filter(Boolean);
+      if (parts.length <= 1) {
+        return `<div class="formula-box"><div class="formula-line"><span class="formula-bullet">∑</span><span>${escapeHtml(cleaned)}</span></div></div>`;
+      }
+      return `
+        <div class="formula-box">
+          ${parts.map((ln, idx) => `
+            <div class="formula-line">
+              <span class="formula-bullet">${idx === 0 ? '∑' : '▸'}</span>
+              <span>${escapeHtml(ln)}</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
     }
 
     function zoomImage(url) {
@@ -996,12 +1333,15 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
         updateStaSimulator();
         updateSystolicSimulator();
         updatePowerSimulator();
+      } else if (tabId === 'tab-discovery') {
+        renderFlashcardStudio();
+        renderLiveResourcesFeed();
       }
     }
 
     function setLearnerLevel(lvl) {
       CURRENT_LEVEL = lvl;
-      localStorage.setItem('engr852_v4_level', lvl);
+      localStorage.setItem('engr852_v5_level', lvl);
       ['beginner', 'intermediate', 'advanced'].forEach(k => {
         const btn = document.getElementById('topLvl' + k.charAt(0).toUpperCase() + k.slice(1));
         if (btn) {
@@ -1020,7 +1360,7 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       const optsHtml = CURRICULUM.map(p => {
         const rec = done[String(p.page_num)];
         const mark = rec ? (rec.status === 'PASS' ? '✓ ' : '⚠ ') : '';
-        return `<option value="${p.page_num}">${mark}Page ${p.page_num} (${p.v_stage}) — ${escapeHtml(p.title.slice(0, 52))}</option>`;
+        return `<option value="${p.page_num}">${mark}Page ${p.page_num} (${p.v_stage}) — ${escapeHtml(p.title.slice(0, 56))}</option>`;
       }).join('');
       sel1.innerHTML = optsHtml;
       sel1.value = String(IDE_CURRENT_PAGE);
@@ -1033,12 +1373,13 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
     function selectIdePage(pnum) {
       const n = Math.max(1, Math.min(100, parseInt(pnum || 1, 10)));
       IDE_CURRENT_PAGE = n;
-      localStorage.setItem('engr852_v4_page', String(n));
+      localStorage.setItem('engr852_v5_page', String(n));
       const sel1 = document.getElementById('globalPageSelect');
       if (sel1) sel1.value = String(n);
       const sel2 = document.getElementById('quizBankPageSelect');
       if (sel2) sel2.value = String(n);
       renderPracticeIde();
+      fetchAndRotateResources('', false);
     }
 
     function stepIdePage(delta) {
@@ -1072,7 +1413,7 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
             🌱 Beginner Step-by-Step Guide · Terminal: <code>${escapeHtml(b.terminal_to_use || 'MACBOOK_TERMINAL')}</code>
           </div>
           <div style="margin-bottom:6px;">${escapeHtml(b.plain_english_summary || pageObj.problem_title || '')}</div>
-          ${steps.length ? `<div style="font-size:12px;color:#475569;">${steps.map(s => `<div style="margin-top:2px;">• ${escapeHtml(s)}</div>`).join('')}</div>` : ''}
+          ${steps.length ? `<div style="font-size:12px;color:#334155;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:4px 12px;">${steps.map(s => `<div>• ${escapeHtml(s)}</div>`).join('')}</div>` : ''}
         `;
       } else if (CURRENT_LEVEL === 'intermediate') {
         const im = lg.intermediate || {};
@@ -1126,14 +1467,45 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
 
       renderIdeLeftSubtab();
       renderIdeScreenshotBox(pageObj, rec);
+      renderRightCompanionBox(pageObj);
       if (!LAST_AI_DEBUG || LAST_AI_DEBUG.page_num !== pageObj.page_num) {
         renderDefaultAiDebugForPage(pageObj, rec);
       }
     }
 
+    /* Right-Column Companion Formula + Quick Rotating Study Widget (Eliminates Empty Right Void!) */
+    function renderRightCompanionBox(pageObj) {
+      const box = document.getElementById('rightCompanionBox');
+      if (!box || !pageObj) return;
+      const fList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.foundations) || [];
+      const fRefCode = ((pageObj.foundation_ref || 'F0').split(':')[0] || 'F0').trim();
+      const matchedF = fList.find(f => f.id === fRefCode) || fList[(pageObj.page_num - 1) % Math.max(1, fList.length)] || {};
+      const tm = pageObj.three_methods || {};
+
+      box.innerHTML = `
+        <div style="background:#faf5ff;border:1.5px solid #d8b4fe;border-radius:14px;padding:13px 15px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+            <span class="badge lavender">📐 Active Page Formula & Hardware Reference (${escapeHtml(matchedF.id || fRefCode)})</span>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-sm" onclick="switchIdeLeftSubtab('flashcards')">🃏 Page Flashcards</button>
+              <button class="btn btn-sm btn-pink" onclick="switchTab('tab-discovery')">🌐 Live Web Discovery</button>
+            </div>
+          </div>
+          <div style="font-size:13.5px;font-weight:800;color:var(--text-main);margin-bottom:6px;">
+            ${escapeHtml(matchedF.title || pageObj.foundation_ref || 'Core VLSI & Hardware Principle')}
+          </div>
+          ${matchedF.equation ? formatFormulaDisplayHtml(matchedF.equation) : ''}
+          <div style="font-size:12.4px;color:var(--text-body);line-height:1.56;margin-top:8px;">
+            <div><b>📘 Concept Summary:</b> ${escapeHtml(matchedF.basic_concept || pageObj.foundation_text || '')}</div>
+            <div style="margin-top:4px;color:#be185d;"><b>🔗 14nm Chip Role:</b> ${escapeHtml(matchedF.asic_connection || tm.method2 || '')}</div>
+          </div>
+        </div>
+      `;
+    }
+
     function switchIdeLeftSubtab(sub) {
       IDE_LEFT_SUBTAB = sub;
-      ['subcmds', 'theory', 'quiz'].forEach(k => {
+      ['subcmds', 'theory', 'quiz', 'flashcards'].forEach(k => {
         const b = document.getElementById('ideSubBtn-' + k);
         if (b) b.classList.toggle('active', k === sub);
       });
@@ -1149,29 +1521,34 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
         const subs = Array.isArray(pageObj.subcommand_breakdown) ? pageObj.subcommand_breakdown : [];
         const expOut = Array.isArray(pageObj.expected_out) ? pageObj.expected_out : [];
         box.innerHTML = `
-          <div style="margin-bottom:10px;font-size:12.5px;color:var(--text-body);">
-            Every Page One-Liner is built from these smaller atomic sub-commands. Click <b>"▶ Run Sub-Step"</b> on any card to execute just that piece live in the Web + macOS Terminal!
+          <div style="margin-bottom:10px;font-size:12.6px;color:var(--text-body);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+            <span>Every Page One-Liner is built from these atomic sub-commands. Click <b>"▶ Run Sub-Step"</b> on any card to execute it live!</span>
+            <span class="badge lavender">${subs.length} Atomic Sub-Steps (2-Column Full-Viewport Grid)</span>
           </div>
-          ${subs.map((sc, idx) => `
-            <div style="border:1.5px solid #f5d0fe;border-radius:12px;padding:11px 13px;margin-bottom:10px;background:#ffffff;">
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
-                <span class="badge lavender">Sub-Step ${sc.seq || (idx + 1)} · ${escapeHtml(sc.task_performed || 'Command Step')}</span>
-                <div style="display:flex;gap:6px;">
-                  <button class="btn btn-sm btn-pink" onclick="runSubcommandByIndex(${idx})">▶ Run Sub-Step</button>
-                  <button class="btn btn-sm" onclick="copySubcommandByIndex(${idx}, this)">📋 Copy</button>
+          <div class="subcmd-grid">
+            ${subs.map((sc, idx) => `
+              <div style="border:1.5px solid #f5d0fe;border-radius:13px;padding:12px 14px;background:#ffffff;display:flex;flex-direction:column;justify-content:space-between;">
+                <div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:7px;">
+                    <span class="badge lavender">Sub-Step ${sc.seq || (idx + 1)} · ${escapeHtml((sc.task_performed || 'Step').slice(0, 42))}</span>
+                    <div style="display:flex;gap:5px;">
+                      <button class="btn btn-sm btn-pink" onclick="runSubcommandByIndex(${idx})">▶ Run</button>
+                      <button class="btn btn-sm" onclick="copySubcommandByIndex(${idx}, this)">📋 Copy</button>
+                    </div>
+                  </div>
+                  <pre class="code-box" style="margin-bottom:8px;font-size:11.6px;">${escapeHtml(sc.cmd || '')}</pre>
+                </div>
+                <div style="font-size:12.2px;color:var(--text-body);line-height:1.52;">
+                  <div><b>💡 Plain-English Meaning:</b> ${escapeHtml(sc.in_depth_meaning || '')}</div>
+                  <div style="margin-top:4px;color:#6b21a8;"><b>🎓 Lecture & Chip Role:</b> ${escapeHtml(sc.lecture_correlation || '')} — ${escapeHtml(sc.chip_design_role || '')}</div>
                 </div>
               </div>
-              <pre class="code-box" style="max-height:90px;margin-bottom:8px;font-size:11.5px;">${escapeHtml(sc.cmd || '')}</pre>
-              <div style="font-size:12.3px;color:var(--text-body);line-height:1.5;">
-                <div><b>💡 Plain-English Meaning:</b> ${escapeHtml(sc.in_depth_meaning || '')}</div>
-                <div style="margin-top:3px;color:#6b21a8;"><b>🎓 Lecture & Chip Role:</b> ${escapeHtml(sc.lecture_correlation || '')} — ${escapeHtml(sc.chip_design_role || '')}</div>
-              </div>
-            </div>
-          `).join('')}
+            `).join('')}
+          </div>
           ${expOut.length ? `
-            <div style="background:#ecfdf5;border:1.5px solid #a7f3d0;border-radius:12px;padding:11px 13px;margin-top:8px;">
-              <div style="font-size:12px;font-weight:800;color:#047857;margin-bottom:4px;">✅ Expected Verification Markers for Page ${pageObj.page_num}:</div>
-              <pre style="margin:0;font-family:var(--mono);font-size:11.5px;color:#065f46;white-space:pre-wrap;">${escapeHtml(expOut.join('\n'))}</pre>
+            <div style="background:#ecfdf5;border:1.5px solid #a7f3d0;border-radius:12px;padding:11px 14px;margin-top:12px;">
+              <div style="font-size:12.2px;font-weight:800;color:#047857;margin-bottom:4px;">✅ Expected Verification Markers for Page ${pageObj.page_num}:</div>
+              <pre style="margin:0;font-family:var(--mono);font-size:11.8px;color:#065f46;white-space:pre-wrap;">${escapeHtml(expOut.join('\n'))}</pre>
             </div>
           ` : ''}
         `;
@@ -1180,63 +1557,129 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
         const videoTask = tasks.find(t => Array.isArray(t.videos) && t.videos.length > 0) || {};
         const videos = videoTask.videos || [];
         const tm = pageObj.three_methods || {};
+        const fList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.foundations) || [];
+        const fRefCode = ((pageObj.foundation_ref || 'F0').split(':')[0] || 'F0').trim();
+        const matchedF = fList.find(f => f.id === fRefCode) || fList[0] || {};
 
         box.innerHTML = `
-          <!-- Foundation & Lecture Walkthrough -->
-          <div style="background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:13px;padding:13px;margin-bottom:12px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
-              <span class="badge lavender">📘 Lecture & Study Guide Walkthrough · ${escapeHtml(pageObj.foundation_ref || 'F0–F17')}</span>
+          <!-- Full-Width Formula & Foundation Walkthrough -->
+          <div style="background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:14px;padding:15px;margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+              <span class="badge lavender">📘 Lecture & Formula Walkthrough · ${escapeHtml(pageObj.foundation_ref || 'F0–F17')}</span>
               <span class="badge mint">${escapeHtml(pageObj.lecture_ref || 'ENGR 852')}</span>
             </div>
-            <div style="font-size:13px;color:var(--text-body);line-height:1.6;">
+            <div style="font-size:13.4px;color:var(--text-body);line-height:1.65;margin-bottom:10px;">
               ${escapeHtml(pageObj.foundation_text || '')}
+            </div>
+            ${matchedF.equation ? `
+              <div style="font-size:12px;font-weight:800;color:#6b21a8;margin-bottom:5px;">📐 Key Mathematical Formula (${escapeHtml(matchedF.id)} — ${escapeHtml(matchedF.title)}):</div>
+              ${formatFormulaDisplayHtml(matchedF.equation)}
+            ` : ''}
+          </div>
+
+          <!-- Three-Method RTL Architecture Breakdown -->
+          <div style="background:#ecfdf5;border:1.5px solid #a7f3d0;border-radius:14px;padding:15px;margin-bottom:12px;">
+            <div style="font-size:14px;font-weight:800;color:#047857;margin-bottom:8px;">
+              🏛️ Three-Method RTL & Hardware Comparison for Page ${pageObj.page_num}
+            </div>
+            <div class="grid-3" style="gap:10px;">
+              <div style="background:#fff;border:1px solid #a7f3d0;border-radius:10px;padding:10px 12px;font-size:12.4px;line-height:1.55;">
+                <b style="color:#047857;display:block;margin-bottom:4px;">Method 1 · Explicit FSM / Paper Style</b>
+                ${escapeHtml(tm.method1 || '')}
+              </div>
+              <div style="background:#fff;border:1.5px solid #10b981;border-radius:10px;padding:10px 12px;font-size:12.4px;line-height:1.55;">
+                <b style="color:#065f46;display:block;margin-bottom:4px;">Method 2 · Direct Systolic Pipeline (Chip)</b>
+                ${escapeHtml(tm.method2 || '')}
+              </div>
+              <div style="background:#fff;border:1px solid #a7f3d0;border-radius:10px;padding:10px 12px;font-size:12.4px;line-height:1.55;">
+                <b style="color:#047857;display:block;margin-bottom:4px;">Method 3 · Parameterized Generate Array</b>
+                ${escapeHtml(tm.method3 || '')}
+              </div>
             </div>
           </div>
 
           <!-- Curated YouTube Video Tutorials -->
-          <div style="background:#fff1f2;border:1.5px solid #fbcfe8;border-radius:13px;padding:13px;margin-bottom:12px;">
-            <div style="font-size:13.5px;font-weight:800;color:#be185d;margin-bottom:8px;">
+          <div style="background:#fff1f2;border:1.5px solid #fbcfe8;border-radius:14px;padding:15px;">
+            <div style="font-size:14px;font-weight:800;color:#be185d;margin-bottom:8px;">
               🎬 Curated YouTube Video Walkthroughs for Page ${pageObj.page_num} (${videos.length} Videos)
             </div>
-            ${videos.length ? videos.map(v => `
-              <div style="background:#ffffff;border:1px solid #fbcfe8;border-radius:11px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
-                <div style="flex:1;min-width:210px;">
-                  <div style="font-weight:800;font-size:13px;color:var(--text-main);">🎥 ${escapeHtml(v.title || 'ASIC / Verilog Tutorial')}</div>
-                  <div style="font-size:11.8px;color:var(--text-muted);margin-top:2px;">
-                    Channel: <b>${escapeHtml(v.channel || 'Engineering Lecture')}</b> · Duration: <b>${escapeHtml(v.duration || '15 min')}</b>
+            <div class="grid-3" style="gap:10px;">
+              ${videos.map(v => `
+                <div style="background:#ffffff;border:1px solid #fbcfe8;border-radius:11px;padding:11px 13px;display:flex;flex-direction:column;justify-content:space-between;gap:8px;">
+                  <div>
+                    <div style="font-weight:800;font-size:13px;color:var(--text-main);">🎥 ${escapeHtml(v.title || 'ASIC / Verilog Tutorial')}</div>
+                    <div style="font-size:11.8px;color:var(--text-muted);margin-top:3px;">
+                      Channel: <b>${escapeHtml(v.channel || 'Engineering Lecture')}</b> · <b>${escapeHtml(v.duration || '15 min')}</b>
+                    </div>
+                    <div style="font-size:12.1px;color:var(--text-body);margin-top:5px;line-height:1.48;">${escapeHtml(v.focus || '')}</div>
                   </div>
-                  <div style="font-size:12px;color:var(--text-body);margin-top:3px;">${escapeHtml(v.focus || '')}</div>
+                  <a href="${escapeHtml(v.url || 'https://www.youtube.com')}" target="_blank" rel="noopener" class="btn btn-sm btn-pink">
+                    ▶ Watch on YouTube ↗
+                  </a>
                 </div>
-                <a href="${escapeHtml(v.url || 'https://www.youtube.com')}" target="_blank" rel="noopener" class="btn btn-sm btn-pink">
-                  ▶ Watch on YouTube ↗
-                </a>
-              </div>
-            `).join('') : '<div style="font-size:12.5px;">Click any topic above to watch the paired lecture walkthrough.</div>'}
-          </div>
-
-          <!-- Three-Method RTL Architecture Breakdown -->
-          <div style="background:#ecfdf5;border:1.5px solid #a7f3d0;border-radius:13px;padding:13px;margin-bottom:12px;">
-            <div style="font-size:13.5px;font-weight:800;color:#047857;margin-bottom:8px;">
-              🏛️ Three-Method RTL & Hardware Comparison for Page ${pageObj.page_num}
+              `).join('')}
             </div>
-            <div style="font-size:12.5px;color:var(--text-body);line-height:1.55;">
-              <div style="margin-bottom:6px;"><b>• Method 1 (Paper-Style Explicit FSM / Datapath):</b> ${escapeHtml(tm.method1 || '')}</div>
-              <div style="margin-bottom:6px;"><b>• Method 2 (Direct-Assignment Systolic Pipeline — Used in Chip):</b> ${escapeHtml(tm.method2 || '')}</div>
-              <div><b>• Method 3 (Parameterized Generate-Block Array):</b> ${escapeHtml(tm.method3 || '')}</div>
-            </div>
-          </div>
-
-          <!-- Interactive Simulator & Midterm Links -->
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn btn-sm btn-lavender" onclick="switchTab('tab-simulators')">🎛️ Open Interactive Hardware Simulators</button>
-            <button class="btn btn-sm btn-mint" onclick="switchTab('tab-study')">📝 Open Midterm (Q1–Q15) & F0–F17 Study Guide</button>
           </div>
         `;
       } else if (IDE_LEFT_SUBTAB === 'quiz') {
         box.innerHTML = buildPageQuizHtml(pageObj);
+      } else if (IDE_LEFT_SUBTAB === 'flashcards') {
+        box.innerHTML = buildInlinePageFlashcardsAndResourcesHtml(pageObj);
       }
     }
 
+    function buildInlinePageFlashcardsAndResourcesHtml(pageObj) {
+      const pageCards = FLASHCARD_DECK.filter(c => c.page_num === pageObj.page_num);
+      const topRes = DISCOVERED_RESOURCES.slice(0, 4);
+      return `
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+          <span class="badge lavender">🃏 ${pageCards.length} Flashcards for Page ${pageObj.page_num}</span>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-sm btn-pink" onclick="openFlashcardsForPage(${pageObj.page_num})">🃏 Open Full 3D Flashcard Deck</button>
+            <button class="btn btn-sm btn-mint" onclick="fetchAndRotateResources('', true)">🔄 Rotate Web Resources</button>
+          </div>
+        </div>
+        <div class="subcmd-grid" style="margin-bottom:14px;">
+          ${pageCards.map(c => `
+            <div style="border:1.5px solid #d8b4fe;background:#fdf4ff;border-radius:13px;padding:12px 14px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span class="badge lavender">${escapeHtml(c.category)}</span>
+                <span class="badge mint">${escapeHtml(c.tag || '')}</span>
+              </div>
+              <div style="font-size:13.2px;font-weight:800;color:var(--text-main);margin-bottom:6px;">Q: ${escapeHtml(c.front)}</div>
+              ${c.formula ? formatFormulaDisplayHtml(c.formula) : ''}
+              <div style="font-size:12.3px;color:#065f46;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:9px;padding:8px 10px;margin-top:8px;">
+                <b>Answer / Derivation:</b> ${escapeHtml(c.back)}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div style="font-size:13.5px;font-weight:800;color:#be185d;margin-bottom:8px;">
+          🌐 Auto-Rotating Internet & University Resources Paired with Page ${pageObj.page_num}:
+        </div>
+        <div class="subcmd-grid">
+          ${topRes.map((r, rIdx) => `
+            <div style="border:1.5px solid #fbcfe8;background:#ffffff;border-radius:13px;padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;">
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:5px;">
+                  <span class="badge">${escapeHtml(r.category || 'VLSI Resource')}</span>
+                  <span style="font-size:11.5px;color:var(--text-muted);">${escapeHtml(r.source || '')}</span>
+                </div>
+                <div style="font-size:13.5px;font-weight:800;color:var(--text-main);margin-bottom:6px;">${escapeHtml(r.title || '')}</div>
+                ${r.formula ? formatFormulaDisplayHtml(r.formula) : ''}
+                <div style="font-size:12.3px;color:var(--text-body);line-height:1.52;margin-top:6px;">${escapeHtml(r.summary || '')}</div>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+                ${r.url ? `<a href="${escapeHtml(r.url)}" target="_blank" rel="noopener" class="btn btn-sm btn-pink">🌐 Open Source ↗</a>` : ''}
+                <button class="btn btn-sm btn-mint" onclick="saveDiscoveredResourceToFlashcards(${rIdx}, this)">🃏 + Save to Flashcards</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    /* Spacious 2-Column Quiz Renderer */
     function buildPageQuizHtml(pageObj) {
       const rawQs = Array.isArray(pageObj.quiz_questions) ? pageObj.quiz_questions : [];
       if (!rawQs.length) {
@@ -1256,59 +1699,61 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       });
 
       return `
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
           <span class="badge mint">🎯 Page ${pageObj.page_num} Mastery: ${solvedCount} / ${rawQs.length} Correct</span>
-          <span style="font-size:12px;color:var(--text-muted);">
+          <span style="font-size:12.2px;color:var(--text-muted);">
             Ordered ${CURRENT_LEVEL === 'advanced' ? 'Hard → Easy' : 'Easy → Medium → Hard'} for ${CURRENT_LEVEL.toUpperCase()} mode
           </span>
         </div>
-        ${indexed.map(({ q, origIdx }, dispNum) => {
-          const key = `p${pageObj.page_num}_q${origIdx}`;
-          const chosen = QUIZ_STATE[key];
-          const isAnswered = chosen !== undefined && chosen !== null;
-          const isCorrect = isAnswered && chosen === q.answer;
-          const opts = Array.isArray(q.options) ? q.options : [];
-          const diags = Array.isArray(q.choice_diagnostics) ? q.choice_diagnostics : [];
+        <div class="grid-2">
+          ${indexed.map(({ q, origIdx }, dispNum) => {
+            const key = `p${pageObj.page_num}_q${origIdx}`;
+            const chosen = QUIZ_STATE[key];
+            const isAnswered = chosen !== undefined && chosen !== null;
+            const isCorrect = isAnswered && chosen === q.answer;
+            const opts = Array.isArray(q.options) ? q.options : [];
+            const diags = Array.isArray(q.choice_diagnostics) ? q.choice_diagnostics : [];
 
-          return `
-            <div style="border:1.5px solid ${isCorrect ? '#6ee7b7' : '#f5d0fe'};background:#ffffff;border-radius:13px;padding:13px;margin-bottom:12px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;">
-                <span class="badge ${q.difficulty === 'hard' ? 'coral' : (q.difficulty === 'medium' ? 'lavender' : 'mint')}">
-                  Q${dispNum + 1} · ${escapeHtml(q.difficulty_label || q.difficulty || 'Concept')}
-                </span>
-                ${isAnswered ? `<span class="badge ${isCorrect ? 'mint' : 'coral'}">${isCorrect ? '✓ Correct!' : '✗ Try Again'}</span>` : ''}
-              </div>
-              <div style="font-size:13.5px;font-weight:800;color:var(--text-main);margin-bottom:8px;line-height:1.45;">
-                ${escapeHtml(q.q || '')}
-              </div>
-              ${CURRENT_LEVEL === 'beginner' && q.hint ? `
-                <div style="font-size:12px;color:#7e22ce;background:#faf5ff;padding:7px 10px;border-radius:8px;margin-bottom:8px;">
-                  💡 <b>Beginner Hint:</b> ${escapeHtml(q.hint)}
+            return `
+              <div style="border:1.5px solid ${isCorrect ? '#6ee7b7' : '#f5d0fe'};background:#ffffff;border-radius:14px;padding:15px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">
+                  <span class="badge ${q.difficulty === 'hard' ? 'coral' : (q.difficulty === 'medium' ? 'lavender' : 'mint')}">
+                    Question ${dispNum + 1} · ${escapeHtml(q.difficulty_label || q.difficulty || 'Concept')}
+                  </span>
+                  ${isAnswered ? `<span class="badge ${isCorrect ? 'mint' : 'coral'}">${isCorrect ? '✓ Correct!' : '✗ Try Again'}</span>` : ''}
                 </div>
-              ` : ''}
-              <div>
-                ${opts.map((optText, oIdx) => {
-                  let cls = 'quiz-choice';
-                  if (isAnswered) {
-                    if (oIdx === q.answer) cls += ' correct';
-                    else if (oIdx === chosen) cls += ' wrong';
-                  }
-                  return `
-                    <button class="${cls}" onclick="answerPageQuiz(${pageObj.page_num}, ${origIdx}, ${oIdx})">
-                      ${escapeHtml(optText)}
-                    </button>
-                  `;
-                }).join('')}
-              </div>
-              ${isAnswered ? `
-                <div style="margin-top:8px;padding:10px 12px;border-radius:10px;background:${isCorrect ? '#ecfdf5' : '#fff1f2'};font-size:12.3px;line-height:1.55;color:var(--text-body);">
-                  <div><b>${isCorrect ? '🌸 Spot On!' : '🔍 Diagnostic Feedback:'}</b> ${escapeHtml(diags[chosen] || '')}</div>
-                  <div style="margin-top:4px;"><b>📘 Full Explanation:</b> ${escapeHtml(q.explain || '')}</div>
+                <div style="font-size:14px;font-weight:800;color:var(--text-main);margin-bottom:10px;line-height:1.5;">
+                  ${escapeHtml(q.q || '')}
                 </div>
-              ` : ''}
-            </div>
-          `;
-        }).join('')}
+                ${CURRENT_LEVEL === 'beginner' && q.hint ? `
+                  <div style="font-size:12.3px;color:#7e22ce;background:#faf5ff;padding:8px 11px;border-radius:9px;margin-bottom:10px;border:1px solid #e9d5ff;">
+                    💡 <b>Beginner Hint:</b> ${escapeHtml(q.hint)}
+                  </div>
+                ` : ''}
+                <div>
+                  ${opts.map((optText, oIdx) => {
+                    let cls = 'quiz-choice';
+                    if (isAnswered) {
+                      if (oIdx === q.answer) cls += ' correct';
+                      else if (oIdx === chosen) cls += ' wrong';
+                    }
+                    return `
+                      <button class="${cls}" onclick="answerPageQuiz(${pageObj.page_num}, ${origIdx}, ${oIdx})">
+                        ${escapeHtml(optText)}
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+                ${isAnswered ? `
+                  <div style="margin-top:10px;padding:11px 13px;border-radius:11px;background:${isCorrect ? '#ecfdf5' : '#fff1f2'};font-size:12.5px;line-height:1.58;color:var(--text-body);">
+                    <div><b>${isCorrect ? '🌸 Spot On!' : '🔍 Diagnostic Feedback:'}</b> ${escapeHtml(diags[chosen] || '')}</div>
+                    <div style="margin-top:5px;"><b>📘 Full Lecture Explanation:</b> ${escapeHtml(q.explain || '')}</div>
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
       `;
     }
 
@@ -1434,29 +1879,30 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       if (!box) return;
       if (rec && rec.status === 'PASS') {
         box.innerHTML = `
-          <div style="background:#ecfdf5;border:1.5px solid #6ee7b7;border-radius:13px;padding:14px;">
+          <div style="background:#ecfdf5;border:1.5px solid #6ee7b7;border-radius:13px;padding:13px 15px;">
             <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
               <span class="badge mint">✅ PAGE ${pageObj.page_num} VERIFIED (EXIT CODE 0)</span>
-              <span style="font-size:12px;color:#047857;">Updated: ${escapeHtml(rec.updated_at || 'Just now')}</span>
+              <span style="font-size:11.8px;color:#047857;">Updated: ${escapeHtml(rec.updated_at || 'Just now')}</span>
             </div>
-            <div style="font-size:13px;color:#065f46;line-height:1.55;margin-bottom:10px;">
+            <div style="font-size:12.8px;color:#065f46;line-height:1.55;margin-bottom:10px;">
               Page ${pageObj.page_num} (<b>${escapeHtml(pageObj.title)}</b>) passed all verification checks and its terminal log + PNG screenshot are saved!
             </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button class="btn btn-sm btn-mint" onclick="switchIdeLeftSubtab('theory')">🎬 Open Learning & YouTube Videos</button>
-              <button class="btn btn-sm btn-lavender" onclick="switchIdeLeftSubtab('quiz')">🎯 Take Page ${pageObj.page_num} 5-Q Quiz</button>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
+              <button class="btn btn-sm btn-mint" onclick="switchIdeLeftSubtab('theory')">📘 Formulas & Videos</button>
+              <button class="btn btn-sm btn-lavender" onclick="switchIdeLeftSubtab('quiz')">🎯 Page ${pageObj.page_num} Quiz</button>
+              <button class="btn btn-sm" onclick="switchIdeLeftSubtab('flashcards')">🃏 Page Flashcards</button>
               ${pageObj.page_num < 100 ? `<button class="btn btn-sm btn-pink" onclick="stepIdePage(1)">Next: Page ${pageObj.page_num + 1} ▶</button>` : ''}
             </div>
           </div>
         `;
       } else {
         box.innerHTML = `
-          <div style="background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:13px;padding:14px;">
-            <div style="font-size:13.5px;font-weight:800;color:#6b21a8;margin-bottom:6px;">
+          <div style="background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:13px;padding:13px 15px;">
+            <div style="font-size:13.2px;font-weight:800;color:#6b21a8;margin-bottom:5px;">
               ✨ Self-Healing AI Auto-Debugger & Live Verifier Ready (Page ${pageObj.page_num})
             </div>
-            <div style="font-size:12.5px;color:var(--text-body);line-height:1.55;margin-bottom:10px;">
-              Click <b>"▶ Run Page ${pageObj.page_num} Live"</b> to execute the one-liner in both this Web Terminal and your open macOS <code>Terminal.app</code> window. If any directory, file, or tool output is missing, click <b>"✨ AI Auto-Fix & Verify Page ${pageObj.page_num}"</b> to automatically repair and verify the step!
+            <div style="font-size:12.4px;color:var(--text-body);line-height:1.55;margin-bottom:10px;">
+              Click <b>"▶ Run Page ${pageObj.page_num} Live"</b> to execute the one-liner in both this Web Terminal and your open macOS <code>Terminal.app</code> window. If any directory, file, or tool output is missing, click <b>"✨ AI Auto-Fix & Verify Page ${pageObj.page_num}"</b>!
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <button class="btn btn-sm btn-pink" onclick="runCurrentPageInWebTerminal(true)">▶ Run Page ${pageObj.page_num} Live</button>
@@ -1474,28 +1920,22 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       const isOk = debugObj.status === 'PASS';
 
       box.innerHTML = `
-        <div style="background:${isOk ? '#ecfdf5' : '#fff1f2'};border:1.5px solid ${isOk ? '#6ee7b7' : '#fda4af'};border-radius:13px;padding:14px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+        <div style="background:${isOk ? '#ecfdf5' : '#fff1f2'};border:1.5px solid ${isOk ? '#6ee7b7' : '#fda4af'};border-radius:13px;padding:13px 15px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
             <span class="badge ${isOk ? 'mint' : 'coral'}">${escapeHtml(debugObj.headline || (isOk ? 'Verified' : 'Needs Fix'))}</span>
             <span class="badge lavender">Page ${pageNum}</span>
           </div>
-          <div style="font-size:13px;color:var(--text-body);line-height:1.55;margin-bottom:10px;">
+          <div style="font-size:12.8px;color:var(--text-body);line-height:1.55;margin-bottom:10px;">
             <b>AI Root-Cause Analysis:</b> ${escapeHtml(debugObj.root_cause || '')}
           </div>
           ${!isOk ? `
-            <div style="background:#ffffff;border:1px solid #fecdd3;border-radius:10px;padding:10px 12px;margin-bottom:10px;">
-              <div style="font-size:12px;font-weight:800;color:#be123c;margin-bottom:4px;">🔧 Recommended Self-Healing Fix Action:</div>
-              <div style="font-size:12px;color:var(--text-body);margin-bottom:8px;">
-                Click the button below to let the AI Auto-Debugger automatically seed any missing prerequisites, re-execute Page ${pageNum}, broadcast the clean output to your macOS Terminal, and verify the expected markers!
-              </div>
-              <button class="btn btn-sm btn-mint" onclick="runSelfHealingAiFix()">
-                ✨ 1-Click Self-Healing AI Auto-Fix & Verify Page ${pageNum} Now
-              </button>
-            </div>
+            <button class="btn btn-sm btn-mint" onclick="runSelfHealingAiFix()">
+              ✨ 1-Click Self-Healing AI Auto-Fix & Verify Page ${pageNum} Now
+            </button>
           ` : `
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button class="btn btn-sm btn-mint" onclick="switchIdeLeftSubtab('theory')">🎬 Open Page ${pageNum} Learning & Videos</button>
-              <button class="btn btn-sm btn-lavender" onclick="switchIdeLeftSubtab('quiz')">🎯 Take Page ${pageNum} 5-Q Quiz</button>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
+              <button class="btn btn-sm btn-mint" onclick="switchIdeLeftSubtab('theory')">📘 Open Formulas & Videos</button>
+              <button class="btn btn-sm btn-lavender" onclick="switchIdeLeftSubtab('quiz')">🎯 Take Page ${pageNum} Quiz</button>
               ${pageNum < 100 ? `<button class="btn btn-sm btn-pink" onclick="stepIdePage(1)">Proceed to Page ${pageNum + 1} ▶</button>` : ''}
             </div>
           `}
@@ -1658,13 +2098,6 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
         });
         const data = await res.json();
         appendToTerminalScreen(data.message || 'Launched XQuartz.app and broadcast live banner to open macOS Terminal tabs!');
-        animateVisualPipeline(2, {
-          1: `Live banner printed to macOS Terminal (${(data.ttys || []).join(', ') || 'active'}) ✓`,
-          2: `XQuartz.app launched on macOS ✓`,
-          3: `Ready for command execution`,
-          4: `Verifier standing by`,
-          5: `Screenshot logger ready`
-        }, false);
       } catch (e) {
         appendToTerminalScreen(`[!] Could not launch GUI: ${e}`);
       }
@@ -1674,9 +2107,7 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       if (BATCH_RUNNING) return;
       BATCH_RUNNING = true;
       const box = document.getElementById('batchBuildProgressBox');
-      if (box) {
-        box.style.display = 'block';
-      }
+      if (box) box.style.display = 'block';
       for (let p = startPage; p <= endPage; p++) {
         if (!BATCH_RUNNING) break;
         if (box) {
@@ -1700,9 +2131,7 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
           body: JSON.stringify({ page_num: p })
         });
         const data = await res.json();
-        if (data && data.state) {
-          LIVE_STATE = data.state;
-        }
+        if (data && data.state) LIVE_STATE = data.state;
         updateTopProgressBadges();
         renderV1V9Stages();
       }
@@ -1797,7 +2226,7 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
               <span style="font-size:12px;font-weight:800;color:#be185d;">${passed}/${count} (${pct}%)</span>
             </div>
             <h4 style="margin:0 0 6px 0;font-size:14.5px;color:var(--text-main);">${escapeHtml(st.title)}</h4>
-            <p style="margin:0 0 10px 0;font-size:12px;color:var(--text-body);line-height:1.45;">${escapeHtml(st.desc)}</p>
+            <p style="margin:0 0 10px 0;font-size:12.2px;color:var(--text-body);line-height:1.48;">${escapeHtml(st.desc)}</p>
             <div style="height:7px;background:#fce7f3;border-radius:999px;overflow:hidden;margin-bottom:10px;">
               <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#ec4899,#10b981);"></div>
             </div>
@@ -1834,27 +2263,27 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
         );
       });
 
-      listBox.innerHTML = filtered.map(p => {
+      listBox.innerHTML = `<div class="grid-2">` + filtered.map(p => {
         const rec = done[String(p.page_num)];
         const isPass = rec && rec.status === 'PASS';
         return `
-          <div style="border:1.5px solid ${isPass ? '#a7f3d0' : '#f5d0fe'};background:#fff;border-radius:12px;padding:10px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+          <div style="border:1.5px solid ${isPass ? '#a7f3d0' : '#f5d0fe'};background:#fff;border-radius:12px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
             <div style="flex:1;min-width:240px;">
               <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                 <span class="badge ${isPass ? 'mint' : 'lavender'}">${isPass ? '✓ PASS' : '⏳'} · Page ${p.page_num} (${p.v_stage})</span>
                 <b style="font-size:13.5px;color:var(--text-main);">${escapeHtml(p.title)}</b>
               </div>
               <div style="font-size:11.5px;color:var(--text-muted);font-family:var(--mono);margin-top:3px;">
-                ${escapeHtml((p.one_liner || '').slice(0, 120))}...
+                ${escapeHtml((p.one_liner || '').slice(0, 110))}...
               </div>
             </div>
             <div style="display:flex;gap:6px;">
               <button class="btn btn-sm btn-pink" onclick="selectIdePage(${p.page_num});switchTab('tab-lab');">🌸 Open in Lab</button>
-              <button class="btn btn-sm btn-mint" onclick="selectIdePage(${p.page_num});switchTab('tab-lab');runSelfHealingAiFix();">✨ Auto-Fix & Verify</button>
+              <button class="btn btn-sm btn-mint" onclick="selectIdePage(${p.page_num});switchTab('tab-lab');runSelfHealingAiFix();">✨ Auto-Fix</button>
             </div>
           </div>
         `;
-      }).join('');
+      }).join('') + `</div>`;
     }
 
     /* Tab 3: 4 Interactive Hardware Simulators */
@@ -1883,17 +2312,17 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       if (!box) return;
       box.innerHTML = `
         <div class="grid-2" style="gap:10px;">
-          <div style="background:#fff1f2;border:1.5px solid #fda4af;border-radius:11px;padding:10px 12px;">
-            <div style="font-size:12px;font-weight:800;color:#be123c;">❌ Original 8-Bit Datapath (V1/V2 Trap)</div>
-            <div style="font-size:13px;margin-top:4px;"><code>Accumulate[7:0]</code> = <b>${sad8} (${hex8})</b> ${clamped8 ? '<span class="badge coral">SATURATED AT 0xFF!</span>' : ''}</div>
-            <div style="font-size:12px;margin-top:4px;">Comparator <code>(${hex8} &lt; 0xFF)</code> ➔ <code>newBest = ${newBest8}</code></div>
-            <div style="font-size:11.8px;color:#9f1239;margin-top:3px;">${newBest8 === 0 ? 'Deadlock! BestDist stays 0xFF and motionX/Y remain xx!' : 'No overflow at this small pixel sum.'}</div>
+          <div style="background:#fff1f2;border:1.5px solid #fda4af;border-radius:11px;padding:11px 13px;">
+            <div style="font-size:12.2px;font-weight:800;color:#be123c;">❌ Original 8-Bit Datapath (V1/V2 Trap)</div>
+            <div style="font-size:13.2px;margin-top:4px;"><code>Accumulate[7:0]</code> = <b>${sad8} (${hex8})</b> ${clamped8 ? '<span class="badge coral">SATURATED AT 0xFF!</span>' : ''}</div>
+            <div style="font-size:12.2px;margin-top:4px;">Comparator <code>(${hex8} &lt; 0xFF)</code> ➔ <code>newBest = ${newBest8}</code></div>
+            <div style="font-size:12px;color:#9f1239;margin-top:3px;">${newBest8 === 0 ? 'Deadlock! BestDist stays 0xFF and motionX/Y remain xx!' : 'No overflow at this small pixel sum.'}</div>
           </div>
-          <div style="background:#ecfdf5;border:1.5px solid #6ee7b7;border-radius:11px;padding:10px 12px;">
-            <div style="font-size:12px;font-weight:800;color:#047857;">✅ Upgraded 16-Bit Datapath (V3–V9 Fix)</div>
-            <div style="font-size:13px;margin-top:4px;"><code>Accumulate[15:0]</code> = <b>${sad16} (${hex16})</b></div>
-            <div style="font-size:12px;margin-top:4px;">Comparator <code>(${hex16} &lt; 0xFFFF)</code> ➔ <code>newBest = ${newBest16}</code></div>
-            <div style="font-size:11.8px;color:#065f46;margin-top:3px;">Exact 16-bit SAD preserved! Latches valid motionX & motionY.</div>
+          <div style="background:#ecfdf5;border:1.5px solid #6ee7b7;border-radius:11px;padding:11px 13px;">
+            <div style="font-size:12.2px;font-weight:800;color:#047857;">✅ Upgraded 16-Bit Datapath (V3–V9 Fix)</div>
+            <div style="font-size:13.2px;margin-top:4px;"><code>Accumulate[15:0]</code> = <b>${sad16} (${hex16})</b></div>
+            <div style="font-size:12.2px;margin-top:4px;">Comparator <code>(${hex16} &lt; 0xFFFF)</code> ➔ <code>newBest = ${newBest16}</code></div>
+            <div style="font-size:12px;color:#065f46;margin-top:3px;">Exact 16-bit SAD preserved! Latches valid motionX & motionY.</div>
           </div>
         </div>
       `;
@@ -1923,10 +2352,10 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       const box = document.getElementById('staSimOutputBox');
       if (!box) return;
       box.innerHTML = `
-        <div style="background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:11px;padding:10px 12px;font-size:12.5px;">
-          <div style="margin-bottom:5px;"><b>• Corner 1 (FF · 0.95V, -40°C):</b> Arrival = ${tFF} ns ➔ Setup Slack = <b style="color:${sFF >= 0 ? '#047857' : '#be123c'};">${sFF >= 0 ? '+' : ''}${sFF} ns (${sFF >= 0 ? 'MET' : 'VIOLATED'})</b></div>
+        <div style="background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:11px;padding:11px 13px;font-size:12.8px;">
+          <div style="margin-bottom:5px;"><b>• Corner 1 (FF · 0.88V, 125°C):</b> Arrival = ${tFF} ns ➔ Setup Slack = <b style="color:${sFF >= 0 ? '#047857' : '#be123c'};">${sFF >= 0 ? '+' : ''}${sFF} ns (${sFF >= 0 ? 'MET' : 'VIOLATED'})</b></div>
           <div style="margin-bottom:5px;"><b>• Corner 2 (TT · 0.80V, 25°C):</b> Arrival = ${tTT} ns ➔ Setup Slack = <b style="color:${sTT >= 0 ? '#047857' : '#be123c'};">${sTT >= 0 ? '+' : ''}${sTT} ns (${sTT >= 0 ? 'MET' : 'VIOLATED'})</b></div>
-          <div><b>• Corner 3 (SS · 0.72V, 125°C):</b> Arrival = ${tSS} ns ➔ Setup Slack = <b style="color:${sSS >= 0 ? '#047857' : '#be123c'};">${sSS >= 0 ? '+' : ''}${sSS} ns (${sSS >= 0 ? 'MET' : 'VIOLATED'})</b></div>
+          <div><b>• Corner 3 (SS · 0.72V, -40°C):</b> Arrival = ${tSS} ns ➔ Setup Slack = <b style="color:${sSS >= 0 ? '#047857' : '#be123c'};">${sSS >= 0 ? '+' : ''}${sSS} ns (${sSS >= 0 ? 'MET' : 'VIOLATED'})</b></div>
         </div>
       `;
     }
@@ -1948,10 +2377,10 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       const box = document.getElementById('sysSimOutputBox');
       if (!box) return;
       box.innerHTML = `
-        <div style="background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:11px;padding:10px 12px;font-size:12.5px;">
+        <div style="background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:11px;padding:11px 13px;font-size:12.8px;">
           <div><b>• Active Candidate Block:</b> #${candIdx} of 256 · Motion Vector <code>(dx=${mx >= 0 ? '+' + mx : mx}, dy=${my >= 0 ? '+' + my : my})</code></div>
           <div style="margin-top:4px;"><b>• Row Streamed in Current Block:</b> Row ${rowInCand} / 15 · Simulated Time = <b>${(cyc * 1.923).toFixed(2)} ns</b></div>
-          <div style="margin-top:4px;"><b>• Terminal Flag (<code>complete</code>):</b> <span class="badge ${isComplete ? 'mint' : 'lavender'}">${isComplete ? 'complete = 1 (All 256 Candidates Done!)' : 'complete = 0 (Streaming)'}</span></div>
+          <div style="margin-top:4px;"><b>• Terminal Flag (<code>completed</code>):</b> <span class="badge ${isComplete ? 'mint' : 'lavender'}">${isComplete ? 'completed = 1 (All 256 Candidates Done!)' : 'completed = 0 (Streaming)'}</span></div>
         </div>
       `;
     }
@@ -1973,8 +2402,8 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       const box = document.getElementById('pwrSimOutputBox');
       if (!box) return;
       box.innerHTML = `
-        <div style="background:#fff5f8;border:1.5px solid #fbcfe8;border-radius:11px;padding:10px 12px;font-size:12.5px;">
-          <div><b>• Dynamic Power (<code>P_dyn = alpha * C * V_DD^2 * f</code>):</b> ${pDyn} mW</div>
+        <div style="background:#fff5f8;border:1.5px solid #fbcfe8;border-radius:11px;padding:11px 13px;font-size:12.8px;">
+          <div><b>• Dynamic Power (<code>P_dyn = alpha × C × V_DD² × f</code>):</b> ${pDyn} mW</div>
           <div style="margin-top:4px;"><b>• FinFET Subthreshold Leakage (<code>P_leak</code>):</b> ${pLeak} mW</div>
           <div style="margin-top:4px;"><b>• Total Core Power @ 520 MHz (8,230 cells, 7,854.40 um²):</b> <b style="color:#be185d;">${pTot} mW</b></div>
         </div>
@@ -1992,12 +2421,12 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
             <span class="badge lavender">${escapeHtml(g.stage)} · Page ${g.page_num}</span>
             <span class="badge mint">✓ Verified Capture</span>
           </div>
-          <h3 style="margin:0 0 6px 0;font-size:15.5px;">${escapeHtml(g.title)}</h3>
-          <p style="margin:0 0 10px 0;font-size:12.3px;color:var(--text-body);line-height:1.5;">${escapeHtml(g.desc)}</p>
+          <h3 style="margin:0 0 6px 0;font-size:16px;">${escapeHtml(g.title)}</h3>
+          <p style="margin:0 0 10px 0;font-size:12.6px;color:var(--text-body);line-height:1.52;">${escapeHtml(g.desc)}</p>
           ${g.img_url ? `
-            <img src="${g.img_url}" alt="${escapeHtml(g.title)}" style="width:100%;max-height:260px;object-fit:contain;background:#190d2c;border-radius:12px;border:1.5px solid #f5d0fe;cursor:pointer;margin-bottom:10px;" onclick="zoomImage('${g.img_url}')">
+            <img src="${g.img_url}" alt="${escapeHtml(g.title)}" style="width:100%;max-height:300px;object-fit:contain;background:#190d2c;border-radius:12px;border:1.5px solid #f5d0fe;cursor:pointer;margin-bottom:10px;" onclick="zoomImage('${g.img_url}')">
           ` : ''}
-          <pre class="code-box" style="max-height:60px;font-size:11px;margin-bottom:10px;">${escapeHtml(g.tcl_cmd)}</pre>
+          <pre class="code-box" style="font-size:11.6px;margin-bottom:10px;">${escapeHtml(g.tcl_cmd)}</pre>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
             <button class="btn btn-sm btn-pink" onclick="selectIdePage(${g.page_num});switchTab('tab-lab');executeCommandInWebTerminal(${JSON.stringify(g.tcl_cmd).replace(/"/g, '&quot;')}, ${g.page_num}, true);">
               🖥️ Launch in XQuartz & Run Live
@@ -2008,9 +2437,11 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       `).join('');
     }
 
-    /* Tab 5: Study Guide (F0-F17), Midterm (Q1-Q15) & 500-Q Bank */
+    /* ====================================================================== */
+    /* TAB 5: SPACIOUS STUDY GUIDE (F0-F17 FULL FORMULAS) & MIDTERM (Q1-Q15)  */
+    /* ====================================================================== */
     function switchStudySubtab(sub) {
-      ['midterm', 'foundations', 'pagequiz'].forEach(k => {
+      ['foundations', 'midterm', 'pagequiz'].forEach(k => {
         const b = document.getElementById('studyBtn-' + k);
         if (b) b.classList.toggle('active', k === sub);
         const p = document.getElementById('studyPane-' + k);
@@ -2028,89 +2459,136 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       const fList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.foundations) || [];
       const tmList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.three_method_modules) || [];
 
+      if (fGrid) {
+        fGrid.innerHTML = `
+          <div class="studio-card">
+            <h3 style="margin:0 0 12px 0;font-size:18px;">📘 Part A: Electrical, Digital Logic & 14nm CMOS Foundations (F0–F17 — Full Mathematical Formulas)</h3>
+            <div class="grid-spacious-2">
+              ${fList.map(f => `
+                <div style="border:1.5px solid #f5d0fe;background:#ffffff;border-radius:15px;padding:16px 18px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;box-shadow:0 4px 14px rgba(168,85,247,0.05);">
+                  <div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                      <span class="badge lavender">${escapeHtml(f.id)} · ${escapeHtml(f.category || '')}</span>
+                      <button class="btn btn-sm" onclick="openFlashcardById('f_${escapeHtml(f.id)}')">🃏 Flip in 3D Flashcards</button>
+                    </div>
+                    <h4 style="margin:0 0 8px 0;font-size:16.5px;color:var(--text-main);line-height:1.35;">${escapeHtml(f.title || '')}</h4>
+                    <div style="font-size:13.2px;color:var(--text-body);line-height:1.62;margin-bottom:10px;">
+                      ${escapeHtml(f.basic_concept || '')}
+                    </div>
+                    <div style="font-size:11.8px;font-weight:800;color:#6b21a8;margin-bottom:4px;">📐 Complete Formula & Engineering Derivation:</div>
+                    ${formatFormulaDisplayHtml(f.equation || '')}
+                  </div>
+                  <div style="background:#fff1f2;border-left:4px solid #ec4899;border-radius:9px;padding:9px 12px;font-size:12.6px;color:#831843;line-height:1.52;">
+                    <b>🔗 14nm Motion Estimator ASIC Connection:</b> ${escapeHtml(f.asic_connection || '')}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="studio-card">
+            <h3 style="margin:0 0 12px 0;font-size:18px;">🏛️ Part B: Three-Method RTL Implementation Modules (Lecture 3 & Study Guide v8 Aligned)</h3>
+            <div class="grid-spacious-2">
+              ${tmList.map(tm => `
+                <div style="border:1.5px solid #6ee7b7;background:#f0fdf4;border-radius:15px;padding:16px 18px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                    <span class="badge mint">${escapeHtml(tm.tag || tm.id)} · Linked Pages ${escapeHtml(tm.pages_linked || '')}</span>
+                    <button class="btn btn-sm btn-mint" onclick="openFlashcardById('tm_${escapeHtml(tm.id)}')">🃏 Study Flashcard</button>
+                  </div>
+                  <h4 style="margin:0 0 10px 0;font-size:16.5px;color:var(--text-main);">${escapeHtml(tm.title || '')}</h4>
+                  <div style="font-size:13px;line-height:1.6;color:var(--text-body);">
+                    <div style="background:#fff;border:1px solid #a7f3d0;border-radius:10px;padding:10px 12px;margin-bottom:8px;">
+                      <b style="color:#047857;">• Method 1 (Paper-Style Explicit FSM / Datapath):</b><br>${escapeHtml(tm.method1 || '')}
+                    </div>
+                    <div style="background:#fff;border:1.5px solid #10b981;border-radius:10px;padding:10px 12px;margin-bottom:8px;">
+                      <b style="color:#065f46;">• Method 2 (Direct-Assignment Systolic Pipeline — Used in Chip):</b><br>${escapeHtml(tm.method2 || '')}
+                    </div>
+                    <div style="background:#fff;border:1px solid #a7f3d0;border-radius:10px;padding:10px 12px;">
+                      <b style="color:#047857;">• Method 3 (Parameterized Generate-Block Array):</b><br>${escapeHtml(tm.method3 || '')}
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
       if (mGrid) {
-        mGrid.innerHTML = mqList.map((mq, idx) => {
+        mGrid.innerHTML = mqList.map((mq) => {
           const key = `midterm_${mq.id}`;
           const chosen = QUIZ_STATE[key];
           const isAnswered = chosen !== undefined && chosen !== null;
           const isCorrect = isAnswered && chosen === mq.correct_index;
           const opts = Array.isArray(mq.options) ? mq.options : [];
           return `
-            <div style="border:1.5px solid ${isCorrect ? '#6ee7b7' : '#f5d0fe'};background:#fff;border-radius:15px;padding:16px;margin-bottom:16px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
-                <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+            <div class="studio-card" style="border-color:${isCorrect ? '#6ee7b7' : '#f5d0fe'};">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
                   <span class="badge lavender">${escapeHtml(mq.id)} · ${escapeHtml(mq.source || 'Midterm Exam')}</span>
                   <span class="badge">${escapeHtml(mq.topic || '')}</span>
+                  ${isAnswered ? `<span class="badge ${isCorrect ? 'mint' : 'coral'}">${isCorrect ? '✓ Solved Correctly' : '✗ Review Solution on Right'}</span>` : ''}
                 </div>
-                ${(mq.linked_pages && mq.linked_pages.length) ? `
-                  <button class="btn btn-sm btn-pink" onclick="selectIdePage(${mq.linked_pages[0]});switchTab('tab-lab');">
-                    🌸 Practice Lab Page ${mq.linked_pages[0]}
-                  </button>
-                ` : ''}
-              </div>
-              <h3 style="margin:0 0 10px 0;font-size:15.5px;line-height:1.45;">${escapeHtml(mq.prompt || '')}</h3>
-              ${mq.sheet_img ? `
-                <div style="margin-bottom:10px;">
-                  <img src="${mq.sheet_img}" alt="${escapeHtml(mq.id)} Handwritten Sheet" style="max-height:220px;border-radius:10px;border:1.5px solid #f5d0fe;cursor:pointer;" onclick="zoomImage('${mq.sheet_img}')">
-                </div>
-              ` : ''}
-              <div>
-                ${opts.map((optStr, oIdx) => {
-                  let cls = 'quiz-choice';
-                  if (isAnswered) {
-                    if (oIdx === mq.correct_index) cls += ' correct';
-                    else if (oIdx === chosen) cls += ' wrong';
-                  }
-                  return `
-                    <button class="${cls}" onclick="answerMidtermQuiz('${escapeHtml(mq.id)}', ${oIdx})">
-                      ${escapeHtml(optStr)}
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="btn btn-sm" onclick="openFlashcardById('mq_${escapeHtml(mq.id)}')">🃏 Flip as Flashcard</button>
+                  ${(mq.linked_pages && mq.linked_pages.length) ? `
+                    <button class="btn btn-sm btn-pink" onclick="selectIdePage(${mq.linked_pages[0]});switchTab('tab-lab');">
+                      🌸 Practice Lab Page ${mq.linked_pages[0]}
                     </button>
-                  `;
-                }).join('')}
-              </div>
-              ${isAnswered ? `
-                <div style="margin-top:10px;padding:12px;border-radius:11px;background:${isCorrect ? '#ecfdf5' : '#fdf4ff'};font-size:12.5px;line-height:1.6;">
-                  <div><b>✅ Exam Short Answer:</b> ${escapeHtml(mq.short_answer || '')}</div>
-                  <div style="margin-top:4px;"><b>📐 Whiteboard Derivation:</b> ${escapeHtml(mq.whiteboard_proof || '')}</div>
-                  ${mq.rtl_fix ? `<pre class="code-box" style="margin-top:8px;max-height:110px;">${escapeHtml(mq.rtl_fix)}</pre>` : ''}
+                  ` : ''}
                 </div>
-              ` : ''}
+              </div>
+
+              <!-- Spacious 2-Column Split Question Card -->
+              <div class="question-split-card">
+                <!-- Left: Question Prompt & Interactive Options -->
+                <div>
+                  <h3 style="margin:0 0 12px 0;font-size:16px;line-height:1.52;color:var(--text-main);">${escapeHtml(mq.prompt || '')}</h3>
+                  <div>
+                    ${opts.map((optStr, oIdx) => {
+                      let cls = 'quiz-choice';
+                      if (isAnswered) {
+                        if (oIdx === mq.correct_index) cls += ' correct';
+                        else if (oIdx === chosen) cls += ' wrong';
+                      }
+                      return `
+                        <button class="${cls}" onclick="answerMidtermQuiz('${escapeHtml(mq.id)}', ${oIdx})">
+                          ${escapeHtml(optStr)}
+                        </button>
+                      `;
+                    }).join('')}
+                  </div>
+                </div>
+
+                <!-- Right: Formula Derivation, Whiteboard Proof & Spiral Notebook Sheet -->
+                <div style="background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:14px;padding:14px;">
+                  <div style="font-size:12.5px;font-weight:800;color:#6b21a8;margin-bottom:6px;">
+                    📐 Step-by-Step Mathematical Proof & Exam Solution (${escapeHtml(mq.id)}):
+                  </div>
+                  ${isAnswered ? `
+                    <div style="font-size:13px;line-height:1.6;color:var(--text-body);margin-bottom:8px;">
+                      <div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:9px;padding:8px 11px;margin-bottom:8px;color:#065f46;">
+                        <b>✅ Exam Short Answer:</b> ${escapeHtml(mq.short_answer || '')}
+                      </div>
+                      <div style="margin-bottom:8px;"><b>📐 Whiteboard Derivation:</b> ${escapeHtml(mq.whiteboard_proof || '')}</div>
+                      ${mq.rtl_fix ? formatFormulaDisplayHtml(mq.rtl_fix) : ''}
+                    </div>
+                  ` : `
+                    <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:10px;">
+                      Select any answer choice on the left to reveal the complete step-by-step equation derivation and Verilog solution, or inspect the handwritten spiral-notebook sheet below!
+                    </div>
+                  `}
+                  ${mq.sheet_img ? `
+                    <div>
+                      <div style="font-size:11.8px;font-weight:700;color:#be185d;margin-bottom:4px;">📓 Handwritten Spiral-Notebook Solution Sheet (Click to Zoom):</div>
+                      <img src="${mq.sheet_img}" alt="${escapeHtml(mq.id)} Handwritten Sheet" style="width:100%;max-height:240px;object-fit:contain;background:#fff;border-radius:10px;border:1.5px solid #f5d0fe;cursor:pointer;" onclick="zoomImage('${mq.sheet_img}')">
+                    </div>
+                  ` : ''}
+                </div>
+              </div>
             </div>
           `;
         }).join('');
-      }
-
-      if (fGrid) {
-        fGrid.innerHTML = `
-          <h3 style="margin:0 0 12px 0;font-size:17px;">📘 Part A: Digital Logic & ASIC Foundations (F0–F17)</h3>
-          <div class="grid-2" style="margin-bottom:20px;">
-            ${fList.map(f => `
-              <div style="border:1.5px solid #f5d0fe;background:#fff;border-radius:13px;padding:13px;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                  <span class="badge lavender">${escapeHtml(f.id)} · ${escapeHtml(f.category || '')}</span>
-                </div>
-                <h4 style="margin:0 0 6px 0;font-size:15px;">${escapeHtml(f.title || '')}</h4>
-                <div style="font-size:12.5px;color:var(--text-body);line-height:1.55;margin-bottom:6px;">${escapeHtml(f.basic_concept || '')}</div>
-                <pre class="code-box" style="max-height:70px;font-size:11.5px;margin-bottom:6px;">${escapeHtml(f.equation || '')}</pre>
-                <div style="font-size:12px;color:#be185d;"><b>🔗 14nm ASIC Connection:</b> ${escapeHtml(f.asic_connection || '')}</div>
-              </div>
-            `).join('')}
-          </div>
-          <h3 style="margin:0 0 12px 0;font-size:17px;">🏛️ Part B: Three-Method RTL Implementation Modules (Lecture 3 Aligned)</h3>
-          <div class="grid-2">
-            ${tmList.map(tm => `
-              <div style="border:1.5px solid #a7f3d0;background:#f0fdf4;border-radius:13px;padding:13px;">
-                <span class="badge mint">${escapeHtml(tm.tag || tm.id)} · Pages ${escapeHtml(tm.pages_linked || '')}</span>
-                <h4 style="margin:6px 0;font-size:15px;">${escapeHtml(tm.title || '')}</h4>
-                <div style="font-size:12.3px;line-height:1.55;">
-                  <div style="margin-bottom:4px;"><b>• Method 1:</b> ${escapeHtml(tm.method1 || '')}</div>
-                  <div style="margin-bottom:4px;"><b>• Method 2:</b> ${escapeHtml(tm.method2 || '')}</div>
-                  <div><b>• Method 3:</b> ${escapeHtml(tm.method3 || '')}</div>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        `;
       }
     }
 
@@ -2130,6 +2608,416 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       renderQuizBankForPage(cur + delta);
     }
 
+    /* ====================================================================== */
+    /* TAB 6: UNIVERSITY 3D FLASHCARDS DECK & LIVE INTERNET RESOURCE ENGINE   */
+    /* ====================================================================== */
+    function buildCompleteFlashcardDeck() {
+      const deck = [];
+      const fList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.foundations) || [];
+      const tmList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.three_method_modules) || [];
+      const mqList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.midterm_and_exam_bank) || [];
+
+      // 1. Foundations F0-F17
+      fList.forEach(f => {
+        deck.push({
+          id: `f_${f.id}`,
+          cat_key: 'FOUNDATIONS',
+          category: `📘 Foundation ${f.id} · ${f.category || 'Electrical & Logic'}`,
+          tag: f.id,
+          page_num: 1,
+          front: `${f.id}: ${f.title} — What is the core engineering principle and formula?`,
+          hint: f.basic_concept || '',
+          formula: f.equation || '',
+          back: `${f.basic_concept || ''}\n\n🔗 14nm Motion Estimator Connection: ${f.asic_connection || ''}`
+        });
+      });
+
+      // 2. Three-Method RTL Modules
+      tmList.forEach(tm => {
+        deck.push({
+          id: `tm_${tm.id}`,
+          cat_key: 'RTL_METHODS',
+          category: `🏛️ Three-Method RTL · ${tm.tag || tm.id}`,
+          tag: tm.tag || tm.id,
+          page_num: 13,
+          front: `Compare Method 1 (Explicit FSM), Method 2 (Direct Systolic Pipeline), and Method 3 (Parameterized Generate) for: ${tm.title}`,
+          hint: `Linked to Pages ${tm.pages_linked || '13–42'}`,
+          formula: `Method 2 (Chip): ${tm.method2 || ''}`,
+          back: `• Method 1: ${tm.method1 || ''}\n• Method 2: ${tm.method2 || ''}\n• Method 3: ${tm.method3 || ''}`
+        });
+      });
+
+      // 3. Midterm & Exam Q1-Q15
+      mqList.forEach(mq => {
+        deck.push({
+          id: `mq_${mq.id}`,
+          cat_key: 'MIDTERM',
+          category: `📝 Midterm & Exam · ${mq.id}`,
+          tag: mq.topic || mq.id,
+          page_num: (mq.linked_pages && mq.linked_pages[0]) || 25,
+          front: `${mq.id} (${mq.topic || 'Exam Problem'}): ${mq.prompt}`,
+          hint: mq.short_answer || '',
+          formula: mq.rtl_fix || mq.short_answer || '',
+          back: `${mq.whiteboard_proof || mq.short_answer || ''}`
+        });
+      });
+
+      // 4. All 100 Pages Core Cards + 500 Mastery Quiz Cards
+      CURRICULUM.forEach(p => {
+        deck.push({
+          id: `page_core_${p.page_num}`,
+          cat_key: 'PAGES_V1_V9',
+          category: `🌸 Page ${p.page_num} (${p.v_stage}) Core Concept`,
+          tag: p.v_stage,
+          page_num: p.page_num,
+          front: `Page ${p.page_num} (${p.v_stage}) — ${p.title}: What does this step accomplish and verify in the 14nm Motion Estimator build?`,
+          hint: (p.level_guidance && p.level_guidance.beginner && p.level_guidance.beginner.plain_english_summary) || '',
+          formula: (p.expected_out || []).slice(0, 2).join(' | '),
+          back: `${p.foundation_text || ''}`
+        });
+        (p.quiz_questions || []).forEach((q, qIdx) => {
+          const correctOpt = (q.options || [])[q.answer] || '';
+          deck.push({
+            id: `p${p.page_num}_q${qIdx}`,
+            cat_key: 'PAGES_V1_V9',
+            category: `🎯 Page ${p.page_num} (${p.v_stage}) · ${q.difficulty_label || 'Quiz'}`,
+            tag: `Page ${p.page_num}`,
+            page_num: p.page_num,
+            front: q.q || '',
+            hint: q.hint || '',
+            formula: `Correct Answer: ${correctOpt}`,
+            back: `${q.explain || ''}`
+          });
+        });
+      });
+
+      // 5. Discovered & Custom Resources
+      DISCOVERED_RESOURCES.forEach((r, idx) => {
+        deck.push({
+          id: r.id || `disc_${idx}`,
+          cat_key: 'DISCOVERED',
+          category: r.category || '🌐 Discovered Web Resource',
+          tag: r.source || 'Live Resource',
+          page_num: (r.pages && r.pages[0]) || IDE_CURRENT_PAGE,
+          front: `${r.title} — What is the key engineering formula, concept, and 14nm ASIC role?`,
+          hint: r.source || '',
+          formula: r.formula || '',
+          back: `${r.summary || ''}\n\n🔗 ASIC Link: ${r.asic_link || ''}`
+        });
+      });
+
+      FLASHCARD_DECK = deck;
+      const totBadge = document.getElementById('flashcardTotalCountBadge');
+      if (totBadge) totBadge.textContent = `${deck.length} University Flashcards Loaded`;
+      applyFlashcardCategoryFilter(FLASHCARD_CAT_FILTER);
+      updateFlashcardMasteryBadge();
+    }
+
+    function applyFlashcardCategoryFilter(catKey) {
+      FLASHCARD_CAT_FILTER = catKey;
+      if (catKey === 'ALL') {
+        FILTERED_FLASHCARDS = FLASHCARD_DECK.slice();
+      } else if (catKey === 'CURRENT_PAGE') {
+        FILTERED_FLASHCARDS = FLASHCARD_DECK.filter(c => c.page_num === IDE_CURRENT_PAGE);
+      } else {
+        FILTERED_FLASHCARDS = FLASHCARD_DECK.filter(c => c.cat_key === catKey);
+      }
+      if (!FILTERED_FLASHCARDS.length) {
+        FILTERED_FLASHCARDS = FLASHCARD_DECK.slice();
+      }
+      FLASHCARD_INDEX = Math.min(FLASHCARD_INDEX, FILTERED_FLASHCARDS.length - 1);
+      if (FLASHCARD_INDEX < 0) FLASHCARD_INDEX = 0;
+      renderFlashcardStudio();
+    }
+
+    function renderFlashcardStudio() {
+      const catBar = document.getElementById('flashcardCategoryBar');
+      if (catBar) {
+        const cats = [
+          { k: 'ALL', lbl: `All Cards (${FLASHCARD_DECK.length})` },
+          { k: 'CURRENT_PAGE', lbl: `Page ${IDE_CURRENT_PAGE} Cards` },
+          { k: 'FOUNDATIONS', lbl: '📘 Electrical & CMOS (F0–F17)' },
+          { k: 'RTL_METHODS', lbl: '🏛️ Three-Method RTL' },
+          { k: 'MIDTERM', lbl: '📝 Midterm Exam (Q1–Q15)' },
+          { k: 'PAGES_V1_V9', lbl: '🌸 Pages 1–100 & Quiz' },
+          { k: 'DISCOVERED', lbl: '🌐 Discovered & Custom' }
+        ];
+        catBar.innerHTML = cats.map(c => `
+          <button class="btn btn-sm ${FLASHCARD_CAT_FILTER === c.k ? 'btn-pink' : ''}" onclick="applyFlashcardCategoryFilter('${c.k}')">
+            ${escapeHtml(c.lbl)}
+          </button>
+        `).join('');
+      }
+
+      if (!FILTERED_FLASHCARDS.length) return;
+      const card = FILTERED_FLASHCARDS[FLASHCARD_INDEX] || FILTERED_FLASHCARDS[0];
+      const stage = document.getElementById('flashcardStage');
+      if (stage) stage.classList.remove('flipped');
+
+      const ctr = document.getElementById('flashcardCounterBadge');
+      const status = FLASHCARD_MASTERY[card.id] || 'unrated';
+      if (ctr) {
+        ctr.textContent = `Card ${FLASHCARD_INDEX + 1} of ${FILTERED_FLASHCARDS.length} · ${status === 'easy' ? '🌟 Mastered' : (status === 'good' ? '👍 Learning' : (status === 'again' ? '🔁 Needs Review' : 'New Card'))}`;
+      }
+
+      const frontBox = document.getElementById('flashcardFrontBox');
+      const backBox = document.getElementById('flashcardBackBox');
+      if (frontBox) {
+        frontBox.innerHTML = `
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+              <span class="badge lavender">${escapeHtml(card.category)}</span>
+              <span class="badge">${escapeHtml(card.tag || `Page ${card.page_num}`)}</span>
+            </div>
+            <div style="font-size:17.5px;font-weight:800;color:var(--text-main);line-height:1.5;margin-bottom:14px;">
+              ${escapeHtml(card.front)}
+            </div>
+            ${card.hint ? `
+              <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:10px;padding:9px 12px;font-size:12.6px;color:#6b21a8;">
+                💡 <b>Study Hint:</b> ${escapeHtml(card.hint)}
+              </div>
+            ` : ''}
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:12px;color:#be185d;font-weight:800;">
+            <span>👆 Click Card (or Press Space) to Flip to Answer & Formula ↻</span>
+            <span>Page ${card.page_num}</span>
+          </div>
+        `;
+      }
+      if (backBox) {
+        backBox.innerHTML = `
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+              <span class="badge mint">✅ Complete Answer, Formula & Hardware Derivation</span>
+              <span class="badge lavender">Page ${card.page_num}</span>
+            </div>
+            ${card.formula ? formatFormulaDisplayHtml(card.formula) : ''}
+            <div style="font-size:13.5px;color:var(--text-body);line-height:1.62;margin-top:10px;white-space:pre-wrap;">${escapeHtml(card.back)}</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:12px;color:#047857;font-weight:800;">
+            <span>👆 Click Card to Flip Back to Prompt ↺</span>
+            <button class="btn btn-sm btn-pink" onclick="event.stopPropagation();selectIdePage(${card.page_num});switchTab('tab-lab');">🌸 Open Lab Page ${card.page_num}</button>
+          </div>
+        `;
+      }
+    }
+
+    function flipCurrentFlashcard() {
+      const st = document.getElementById('flashcardStage');
+      if (st) st.classList.toggle('flipped');
+    }
+
+    function stepFlashcard(delta) {
+      if (!FILTERED_FLASHCARDS.length) return;
+      FLASHCARD_INDEX = (FLASHCARD_INDEX + delta + FILTERED_FLASHCARDS.length) % FILTERED_FLASHCARDS.length;
+      renderFlashcardStudio();
+    }
+
+    function shuffleFlashcardDeck() {
+      for (let i = FILTERED_FLASHCARDS.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = FILTERED_FLASHCARDS[i];
+        FILTERED_FLASHCARDS[i] = FILTERED_FLASHCARDS[j];
+        FILTERED_FLASHCARDS[j] = tmp;
+      }
+      FLASHCARD_INDEX = 0;
+      renderFlashcardStudio();
+    }
+
+    function rateFlashcard(rating) {
+      if (!FILTERED_FLASHCARDS.length) return;
+      const card = FILTERED_FLASHCARDS[FLASHCARD_INDEX];
+      if (card) {
+        FLASHCARD_MASTERY[card.id] = rating;
+        localStorage.setItem('engr852_v5_flashcards', JSON.stringify(FLASHCARD_MASTERY));
+        updateFlashcardMasteryBadge();
+      }
+      stepFlashcard(1);
+    }
+
+    function updateFlashcardMasteryBadge() {
+      const mastered = Object.values(FLASHCARD_MASTERY).filter(v => v === 'easy' || v === 'good').length;
+      const b = document.getElementById('topFlashcardBadge');
+      if (b) b.textContent = `🃏 Flashcards: ${mastered} Mastered`;
+    }
+
+    function openFlashcardById(cardId) {
+      switchTab('tab-discovery');
+      applyFlashcardCategoryFilter('ALL');
+      const idx = FILTERED_FLASHCARDS.findIndex(c => c.id === cardId);
+      if (idx >= 0) {
+        FLASHCARD_INDEX = idx;
+        renderFlashcardStudio();
+      }
+    }
+
+    function openFlashcardsForPage(pnum) {
+      IDE_CURRENT_PAGE = pnum;
+      switchTab('tab-discovery');
+      applyFlashcardCategoryFilter('CURRENT_PAGE');
+    }
+
+    function toggleAutoPlayFlashcards() {
+      AUTO_PLAY_CARDS_ENABLED = !AUTO_PLAY_CARDS_ENABLED;
+      const btn = document.getElementById('btnAutoPlayCards');
+      if (btn) {
+        btn.textContent = `▶ Auto-Play (15s): ${AUTO_PLAY_CARDS_ENABLED ? 'ON' : 'OFF'}`;
+        btn.classList.toggle('btn-pink', AUTO_PLAY_CARDS_ENABLED);
+      }
+      if (AUTO_PLAY_CARDS_TIMER) {
+        clearInterval(AUTO_PLAY_CARDS_TIMER);
+        AUTO_PLAY_CARDS_TIMER = null;
+      }
+      if (AUTO_PLAY_CARDS_ENABLED) {
+        AUTO_PLAY_CARDS_TIMER = setInterval(() => {
+          const st = document.getElementById('flashcardStage');
+          if (st && !st.classList.contains('flipped')) {
+            st.classList.add('flipped');
+          } else {
+            stepFlashcard(1);
+          }
+        }, 7500);
+      }
+    }
+
+    /* Live Internet Search & Auto-Rotating Resources */
+    async function fetchAndRotateResources(customQuery, rotateFlag) {
+      const q = customQuery !== undefined ? customQuery : '';
+      try {
+        const url = `/api/discover_resources?q=${encodeURIComponent(q)}&page=${IDE_CURRENT_PAGE}&rotate=${rotateFlag ? 1 : 0}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data && Array.isArray(data.resources)) {
+          DISCOVERED_RESOURCES = data.resources;
+          const lbl = document.getElementById('resLastRotatedLbl');
+          if (lbl) {
+            lbl.textContent = `Rotated ${data.rotated_at || 'Now'} · Query: "${data.query || 'ASIC'}" (${data.live_web_count || 0} Live Web + University Pool)`;
+          }
+          buildCompleteFlashcardDeck();
+          renderLiveResourcesFeed();
+          if (IDE_LEFT_SUBTAB === 'flashcards') {
+            renderIdeLeftSubtab();
+          }
+        }
+      } catch (e) {}
+    }
+
+    function searchLiveWebResources() {
+      const inp = document.getElementById('liveWebSearchInput');
+      const q = inp ? inp.value.trim() : '';
+      fetchAndRotateResources(q, false);
+    }
+
+    function quickSearchTopic(topic) {
+      const inp = document.getElementById('liveWebSearchInput');
+      if (inp) inp.value = topic;
+      fetchAndRotateResources(topic, false);
+    }
+
+    function renderLiveResourcesFeed() {
+      const box = document.getElementById('liveResourcesFeedBox');
+      if (!box) return;
+      if (!DISCOVERED_RESOURCES.length) {
+        box.innerHTML = '<div style="padding:14px;font-size:13px;">Fetching live internet & university resources...</div>';
+        return;
+      }
+      box.innerHTML = DISCOVERED_RESOURCES.map((r, idx) => `
+        <div style="border:1.5px solid ${r.is_live_web ? '#6ee7b7' : '#f5d0fe'};background:#ffffff;border-radius:14px;padding:14px 16px;margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="badge ${r.is_live_web ? 'mint' : 'lavender'}">${escapeHtml(r.category || 'Engineering Resource')}</span>
+            <span style="font-size:11.8px;color:var(--text-muted);font-weight:700;">${escapeHtml(r.source || '')}</span>
+          </div>
+          <h4 style="margin:0 0 7px 0;font-size:15.5px;color:var(--text-main);">${escapeHtml(r.title || '')}</h4>
+          ${r.formula ? formatFormulaDisplayHtml(r.formula) : ''}
+          <div style="font-size:12.8px;color:var(--text-body);line-height:1.58;margin-top:8px;">
+            ${escapeHtml(r.summary || '')}
+          </div>
+          ${r.asic_link ? `
+            <div style="font-size:12.2px;color:#be185d;margin-top:6px;">
+              <b>🔗 14nm Motion Estimator Connection:</b> ${escapeHtml(r.asic_link)}
+            </div>
+          ` : ''}
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+            ${r.url ? `<a href="${escapeHtml(r.url)}" target="_blank" rel="noopener" class="btn btn-sm btn-pink">🌐 Open Full Article / Paper ↗</a>` : ''}
+            <button class="btn btn-sm btn-mint" onclick="saveDiscoveredResourceToFlashcards(${idx}, this)">
+              🃏 + Save to Flashcards Deck
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function saveDiscoveredResourceToFlashcards(idx, btn) {
+      const r = DISCOVERED_RESOURCES[idx];
+      if (!r) return;
+      try {
+        await fetch('/api/custom_resource', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: r.title,
+            category: r.category,
+            source: r.source,
+            formula: r.formula,
+            summary: r.summary,
+            asic_link: r.asic_link,
+            url: r.url,
+            page_num: IDE_CURRENT_PAGE
+          })
+        });
+        if (btn) {
+          btn.textContent = '✓ Saved to Flashcards!';
+        }
+        await fetchAndRotateResources('', false);
+      } catch (e) {}
+    }
+
+    function toggleAddCustomResourceForm() {
+      const b = document.getElementById('customResourceFormBox');
+      if (b) {
+        b.style.display = b.style.display === 'none' ? 'block' : 'none';
+      }
+    }
+
+    async function submitCustomResource() {
+      const title = (document.getElementById('custTitle').value || '').trim();
+      const category = (document.getElementById('custCategory').value || '').trim() || '🌟 Custom Study Card';
+      const formula = (document.getElementById('custFormula').value || '').trim();
+      const summary = (document.getElementById('custSummary').value || '').trim();
+      if (!title) return;
+      await fetch('/api/custom_resource', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          category,
+          formula,
+          summary,
+          page_num: IDE_CURRENT_PAGE
+        })
+      });
+      document.getElementById('custTitle').value = '';
+      document.getElementById('custFormula').value = '';
+      document.getElementById('custSummary').value = '';
+      toggleAddCustomResourceForm();
+      await fetchAndRotateResources('', false);
+      applyFlashcardCategoryFilter('DISCOVERED');
+    }
+
+    function toggleAutoRotateResources() {
+      AUTO_ROTATE_RES_ENABLED = !AUTO_ROTATE_RES_ENABLED;
+      const btn = document.getElementById('btnToggleAutoRotateRes');
+      if (btn) {
+        btn.textContent = `⏱️ Auto-Rotate Resources (25s): ${AUTO_ROTATE_RES_ENABLED ? 'ON' : 'OFF'}`;
+      }
+      const badge = document.getElementById('rotStatusBadge');
+      if (badge) {
+        badge.textContent = AUTO_ROTATE_RES_ENABLED
+          ? '🔄 Auto-Rotating Resource & Flashcard Engine Active (Every 25s)'
+          : '⏸ Auto-Rotation Paused (Click Rotate Now Anytime)';
+      }
+    }
+
     function updateTopProgressBadges() {
       const passed = (LIVE_STATE && LIVE_STATE.total_passed_pages) || 0;
       const b = document.getElementById('topProgressBadge');
@@ -2146,17 +3034,22 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
 
     async function bootStudio() {
       try {
-        const [cRes, sRes, stRes] = await Promise.all([
+        const [cRes, sRes, stRes, dRes] = await Promise.all([
           fetch('/api/curriculum'),
           fetch('/api/study_guide'),
-          fetch('/api/state?t=' + Date.now())
+          fetch('/api/state?t=' + Date.now()),
+          fetch('/api/discover_resources?page=' + IDE_CURRENT_PAGE + '&rotate=0')
         ]);
         CURRICULUM = await cRes.json();
         STUDY_AND_MIDTERM = await sRes.json();
         LIVE_STATE = await stRes.json();
+        const dJson = await dRes.json();
+        DISCOVERED_RESOURCES = (dJson && dJson.resources) || [];
       } catch (e) {
         console.error('Boot error:', e);
       }
+
+      buildCompleteFlashcardDeck();
       populatePageDropdowns();
       setLearnerLevel(CURRENT_LEVEL);
       updateTopProgressBadges();
@@ -2166,12 +3059,30 @@ huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
       renderCurriculumExplorer();
       renderWaveformGallery();
       renderStudyGuideAndMidterm();
+      renderLiveResourcesFeed();
       updateSadSimulator();
       updateStaSimulator();
       updateSystolicSimulator();
       updatePowerSimulator();
 
+      // Keyboard shortcut: Spacebar flips flashcard when Tab 6 is open
+      window.addEventListener('keydown', (ev) => {
+        const activeTag = (document.activeElement && document.activeElement.tagName) || '';
+        if (ev.code === 'Space' && activeTag !== 'INPUT' && activeTag !== 'TEXTAREA') {
+          const discPane = document.getElementById('tab-discovery');
+          if (discPane && discPane.classList.contains('active')) {
+            ev.preventDefault();
+            flipCurrentFlashcard();
+          }
+        }
+      });
+
       setInterval(fetchLiveState, 6000);
+      AUTO_ROTATE_RES_TIMER = setInterval(() => {
+        if (AUTO_ROTATE_RES_ENABLED) {
+          fetchAndRotateResources('', true);
+        }
+      }, 25000);
     }
 
     window.addEventListener('DOMContentLoaded', bootStudio);

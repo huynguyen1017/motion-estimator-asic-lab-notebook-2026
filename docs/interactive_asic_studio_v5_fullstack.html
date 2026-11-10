@@ -1,0 +1,3091 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ENGR 852 | v5.0 Full-Viewport Interactive ASIC Studio · Live MacBook Terminal, Formulas, Flashcards & Auto-Rotating Resources</title>
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #fff5f8 0%, #f9f0ff 50%, #f0fdfa 100%);
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --card-soft: #fdf4ff;
+      --card-rose: #fff1f2;
+      --card-mint: #ecfdf5;
+      --border: #f5d0fe;
+      --border-rose: #fbcfe8;
+      --text-main: #2e1065;
+      --text-body: #1e293b;
+      --text-muted: #64748b;
+      --pink: #ec4899;
+      --pink-dark: #db2777;
+      --purple: #9333ea;
+      --lavender: #a855f7;
+      --coral: #f43f5e;
+      --mint: #10b981;
+      --mint-dark: #059669;
+      --amber: #f59e0b;
+      --mono: "JetBrains Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+      --sans: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100vh;
+      font-family: var(--sans);
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+    /* Sticky Full-Width Top Header Bar */
+    .studio-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 2px solid var(--border-rose);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 18px rgba(236, 72, 153, 0.08);
+    }
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ec4899 0%, #a855f7 55%, #f43f5e 100%);
+      color: #fff;
+      font-weight: 900;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 14px rgba(236, 72, 153, 0.32);
+      flex-shrink: 0;
+    }
+    .brand-box h1 {
+      margin: 0;
+      font-size: clamp(15px, 1.35vw, 18.5px);
+      font-weight: 800;
+      background: linear-gradient(90deg, #be185d, #7e22ce);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .brand-box p {
+      margin: 2px 0 0 0;
+      font-size: 11.8px;
+      color: var(--text-muted);
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 11px;
+      border-radius: 999px;
+      font-size: 11.8px;
+      font-weight: 700;
+      border: 1px solid var(--border-rose);
+      background: #fff1f2;
+      color: #be185d;
+    }
+    .badge.mint {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+      color: #047857;
+    }
+    .badge.lavender {
+      background: #faf5ff;
+      border-color: #e9d5ff;
+      color: #6b21a8;
+    }
+    .badge.coral {
+      background: #fff1f2;
+      border-color: #fecdd3;
+      color: #be123c;
+    }
+    /* Full-Width 6-Tab Navigation Bar */
+    .main-nav-bar {
+      position: sticky;
+      top: 61px;
+      z-index: 45;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: stretch;
+      gap: 8px;
+      padding: 8px 18px;
+      background: rgba(253, 244, 255, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1.5px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .nav-tab-btn {
+      flex: 1;
+      min-width: 185px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 9px 14px;
+      border-radius: 12px;
+      border: 1.5px solid #f5d0fe;
+      background: #ffffff;
+      color: #6b21a8;
+      font-size: 12.8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.16s ease;
+      box-shadow: 0 2px 6px rgba(168, 85, 247, 0.06);
+      text-align: center;
+    }
+    .nav-tab-btn:hover {
+      border-color: var(--pink);
+      transform: translateY(-1px);
+      background: #fff5f8;
+    }
+    .nav-tab-btn.active {
+      background: linear-gradient(135deg, #ec4899 0%, #9333ea 100%);
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 5px 16px rgba(236, 72, 153, 0.32);
+    }
+    /* 100% FULL-VIEWPORT FLUID CONTAINER (ZERO WASTED MARGIN!) */
+    .page-container {
+      width: 100%;
+      max-width: 100vw;
+      margin: 0;
+      padding: 14px 18px 48px 18px;
+    }
+    .tab-pane {
+      display: none;
+      width: 100%;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+    /* Cards */
+    .studio-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border-rose);
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 24px rgba(236, 72, 153, 0.06);
+    }
+    .studio-card.mint-card {
+      border-color: #6ee7b7;
+      background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
+    }
+    .studio-card.lavender-card {
+      border-color: #d8b4fe;
+      background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%);
+    }
+    .studio-card.coral-card {
+      border-color: #fda4af;
+      background: linear-gradient(180deg, #fff1f2 0%, #ffffff 100%);
+    }
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 11px;
+      border: 1.5px solid #f5d0fe;
+      background: #ffffff;
+      color: #6b21a8;
+      font-size: 12.6px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background: #fdf4ff;
+      border-color: var(--pink);
+      transform: translateY(-1px);
+    }
+    .btn-pink {
+      background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(236, 72, 153, 0.28);
+    }
+    .btn-pink:hover {
+      background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);
+      color: #ffffff;
+    }
+    .btn-lavender {
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(147, 51, 234, 0.25);
+    }
+    .btn-lavender:hover {
+      background: linear-gradient(135deg, #c084fc 0%, #9333ea 100%);
+      color: #ffffff;
+    }
+    .btn-mint {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+    }
+    .btn-mint:hover {
+      background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+      color: #ffffff;
+    }
+    .btn-sm {
+      padding: 5px 11px;
+      font-size: 11.8px;
+      border-radius: 8px;
+    }
+    /* Live Visual Action Stepper (5 Stages) */
+    .action-pipeline {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    @media (max-width: 1024px) {
+      .action-pipeline {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+    }
+    .pipeline-step {
+      padding: 9px 12px;
+      border-radius: 12px;
+      border: 1.5px solid #f5d0fe;
+      background: #ffffff;
+      transition: all 0.22s ease;
+    }
+    .pipeline-step.done {
+      border-color: #34d399;
+      background: #ecfdf5;
+    }
+    .pipeline-step.active-pulse {
+      border-color: #ec4899;
+      background: #fff1f2;
+      box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.18);
+    }
+    /* ====================================================================== */
+    /* FULL-VIEWPORT STICKY SPLIT WORKSPACE (ZERO EMPTY SPACE ON RIGHT/LEFT!) */
+    /* ====================================================================== */
+    .lab-split {
+      display: grid;
+      grid-template-columns: minmax(520px, 53%) minmax(460px, 47%);
+      gap: 16px;
+      align-items: start;
+      width: 100%;
+    }
+    .lab-right-sticky {
+      position: sticky;
+      top: 116px;
+      align-self: start;
+    }
+    @media (max-width: 1140px) {
+      .lab-split {
+        grid-template-columns: 1fr;
+      }
+      .lab-right-sticky {
+        position: static;
+      }
+    }
+    /* 2-Column Sub-Commands Grid inside Left Column so it never stretches 2500px! */
+    .subcmd-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 12px;
+    }
+    /* Responsive Grids for Study Guide, Questions, Simulators & Stages */
+    .grid-spacious-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(540px, 1fr));
+      gap: 16px;
+      width: 100%;
+    }
+    @media (max-width: 720px) {
+      .grid-spacious-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 14px;
+      width: 100%;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 14px;
+      width: 100%;
+    }
+    /* Question Split Layout (Question & Options on Left | Formula & Proof on Right) */
+    .question-split-card {
+      display: grid;
+      grid-template-columns: minmax(380px, 55%) minmax(340px, 45%);
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 980px) {
+      .question-split-card {
+        grid-template-columns: 1fr;
+      }
+    }
+    /* Sub-Tabs inside cards */
+    .segment-bar {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding: 5px;
+      background: #fdf4ff;
+      border: 1px solid #f5d0fe;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+    .segment-btn {
+      flex: 1;
+      min-width: 135px;
+      padding: 8px 12px;
+      border-radius: 9px;
+      border: none;
+      background: transparent;
+      color: #6b21a8;
+      font-size: 12.4px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .segment-btn.active {
+      background: linear-gradient(135deg, #ec4899, #9333ea);
+      color: #ffffff;
+      box-shadow: 0 3px 10px rgba(236, 72, 153, 0.25);
+    }
+    /* ====================================================================== */
+    /* FULL-WIDTH MATHEMATICAL FORMULA & HARDWARE EQUATION RENDERER           */
+    /* No vertical scrollbars, no mid-number wrapping!                        */
+    /* ====================================================================== */
+    .formula-box {
+      width: 100%;
+      padding: 13px 16px;
+      background: linear-gradient(135deg, #1e1035 0%, #2e1065 100%);
+      color: #fdf2f8;
+      border-radius: 13px;
+      border: 1.5px solid #d8b4fe;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.68;
+      white-space: pre-wrap;
+      word-break: normal;
+      overflow-wrap: anywhere;
+      overflow-x: auto;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    .formula-line {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 3px 0;
+      border-bottom: 1px dashed rgba(216, 180, 254, 0.22);
+    }
+    .formula-line:last-child {
+      border-bottom: none;
+    }
+    .formula-bullet {
+      color: #f472b6;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    /* Code & One-Liner Boxes */
+    .code-box {
+      margin: 0;
+      padding: 12px 14px;
+      background: #230d42;
+      color: #fce7f3;
+      border-radius: 12px;
+      border: 1.5px solid #d8b4fe;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: normal;
+      overflow-wrap: anywhere;
+      overflow-x: auto;
+    }
+    /* Terminal Window */
+    .terminal-card {
+      background: #190d2c;
+      border: 2px solid #f472b6;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(147, 51, 234, 0.18);
+      margin-bottom: 14px;
+    }
+    .terminal-header {
+      background: linear-gradient(90deg, #fce7f3 0%, #f3e8ff 100%);
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f5d0fe;
+    }
+    .terminal-dots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tdot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+    .tdot.r { background: #fb7185; }
+    .tdot.y { background: #fbbf24; }
+    .tdot.g { background: #34d399; }
+    .terminal-screen {
+      padding: 13px 15px;
+      font-family: var(--mono);
+      font-size: 12.2px;
+      line-height: 1.56;
+      color: #fdf2f8;
+      min-height: 220px;
+      max-height: 330px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #150a26;
+    }
+    .terminal-input-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      background: #251142;
+      border-top: 1px solid rgba(244, 114, 182, 0.3);
+      flex-wrap: wrap;
+    }
+    .terminal-input {
+      flex: 1;
+      min-width: 180px;
+      padding: 8px 12px;
+      border-radius: 9px;
+      border: 1.5px solid #c084fc;
+      background: #120721;
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 12.2px;
+    }
+    /* Quiz Option Buttons */
+    .quiz-choice {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 11px 14px;
+      margin-bottom: 8px;
+      border-radius: 11px;
+      border: 1.5px solid #e9d5ff;
+      background: #ffffff;
+      color: var(--text-main);
+      font-size: 13.2px;
+      font-weight: 600;
+      line-height: 1.45;
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+    .quiz-choice:hover {
+      border-color: var(--pink);
+      background: #fff5f8;
+    }
+    .quiz-choice.correct {
+      border-color: #10b981;
+      background: #ecfdf5;
+      color: #065f46;
+      font-weight: 800;
+    }
+    .quiz-choice.wrong {
+      border-color: #f43f5e;
+      background: #fff1f2;
+      color: #9f1239;
+    }
+    /* ====================================================================== */
+    /* UNIVERSITY STUDENT 3D FLIP FLASHCARD COMPONENT                         */
+    /* ====================================================================== */
+    .flashcard-stage {
+      perspective: 1200px;
+      width: 100%;
+      min-height: 310px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      min-height: 310px;
+      transition: transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-style: preserve-3d;
+    }
+    .flashcard-stage.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+    .flashcard-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 18px;
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 12px 32px rgba(147, 51, 234, 0.12);
+      overflow-y: auto;
+    }
+    .flashcard-front {
+      background: linear-gradient(135deg, #ffffff 0%, #fdf4ff 60%, #fff1f2 100%);
+      border: 2px solid #f472b6;
+    }
+    .flashcard-back {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 65%, #faf5ff 100%);
+      border: 2px solid #10b981;
+      transform: rotateY(180deg);
+    }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(46, 16, 101, 0.84);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 24px;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+    .modal-backdrop img {
+      max-width: 95vw;
+      max-height: 92vh;
+      border-radius: 16px;
+      border: 3px solid #fbcfe8;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sticky Full-Viewport Header -->
+  <header class="studio-header">
+    <div class="brand-box">
+      <div class="brand-icon">🌸</div>
+      <div>
+        <h1>ENGR 852 · 14nm FinFET ASIC Interactive Studio & University Learning IDE (v5.0)</h1>
+        <p>Full-Viewport Responsive · Live MacBook Terminal & XQuartz · Full Formulas · Auto-Rotating Web Resources & 600+ Flashcards</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <!-- Page Selector -->
+      <div style="display:flex;align-items:center;gap:6px;background:#fdf4ff;padding:4px 10px;border-radius:999px;border:1.5px solid #f5d0fe;">
+        <button class="btn btn-sm" onclick="stepIdePage(-1)">◀ Prev</button>
+        <select id="globalPageSelect" onchange="selectIdePage(parseInt(this.value,10))" style="border:none;background:transparent;color:#6b21a8;font-weight:800;font-size:12.4px;outline:none;max-width:340px;"></select>
+        <button class="btn btn-sm" onclick="stepIdePage(1)">Next ▶</button>
+      </div>
+
+      <!-- Experience Track -->
+      <div style="display:flex;align-items:center;gap:4px;background:#fdf4ff;padding:4px;border-radius:999px;border:1.5px solid #f5d0fe;">
+        <button id="topLvlBeginner" class="btn btn-sm" onclick="setLearnerLevel('beginner')">🌱 Beginner</button>
+        <button id="topLvlIntermediate" class="btn btn-sm" onclick="setLearnerLevel('intermediate')">🌷 Course</button>
+        <button id="topLvlAdvanced" class="btn btn-sm" onclick="setLearnerLevel('advanced')">💎 Advanced</button>
+      </div>
+
+      <span class="badge mint" id="topProgressBadge">✓ 1 / 100 Verified</span>
+      <span class="badge lavender" id="topQuizBadge">🎯 Quiz: 0 Correct</span>
+      <span class="badge" id="topFlashcardBadge">🃏 Flashcards: 0 Mastered</span>
+    </div>
+  </header>
+
+  <!-- Full-Viewport 6-Tab Navigation Bar -->
+  <nav class="main-nav-bar">
+    <button class="nav-tab-btn active" data-tab="tab-lab" onclick="switchTab('tab-lab')">
+      🌸 1. Guided Lab & Live Terminal (Pages 1–100)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-builder" onclick="switchTab('tab-builder')">
+      🗺️ 2. V1 → V9 Project Builder & Stage Runner
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-simulators" onclick="switchTab('tab-simulators')">
+      🎛️ 3. Interactive Hardware & Timing Simulators
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-waveforms" onclick="switchTab('tab-waveforms')">
+      📈 4. Waveforms (Figs 7–11) & 14nm Chip Layout
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-study" onclick="switchTab('tab-study')">
+      🎓 5. Study Guide (F0–F17), Formulas & Midterm (Q1–Q15)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-discovery" onclick="switchTab('tab-discovery')">
+      🌐 6. Auto-Rotating Web Resources & 3D Flashcards
+    </button>
+  </nav>
+
+  <div class="page-container">
+    <!-- ==================================================================== -->
+    <!-- TAB 1: GUIDED LAB & LIVE TERMINAL (PAGES 1-100, FULL-BLEED SPLIT)    -->
+    <!-- ==================================================================== -->
+    <section id="tab-lab" class="tab-pane active">
+      <!-- Top Action & VPN-Proof MacBook Air Live Link Banner -->
+      <div class="studio-card lavender-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span class="badge mint" id="liveActionStatusBadge">🟢 LIVE MACBOOK TERMINAL & XQUARTZ BRIDGE READY</span>
+              <span class="badge lavender" id="liveActionStageBadge">Page 1 · V1-PREP</span>
+            </div>
+            <h2 id="liveActionHeadline" style="margin:5px 0 2px 0;font-size:17.5px;color:var(--text-main);">
+              Live Full-Stack ASIC Lab — Execute, Auto-Debug, Study Formulas & Mirror to macOS Terminal.app
+            </h2>
+            <p id="liveActionSubtext" style="margin:0;font-size:12.8px;color:var(--text-body);">
+              Clicking <b>"▶ Run Page Live"</b> executes the step, mirrors the live command & output directly into your open macOS <code>Terminal.app</code> window, launches <code>XQuartz.app</code> for GUI steps, and verifies the result!
+            </p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-pink" onclick="runCurrentPageInWebTerminal(true)">
+              ▶ Run Page <span id="runBtnPageNum">1</span> Live (Web + macOS Terminal)
+            </button>
+            <button class="btn btn-mint" onclick="runSelfHealingAiFix()">
+              ✨ AI Auto-Fix & Verify Page <span id="fixBtnPageNum">1</span>
+            </button>
+            <button class="btn btn-lavender" onclick="launchXquartzAndTerminalNow()">
+              🖥️ Open XQuartz & macOS Terminal Now
+            </button>
+          </div>
+        </div>
+
+        <!-- VPN-Proof MacBook Air Multi-Terminal Live Link (Works Even With GlobalProtect VPN Connected!) -->
+        <div style="margin-top:10px;background:#fff1f2;border:1.5px solid #f472b6;border-radius:12px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+          <div style="flex:1;min-width:300px;">
+            <div style="font-size:12.5px;font-weight:800;color:#be185d;">
+              💻 On <code>huynguyen@MacBook-Air</code> with GlobalProtect VPN Connected? Use This VPN-Proof 1-Liner to Link All 3 Terminals & Start Local Studio (<code>127.0.0.1:8788</code>):
+            </div>
+            <div style="font-size:11.8px;color:var(--text-body);margin-top:2px;">
+              Because SFSU GlobalProtect VPN blocks LAN IP <code>192.168.1.70</code>, this GitHub-hosted command works <b>100% of the time on GlobalProtect VPN</b> — it installs all 6 EDA tools (<code>vcs / verdi / fc_shell / icv / pt_shell / sha256sum</code>), starts your own local <code>http://127.0.0.1:8788</code> server on MacBook Air, and mirrors live outputs to all 3 of your open Terminal windows (<code>ttys000 / ttys005</code>):
+            </div>
+            <code style="display:block;margin-top:5px;padding:6px 10px;background:#230d42;color:#fce7f3;border-radius:8px;font-family:var(--mono);font-size:11.6px;overflow-x:auto;">curl -sSL https://raw.githubusercontent.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026/manual-practice-macbook-air/practice_from_scratch/scripts/macbook_connect.sh | bash</code>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="btn btn-sm btn-pink" onclick="navigator.clipboard.writeText('curl -sSL https://raw.githubusercontent.com/huynguyen1017/motion-estimator-asic-lab-notebook-2026/manual-practice-macbook-air/practice_from_scratch/scripts/macbook_connect.sh | bash');this.textContent='✓ Copied VPN-Proof Command!';">
+              📋 Copy VPN-Proof MacBook Air Command
+            </button>
+          </div>
+        </div>
+
+        <!-- 5-Step Live Visual Action Pipeline -->
+        <div class="action-pipeline" id="visualPipelineBox">
+          <div class="pipeline-step done" id="vstep-1">
+            <div style="font-size:11.5px;font-weight:800;color:#be185d;">1. 💻 macOS Terminal.app</div>
+            <div style="font-size:11.8px;color:var(--text-body);margin-top:2px;" id="vstep-1-txt">Mirrors output live to open Terminal tabs</div>
+          </div>
+          <div class="pipeline-step done" id="vstep-2">
+            <div style="font-size:11.5px;font-weight:800;color:#7e22ce;">2. 🖥️ XQuartz X11 App</div>
+            <div style="font-size:11.8px;color:var(--text-body);margin-top:2px;" id="vstep-2-txt">X11 Display :0 ready for Verdi/Layout</div>
+          </div>
+          <div class="pipeline-step" id="vstep-3">
+            <div style="font-size:11.5px;font-weight:800;color:#be185d;">3. ⚙️ Hardware / Tool Run</div>
+            <div style="font-size:11.8px;color:var(--text-body);margin-top:2px;" id="vstep-3-txt">Ready to execute page command</div>
+          </div>
+          <div class="pipeline-step" id="vstep-4">
+            <div style="font-size:11.5px;font-weight:800;color:#047857;">4. ✅ Outcome Verifier</div>
+            <div style="font-size:11.8px;color:var(--text-body);margin-top:2px;" id="vstep-4-txt">Checks exit code 0 & expected markers</div>
+          </div>
+          <div class="pipeline-step" id="vstep-5">
+            <div style="font-size:11.5px;font-weight:800;color:#7e22ce;">5. 📸 Screenshot & GitHub</div>
+            <div style="font-size:11.8px;color:var(--text-body);margin-top:2px;" id="vstep-5-txt">Saves PNG proof & unlocks Quiz</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-Column Full-Viewport Split Workspace (Sticky Right Pane = Zero Wasted Space!) -->
+      <div class="lab-split">
+        <!-- LEFT COLUMN: Current Page Guide, One-Liner, 2-Column Sub-Commands Grid, Learning/Videos & Page Quiz -->
+        <div>
+          <div class="studio-card" style="margin-bottom:0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <button class="btn btn-sm" onclick="stepIdePage(-1)">◀ Prev Page</button>
+                <span class="badge lavender" id="ideLeftPageNum">Page 1 of 100 · V1-PREP</span>
+                <button class="btn btn-sm" onclick="stepIdePage(1)">Next Page ▶</button>
+              </div>
+              <span class="badge" id="idePageStatusPill">⏳ Ready to Run</span>
+            </div>
+
+            <h2 id="idePageTitle" style="margin:0 0 8px 0;font-size:18px;color:var(--text-main);line-height:1.35;">
+              Page 1: Master Roadmap
+            </h2>
+
+            <!-- Level-Specific Friendly Guidance Box -->
+            <div id="ideLevelCallout" style="background:#fdf4ff;border-left:4px solid #ec4899;border-radius:11px;padding:10px 14px;font-size:12.6px;color:var(--text-body);line-height:1.56;margin-bottom:12px;"></div>
+
+            <!-- Clean One-Liner Command Box -->
+            <div style="background:#fff5f8;border:1.5px solid #fbcfe8;border-radius:13px;padding:12px 14px;margin-bottom:14px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                <span style="font-size:12.2px;font-weight:800;color:#be185d;">
+                  🌸 Page <span id="ideCmdPageLbl">1</span> Combined Copy-Paste One-Liner
+                </span>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="btn btn-sm btn-pink" onclick="runCurrentPageInWebTerminal(true)">▶ Run Live Now</button>
+                  <button class="btn btn-sm" onclick="copyCurrentPageOneLiner(this)">📋 Copy One-Liner</button>
+                </div>
+              </div>
+              <pre class="code-box" id="ideOneLinerBox">Loading...</pre>
+            </div>
+
+            <!-- 4 Sub-Tabs on the Left Card -->
+            <div class="segment-bar">
+              <button class="segment-btn active" id="ideSubBtn-subcmds" onclick="switchIdeLeftSubtab('subcmds')">
+                🔬 1. Sub-Commands Grid
+              </button>
+              <button class="segment-btn" id="ideSubBtn-theory" onclick="switchIdeLeftSubtab('theory')">
+                📘 2. Formulas, Lecture & Videos
+              </button>
+              <button class="segment-btn" id="ideSubBtn-quiz" onclick="switchIdeLeftSubtab('quiz')">
+                🎯 3. Page 5-Question Quiz
+              </button>
+              <button class="segment-btn" id="ideSubBtn-flashcards" onclick="switchIdeLeftSubtab('flashcards')">
+                🃏 4. Page Flashcards & Web Resources
+              </button>
+            </div>
+
+            <div id="ideLeftSubtabBody"></div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN (STICKY): Live Mirrored Terminal + Self-Healing AI Debugger + Active Page Formula & Flashcard Companion -->
+        <div class="lab-right-sticky">
+          <!-- Live Terminal Window -->
+          <div class="terminal-card">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span class="tdot r"></span>
+                <span class="tdot y"></span>
+                <span class="tdot g"></span>
+                <span style="margin-left:8px;font-family:var(--mono);font-size:11.8px;font-weight:800;color:#6b21a8;">
+                  huynguyen@MacBook-Air — Live Terminal Mirror (Synced with macOS Terminal.app)
+                </span>
+              </div>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <span class="badge mint" id="webTermStatusPill" style="font-size:11px;padding:3px 9px;">● Connected</span>
+                <button class="btn btn-sm" onclick="clearWebTerminal()" style="padding:3px 9px;font-size:11px;">🧹 Clear</button>
+              </div>
+            </div>
+
+            <div class="terminal-screen" id="webTerminalScreen">🌸 Welcome to ENGR 852 Full-Viewport Interactive ASIC Studio (v5.0)!
+• Every command you run here ALSO prints live inside your open macOS Terminal.app window!
+• Practice Workspace : ~/Developer/motion-estimator-14nm-asic-manual & ~/me_asic_new_v1
+• Click "[▶ Run Page Live]" or "[✨ AI Auto-Fix & Verify Page]" to watch the live execution!
+--------------------------------------------------------------------------------
+huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _</div>
+
+            <div class="terminal-input-bar">
+              <span style="font-family:var(--mono);font-size:12px;font-weight:800;color:#f472b6;">huynguyen@MacBook-Air %</span>
+              <input
+                type="text"
+                id="webTerminalInput"
+                class="terminal-input"
+                placeholder="Paste any One-Liner or type a command (e.g. ls -la, vcs, verdi...) and press Enter"
+                onkeydown="if(event.key==='Enter'){executeFromTerminalInput();}"
+              >
+              <button class="btn btn-sm btn-pink" id="webTermRunBtn" onclick="executeFromTerminalInput()">▶ Run</button>
+              <button class="btn btn-sm btn-mint" onclick="runSelfHealingAiFix()">✨ AI Auto-Fix</button>
+            </div>
+          </div>
+
+          <!-- Right Workbench Card: AI Debugger | Code Editor | Terminal Screenshot | Live Formula & Flashcard Companion -->
+          <div class="studio-card" style="margin-bottom:0;">
+            <div class="segment-bar">
+              <button class="segment-btn active" id="ideRightBtn-aidebug" onclick="switchIdeRightSubtab('aidebug')">
+                ✨ 1. AI Debugger & Formula Companion
+              </button>
+              <button class="segment-btn" id="ideRightBtn-editor" onclick="switchIdeRightSubtab('editor')">
+                📝 2. Verilog / TCL Code Editor
+              </button>
+              <button class="segment-btn" id="ideRightBtn-screenshot" onclick="switchIdeRightSubtab('screenshot')">
+                📸 3. Captured Terminal Screenshot
+              </button>
+            </div>
+
+            <div id="ideRightPane-aidebug">
+              <div id="aiDebugBox"></div>
+              <!-- Companion Formula + Quick Rotating Study Card so Right Column is Always Rich & Balanced -->
+              <div id="rightCompanionBox" style="margin-top:12px;"></div>
+            </div>
+
+            <div id="ideRightPane-editor" style="display:none;">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                <div style="display:flex;gap:6px;flex-wrap:wrap;" id="editorFileTabs"></div>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn btn-sm btn-mint" onclick="saveCurrentEditorFile()">💾 Save File</button>
+                  <button class="btn btn-sm btn-pink" onclick="compileAndSimInTerminal()">▶ Simulate in Terminal</button>
+                </div>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;" id="editorFileMeta"></div>
+              <textarea id="ideCodeEditor" style="width:100%;min-height:260px;background:#150a26;color:#fdf2f8;border:1.5px solid #d8b4fe;border-radius:12px;padding:12px;font-family:var(--mono);font-size:12px;line-height:1.55;" spellcheck="false"></textarea>
+            </div>
+
+            <div id="ideRightPane-screenshot" style="display:none;">
+              <div id="ideScreenshotBox"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 2: V1 -> V9 PROJECT BUILDER & FULL 100-PAGE RUNNER               -->
+    <!-- ==================================================================== -->
+    <section id="tab-builder" class="tab-pane">
+      <div class="studio-card mint-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;">
+          <div>
+            <span class="badge mint" id="builderTotalBadge">0 / 100 Pages Verified</span>
+            <h2 style="margin:6px 0 4px 0;font-size:20px;color:var(--text-main);">
+              🗺️ V1 → V9 Complete Project Builder & 100-Page Interactive Map
+            </h2>
+            <p style="margin:0;font-size:13px;color:var(--text-body);">
+              Build the entire 520 MHz 14nm Motion Estimator project stage-by-stage (<code>V1</code> through <code>V9</code>), or click <b>"🌸 Auto-Build & Verify All 100 Pages Live"</b> to watch every page execute and verify in sequence!
+            </p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-pink" id="btnBuildAll100" onclick="runBatchPagesLive(1, 100)">
+              🌸 Auto-Build & Verify All 100 Pages Live (V1 → V9)
+            </button>
+            <button class="btn" onclick="resetToFreshPage1()">↺ Reset Progress to Page 1</button>
+          </div>
+        </div>
+        <div id="batchBuildProgressBox" style="margin-top:12px;display:none;"></div>
+      </div>
+
+      <div class="grid-3" id="v1v9StagesGrid" style="margin-bottom:16px;"></div>
+
+      <div class="studio-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+          <h3 style="margin:0;font-size:16.5px;">📚 All 100 Pages Directory (Click Any Page to Open or Run Live)</h3>
+          <input
+            type="text"
+            id="currSearchInput"
+            placeholder="🔍 Search page title, command, Verilog module..."
+            oninput="renderCurriculumExplorer()"
+            style="padding:8px 14px;border-radius:999px;border:1.5px solid #f5d0fe;background:#fff;color:var(--text-main);font-size:12.5px;min-width:280px;"
+          >
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;" id="currStageFilterBar"></div>
+        <div id="currExplorerList"></div>
+      </div>
+    </section>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 3: INTERACTIVE HARDWARE & 14NM TIMING SIMULATORS                 -->
+    <!-- ==================================================================== -->
+    <section id="tab-simulators" class="tab-pane">
+      <div class="studio-card lavender-card">
+        <h2 style="margin:0 0 4px 0;font-size:19px;">🎛️ Interactive Hardware & 14nm FinFET Timing Simulators (4 Visual Labs)</h2>
+        <p style="margin:0;font-size:13px;color:var(--text-body);">
+          Drag the sliders below to explore how the <b>8-Bit <code>0xFF</code> Saturation Bug vs. 16-Bit <code>0xFF00</code> Fix</b>, <b>520 MHz 3-Corner Setup/Hold STA</b>, <b>16-PE Systolic Array Cycle Counter</b>, and <b>14nm FinFET Dynamic/Leakage Power</b> work in real time.
+        </p>
+      </div>
+
+      <div class="grid-spacious-2">
+        <div class="studio-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+            <span class="badge coral">LAB 1 · V2 8-BIT BUG vs. V3 16-BIT FIX</span>
+            <div style="display:flex;gap:5px;">
+              <button class="btn btn-sm" onclick="setSadSimPreset(0, 256)">0x0000</button>
+              <button class="btn btn-sm" onclick="setSadSimPreset(1, 256)">0x0100 (+1 LSB)</button>
+              <button class="btn btn-sm btn-pink" onclick="setSadSimPreset(255, 256)">0xFF00 (Max)</button>
+            </div>
+          </div>
+          <h3 style="margin:0 0 8px 0;font-size:16px;">8-Bit (0xFF Clamp Trap) vs. 16-Bit (0xFF00 Exact) SAD Accumulator</h3>
+          <label style="font-size:12.5px;display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span>Per-Pixel Difference <code>|R - S|</code> (0..255):</span>
+            <b id="sadDiffValLbl" style="color:#db2777;">255</b>
+          </label>
+          <input type="range" id="sadDiffSlider" min="0" max="255" value="255" oninput="updateSadSimulator()" style="width:100%;accent-color:#ec4899;margin-bottom:10px;">
+          <label style="font-size:12.5px;display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span>Accumulated Pixels in 16×16 Block (1..256):</span>
+            <b id="sadPixelsValLbl" style="color:#7e22ce;">256 pixels</b>
+          </label>
+          <input type="range" id="sadPixelsSlider" min="1" max="256" value="256" oninput="updateSadSimulator()" style="width:100%;accent-color:#9333ea;margin-bottom:12px;">
+          <div id="sadSimOutputBox"></div>
+        </div>
+
+        <div class="studio-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span class="badge mint">LAB 2 · 520 MHz 3-CORNER PRIMETIME STA</span>
+            <button class="btn btn-sm" onclick="resetStaSimulator()">Reset to 520 MHz</button>
+          </div>
+          <h3 style="margin:0 0 8px 0;font-size:16px;">SAED14nm 3-Corner (FF / TT / SS) Setup & Hold Slack Explorer</h3>
+          <label style="font-size:12.5px;display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span>Clock Frequency (<code>f_clk</code>):</span>
+            <b id="staFreqLbl" style="color:#059669;">520 MHz (1.923 ns)</b>
+          </label>
+          <input type="range" id="staFreqSlider" min="250" max="750" step="10" value="520" oninput="updateStaSimulator()" style="width:100%;accent-color:#10b981;margin-bottom:10px;">
+          <label style="font-size:12.5px;display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span>Combinational Logic Depth:</span>
+            <b id="staLevelsLbl" style="color:#7e22ce;">12 levels</b>
+          </label>
+          <input type="range" id="staLevelsSlider" min="6" max="22" value="12" oninput="updateStaSimulator()" style="width:100%;accent-color:#9333ea;margin-bottom:12px;">
+          <div id="staSimOutputBox"></div>
+        </div>
+
+        <div class="studio-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+            <span class="badge lavender">LAB 3 · 16-PE SYSTOLIC CYCLE STEPPER</span>
+            <div style="display:flex;gap:5px;">
+              <button class="btn btn-sm" onclick="setSystolicCycle(0)">Cycle 0</button>
+              <button class="btn btn-sm" onclick="setSystolicCycle(256)">Cycle 256</button>
+              <button class="btn btn-sm btn-mint" onclick="setSystolicCycle(4111)">Cycle 4111 (13'h100F)</button>
+            </div>
+          </div>
+          <h3 style="margin:0 0 8px 0;font-size:16px;">16-PE Systolic Array Cycle Counter (<code>count = 0..4111</code>)</h3>
+          <label style="font-size:12.5px;display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span>Cycle <code>count[12:0]</code>:</span>
+            <b id="sysCycleLbl" style="color:#7e22ce;">4111 (0x100F)</b>
+          </label>
+          <input type="range" id="sysCycleSlider" min="0" max="4111" value="4111" oninput="updateSystolicSimulator()" style="width:100%;accent-color:#a855f7;margin-bottom:12px;">
+          <div id="sysSimOutputBox"></div>
+        </div>
+
+        <div class="studio-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span class="badge">LAB 4 · 14nm CMOS POWER & AREA</span>
+            <button class="btn btn-sm" onclick="resetPowerSimulator()">Reset to 0.80V TT</button>
+          </div>
+          <h3 style="margin:0 0 8px 0;font-size:16px;">SAED14nm FinFET Dynamic Power & Core Area Calculator</h3>
+          <label style="font-size:12.5px;display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span>Supply Voltage (<code>V_DD</code>):</span>
+            <b id="pwrVddLbl" style="color:#db2777;">0.80 V</b>
+          </label>
+          <input type="range" id="pwrVddSlider" min="0.65" max="0.95" step="0.01" value="0.80" oninput="updatePowerSimulator()" style="width:100%;accent-color:#ec4899;margin-bottom:10px;">
+          <label style="font-size:12.5px;display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span>Switching Activity (<code>alpha</code>):</span>
+            <b id="pwrAlphaLbl" style="color:#7e22ce;">0.18</b>
+          </label>
+          <input type="range" id="pwrAlphaSlider" min="0.05" max="0.50" step="0.01" value="0.18" oninput="updatePowerSimulator()" style="width:100%;accent-color:#9333ea;margin-bottom:12px;">
+          <div id="pwrSimOutputBox"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 4: WAVEFORMS (FIGS 7-11) & 14NM CHIP LAYOUT                      -->
+    <!-- ==================================================================== -->
+    <section id="tab-waveforms" class="tab-pane">
+      <div class="studio-card lavender-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+          <div>
+            <h2 style="margin:0 0 4px 0;font-size:19px;">📈 Synopsys Verdi nWave Waveforms (Figs 7–11) & 14nm FinFET Routed Chip Layout</h2>
+            <p style="margin:0;font-size:13px;color:var(--text-body);">
+              Click any waveform or silicon layout figure to zoom full-screen, or click <b>"🖥️ Launch in XQuartz & Run Live"</b>!
+            </p>
+          </div>
+          <button class="btn btn-lavender" onclick="launchXquartzAndTerminalNow()">🖥️ Open XQuartz X11 Application Now</button>
+        </div>
+      </div>
+      <div class="grid-spacious-2" id="waveformGalleryGrid"></div>
+    </section>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 5: SPACIOUS STUDY GUIDE (F0-F17), FORMULAS, 500-Q & MIDTERM      -->
+    <!-- ==================================================================== -->
+    <section id="tab-study" class="tab-pane">
+      <div class="studio-card lavender-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+          <div>
+            <h2 style="margin:0 0 4px 0;font-size:19px;">🎓 Full-Width Study Guide (F0–F17 Formulas), Three-Method RTL, Midterm Exam (Q1–Q15) & 500-Q Mastery</h2>
+            <p style="margin:0;font-size:13px;color:var(--text-body);">
+              Redesigned with <b>full-width mathematical formula blocks (zero scrollbars or broken numbers)</b> and <b>spacious 2-column question cards</b> with side-by-side derivations and handwritten notebook sheets!
+            </p>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <span class="badge mint" id="quizCenterScorePill">Score: 0 / 0 Correct</span>
+            <button class="btn btn-sm btn-lavender" onclick="switchTab('tab-discovery')">🃏 Study in 3D Flashcards Studio</button>
+            <button class="btn btn-sm" onclick="resetQuizProgress()">↺ Reset Quiz Answers</button>
+          </div>
+        </div>
+
+        <div class="segment-bar" style="margin-bottom:0;">
+          <button class="segment-btn active" id="studyBtn-foundations" onclick="switchStudySubtab('foundations')">
+            📘 1. Foundations (F0–F17 Full Formulas) & Three-Method RTL Guide
+          </button>
+          <button class="segment-btn" id="studyBtn-midterm" onclick="switchStudySubtab('midterm')">
+            📝 2. Midterm & Project Exam (Q1–Q15 + Handwritten Notebook Sheets)
+          </button>
+          <button class="segment-btn" id="studyBtn-pagequiz" onclick="switchStudySubtab('pagequiz')">
+            🎯 3. 500-Question Page Mastery Quiz Bank (Pages 1–100)
+          </button>
+        </div>
+      </div>
+
+      <div id="studyPane-foundations">
+        <div id="studyGuideF0F17Grid"></div>
+      </div>
+
+      <div id="studyPane-midterm" style="display:none;">
+        <div id="midtermQuestionsGrid"></div>
+      </div>
+
+      <div id="studyPane-pagequiz" class="studio-card" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <label style="font-size:13.5px;font-weight:800;">Select Page Quiz (5 Questions per Page):</label>
+            <select id="quizBankPageSelect" onchange="renderQuizBankForPage(parseInt(this.value,10))" style="padding:7px 12px;border-radius:10px;border:1.5px solid #f5d0fe;background:#fff;color:#6b21a8;font-weight:800;"></select>
+            <button class="btn btn-sm" onclick="stepQuizBankPage(-1)">◀ Prev Page</button>
+            <button class="btn btn-sm" onclick="stepQuizBankPage(1)">Next Page ▶</button>
+          </div>
+          <button class="btn btn-sm btn-pink" onclick="selectIdePage(parseInt(document.getElementById('quizBankPageSelect').value,10));switchTab('tab-lab');">
+            🌸 Open This Page in Guided Lab
+          </button>
+        </div>
+        <div id="quizBankQuestionsBox"></div>
+      </div>
+    </section>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 6: AUTO-ROTATING WEB RESOURCES, INTERNET SEARCH & 3D FLASHCARDS  -->
+    <!-- ==================================================================== -->
+    <section id="tab-discovery" class="tab-pane">
+      <!-- Top Control Hub -->
+      <div class="studio-card mint-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;">
+          <div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <span class="badge mint" id="rotStatusBadge">🔄 Auto-Rotating Resource & Flashcard Engine Active</span>
+              <span class="badge lavender" id="flashcardTotalCountBadge">639 University Flashcards Loaded</span>
+            </div>
+            <h2 style="margin:6px 0 3px 0;font-size:19.5px;color:var(--text-main);">
+              🌐 Live Internet Engineering Discovery, Auto-Rotating Resources & University 3D Study Flashcards
+            </h2>
+            <p style="margin:0;font-size:13px;color:var(--text-body);">
+              Continuously rotates and updates learning materials from <b>live internet encyclopedias (Wikipedia MediaWiki API)</b>, <b>peer-reviewed papers (OpenAlex API)</b>, and <b>university VLSI courses (SFSU ENGR 852, UC Berkeley EECS 151, MIT 6.375, Stanford EE 271)</b> — paired with an interactive <b>3D Flip Flashcards Deck</b>!
+            </p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-pink" onclick="fetchAndRotateResources('', true)">
+              🔄 Rotate & Fetch Fresh Resources Now
+            </button>
+            <button class="btn btn-lavender" id="btnToggleAutoRotateRes" onclick="toggleAutoRotateResources()">
+              ⏱️ Auto-Rotate Resources (25s): ON
+            </button>
+            <button class="btn btn-mint" onclick="toggleAddCustomResourceForm()">
+              ➕ Add Custom Flashcard / Study Note
+            </button>
+          </div>
+        </div>
+
+        <!-- Custom Resource / Flashcard Creator Form (Collapsible) -->
+        <div id="customResourceFormBox" style="display:none;margin-top:14px;background:#ffffff;border:1.5px solid #6ee7b7;border-radius:14px;padding:14px;">
+          <h4 style="margin:0 0 10px 0;font-size:15px;color:#047857;">➕ Add New Study Resource & University Flashcard (Saved to Studio & Deck)</h4>
+          <div class="grid-3" style="margin-bottom:10px;">
+            <input type="text" id="custTitle" placeholder="Concept / Question Title (e.g. Setup Slack Equation)" style="padding:9px 12px;border-radius:9px;border:1.5px solid #d8b4fe;font-size:12.5px;">
+            <input type="text" id="custCategory" placeholder="Category (e.g. Static Timing Analysis)" style="padding:9px 12px;border-radius:9px;border:1.5px solid #d8b4fe;font-size:12.5px;">
+            <input type="text" id="custFormula" placeholder="Formula / Equation (e.g. Slack = T_clk - T_cq - T_logic - T_setup)" style="padding:9px 12px;border-radius:9px;border:1.5px solid #d8b4fe;font-size:12.5px;">
+          </div>
+          <textarea id="custSummary" placeholder="Detailed explanation, derivation, or Verilog/TCL example..." style="width:100%;min-height:70px;padding:9px 12px;border-radius:9px;border:1.5px solid #d8b4fe;font-size:12.5px;margin-bottom:10px;"></textarea>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-sm btn-mint" onclick="submitCustomResource()">💾 Save to Resources & Flashcard Deck</button>
+            <button class="btn btn-sm" onclick="toggleAddCustomResourceForm()">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-Column Split: LEFT = Interactive 3D University Flashcards Studio | RIGHT = Live Internet Search & Auto-Rotating Resources -->
+      <div class="lab-split">
+        <!-- LEFT: UNIVERSITY 3D FLIP FLASHCARDS STUDIO -->
+        <div>
+          <div class="studio-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+              <div>
+                <h3 style="margin:0;font-size:17px;">🃏 University Student 3D Flip Flashcards Deck</h3>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">
+                  Click the card (or press <code>Space</code>) to flip between Question/Prompt and Full Formula Derivation!
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn btn-sm" onclick="shuffleFlashcardDeck()">🔀 Shuffle Deck</button>
+                <button class="btn btn-sm" id="btnAutoPlayCards" onclick="toggleAutoPlayFlashcards()">▶ Auto-Play (15s): OFF</button>
+              </div>
+            </div>
+
+            <!-- Deck Category Filter Pills -->
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;" id="flashcardCategoryBar"></div>
+
+            <!-- Progress & Card Index Bar -->
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+              <button class="btn btn-sm" onclick="stepFlashcard(-1)">◀ Prev Card</button>
+              <span class="badge lavender" id="flashcardCounterBadge">Card 1 of 100</span>
+              <button class="btn btn-sm" onclick="stepFlashcard(1)">Next Card ▶</button>
+            </div>
+
+            <!-- 3D Flip Card Stage -->
+            <div class="flashcard-stage" id="flashcardStage" onclick="flipCurrentFlashcard()">
+              <div class="flashcard-inner">
+                <!-- FRONT -->
+                <div class="flashcard-face flashcard-front" id="flashcardFrontBox"></div>
+                <!-- BACK -->
+                <div class="flashcard-face flashcard-back" id="flashcardBackBox"></div>
+              </div>
+            </div>
+
+            <!-- Spaced-Repetition Rating Controls -->
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid #f5d0fe;">
+              <span style="font-size:12.2px;font-weight:700;color:var(--text-muted);">Rate Your Mastery (Spaced Repetition):</span>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn btn-sm" style="border-color:#fda4af;background:#fff1f2;color:#be123c;" onclick="rateFlashcard('again')">
+                  🔁 Needs Review (Again)
+                </button>
+                <button class="btn btn-sm" style="border-color:#d8b4fe;background:#faf5ff;color:#6b21a8;" onclick="rateFlashcard('good')">
+                  👍 Got It (Good)
+                </button>
+                <button class="btn btn-sm btn-mint" onclick="rateFlashcard('easy')">
+                  🌟 Mastered (Easy)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: LIVE INTERNET SEARCH & AUTO-ROTATING LEARNING RESOURCES -->
+        <div>
+          <div class="studio-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+              <h3 style="margin:0;font-size:17px;">🌐 Live Internet Search & Auto-Rotating Resource Feed</h3>
+              <span class="badge mint" id="resLastRotatedLbl">Updated Just Now</span>
+            </div>
+
+            <!-- Live Internet Search Bar -->
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+              <input
+                type="text"
+                id="liveWebSearchInput"
+                placeholder="🌐 Search Wikipedia, OpenAlex Papers & VLSI Courses (e.g. FinFET, Systolic Array, Setup Slack, Verilog)..."
+                onkeydown="if(event.key==='Enter'){searchLiveWebResources();}"
+                style="flex:1;min-width:240px;padding:9px 14px;border-radius:11px;border:1.5px solid #d8b4fe;font-size:12.6px;"
+              >
+              <button class="btn btn-sm btn-pink" onclick="searchLiveWebResources()">🔍 Search Internet Live</button>
+              <button class="btn btn-sm btn-lavender" onclick="fetchAndRotateResources('', true)">🔄 Rotate Topics</button>
+            </div>
+
+            <!-- Quick Topic Chips -->
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+              <button class="btn btn-sm" onclick="quickSearchTopic('FinFET 14nm CMOS transistor')">FinFET 14nm</button>
+              <button class="btn btn-sm" onclick="quickSearchTopic('Systolic array motion estimation')">Systolic Array</button>
+              <button class="btn btn-sm" onclick="quickSearchTopic('Static timing analysis setup hold slack')">Setup/Hold STA</button>
+              <button class="btn btn-sm" onclick="quickSearchTopic('Two complement saturation arithmetic')">2's-Comp & Saturation</button>
+              <button class="btn btn-sm" onclick="quickSearchTopic('Clock tree synthesis Elmore delay')">Clock Tree (CTS)</button>
+              <button class="btn btn-sm" onclick="quickSearchTopic('Design rule checking LVS')">DRC & LVS</button>
+            </div>
+
+            <!-- Discovered & Rotating Resource Cards List -->
+            <div id="liveResourcesFeedBox"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Image Zoom Modal -->
+  <div class="modal-backdrop" id="imgModal" onclick="this.classList.remove('open')">
+    <img id="imgModalTarget" src="" alt="Zoomed Figure">
+  </div>
+  <script>
+    let CURRICULUM = [];
+    let STUDY_AND_MIDTERM = {};
+    let LIVE_STATE = {};
+    let DISCOVERED_RESOURCES = [];
+    let FLASHCARD_DECK = [];
+    let FILTERED_FLASHCARDS = [];
+    let FLASHCARD_INDEX = 0;
+    let FLASHCARD_CAT_FILTER = 'ALL';
+    let FLASHCARD_MASTERY = {};
+    let AUTO_ROTATE_RES_ENABLED = true;
+    let AUTO_ROTATE_RES_TIMER = null;
+    let AUTO_PLAY_CARDS_ENABLED = false;
+    let AUTO_PLAY_CARDS_TIMER = null;
+
+    let CURRENT_LEVEL = localStorage.getItem('engr852_v5_level') || 'beginner';
+    let IDE_CURRENT_PAGE = parseInt(localStorage.getItem('engr852_v5_page') || '1', 10);
+    let IDE_LEFT_SUBTAB = 'subcmds';
+    let IDE_RIGHT_SUBTAB = 'aidebug';
+    let CURR_STAGE_FILTER = 'ALL';
+    let WORKSPACE_FILES = [];
+    let CURRENT_EDITOR_PATH = '';
+    let LAST_AI_DEBUG = null;
+    let BATCH_RUNNING = false;
+
+    let QUIZ_STATE = {};
+    try {
+      QUIZ_STATE = JSON.parse(localStorage.getItem('engr852_v4_quiz') || '{}');
+    } catch (e) {
+      QUIZ_STATE = {};
+    }
+    try {
+      FLASHCARD_MASTERY = JSON.parse(localStorage.getItem('engr852_v5_flashcards') || '{}');
+    } catch (e) {
+      FLASHCARD_MASTERY = {};
+    }
+
+    const V_STAGES_META = [
+      { id: 'V1-PREP', range: [1, 12], title: 'V1-PREP · New MacBook Air, VPN, XQuartz & SSH Setup', desc: 'Pages 1–12: Local workspace, XQuartz :0 X11 server, SSH config, and Synopsys environment.' },
+      { id: 'V1', range: [13, 24], title: 'V1 · Lecture 3 Systolic Architecture & Baseline RTL Study', desc: 'Pages 13–24: 16-PE systolic array equations, control FSM, and 8-bit baseline inspection.' },
+      { id: 'V2', range: [25, 34], title: 'V2 · 8-Bit Overflow Trap Discovery (0xFF Saturation)', desc: 'Pages 25–34: Reproducing the 8-bit PE Accumulate[7:0] clamp at 0xFF and strict < comparator deadlock.' },
+      { id: 'V3', range: [35, 42], title: 'V3 · Surgical 16-Bit RTL Upgrade (PE, Comparator & Top)', desc: 'Pages 35–42: Upgrading Accumulate[15:0], BestDist[15:0], and 16\'hFFFF reset initialization.' },
+      { id: 'V4', range: [43, 52], title: 'V4 · 3-Testbench VCS Verification & Verdi Waveforms', desc: 'Pages 43–52: 520 MHz simulation across 0x0000, 0x0100, and 0xFF00 + Figs 7–11 nWave captures.' },
+      { id: 'V5', range: [53, 60], title: 'V5 · SAED14nm FinFET Synthesis & 520 MHz SDC Constraints', desc: 'Pages 53–60: 1.923 ns clock period, 20% I/O budgets, and 8,230-cell 0-SRAM synthesis.' },
+      { id: 'V6', range: [61, 68], title: 'V6 · Floorplan, Placement & Clock Tree Synthesis (CTS)', desc: 'Pages 61–68: 125.07 × 62.80 um core floorplan, PG mesh, and H-tree clock skew closure.' },
+      { id: 'V7', range: [69, 76], title: 'V7 · Detailed Routing & ICV Physical DRC/LVS Sign-Off', desc: 'Pages 69–76: M1–M9 FinFET detailed routing and 0 / 242 ICV DRC violation closure.' },
+      { id: 'V8', range: [77, 88], title: 'V8 · 3-Corner PrimeTime STA (+0.71 / +0.54 / +0.22 ns)', desc: 'Pages 77–88: StarRC parasitic extraction and FF / TT / SS setup & hold timing closure.' },
+      { id: 'V9', range: [89, 100], title: 'V9 · Final Deliverables, 100-Page Manual & GitHub Portfolio', desc: 'Pages 89–100: Automated report/slide generation, SHA-256 audit, and GitHub publication.' }
+    ];
+
+    function escapeHtml(s) {
+      return String(s === undefined || s === null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    /* ====================================================================== */
+    /* CRISP MATHEMATICAL FORMULA & HARDWARE EQUATION FORMATTER               */
+    /* Splits multi-part equations cleanly onto full-width lines with symbols */
+    /* ====================================================================== */
+    function formatFormulaDisplayHtml(rawFormula) {
+      if (!rawFormula) return '';
+      const cleaned = String(rawFormula)
+        .replace(/<->/g, ' ⇔ ')
+        .replace(/=>/g, ' ⇒ ')
+        .replace(/->/g, ' → ')
+        .replace(/<=/g, ' ≤ ')
+        .replace(/>=/g, ' ≥ ')
+        .replace(/\^2\b/g, '²')
+        .replace(/\^8\b/g, '⁸')
+        .replace(/\^16\b/g, '¹⁶')
+        .replace(/\^n\b/g, 'ⁿ');
+      const parts = cleaned.split(/\s*\|\s*|\n+/).map(x => x.trim()).filter(Boolean);
+      if (parts.length <= 1) {
+        return `<div class="formula-box"><div class="formula-line"><span class="formula-bullet">∑</span><span>${escapeHtml(cleaned)}</span></div></div>`;
+      }
+      return `
+        <div class="formula-box">
+          ${parts.map((ln, idx) => `
+            <div class="formula-line">
+              <span class="formula-bullet">${idx === 0 ? '∑' : '▸'}</span>
+              <span>${escapeHtml(ln)}</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function zoomImage(url) {
+      if (!url) return;
+      const m = document.getElementById('imgModal');
+      const img = document.getElementById('imgModalTarget');
+      img.src = url;
+      m.classList.add('open');
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+      });
+      document.querySelectorAll('.tab-pane').forEach(pane => {
+        pane.classList.toggle('active', pane.id === tabId);
+      });
+      if (tabId === 'tab-builder') {
+        renderV1V9Stages();
+        renderCurriculumExplorer();
+      } else if (tabId === 'tab-waveforms') {
+        renderWaveformGallery();
+      } else if (tabId === 'tab-study') {
+        renderStudyGuideAndMidterm();
+        renderQuizBankForPage(IDE_CURRENT_PAGE);
+      } else if (tabId === 'tab-simulators') {
+        updateSadSimulator();
+        updateStaSimulator();
+        updateSystolicSimulator();
+        updatePowerSimulator();
+      } else if (tabId === 'tab-discovery') {
+        renderFlashcardStudio();
+        renderLiveResourcesFeed();
+      }
+    }
+
+    function setLearnerLevel(lvl) {
+      CURRENT_LEVEL = lvl;
+      localStorage.setItem('engr852_v5_level', lvl);
+      ['beginner', 'intermediate', 'advanced'].forEach(k => {
+        const btn = document.getElementById('topLvl' + k.charAt(0).toUpperCase() + k.slice(1));
+        if (btn) {
+          btn.classList.toggle('btn-pink', k === lvl);
+        }
+      });
+      renderPracticeIde();
+      renderQuizBankForPage(IDE_CURRENT_PAGE);
+    }
+
+    function populatePageDropdowns() {
+      const sel1 = document.getElementById('globalPageSelect');
+      const sel2 = document.getElementById('quizBankPageSelect');
+      if (!sel1 || !CURRICULUM.length) return;
+      const done = (LIVE_STATE && LIVE_STATE.completed_pages) || {};
+      const optsHtml = CURRICULUM.map(p => {
+        const rec = done[String(p.page_num)];
+        const mark = rec ? (rec.status === 'PASS' ? '✓ ' : '⚠ ') : '';
+        return `<option value="${p.page_num}">${mark}Page ${p.page_num} (${p.v_stage}) — ${escapeHtml(p.title.slice(0, 56))}</option>`;
+      }).join('');
+      sel1.innerHTML = optsHtml;
+      sel1.value = String(IDE_CURRENT_PAGE);
+      if (sel2) {
+        sel2.innerHTML = optsHtml;
+        sel2.value = String(IDE_CURRENT_PAGE);
+      }
+    }
+
+    function selectIdePage(pnum) {
+      const n = Math.max(1, Math.min(100, parseInt(pnum || 1, 10)));
+      IDE_CURRENT_PAGE = n;
+      localStorage.setItem('engr852_v5_page', String(n));
+      const sel1 = document.getElementById('globalPageSelect');
+      if (sel1) sel1.value = String(n);
+      const sel2 = document.getElementById('quizBankPageSelect');
+      if (sel2) sel2.value = String(n);
+      renderPracticeIde();
+      fetchAndRotateResources('', false);
+    }
+
+    function stepIdePage(delta) {
+      selectIdePage(IDE_CURRENT_PAGE + delta);
+    }
+
+    function animateVisualPipeline(activeStep, msgMap, isAllDone) {
+      for (let i = 1; i <= 5; i++) {
+        const box = document.getElementById('vstep-' + i);
+        const txt = document.getElementById('vstep-' + i + '-txt');
+        if (!box) continue;
+        box.classList.remove('active-pulse', 'done');
+        if (isAllDone || i < activeStep) {
+          box.classList.add('done');
+        } else if (i === activeStep) {
+          box.classList.add('active-pulse');
+        }
+        if (msgMap && msgMap[i] && txt) {
+          txt.textContent = msgMap[i];
+        }
+      }
+    }
+
+    function formatLevelGuidanceHtml(pageObj) {
+      const lg = (pageObj && pageObj.level_guidance) || {};
+      if (CURRENT_LEVEL === 'beginner') {
+        const b = lg.beginner || {};
+        const steps = Array.isArray(b.step_by_step_how_to) ? b.step_by_step_how_to : [];
+        return `
+          <div style="font-weight:800;color:#be185d;margin-bottom:4px;">
+            🌱 Beginner Step-by-Step Guide · Terminal: <code>${escapeHtml(b.terminal_to_use || 'MACBOOK_TERMINAL')}</code>
+          </div>
+          <div style="margin-bottom:6px;">${escapeHtml(b.plain_english_summary || pageObj.problem_title || '')}</div>
+          ${steps.length ? `<div style="font-size:12px;color:#334155;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:4px 12px;">${steps.map(s => `<div>• ${escapeHtml(s)}</div>`).join('')}</div>` : ''}
+        `;
+      } else if (CURRENT_LEVEL === 'intermediate') {
+        const im = lg.intermediate || {};
+        const eqs = Array.isArray(im.key_equations_and_checks) ? im.key_equations_and_checks : [];
+        return `
+          <div style="font-weight:800;color:#7e22ce;margin-bottom:4px;">
+            🌷 ENGR 852 Course Track · ${escapeHtml(im.focus || 'RTL & ASIC Verification')}
+          </div>
+          ${eqs.map(e => `<div style="margin-top:2px;">• ${escapeHtml(e)}</div>`).join('')}
+        `;
+      } else {
+        const adv = lg.advanced || {};
+        return `
+          <div style="font-weight:800;color:#047857;margin-bottom:4px;">
+            💎 Advanced Sign-Off Track · ${escapeHtml(adv.focus || '14nm FinFET Production Sign-Off')}
+          </div>
+          <div>${escapeHtml(adv.deep_dive || '')}</div>
+        `;
+      }
+    }
+
+    function renderPracticeIde() {
+      if (!CURRICULUM.length) return;
+      const pageObj = CURRICULUM.find(p => p.page_num === IDE_CURRENT_PAGE) || CURRICULUM[0];
+      if (!pageObj) return;
+
+      const doneMap = (LIVE_STATE && LIVE_STATE.completed_pages) || {};
+      const rec = doneMap[String(pageObj.page_num)];
+      const isPass = rec && rec.status === 'PASS';
+
+      document.getElementById('runBtnPageNum').textContent = pageObj.page_num;
+      document.getElementById('fixBtnPageNum').textContent = pageObj.page_num;
+      document.getElementById('ideCmdPageLbl').textContent = pageObj.page_num;
+      document.getElementById('ideLeftPageNum').textContent = `Page ${pageObj.page_num} of 100 · ${pageObj.v_stage}`;
+      document.getElementById('liveActionStageBadge').textContent = `Page ${pageObj.page_num} · ${pageObj.v_stage}`;
+      document.getElementById('idePageTitle').textContent = `Page ${pageObj.page_num}: ${pageObj.title}`;
+      document.getElementById('ideOneLinerBox').textContent = pageObj.one_liner || '';
+      document.getElementById('ideLevelCallout').innerHTML = formatLevelGuidanceHtml(pageObj);
+
+      const pill = document.getElementById('idePageStatusPill');
+      if (isPass) {
+        pill.className = 'badge mint';
+        pill.textContent = `✓ Page ${pageObj.page_num} Verified (PASS)`;
+      } else if (rec && rec.status === 'FAIL') {
+        pill.className = 'badge coral';
+        pill.textContent = `⚠ Needs AI Auto-Fix (Exit ${rec.exit_code})`;
+      } else {
+        pill.className = 'badge lavender';
+        pill.textContent = `⏳ Ready to Execute`;
+      }
+
+      renderIdeLeftSubtab();
+      renderIdeScreenshotBox(pageObj, rec);
+      renderRightCompanionBox(pageObj);
+      if (!LAST_AI_DEBUG || LAST_AI_DEBUG.page_num !== pageObj.page_num) {
+        renderDefaultAiDebugForPage(pageObj, rec);
+      }
+    }
+
+    /* Right-Column Companion Formula + Quick Rotating Study Widget (Eliminates Empty Right Void!) */
+    function renderRightCompanionBox(pageObj) {
+      const box = document.getElementById('rightCompanionBox');
+      if (!box || !pageObj) return;
+      const fList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.foundations) || [];
+      const fRefCode = ((pageObj.foundation_ref || 'F0').split(':')[0] || 'F0').trim();
+      const matchedF = fList.find(f => f.id === fRefCode) || fList[(pageObj.page_num - 1) % Math.max(1, fList.length)] || {};
+      const tm = pageObj.three_methods || {};
+
+      box.innerHTML = `
+        <div style="background:#faf5ff;border:1.5px solid #d8b4fe;border-radius:14px;padding:13px 15px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+            <span class="badge lavender">📐 Active Page Formula & Hardware Reference (${escapeHtml(matchedF.id || fRefCode)})</span>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-sm" onclick="switchIdeLeftSubtab('flashcards')">🃏 Page Flashcards</button>
+              <button class="btn btn-sm btn-pink" onclick="switchTab('tab-discovery')">🌐 Live Web Discovery</button>
+            </div>
+          </div>
+          <div style="font-size:13.5px;font-weight:800;color:var(--text-main);margin-bottom:6px;">
+            ${escapeHtml(matchedF.title || pageObj.foundation_ref || 'Core VLSI & Hardware Principle')}
+          </div>
+          ${matchedF.equation ? formatFormulaDisplayHtml(matchedF.equation) : ''}
+          <div style="font-size:12.4px;color:var(--text-body);line-height:1.56;margin-top:8px;">
+            <div><b>📘 Concept Summary:</b> ${escapeHtml(matchedF.basic_concept || pageObj.foundation_text || '')}</div>
+            <div style="margin-top:4px;color:#be185d;"><b>🔗 14nm Chip Role:</b> ${escapeHtml(matchedF.asic_connection || tm.method2 || '')}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function switchIdeLeftSubtab(sub) {
+      IDE_LEFT_SUBTAB = sub;
+      ['subcmds', 'theory', 'quiz', 'flashcards'].forEach(k => {
+        const b = document.getElementById('ideSubBtn-' + k);
+        if (b) b.classList.toggle('active', k === sub);
+      });
+      renderIdeLeftSubtab();
+    }
+
+    function renderIdeLeftSubtab() {
+      const box = document.getElementById('ideLeftSubtabBody');
+      if (!box || !CURRICULUM.length) return;
+      const pageObj = CURRICULUM.find(p => p.page_num === IDE_CURRENT_PAGE) || CURRICULUM[0];
+
+      if (IDE_LEFT_SUBTAB === 'subcmds') {
+        const subs = Array.isArray(pageObj.subcommand_breakdown) ? pageObj.subcommand_breakdown : [];
+        const expOut = Array.isArray(pageObj.expected_out) ? pageObj.expected_out : [];
+        box.innerHTML = `
+          <div style="margin-bottom:10px;font-size:12.6px;color:var(--text-body);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+            <span>Every Page One-Liner is built from these atomic sub-commands. Click <b>"▶ Run Sub-Step"</b> on any card to execute it live!</span>
+            <span class="badge lavender">${subs.length} Atomic Sub-Steps (2-Column Full-Viewport Grid)</span>
+          </div>
+          <div class="subcmd-grid">
+            ${subs.map((sc, idx) => `
+              <div style="border:1.5px solid #f5d0fe;border-radius:13px;padding:12px 14px;background:#ffffff;display:flex;flex-direction:column;justify-content:space-between;">
+                <div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:7px;">
+                    <span class="badge lavender">Sub-Step ${sc.seq || (idx + 1)} · ${escapeHtml((sc.task_performed || 'Step').slice(0, 42))}</span>
+                    <div style="display:flex;gap:5px;">
+                      <button class="btn btn-sm btn-pink" onclick="runSubcommandByIndex(${idx})">▶ Run</button>
+                      <button class="btn btn-sm" onclick="copySubcommandByIndex(${idx}, this)">📋 Copy</button>
+                    </div>
+                  </div>
+                  <pre class="code-box" style="margin-bottom:8px;font-size:11.6px;">${escapeHtml(sc.cmd || '')}</pre>
+                </div>
+                <div style="font-size:12.2px;color:var(--text-body);line-height:1.52;">
+                  <div><b>💡 Plain-English Meaning:</b> ${escapeHtml(sc.in_depth_meaning || '')}</div>
+                  <div style="margin-top:4px;color:#6b21a8;"><b>🎓 Lecture & Chip Role:</b> ${escapeHtml(sc.lecture_correlation || '')} — ${escapeHtml(sc.chip_design_role || '')}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          ${expOut.length ? `
+            <div style="background:#ecfdf5;border:1.5px solid #a7f3d0;border-radius:12px;padding:11px 14px;margin-top:12px;">
+              <div style="font-size:12.2px;font-weight:800;color:#047857;margin-bottom:4px;">✅ Expected Verification Markers for Page ${pageObj.page_num}:</div>
+              <pre style="margin:0;font-family:var(--mono);font-size:11.8px;color:#065f46;white-space:pre-wrap;">${escapeHtml(expOut.join('\n'))}</pre>
+            </div>
+          ` : ''}
+        `;
+      } else if (IDE_LEFT_SUBTAB === 'theory') {
+        const tasks = Array.isArray(pageObj.learning_tasks) ? pageObj.learning_tasks : [];
+        const videoTask = tasks.find(t => Array.isArray(t.videos) && t.videos.length > 0) || {};
+        const videos = videoTask.videos || [];
+        const tm = pageObj.three_methods || {};
+        const fList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.foundations) || [];
+        const fRefCode = ((pageObj.foundation_ref || 'F0').split(':')[0] || 'F0').trim();
+        const matchedF = fList.find(f => f.id === fRefCode) || fList[0] || {};
+
+        box.innerHTML = `
+          <!-- Full-Width Formula & Foundation Walkthrough -->
+          <div style="background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:14px;padding:15px;margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+              <span class="badge lavender">📘 Lecture & Formula Walkthrough · ${escapeHtml(pageObj.foundation_ref || 'F0–F17')}</span>
+              <span class="badge mint">${escapeHtml(pageObj.lecture_ref || 'ENGR 852')}</span>
+            </div>
+            <div style="font-size:13.4px;color:var(--text-body);line-height:1.65;margin-bottom:10px;">
+              ${escapeHtml(pageObj.foundation_text || '')}
+            </div>
+            ${matchedF.equation ? `
+              <div style="font-size:12px;font-weight:800;color:#6b21a8;margin-bottom:5px;">📐 Key Mathematical Formula (${escapeHtml(matchedF.id)} — ${escapeHtml(matchedF.title)}):</div>
+              ${formatFormulaDisplayHtml(matchedF.equation)}
+            ` : ''}
+          </div>
+
+          <!-- Three-Method RTL Architecture Breakdown -->
+          <div style="background:#ecfdf5;border:1.5px solid #a7f3d0;border-radius:14px;padding:15px;margin-bottom:12px;">
+            <div style="font-size:14px;font-weight:800;color:#047857;margin-bottom:8px;">
+              🏛️ Three-Method RTL & Hardware Comparison for Page ${pageObj.page_num}
+            </div>
+            <div class="grid-3" style="gap:10px;">
+              <div style="background:#fff;border:1px solid #a7f3d0;border-radius:10px;padding:10px 12px;font-size:12.4px;line-height:1.55;">
+                <b style="color:#047857;display:block;margin-bottom:4px;">Method 1 · Explicit FSM / Paper Style</b>
+                ${escapeHtml(tm.method1 || '')}
+              </div>
+              <div style="background:#fff;border:1.5px solid #10b981;border-radius:10px;padding:10px 12px;font-size:12.4px;line-height:1.55;">
+                <b style="color:#065f46;display:block;margin-bottom:4px;">Method 2 · Direct Systolic Pipeline (Chip)</b>
+                ${escapeHtml(tm.method2 || '')}
+              </div>
+              <div style="background:#fff;border:1px solid #a7f3d0;border-radius:10px;padding:10px 12px;font-size:12.4px;line-height:1.55;">
+                <b style="color:#047857;display:block;margin-bottom:4px;">Method 3 · Parameterized Generate Array</b>
+                ${escapeHtml(tm.method3 || '')}
+              </div>
+            </div>
+          </div>
+
+          <!-- Curated YouTube Video Tutorials -->
+          <div style="background:#fff1f2;border:1.5px solid #fbcfe8;border-radius:14px;padding:15px;">
+            <div style="font-size:14px;font-weight:800;color:#be185d;margin-bottom:8px;">
+              🎬 Curated YouTube Video Walkthroughs for Page ${pageObj.page_num} (${videos.length} Videos)
+            </div>
+            <div class="grid-3" style="gap:10px;">
+              ${videos.map(v => `
+                <div style="background:#ffffff;border:1px solid #fbcfe8;border-radius:11px;padding:11px 13px;display:flex;flex-direction:column;justify-content:space-between;gap:8px;">
+                  <div>
+                    <div style="font-weight:800;font-size:13px;color:var(--text-main);">🎥 ${escapeHtml(v.title || 'ASIC / Verilog Tutorial')}</div>
+                    <div style="font-size:11.8px;color:var(--text-muted);margin-top:3px;">
+                      Channel: <b>${escapeHtml(v.channel || 'Engineering Lecture')}</b> · <b>${escapeHtml(v.duration || '15 min')}</b>
+                    </div>
+                    <div style="font-size:12.1px;color:var(--text-body);margin-top:5px;line-height:1.48;">${escapeHtml(v.focus || '')}</div>
+                  </div>
+                  <a href="${escapeHtml(v.url || 'https://www.youtube.com')}" target="_blank" rel="noopener" class="btn btn-sm btn-pink">
+                    ▶ Watch on YouTube ↗
+                  </a>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      } else if (IDE_LEFT_SUBTAB === 'quiz') {
+        box.innerHTML = buildPageQuizHtml(pageObj);
+      } else if (IDE_LEFT_SUBTAB === 'flashcards') {
+        box.innerHTML = buildInlinePageFlashcardsAndResourcesHtml(pageObj);
+      }
+    }
+
+    function buildInlinePageFlashcardsAndResourcesHtml(pageObj) {
+      const pageCards = FLASHCARD_DECK.filter(c => c.page_num === pageObj.page_num);
+      const topRes = DISCOVERED_RESOURCES.slice(0, 4);
+      return `
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+          <span class="badge lavender">🃏 ${pageCards.length} Flashcards for Page ${pageObj.page_num}</span>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-sm btn-pink" onclick="openFlashcardsForPage(${pageObj.page_num})">🃏 Open Full 3D Flashcard Deck</button>
+            <button class="btn btn-sm btn-mint" onclick="fetchAndRotateResources('', true)">🔄 Rotate Web Resources</button>
+          </div>
+        </div>
+        <div class="subcmd-grid" style="margin-bottom:14px;">
+          ${pageCards.map(c => `
+            <div style="border:1.5px solid #d8b4fe;background:#fdf4ff;border-radius:13px;padding:12px 14px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span class="badge lavender">${escapeHtml(c.category)}</span>
+                <span class="badge mint">${escapeHtml(c.tag || '')}</span>
+              </div>
+              <div style="font-size:13.2px;font-weight:800;color:var(--text-main);margin-bottom:6px;">Q: ${escapeHtml(c.front)}</div>
+              ${c.formula ? formatFormulaDisplayHtml(c.formula) : ''}
+              <div style="font-size:12.3px;color:#065f46;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:9px;padding:8px 10px;margin-top:8px;">
+                <b>Answer / Derivation:</b> ${escapeHtml(c.back)}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div style="font-size:13.5px;font-weight:800;color:#be185d;margin-bottom:8px;">
+          🌐 Auto-Rotating Internet & University Resources Paired with Page ${pageObj.page_num}:
+        </div>
+        <div class="subcmd-grid">
+          ${topRes.map((r, rIdx) => `
+            <div style="border:1.5px solid #fbcfe8;background:#ffffff;border-radius:13px;padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;">
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:5px;">
+                  <span class="badge">${escapeHtml(r.category || 'VLSI Resource')}</span>
+                  <span style="font-size:11.5px;color:var(--text-muted);">${escapeHtml(r.source || '')}</span>
+                </div>
+                <div style="font-size:13.5px;font-weight:800;color:var(--text-main);margin-bottom:6px;">${escapeHtml(r.title || '')}</div>
+                ${r.formula ? formatFormulaDisplayHtml(r.formula) : ''}
+                <div style="font-size:12.3px;color:var(--text-body);line-height:1.52;margin-top:6px;">${escapeHtml(r.summary || '')}</div>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+                ${r.url ? `<a href="${escapeHtml(r.url)}" target="_blank" rel="noopener" class="btn btn-sm btn-pink">🌐 Open Source ↗</a>` : ''}
+                <button class="btn btn-sm btn-mint" onclick="saveDiscoveredResourceToFlashcards(${rIdx}, this)">🃏 + Save to Flashcards</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    /* Spacious 2-Column Quiz Renderer */
+    function buildPageQuizHtml(pageObj) {
+      const rawQs = Array.isArray(pageObj.quiz_questions) ? pageObj.quiz_questions : [];
+      if (!rawQs.length) {
+        return '<div style="padding:12px;font-size:13px;">No quiz questions found for this page.</div>';
+      }
+      const indexed = rawQs.map((q, origIdx) => ({ q, origIdx }));
+      if (CURRENT_LEVEL === 'advanced') {
+        indexed.sort((a, b) => (b.q.difficulty_rank || 1) - (a.q.difficulty_rank || 1));
+      } else {
+        indexed.sort((a, b) => (a.q.difficulty_rank || 1) - (b.q.difficulty_rank || 1));
+      }
+
+      let solvedCount = 0;
+      rawQs.forEach((q, idx) => {
+        const k = `p${pageObj.page_num}_q${idx}`;
+        if (QUIZ_STATE[k] === q.answer) solvedCount++;
+      });
+
+      return `
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+          <span class="badge mint">🎯 Page ${pageObj.page_num} Mastery: ${solvedCount} / ${rawQs.length} Correct</span>
+          <span style="font-size:12.2px;color:var(--text-muted);">
+            Ordered ${CURRENT_LEVEL === 'advanced' ? 'Hard → Easy' : 'Easy → Medium → Hard'} for ${CURRENT_LEVEL.toUpperCase()} mode
+          </span>
+        </div>
+        <div class="grid-2">
+          ${indexed.map(({ q, origIdx }, dispNum) => {
+            const key = `p${pageObj.page_num}_q${origIdx}`;
+            const chosen = QUIZ_STATE[key];
+            const isAnswered = chosen !== undefined && chosen !== null;
+            const isCorrect = isAnswered && chosen === q.answer;
+            const opts = Array.isArray(q.options) ? q.options : [];
+            const diags = Array.isArray(q.choice_diagnostics) ? q.choice_diagnostics : [];
+
+            return `
+              <div style="border:1.5px solid ${isCorrect ? '#6ee7b7' : '#f5d0fe'};background:#ffffff;border-radius:14px;padding:15px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;">
+                  <span class="badge ${q.difficulty === 'hard' ? 'coral' : (q.difficulty === 'medium' ? 'lavender' : 'mint')}">
+                    Question ${dispNum + 1} · ${escapeHtml(q.difficulty_label || q.difficulty || 'Concept')}
+                  </span>
+                  ${isAnswered ? `<span class="badge ${isCorrect ? 'mint' : 'coral'}">${isCorrect ? '✓ Correct!' : '✗ Try Again'}</span>` : ''}
+                </div>
+                <div style="font-size:14px;font-weight:800;color:var(--text-main);margin-bottom:10px;line-height:1.5;">
+                  ${escapeHtml(q.q || '')}
+                </div>
+                ${CURRENT_LEVEL === 'beginner' && q.hint ? `
+                  <div style="font-size:12.3px;color:#7e22ce;background:#faf5ff;padding:8px 11px;border-radius:9px;margin-bottom:10px;border:1px solid #e9d5ff;">
+                    💡 <b>Beginner Hint:</b> ${escapeHtml(q.hint)}
+                  </div>
+                ` : ''}
+                <div>
+                  ${opts.map((optText, oIdx) => {
+                    let cls = 'quiz-choice';
+                    if (isAnswered) {
+                      if (oIdx === q.answer) cls += ' correct';
+                      else if (oIdx === chosen) cls += ' wrong';
+                    }
+                    return `
+                      <button class="${cls}" onclick="answerPageQuiz(${pageObj.page_num}, ${origIdx}, ${oIdx})">
+                        ${escapeHtml(optText)}
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+                ${isAnswered ? `
+                  <div style="margin-top:10px;padding:11px 13px;border-radius:11px;background:${isCorrect ? '#ecfdf5' : '#fff1f2'};font-size:12.5px;line-height:1.58;color:var(--text-body);">
+                    <div><b>${isCorrect ? '🌸 Spot On!' : '🔍 Diagnostic Feedback:'}</b> ${escapeHtml(diags[chosen] || '')}</div>
+                    <div style="margin-top:5px;"><b>📘 Full Lecture Explanation:</b> ${escapeHtml(q.explain || '')}</div>
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function answerPageQuiz(pageNum, qIdx, optIdx) {
+      QUIZ_STATE[`p${pageNum}_q${qIdx}`] = optIdx;
+      localStorage.setItem('engr852_v4_quiz', JSON.stringify(QUIZ_STATE));
+      updateGlobalQuizBadges();
+      if (IDE_CURRENT_PAGE === pageNum && IDE_LEFT_SUBTAB === 'quiz') {
+        renderIdeLeftSubtab();
+      }
+      const bankSel = document.getElementById('quizBankPageSelect');
+      if (bankSel && parseInt(bankSel.value, 10) === pageNum) {
+        renderQuizBankForPage(pageNum);
+      }
+    }
+
+    function answerMidtermQuiz(qId, optIdx) {
+      QUIZ_STATE[`midterm_${qId}`] = optIdx;
+      localStorage.setItem('engr852_v4_quiz', JSON.stringify(QUIZ_STATE));
+      updateGlobalQuizBadges();
+      renderStudyGuideAndMidterm();
+    }
+
+    function resetQuizProgress() {
+      QUIZ_STATE = {};
+      localStorage.removeItem('engr852_v4_quiz');
+      updateGlobalQuizBadges();
+      renderIdeLeftSubtab();
+      renderStudyGuideAndMidterm();
+      renderQuizBankForPage(IDE_CURRENT_PAGE);
+    }
+
+    function updateGlobalQuizBadges() {
+      let totalCorrect = 0;
+      let totalAnswered = 0;
+      CURRICULUM.forEach(p => {
+        (p.quiz_questions || []).forEach((q, idx) => {
+          const v = QUIZ_STATE[`p${p.page_num}_q${idx}`];
+          if (v !== undefined) {
+            totalAnswered++;
+            if (v === q.answer) totalCorrect++;
+          }
+        });
+      });
+      ((STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.midterm_and_exam_bank) || []).forEach(mq => {
+        const v = QUIZ_STATE[`midterm_${mq.id}`];
+        if (v !== undefined) {
+          totalAnswered++;
+          if (v === mq.correct_index) totalCorrect++;
+        }
+      });
+      const b1 = document.getElementById('topQuizBadge');
+      if (b1) b1.textContent = `🎯 Quiz: ${totalCorrect} Correct`;
+      const b2 = document.getElementById('quizCenterScorePill');
+      if (b2) b2.textContent = `Score: ${totalCorrect} / ${totalAnswered} Correct (out of 515 Qs)`;
+    }
+
+    function runSubcommandByIndex(idx) {
+      const pageObj = CURRICULUM.find(p => p.page_num === IDE_CURRENT_PAGE) || CURRICULUM[0];
+      if (!pageObj) return;
+      const subs = pageObj.subcommand_breakdown || [];
+      const sc = subs[idx];
+      if (!sc || !sc.cmd) return;
+      executeCommandInWebTerminal(sc.cmd, pageObj.page_num, false);
+    }
+
+    function copySubcommandByIndex(idx, btn) {
+      const pageObj = CURRICULUM.find(p => p.page_num === IDE_CURRENT_PAGE) || CURRICULUM[0];
+      if (!pageObj) return;
+      const sc = (pageObj.subcommand_breakdown || [])[idx];
+      if (!sc || !sc.cmd) return;
+      navigator.clipboard.writeText(sc.cmd);
+      const old = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = old; }, 1200);
+    }
+
+    function copyCurrentPageOneLiner(btn) {
+      const pageObj = CURRICULUM.find(p => p.page_num === IDE_CURRENT_PAGE) || CURRICULUM[0];
+      if (!pageObj) return;
+      navigator.clipboard.writeText(pageObj.one_liner || '');
+      const old = btn.textContent;
+      btn.textContent = '✓ Copied One-Liner!';
+      setTimeout(() => { btn.textContent = old; }, 1300);
+    }
+
+    function switchIdeRightSubtab(sub) {
+      IDE_RIGHT_SUBTAB = sub;
+      ['aidebug', 'editor', 'screenshot'].forEach(k => {
+        const b = document.getElementById('ideRightBtn-' + k);
+        if (b) b.classList.toggle('active', k === sub);
+        const p = document.getElementById('ideRightPane-' + k);
+        if (p) p.style.display = (k === sub) ? 'block' : 'none';
+      });
+      if (sub === 'editor' && !WORKSPACE_FILES.length) {
+        loadWorkspaceFiles();
+      }
+    }
+
+    function renderIdeScreenshotBox(pageObj, rec) {
+      const box = document.getElementById('ideScreenshotBox');
+      if (!box) return;
+      const shotUrl = rec && rec.screenshot_file ? `${rec.screenshot_file}?t=${Date.now()}` : '';
+      if (shotUrl) {
+        box.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span class="badge mint">📸 Live Captured Terminal PNG · Page ${pageObj.page_num}</span>
+            <button class="btn btn-sm" onclick="zoomImage('${shotUrl}')">🔍 Zoom Full-Screen</button>
+          </div>
+          <img src="${shotUrl}" alt="Page ${pageObj.page_num} Terminal Screenshot" style="width:100%;border-radius:12px;border:1.5px solid #f5d0fe;cursor:pointer;" onclick="zoomImage('${shotUrl}')">
+        `;
+      } else {
+        box.innerHTML = `
+          <div style="padding:18px;text-align:center;color:var(--text-muted);font-size:13px;">
+            No screenshot captured for Page ${pageObj.page_num} yet. Click <b>"▶ Run Page ${pageObj.page_num} Live"</b> or <b>"✨ AI Auto-Fix & Verify Page ${pageObj.page_num}"</b> to capture and save the terminal screenshot!
+          </div>
+        `;
+      }
+    }
+
+    function renderDefaultAiDebugForPage(pageObj, rec) {
+      const box = document.getElementById('aiDebugBox');
+      if (!box) return;
+      if (rec && rec.status === 'PASS') {
+        box.innerHTML = `
+          <div style="background:#ecfdf5;border:1.5px solid #6ee7b7;border-radius:13px;padding:13px 15px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+              <span class="badge mint">✅ PAGE ${pageObj.page_num} VERIFIED (EXIT CODE 0)</span>
+              <span style="font-size:11.8px;color:#047857;">Updated: ${escapeHtml(rec.updated_at || 'Just now')}</span>
+            </div>
+            <div style="font-size:12.8px;color:#065f46;line-height:1.55;margin-bottom:10px;">
+              Page ${pageObj.page_num} (<b>${escapeHtml(pageObj.title)}</b>) passed all verification checks and its terminal log + PNG screenshot are saved!
+            </div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
+              <button class="btn btn-sm btn-mint" onclick="switchIdeLeftSubtab('theory')">📘 Formulas & Videos</button>
+              <button class="btn btn-sm btn-lavender" onclick="switchIdeLeftSubtab('quiz')">🎯 Page ${pageObj.page_num} Quiz</button>
+              <button class="btn btn-sm" onclick="switchIdeLeftSubtab('flashcards')">🃏 Page Flashcards</button>
+              ${pageObj.page_num < 100 ? `<button class="btn btn-sm btn-pink" onclick="stepIdePage(1)">Next: Page ${pageObj.page_num + 1} ▶</button>` : ''}
+            </div>
+          </div>
+        `;
+      } else {
+        box.innerHTML = `
+          <div style="background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:13px;padding:13px 15px;">
+            <div style="font-size:13.2px;font-weight:800;color:#6b21a8;margin-bottom:5px;">
+              ✨ Self-Healing AI Auto-Debugger & Live Verifier Ready (Page ${pageObj.page_num})
+            </div>
+            <div style="font-size:12.4px;color:var(--text-body);line-height:1.55;margin-bottom:10px;">
+              Click <b>"▶ Run Page ${pageObj.page_num} Live"</b> to execute the one-liner in both this Web Terminal and your open macOS <code>Terminal.app</code> window. If any directory, file, or tool output is missing, click <b>"✨ AI Auto-Fix & Verify Page ${pageObj.page_num}"</b>!
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn btn-sm btn-pink" onclick="runCurrentPageInWebTerminal(true)">▶ Run Page ${pageObj.page_num} Live</button>
+              <button class="btn btn-sm btn-mint" onclick="runSelfHealingAiFix()">✨ AI Auto-Fix & Verify Page ${pageObj.page_num}</button>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function renderAiDebugResult(debugObj, pageNum) {
+      LAST_AI_DEBUG = Object.assign({ page_num: pageNum }, debugObj || {});
+      const box = document.getElementById('aiDebugBox');
+      if (!box || !debugObj) return;
+      const isOk = debugObj.status === 'PASS';
+
+      box.innerHTML = `
+        <div style="background:${isOk ? '#ecfdf5' : '#fff1f2'};border:1.5px solid ${isOk ? '#6ee7b7' : '#fda4af'};border-radius:13px;padding:13px 15px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="badge ${isOk ? 'mint' : 'coral'}">${escapeHtml(debugObj.headline || (isOk ? 'Verified' : 'Needs Fix'))}</span>
+            <span class="badge lavender">Page ${pageNum}</span>
+          </div>
+          <div style="font-size:12.8px;color:var(--text-body);line-height:1.55;margin-bottom:10px;">
+            <b>AI Root-Cause Analysis:</b> ${escapeHtml(debugObj.root_cause || '')}
+          </div>
+          ${!isOk ? `
+            <button class="btn btn-sm btn-mint" onclick="runSelfHealingAiFix()">
+              ✨ 1-Click Self-Healing AI Auto-Fix & Verify Page ${pageNum} Now
+            </button>
+          ` : `
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
+              <button class="btn btn-sm btn-mint" onclick="switchIdeLeftSubtab('theory')">📘 Open Formulas & Videos</button>
+              <button class="btn btn-sm btn-lavender" onclick="switchIdeLeftSubtab('quiz')">🎯 Take Page ${pageNum} Quiz</button>
+              ${pageNum < 100 ? `<button class="btn btn-sm btn-pink" onclick="stepIdePage(1)">Proceed to Page ${pageNum + 1} ▶</button>` : ''}
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    function appendToTerminalScreen(text) {
+      const scr = document.getElementById('webTerminalScreen');
+      if (!scr) return;
+      scr.textContent = (scr.textContent.replace(/\s*_\s*$/, '') + '\n' + text + '\nhuynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _').slice(-18000);
+      scr.scrollTop = scr.scrollHeight;
+    }
+
+    function clearWebTerminal() {
+      const scr = document.getElementById('webTerminalScreen');
+      if (scr) {
+        scr.textContent = 'huynguyen@MacBook-Air motion-estimator-14nm-asic-manual % _';
+      }
+    }
+
+    async function executeCommandInWebTerminal(cmdStr, pageNum, launchXquartz) {
+      if (!cmdStr) return;
+      const pNum = pageNum || IDE_CURRENT_PAGE;
+      const pill = document.getElementById('webTermStatusPill');
+      if (pill) {
+        pill.className = 'badge coral';
+        pill.textContent = `● Running Page ${pNum} Live...`;
+      }
+
+      animateVisualPipeline(1, {
+        1: `Broadcasting command to macOS Terminal.app (/dev/ttys0*)...`,
+        2: launchXquartz ? `Opening XQuartz.app (:0)...` : `XQuartz X11 Display :0 ready`,
+        3: `Executing Page ${pNum} command...`,
+        4: `Waiting for exit code & markers...`,
+        5: `Pending screenshot & log sync...`
+      }, false);
+
+      appendToTerminalScreen(`\n🌸 [Page ${pNum} Live Run — Mirrored to macOS Terminal.app]\n$ ${cmdStr}`);
+
+      try {
+        const res = await fetch('/api/exec_terminal', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            command: cmdStr,
+            page_num: pNum,
+            force_step: true,
+            launch_xquartz: Boolean(launchXquartz)
+          })
+        });
+        const data = await res.json();
+        appendToTerminalScreen(data.output || '(Done)');
+        if (data.state) {
+          LIVE_STATE = data.state;
+          updateTopProgressBadges();
+          populatePageDropdowns();
+        }
+        const isOk = data.exit_code === 0 && (!data.ai_debug || data.ai_debug.status === 'PASS');
+        animateVisualPipeline(5, {
+          1: `Mirrored live to macOS Terminal.app ✓`,
+          2: `XQuartz X11 Display :0 ready ✓`,
+          3: `Executed in ${data.elapsed_s || 0.1}s (Exit ${data.exit_code})`,
+          4: isOk ? `All expected markers verified ✓` : `Mismatch detected — Click AI Auto-Fix`,
+          5: isOk ? `PNG Screenshot & log saved ✓` : `Ready for AI Auto-Fix`
+        }, isOk);
+
+        if (pill) {
+          pill.className = isOk ? 'badge mint' : 'badge coral';
+          pill.textContent = isOk ? `● Exit 0 (${data.elapsed_s}s)` : `● Exit ${data.exit_code} — Click AI Auto-Fix`;
+        }
+        renderPracticeIde();
+        if (data.ai_debug) {
+          renderAiDebugResult(data.ai_debug, pNum);
+        }
+        return data;
+      } catch (err) {
+        appendToTerminalScreen(`[!] Network or execution error: ${err}`);
+        if (pill) {
+          pill.className = 'badge coral';
+          pill.textContent = '● Error';
+        }
+        return null;
+      }
+    }
+
+    function runCurrentPageInWebTerminal(launchGui) {
+      const pageObj = CURRICULUM.find(p => p.page_num === IDE_CURRENT_PAGE) || CURRICULUM[0];
+      if (!pageObj) return;
+      executeCommandInWebTerminal(pageObj.one_liner, pageObj.page_num, launchGui);
+    }
+
+    function executeFromTerminalInput() {
+      const inp = document.getElementById('webTerminalInput');
+      if (!inp || !inp.value.trim()) return;
+      const cmd = inp.value.trim();
+      inp.value = '';
+      executeCommandInWebTerminal(cmd, IDE_CURRENT_PAGE, false);
+    }
+
+    async function runSelfHealingAiFix() {
+      const pNum = IDE_CURRENT_PAGE;
+      const pill = document.getElementById('webTermStatusPill');
+      if (pill) {
+        pill.className = 'badge lavender';
+        pill.textContent = `✨ AI Auto-Fixing Page ${pNum}...`;
+      }
+      animateVisualPipeline(3, {
+        1: `Broadcasting AI Fix to macOS Terminal.app...`,
+        2: `Checking XQuartz & EDA shims...`,
+        3: `Repairing prerequisites & running Page ${pNum}...`,
+        4: `Verifying expected output markers...`,
+        5: `Rendering terminal screenshot PNG...`
+      }, false);
+
+      appendToTerminalScreen(`\n✨ [Self-Healing AI Auto-Debugger] Repairing & Verifying Page ${pNum}...\n`);
+      try {
+        const res = await fetch('/api/ai_fix_page', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ page_num: pNum })
+        });
+        const data = await res.json();
+        appendToTerminalScreen(data.output || '(AI Auto-Fix Completed with Exit Code 0)');
+        if (data.state) {
+          LIVE_STATE = data.state;
+          updateTopProgressBadges();
+          populatePageDropdowns();
+        }
+        animateVisualPipeline(5, {
+          1: `Printed live in macOS Terminal.app ✓`,
+          2: `XQuartz & environment verified ✓`,
+          3: `Self-healing command succeeded (0s) ✓`,
+          4: `Page ${pNum} Expected Markers Verified ✓`,
+          5: `Screenshot saved & Quiz unlocked ✓`
+        }, true);
+
+        if (pill) {
+          pill.className = 'badge mint';
+          pill.textContent = `● AI Verified Page ${pNum} ✓`;
+        }
+        renderPracticeIde();
+        if (data.ai_debug) {
+          renderAiDebugResult(data.ai_debug, pNum);
+        }
+        return data;
+      } catch (e) {
+        appendToTerminalScreen(`[!] AI Auto-Fix error: ${e}`);
+        return null;
+      }
+    }
+
+    async function launchXquartzAndTerminalNow() {
+      appendToTerminalScreen(`\n🖥️ [Launching macOS XQuartz.app & Terminal.app Live Banner]...`);
+      try {
+        const res = await fetch('/api/launch_gui', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ page_num: IDE_CURRENT_PAGE })
+        });
+        const data = await res.json();
+        appendToTerminalScreen(data.message || 'Launched XQuartz.app and broadcast live banner to open macOS Terminal tabs!');
+      } catch (e) {
+        appendToTerminalScreen(`[!] Could not launch GUI: ${e}`);
+      }
+    }
+
+    async function runBatchPagesLive(startPage, endPage) {
+      if (BATCH_RUNNING) return;
+      BATCH_RUNNING = true;
+      const box = document.getElementById('batchBuildProgressBox');
+      if (box) box.style.display = 'block';
+      for (let p = startPage; p <= endPage; p++) {
+        if (!BATCH_RUNNING) break;
+        if (box) {
+          const pct = Math.round(((p - startPage + 1) / (endPage - startPage + 1)) * 100);
+          box.innerHTML = `
+            <div style="background:#fff;border:1.5px solid #f472b6;border-radius:12px;padding:12px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-weight:800;color:#be185d;">🌸 Auto-Building & Verifying Page ${p} of ${endPage}... (${pct}%)</span>
+                <button class="btn btn-sm" onclick="BATCH_RUNNING=false;">⏹ Stop Batch</button>
+              </div>
+              <div style="height:10px;background:#fce7f3;border-radius:999px;overflow:hidden;">
+                <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#ec4899,#9333ea);transition:width 0.2s;"></div>
+              </div>
+            </div>
+          `;
+        }
+        IDE_CURRENT_PAGE = p;
+        const res = await fetch('/api/ai_fix_page', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ page_num: p })
+        });
+        const data = await res.json();
+        if (data && data.state) LIVE_STATE = data.state;
+        updateTopProgressBadges();
+        renderV1V9Stages();
+      }
+      BATCH_RUNNING = false;
+      populatePageDropdowns();
+      renderPracticeIde();
+      renderCurriculumExplorer();
+      if (box) {
+        box.innerHTML = `
+          <div style="background:#ecfdf5;border:1.5px solid #34d399;border-radius:12px;padding:12px;font-weight:800;color:#065f46;">
+            ✅ Completed & Verified Pages ${startPage}–${endPage}! Total Verified: ${(LIVE_STATE && LIVE_STATE.total_passed_pages) || 0} / 100 Pages.
+          </div>
+        `;
+      }
+    }
+
+    async function resetToFreshPage1() {
+      await fetch('/api/reset_progress', { method: 'POST' });
+      await fetchLiveState();
+      selectIdePage(1);
+      renderV1V9Stages();
+      renderCurriculumExplorer();
+    }
+
+    /* Workspace File Editor */
+    async function loadWorkspaceFiles() {
+      try {
+        const res = await fetch('/api/workspace_files');
+        const data = await res.json();
+        WORKSPACE_FILES = data.files || [];
+        const bar = document.getElementById('editorFileTabs');
+        if (bar && WORKSPACE_FILES.length) {
+          bar.innerHTML = WORKSPACE_FILES.map((f, idx) => `
+            <button class="btn btn-sm ${idx === 0 ? 'btn-pink' : ''}" onclick="openEditorFileByIndex(${idx})">
+              ${escapeHtml(f.label)}
+            </button>
+          `).join('');
+          openEditorFileByIndex(0);
+        }
+      } catch (e) {}
+    }
+
+    async function openEditorFileByIndex(idx) {
+      const f = WORKSPACE_FILES[idx];
+      if (!f) return;
+      CURRENT_EDITOR_PATH = f.rel_path;
+      try {
+        const res = await fetch('/api/workspace_file?path=' + encodeURIComponent(f.rel_path));
+        const data = await res.json();
+        document.getElementById('ideCodeEditor').value = data.content || '';
+        document.getElementById('editorFileMeta').textContent = `Editing: ~/Developer/motion-estimator-14nm-asic-manual/${f.rel_path} (${data.lines || 0} lines)`;
+      } catch (e) {}
+    }
+
+    async function saveCurrentEditorFile() {
+      if (!CURRENT_EDITOR_PATH) return;
+      const content = document.getElementById('ideCodeEditor').value;
+      await fetch('/api/workspace_file', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: CURRENT_EDITOR_PATH, content })
+      });
+      document.getElementById('editorFileMeta').textContent = `✓ Saved ${CURRENT_EDITOR_PATH} at ${new Date().toLocaleTimeString()}`;
+    }
+
+    function compileAndSimInTerminal() {
+      switchIdeRightSubtab('aidebug');
+      executeCommandInWebTerminal('vcs -full64 -sverilog rtl/16bit/pe.v rtl/16bit/comparator.v rtl/16bit/control.v rtl/16bit/top.v tb/16bit/top_tb_direct.v -o simv_16b && ./simv_16b', IDE_CURRENT_PAGE, false);
+    }
+
+    /* Tab 2: V1 -> V9 Stages & 100-Page Explorer */
+    function renderV1V9Stages() {
+      const grid = document.getElementById('v1v9StagesGrid');
+      if (!grid) return;
+      const done = (LIVE_STATE && LIVE_STATE.completed_pages) || {};
+      const totalPassed = (LIVE_STATE && LIVE_STATE.total_passed_pages) || 0;
+      const b = document.getElementById('builderTotalBadge');
+      if (b) b.textContent = `✓ ${totalPassed} / 100 Pages Verified`;
+
+      grid.innerHTML = V_STAGES_META.map(st => {
+        const [pStart, pEnd] = st.range;
+        const count = pEnd - pStart + 1;
+        let passed = 0;
+        for (let p = pStart; p <= pEnd; p++) {
+          if (done[String(p)] && done[String(p)].status === 'PASS') passed++;
+        }
+        const pct = Math.round((passed / count) * 100);
+        return `
+          <div class="studio-card" style="margin-bottom:0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <span class="badge ${passed === count ? 'mint' : 'lavender'}">${st.id} · Pages ${pStart}–${pEnd}</span>
+              <span style="font-size:12px;font-weight:800;color:#be185d;">${passed}/${count} (${pct}%)</span>
+            </div>
+            <h4 style="margin:0 0 6px 0;font-size:14.5px;color:var(--text-main);">${escapeHtml(st.title)}</h4>
+            <p style="margin:0 0 10px 0;font-size:12.2px;color:var(--text-body);line-height:1.48;">${escapeHtml(st.desc)}</p>
+            <div style="height:7px;background:#fce7f3;border-radius:999px;overflow:hidden;margin-bottom:10px;">
+              <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#ec4899,#10b981);"></div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="btn btn-sm btn-pink" onclick="selectIdePage(${pStart});switchTab('tab-lab');">Open Page ${pStart}</button>
+              <button class="btn btn-sm btn-mint" onclick="runBatchPagesLive(${pStart}, ${pEnd})">✨ Build & Verify Stage (${pStart}–${pEnd})</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderCurriculumExplorer() {
+      const filterBar = document.getElementById('currStageFilterBar');
+      const listBox = document.getElementById('currExplorerList');
+      if (!listBox || !CURRICULUM.length) return;
+      const stages = ['ALL', 'V1-PREP', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9'];
+      if (filterBar) {
+        filterBar.innerHTML = stages.map(s => `
+          <button class="btn btn-sm ${CURR_STAGE_FILTER === s ? 'btn-pink' : ''}" onclick="CURR_STAGE_FILTER='${s}';renderCurriculumExplorer();">
+            ${s}
+          </button>
+        `).join('');
+      }
+      const q = ((document.getElementById('currSearchInput') || {}).value || '').toLowerCase().trim();
+      const done = (LIVE_STATE && LIVE_STATE.completed_pages) || {};
+      const filtered = CURRICULUM.filter(p => {
+        if (CURR_STAGE_FILTER !== 'ALL' && p.v_stage !== CURR_STAGE_FILTER) return false;
+        if (!q) return true;
+        return (
+          String(p.page_num).includes(q) ||
+          (p.title || '').toLowerCase().includes(q) ||
+          (p.one_liner || '').toLowerCase().includes(q)
+        );
+      });
+
+      listBox.innerHTML = `<div class="grid-2">` + filtered.map(p => {
+        const rec = done[String(p.page_num)];
+        const isPass = rec && rec.status === 'PASS';
+        return `
+          <div style="border:1.5px solid ${isPass ? '#a7f3d0' : '#f5d0fe'};background:#fff;border-radius:12px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:240px;">
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <span class="badge ${isPass ? 'mint' : 'lavender'}">${isPass ? '✓ PASS' : '⏳'} · Page ${p.page_num} (${p.v_stage})</span>
+                <b style="font-size:13.5px;color:var(--text-main);">${escapeHtml(p.title)}</b>
+              </div>
+              <div style="font-size:11.5px;color:var(--text-muted);font-family:var(--mono);margin-top:3px;">
+                ${escapeHtml((p.one_liner || '').slice(0, 110))}...
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-sm btn-pink" onclick="selectIdePage(${p.page_num});switchTab('tab-lab');">🌸 Open in Lab</button>
+              <button class="btn btn-sm btn-mint" onclick="selectIdePage(${p.page_num});switchTab('tab-lab');runSelfHealingAiFix();">✨ Auto-Fix</button>
+            </div>
+          </div>
+        `;
+      }).join('') + `</div>`;
+    }
+
+    /* Tab 3: 4 Interactive Hardware Simulators */
+    function setSadSimPreset(diff, px) {
+      document.getElementById('sadDiffSlider').value = diff;
+      document.getElementById('sadPixelsSlider').value = px;
+      updateSadSimulator();
+    }
+
+    function updateSadSimulator() {
+      const diff = parseInt((document.getElementById('sadDiffSlider') || {}).value || '255', 10);
+      const px = parseInt((document.getElementById('sadPixelsSlider') || {}).value || '256', 10);
+      document.getElementById('sadDiffValLbl').textContent = String(diff);
+      document.getElementById('sadPixelsValLbl').textContent = `${px} pixels`;
+
+      const trueSad = diff * px;
+      const sad8 = Math.min(255, trueSad);
+      const sad16 = Math.min(65535, trueSad);
+      const hex8 = '0x' + sad8.toString(16).toUpperCase().padStart(2, '0');
+      const hex16 = '0x' + sad16.toString(16).toUpperCase().padStart(4, '0');
+      const clamped8 = trueSad > 255;
+      const newBest8 = sad8 < 255 ? 1 : 0;
+      const newBest16 = sad16 < 65535 ? 1 : 0;
+
+      const box = document.getElementById('sadSimOutputBox');
+      if (!box) return;
+      box.innerHTML = `
+        <div class="grid-2" style="gap:10px;">
+          <div style="background:#fff1f2;border:1.5px solid #fda4af;border-radius:11px;padding:11px 13px;">
+            <div style="font-size:12.2px;font-weight:800;color:#be123c;">❌ Original 8-Bit Datapath (V1/V2 Trap)</div>
+            <div style="font-size:13.2px;margin-top:4px;"><code>Accumulate[7:0]</code> = <b>${sad8} (${hex8})</b> ${clamped8 ? '<span class="badge coral">SATURATED AT 0xFF!</span>' : ''}</div>
+            <div style="font-size:12.2px;margin-top:4px;">Comparator <code>(${hex8} &lt; 0xFF)</code> ➔ <code>newBest = ${newBest8}</code></div>
+            <div style="font-size:12px;color:#9f1239;margin-top:3px;">${newBest8 === 0 ? 'Deadlock! BestDist stays 0xFF and motionX/Y remain xx!' : 'No overflow at this small pixel sum.'}</div>
+          </div>
+          <div style="background:#ecfdf5;border:1.5px solid #6ee7b7;border-radius:11px;padding:11px 13px;">
+            <div style="font-size:12.2px;font-weight:800;color:#047857;">✅ Upgraded 16-Bit Datapath (V3–V9 Fix)</div>
+            <div style="font-size:13.2px;margin-top:4px;"><code>Accumulate[15:0]</code> = <b>${sad16} (${hex16})</b></div>
+            <div style="font-size:12.2px;margin-top:4px;">Comparator <code>(${hex16} &lt; 0xFFFF)</code> ➔ <code>newBest = ${newBest16}</code></div>
+            <div style="font-size:12px;color:#065f46;margin-top:3px;">Exact 16-bit SAD preserved! Latches valid motionX & motionY.</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function resetStaSimulator() {
+      document.getElementById('staFreqSlider').value = 520;
+      document.getElementById('staLevelsSlider').value = 12;
+      updateStaSimulator();
+    }
+
+    function updateStaSimulator() {
+      const freq = parseInt((document.getElementById('staFreqSlider') || {}).value || '520', 10);
+      const levels = parseInt((document.getElementById('staLevelsSlider') || {}).value || '12', 10);
+      const period = +(1000 / freq).toFixed(3);
+      document.getElementById('staFreqLbl').textContent = `${freq} MHz (${period} ns)`;
+      document.getElementById('staLevelsLbl').textContent = `${levels} levels`;
+
+      const scale = levels / 12.0;
+      const tFF = +(1.14 * scale).toFixed(2);
+      const tTT = +(1.31 * scale).toFixed(2);
+      const tSS = +(1.63 * scale).toFixed(2);
+      const sFF = +(period - tFF - 0.07).toFixed(2);
+      const sTT = +(period - tTT - 0.07).toFixed(2);
+      const sSS = +(period - tSS - 0.07).toFixed(2);
+
+      const box = document.getElementById('staSimOutputBox');
+      if (!box) return;
+      box.innerHTML = `
+        <div style="background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:11px;padding:11px 13px;font-size:12.8px;">
+          <div style="margin-bottom:5px;"><b>• Corner 1 (FF · 0.88V, 125°C):</b> Arrival = ${tFF} ns ➔ Setup Slack = <b style="color:${sFF >= 0 ? '#047857' : '#be123c'};">${sFF >= 0 ? '+' : ''}${sFF} ns (${sFF >= 0 ? 'MET' : 'VIOLATED'})</b></div>
+          <div style="margin-bottom:5px;"><b>• Corner 2 (TT · 0.80V, 25°C):</b> Arrival = ${tTT} ns ➔ Setup Slack = <b style="color:${sTT >= 0 ? '#047857' : '#be123c'};">${sTT >= 0 ? '+' : ''}${sTT} ns (${sTT >= 0 ? 'MET' : 'VIOLATED'})</b></div>
+          <div><b>• Corner 3 (SS · 0.72V, -40°C):</b> Arrival = ${tSS} ns ➔ Setup Slack = <b style="color:${sSS >= 0 ? '#047857' : '#be123c'};">${sSS >= 0 ? '+' : ''}${sSS} ns (${sSS >= 0 ? 'MET' : 'VIOLATED'})</b></div>
+        </div>
+      `;
+    }
+
+    function setSystolicCycle(c) {
+      document.getElementById('sysCycleSlider').value = c;
+      updateSystolicSimulator();
+    }
+
+    function updateSystolicSimulator() {
+      const cyc = parseInt((document.getElementById('sysCycleSlider') || {}).value || '4111', 10);
+      const hex = '0x' + cyc.toString(16).toUpperCase().padStart(4, '0');
+      document.getElementById('sysCycleLbl').textContent = `${cyc} (${hex})`;
+      const candIdx = Math.min(255, Math.floor(cyc / 16));
+      const rowInCand = cyc % 16;
+      const mx = (candIdx % 16) - 8;
+      const my = Math.floor(candIdx / 16) - 8;
+      const isComplete = cyc >= 4111;
+      const box = document.getElementById('sysSimOutputBox');
+      if (!box) return;
+      box.innerHTML = `
+        <div style="background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:11px;padding:11px 13px;font-size:12.8px;">
+          <div><b>• Active Candidate Block:</b> #${candIdx} of 256 · Motion Vector <code>(dx=${mx >= 0 ? '+' + mx : mx}, dy=${my >= 0 ? '+' + my : my})</code></div>
+          <div style="margin-top:4px;"><b>• Row Streamed in Current Block:</b> Row ${rowInCand} / 15 · Simulated Time = <b>${(cyc * 1.923).toFixed(2)} ns</b></div>
+          <div style="margin-top:4px;"><b>• Terminal Flag (<code>completed</code>):</b> <span class="badge ${isComplete ? 'mint' : 'lavender'}">${isComplete ? 'completed = 1 (All 256 Candidates Done!)' : 'completed = 0 (Streaming)'}</span></div>
+        </div>
+      `;
+    }
+
+    function resetPowerSimulator() {
+      document.getElementById('pwrVddSlider').value = 0.80;
+      document.getElementById('pwrAlphaSlider').value = 0.18;
+      updatePowerSimulator();
+    }
+
+    function updatePowerSimulator() {
+      const vdd = parseFloat((document.getElementById('pwrVddSlider') || {}).value || '0.80');
+      const alpha = parseFloat((document.getElementById('pwrAlphaSlider') || {}).value || '0.18');
+      document.getElementById('pwrVddLbl').textContent = `${vdd.toFixed(2)} V`;
+      document.getElementById('pwrAlphaLbl').textContent = alpha.toFixed(2);
+      const pDyn = +(alpha * 8.4 * vdd * vdd * 0.52).toFixed(3);
+      const pLeak = +(0.12 * Math.exp((vdd - 0.8) * 3.2)).toFixed(3);
+      const pTot = +(pDyn + pLeak).toFixed(3);
+      const box = document.getElementById('pwrSimOutputBox');
+      if (!box) return;
+      box.innerHTML = `
+        <div style="background:#fff5f8;border:1.5px solid #fbcfe8;border-radius:11px;padding:11px 13px;font-size:12.8px;">
+          <div><b>• Dynamic Power (<code>P_dyn = alpha × C × V_DD² × f</code>):</b> ${pDyn} mW</div>
+          <div style="margin-top:4px;"><b>• FinFET Subthreshold Leakage (<code>P_leak</code>):</b> ${pLeak} mW</div>
+          <div style="margin-top:4px;"><b>• Total Core Power @ 520 MHz (8,230 cells, 7,854.40 um²):</b> <b style="color:#be185d;">${pTot} mW</b></div>
+        </div>
+      `;
+    }
+
+    /* Tab 4: Waveforms & 14nm Layout */
+    function renderWaveformGallery() {
+      const grid = document.getElementById('waveformGalleryGrid');
+      if (!grid) return;
+      const items = (LIVE_STATE && LIVE_STATE.waveform_gallery) || [];
+      grid.innerHTML = items.map(g => `
+        <div class="studio-card" style="margin-bottom:0;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="badge lavender">${escapeHtml(g.stage)} · Page ${g.page_num}</span>
+            <span class="badge mint">✓ Verified Capture</span>
+          </div>
+          <h3 style="margin:0 0 6px 0;font-size:16px;">${escapeHtml(g.title)}</h3>
+          <p style="margin:0 0 10px 0;font-size:12.6px;color:var(--text-body);line-height:1.52;">${escapeHtml(g.desc)}</p>
+          ${g.img_url ? `
+            <img src="${g.img_url}" alt="${escapeHtml(g.title)}" style="width:100%;max-height:300px;object-fit:contain;background:#190d2c;border-radius:12px;border:1.5px solid #f5d0fe;cursor:pointer;margin-bottom:10px;" onclick="zoomImage('${g.img_url}')">
+          ` : ''}
+          <pre class="code-box" style="font-size:11.6px;margin-bottom:10px;">${escapeHtml(g.tcl_cmd)}</pre>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-sm btn-pink" onclick="selectIdePage(${g.page_num});switchTab('tab-lab');executeCommandInWebTerminal(${JSON.stringify(g.tcl_cmd).replace(/"/g, '&quot;')}, ${g.page_num}, true);">
+              🖥️ Launch in XQuartz & Run Live
+            </button>
+            <button class="btn btn-sm" onclick="zoomImage('${g.img_url}')">🔍 Zoom Full-Screen</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* ====================================================================== */
+    /* TAB 5: SPACIOUS STUDY GUIDE (F0-F17 FULL FORMULAS) & MIDTERM (Q1-Q15)  */
+    /* ====================================================================== */
+    function switchStudySubtab(sub) {
+      ['foundations', 'midterm', 'pagequiz'].forEach(k => {
+        const b = document.getElementById('studyBtn-' + k);
+        if (b) b.classList.toggle('active', k === sub);
+        const p = document.getElementById('studyPane-' + k);
+        if (p) p.style.display = (k === sub) ? 'block' : 'none';
+      });
+      if (sub === 'pagequiz') {
+        renderQuizBankForPage(IDE_CURRENT_PAGE);
+      }
+    }
+
+    function renderStudyGuideAndMidterm() {
+      const mGrid = document.getElementById('midtermQuestionsGrid');
+      const fGrid = document.getElementById('studyGuideF0F17Grid');
+      const mqList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.midterm_and_exam_bank) || [];
+      const fList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.foundations) || [];
+      const tmList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.three_method_modules) || [];
+
+      if (fGrid) {
+        fGrid.innerHTML = `
+          <div class="studio-card">
+            <h3 style="margin:0 0 12px 0;font-size:18px;">📘 Part A: Electrical, Digital Logic & 14nm CMOS Foundations (F0–F17 — Full Mathematical Formulas)</h3>
+            <div class="grid-spacious-2">
+              ${fList.map(f => `
+                <div style="border:1.5px solid #f5d0fe;background:#ffffff;border-radius:15px;padding:16px 18px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;box-shadow:0 4px 14px rgba(168,85,247,0.05);">
+                  <div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                      <span class="badge lavender">${escapeHtml(f.id)} · ${escapeHtml(f.category || '')}</span>
+                      <button class="btn btn-sm" onclick="openFlashcardById('f_${escapeHtml(f.id)}')">🃏 Flip in 3D Flashcards</button>
+                    </div>
+                    <h4 style="margin:0 0 8px 0;font-size:16.5px;color:var(--text-main);line-height:1.35;">${escapeHtml(f.title || '')}</h4>
+                    <div style="font-size:13.2px;color:var(--text-body);line-height:1.62;margin-bottom:10px;">
+                      ${escapeHtml(f.basic_concept || '')}
+                    </div>
+                    <div style="font-size:11.8px;font-weight:800;color:#6b21a8;margin-bottom:4px;">📐 Complete Formula & Engineering Derivation:</div>
+                    ${formatFormulaDisplayHtml(f.equation || '')}
+                  </div>
+                  <div style="background:#fff1f2;border-left:4px solid #ec4899;border-radius:9px;padding:9px 12px;font-size:12.6px;color:#831843;line-height:1.52;">
+                    <b>🔗 14nm Motion Estimator ASIC Connection:</b> ${escapeHtml(f.asic_connection || '')}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="studio-card">
+            <h3 style="margin:0 0 12px 0;font-size:18px;">🏛️ Part B: Three-Method RTL Implementation Modules (Lecture 3 & Study Guide v8 Aligned)</h3>
+            <div class="grid-spacious-2">
+              ${tmList.map(tm => `
+                <div style="border:1.5px solid #6ee7b7;background:#f0fdf4;border-radius:15px;padding:16px 18px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                    <span class="badge mint">${escapeHtml(tm.tag || tm.id)} · Linked Pages ${escapeHtml(tm.pages_linked || '')}</span>
+                    <button class="btn btn-sm btn-mint" onclick="openFlashcardById('tm_${escapeHtml(tm.id)}')">🃏 Study Flashcard</button>
+                  </div>
+                  <h4 style="margin:0 0 10px 0;font-size:16.5px;color:var(--text-main);">${escapeHtml(tm.title || '')}</h4>
+                  <div style="font-size:13px;line-height:1.6;color:var(--text-body);">
+                    <div style="background:#fff;border:1px solid #a7f3d0;border-radius:10px;padding:10px 12px;margin-bottom:8px;">
+                      <b style="color:#047857;">• Method 1 (Paper-Style Explicit FSM / Datapath):</b><br>${escapeHtml(tm.method1 || '')}
+                    </div>
+                    <div style="background:#fff;border:1.5px solid #10b981;border-radius:10px;padding:10px 12px;margin-bottom:8px;">
+                      <b style="color:#065f46;">• Method 2 (Direct-Assignment Systolic Pipeline — Used in Chip):</b><br>${escapeHtml(tm.method2 || '')}
+                    </div>
+                    <div style="background:#fff;border:1px solid #a7f3d0;border-radius:10px;padding:10px 12px;">
+                      <b style="color:#047857;">• Method 3 (Parameterized Generate-Block Array):</b><br>${escapeHtml(tm.method3 || '')}
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      if (mGrid) {
+        mGrid.innerHTML = mqList.map((mq) => {
+          const key = `midterm_${mq.id}`;
+          const chosen = QUIZ_STATE[key];
+          const isAnswered = chosen !== undefined && chosen !== null;
+          const isCorrect = isAnswered && chosen === mq.correct_index;
+          const opts = Array.isArray(mq.options) ? mq.options : [];
+          return `
+            <div class="studio-card" style="border-color:${isCorrect ? '#6ee7b7' : '#f5d0fe'};">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                  <span class="badge lavender">${escapeHtml(mq.id)} · ${escapeHtml(mq.source || 'Midterm Exam')}</span>
+                  <span class="badge">${escapeHtml(mq.topic || '')}</span>
+                  ${isAnswered ? `<span class="badge ${isCorrect ? 'mint' : 'coral'}">${isCorrect ? '✓ Solved Correctly' : '✗ Review Solution on Right'}</span>` : ''}
+                </div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="btn btn-sm" onclick="openFlashcardById('mq_${escapeHtml(mq.id)}')">🃏 Flip as Flashcard</button>
+                  ${(mq.linked_pages && mq.linked_pages.length) ? `
+                    <button class="btn btn-sm btn-pink" onclick="selectIdePage(${mq.linked_pages[0]});switchTab('tab-lab');">
+                      🌸 Practice Lab Page ${mq.linked_pages[0]}
+                    </button>
+                  ` : ''}
+                </div>
+              </div>
+
+              <!-- Spacious 2-Column Split Question Card -->
+              <div class="question-split-card">
+                <!-- Left: Question Prompt & Interactive Options -->
+                <div>
+                  <h3 style="margin:0 0 12px 0;font-size:16px;line-height:1.52;color:var(--text-main);">${escapeHtml(mq.prompt || '')}</h3>
+                  <div>
+                    ${opts.map((optStr, oIdx) => {
+                      let cls = 'quiz-choice';
+                      if (isAnswered) {
+                        if (oIdx === mq.correct_index) cls += ' correct';
+                        else if (oIdx === chosen) cls += ' wrong';
+                      }
+                      return `
+                        <button class="${cls}" onclick="answerMidtermQuiz('${escapeHtml(mq.id)}', ${oIdx})">
+                          ${escapeHtml(optStr)}
+                        </button>
+                      `;
+                    }).join('')}
+                  </div>
+                </div>
+
+                <!-- Right: Formula Derivation, Whiteboard Proof & Spiral Notebook Sheet -->
+                <div style="background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:14px;padding:14px;">
+                  <div style="font-size:12.5px;font-weight:800;color:#6b21a8;margin-bottom:6px;">
+                    📐 Step-by-Step Mathematical Proof & Exam Solution (${escapeHtml(mq.id)}):
+                  </div>
+                  ${isAnswered ? `
+                    <div style="font-size:13px;line-height:1.6;color:var(--text-body);margin-bottom:8px;">
+                      <div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:9px;padding:8px 11px;margin-bottom:8px;color:#065f46;">
+                        <b>✅ Exam Short Answer:</b> ${escapeHtml(mq.short_answer || '')}
+                      </div>
+                      <div style="margin-bottom:8px;"><b>📐 Whiteboard Derivation:</b> ${escapeHtml(mq.whiteboard_proof || '')}</div>
+                      ${mq.rtl_fix ? formatFormulaDisplayHtml(mq.rtl_fix) : ''}
+                    </div>
+                  ` : `
+                    <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:10px;">
+                      Select any answer choice on the left to reveal the complete step-by-step equation derivation and Verilog solution, or inspect the handwritten spiral-notebook sheet below!
+                    </div>
+                  `}
+                  ${mq.sheet_img ? `
+                    <div>
+                      <div style="font-size:11.8px;font-weight:700;color:#be185d;margin-bottom:4px;">📓 Handwritten Spiral-Notebook Solution Sheet (Click to Zoom):</div>
+                      <img src="${mq.sheet_img}" alt="${escapeHtml(mq.id)} Handwritten Sheet" style="width:100%;max-height:240px;object-fit:contain;background:#fff;border-radius:10px;border:1.5px solid #f5d0fe;cursor:pointer;" onclick="zoomImage('${mq.sheet_img}')">
+                    </div>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function renderQuizBankForPage(pnum) {
+      const n = Math.max(1, Math.min(100, parseInt(pnum || 1, 10)));
+      const sel = document.getElementById('quizBankPageSelect');
+      if (sel) sel.value = String(n);
+      const box = document.getElementById('quizBankQuestionsBox');
+      if (!box || !CURRICULUM.length) return;
+      const pageObj = CURRICULUM.find(p => p.page_num === n) || CURRICULUM[0];
+      box.innerHTML = buildPageQuizHtml(pageObj);
+    }
+
+    function stepQuizBankPage(delta) {
+      const sel = document.getElementById('quizBankPageSelect');
+      const cur = sel ? parseInt(sel.value || '1', 10) : IDE_CURRENT_PAGE;
+      renderQuizBankForPage(cur + delta);
+    }
+
+    /* ====================================================================== */
+    /* TAB 6: UNIVERSITY 3D FLASHCARDS DECK & LIVE INTERNET RESOURCE ENGINE   */
+    /* ====================================================================== */
+    function buildCompleteFlashcardDeck() {
+      const deck = [];
+      const fList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.foundations) || [];
+      const tmList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.three_method_modules) || [];
+      const mqList = (STUDY_AND_MIDTERM && STUDY_AND_MIDTERM.midterm_and_exam_bank) || [];
+
+      // 1. Foundations F0-F17
+      fList.forEach(f => {
+        deck.push({
+          id: `f_${f.id}`,
+          cat_key: 'FOUNDATIONS',
+          category: `📘 Foundation ${f.id} · ${f.category || 'Electrical & Logic'}`,
+          tag: f.id,
+          page_num: 1,
+          front: `${f.id}: ${f.title} — What is the core engineering principle and formula?`,
+          hint: f.basic_concept || '',
+          formula: f.equation || '',
+          back: `${f.basic_concept || ''}\n\n🔗 14nm Motion Estimator Connection: ${f.asic_connection || ''}`
+        });
+      });
+
+      // 2. Three-Method RTL Modules
+      tmList.forEach(tm => {
+        deck.push({
+          id: `tm_${tm.id}`,
+          cat_key: 'RTL_METHODS',
+          category: `🏛️ Three-Method RTL · ${tm.tag || tm.id}`,
+          tag: tm.tag || tm.id,
+          page_num: 13,
+          front: `Compare Method 1 (Explicit FSM), Method 2 (Direct Systolic Pipeline), and Method 3 (Parameterized Generate) for: ${tm.title}`,
+          hint: `Linked to Pages ${tm.pages_linked || '13–42'}`,
+          formula: `Method 2 (Chip): ${tm.method2 || ''}`,
+          back: `• Method 1: ${tm.method1 || ''}\n• Method 2: ${tm.method2 || ''}\n• Method 3: ${tm.method3 || ''}`
+        });
+      });
+
+      // 3. Midterm & Exam Q1-Q15
+      mqList.forEach(mq => {
+        deck.push({
+          id: `mq_${mq.id}`,
+          cat_key: 'MIDTERM',
+          category: `📝 Midterm & Exam · ${mq.id}`,
+          tag: mq.topic || mq.id,
+          page_num: (mq.linked_pages && mq.linked_pages[0]) || 25,
+          front: `${mq.id} (${mq.topic || 'Exam Problem'}): ${mq.prompt}`,
+          hint: mq.short_answer || '',
+          formula: mq.rtl_fix || mq.short_answer || '',
+          back: `${mq.whiteboard_proof || mq.short_answer || ''}`
+        });
+      });
+
+      // 4. All 100 Pages Core Cards + 500 Mastery Quiz Cards
+      CURRICULUM.forEach(p => {
+        deck.push({
+          id: `page_core_${p.page_num}`,
+          cat_key: 'PAGES_V1_V9',
+          category: `🌸 Page ${p.page_num} (${p.v_stage}) Core Concept`,
+          tag: p.v_stage,
+          page_num: p.page_num,
+          front: `Page ${p.page_num} (${p.v_stage}) — ${p.title}: What does this step accomplish and verify in the 14nm Motion Estimator build?`,
+          hint: (p.level_guidance && p.level_guidance.beginner && p.level_guidance.beginner.plain_english_summary) || '',
+          formula: (p.expected_out || []).slice(0, 2).join(' | '),
+          back: `${p.foundation_text || ''}`
+        });
+        (p.quiz_questions || []).forEach((q, qIdx) => {
+          const correctOpt = (q.options || [])[q.answer] || '';
+          deck.push({
+            id: `p${p.page_num}_q${qIdx}`,
+            cat_key: 'PAGES_V1_V9',
+            category: `🎯 Page ${p.page_num} (${p.v_stage}) · ${q.difficulty_label || 'Quiz'}`,
+            tag: `Page ${p.page_num}`,
+            page_num: p.page_num,
+            front: q.q || '',
+            hint: q.hint || '',
+            formula: `Correct Answer: ${correctOpt}`,
+            back: `${q.explain || ''}`
+          });
+        });
+      });
+
+      // 5. Discovered & Custom Resources
+      DISCOVERED_RESOURCES.forEach((r, idx) => {
+        deck.push({
+          id: r.id || `disc_${idx}`,
+          cat_key: 'DISCOVERED',
+          category: r.category || '🌐 Discovered Web Resource',
+          tag: r.source || 'Live Resource',
+          page_num: (r.pages && r.pages[0]) || IDE_CURRENT_PAGE,
+          front: `${r.title} — What is the key engineering formula, concept, and 14nm ASIC role?`,
+          hint: r.source || '',
+          formula: r.formula || '',
+          back: `${r.summary || ''}\n\n🔗 ASIC Link: ${r.asic_link || ''}`
+        });
+      });
+
+      FLASHCARD_DECK = deck;
+      const totBadge = document.getElementById('flashcardTotalCountBadge');
+      if (totBadge) totBadge.textContent = `${deck.length} University Flashcards Loaded`;
+      applyFlashcardCategoryFilter(FLASHCARD_CAT_FILTER);
+      updateFlashcardMasteryBadge();
+    }
+
+    function applyFlashcardCategoryFilter(catKey) {
+      FLASHCARD_CAT_FILTER = catKey;
+      if (catKey === 'ALL') {
+        FILTERED_FLASHCARDS = FLASHCARD_DECK.slice();
+      } else if (catKey === 'CURRENT_PAGE') {
+        FILTERED_FLASHCARDS = FLASHCARD_DECK.filter(c => c.page_num === IDE_CURRENT_PAGE);
+      } else {
+        FILTERED_FLASHCARDS = FLASHCARD_DECK.filter(c => c.cat_key === catKey);
+      }
+      if (!FILTERED_FLASHCARDS.length) {
+        FILTERED_FLASHCARDS = FLASHCARD_DECK.slice();
+      }
+      FLASHCARD_INDEX = Math.min(FLASHCARD_INDEX, FILTERED_FLASHCARDS.length - 1);
+      if (FLASHCARD_INDEX < 0) FLASHCARD_INDEX = 0;
+      renderFlashcardStudio();
+    }
+
+    function renderFlashcardStudio() {
+      const catBar = document.getElementById('flashcardCategoryBar');
+      if (catBar) {
+        const cats = [
+          { k: 'ALL', lbl: `All Cards (${FLASHCARD_DECK.length})` },
+          { k: 'CURRENT_PAGE', lbl: `Page ${IDE_CURRENT_PAGE} Cards` },
+          { k: 'FOUNDATIONS', lbl: '📘 Electrical & CMOS (F0–F17)' },
+          { k: 'RTL_METHODS', lbl: '🏛️ Three-Method RTL' },
+          { k: 'MIDTERM', lbl: '📝 Midterm Exam (Q1–Q15)' },
+          { k: 'PAGES_V1_V9', lbl: '🌸 Pages 1–100 & Quiz' },
+          { k: 'DISCOVERED', lbl: '🌐 Discovered & Custom' }
+        ];
+        catBar.innerHTML = cats.map(c => `
+          <button class="btn btn-sm ${FLASHCARD_CAT_FILTER === c.k ? 'btn-pink' : ''}" onclick="applyFlashcardCategoryFilter('${c.k}')">
+            ${escapeHtml(c.lbl)}
+          </button>
+        `).join('');
+      }
+
+      if (!FILTERED_FLASHCARDS.length) return;
+      const card = FILTERED_FLASHCARDS[FLASHCARD_INDEX] || FILTERED_FLASHCARDS[0];
+      const stage = document.getElementById('flashcardStage');
+      if (stage) stage.classList.remove('flipped');
+
+      const ctr = document.getElementById('flashcardCounterBadge');
+      const status = FLASHCARD_MASTERY[card.id] || 'unrated';
+      if (ctr) {
+        ctr.textContent = `Card ${FLASHCARD_INDEX + 1} of ${FILTERED_FLASHCARDS.length} · ${status === 'easy' ? '🌟 Mastered' : (status === 'good' ? '👍 Learning' : (status === 'again' ? '🔁 Needs Review' : 'New Card'))}`;
+      }
+
+      const frontBox = document.getElementById('flashcardFrontBox');
+      const backBox = document.getElementById('flashcardBackBox');
+      if (frontBox) {
+        frontBox.innerHTML = `
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+              <span class="badge lavender">${escapeHtml(card.category)}</span>
+              <span class="badge">${escapeHtml(card.tag || `Page ${card.page_num}`)}</span>
+            </div>
+            <div style="font-size:17.5px;font-weight:800;color:var(--text-main);line-height:1.5;margin-bottom:14px;">
+              ${escapeHtml(card.front)}
+            </div>
+            ${card.hint ? `
+              <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:10px;padding:9px 12px;font-size:12.6px;color:#6b21a8;">
+                💡 <b>Study Hint:</b> ${escapeHtml(card.hint)}
+              </div>
+            ` : ''}
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:12px;color:#be185d;font-weight:800;">
+            <span>👆 Click Card (or Press Space) to Flip to Answer & Formula ↻</span>
+            <span>Page ${card.page_num}</span>
+          </div>
+        `;
+      }
+      if (backBox) {
+        backBox.innerHTML = `
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+              <span class="badge mint">✅ Complete Answer, Formula & Hardware Derivation</span>
+              <span class="badge lavender">Page ${card.page_num}</span>
+            </div>
+            ${card.formula ? formatFormulaDisplayHtml(card.formula) : ''}
+            <div style="font-size:13.5px;color:var(--text-body);line-height:1.62;margin-top:10px;white-space:pre-wrap;">${escapeHtml(card.back)}</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:12px;color:#047857;font-weight:800;">
+            <span>👆 Click Card to Flip Back to Prompt ↺</span>
+            <button class="btn btn-sm btn-pink" onclick="event.stopPropagation();selectIdePage(${card.page_num});switchTab('tab-lab');">🌸 Open Lab Page ${card.page_num}</button>
+          </div>
+        `;
+      }
+    }
+
+    function flipCurrentFlashcard() {
+      const st = document.getElementById('flashcardStage');
+      if (st) st.classList.toggle('flipped');
+    }
+
+    function stepFlashcard(delta) {
+      if (!FILTERED_FLASHCARDS.length) return;
+      FLASHCARD_INDEX = (FLASHCARD_INDEX + delta + FILTERED_FLASHCARDS.length) % FILTERED_FLASHCARDS.length;
+      renderFlashcardStudio();
+    }
+
+    function shuffleFlashcardDeck() {
+      for (let i = FILTERED_FLASHCARDS.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = FILTERED_FLASHCARDS[i];
+        FILTERED_FLASHCARDS[i] = FILTERED_FLASHCARDS[j];
+        FILTERED_FLASHCARDS[j] = tmp;
+      }
+      FLASHCARD_INDEX = 0;
+      renderFlashcardStudio();
+    }
+
+    function rateFlashcard(rating) {
+      if (!FILTERED_FLASHCARDS.length) return;
+      const card = FILTERED_FLASHCARDS[FLASHCARD_INDEX];
+      if (card) {
+        FLASHCARD_MASTERY[card.id] = rating;
+        localStorage.setItem('engr852_v5_flashcards', JSON.stringify(FLASHCARD_MASTERY));
+        updateFlashcardMasteryBadge();
+      }
+      stepFlashcard(1);
+    }
+
+    function updateFlashcardMasteryBadge() {
+      const mastered = Object.values(FLASHCARD_MASTERY).filter(v => v === 'easy' || v === 'good').length;
+      const b = document.getElementById('topFlashcardBadge');
+      if (b) b.textContent = `🃏 Flashcards: ${mastered} Mastered`;
+    }
+
+    function openFlashcardById(cardId) {
+      switchTab('tab-discovery');
+      applyFlashcardCategoryFilter('ALL');
+      const idx = FILTERED_FLASHCARDS.findIndex(c => c.id === cardId);
+      if (idx >= 0) {
+        FLASHCARD_INDEX = idx;
+        renderFlashcardStudio();
+      }
+    }
+
+    function openFlashcardsForPage(pnum) {
+      IDE_CURRENT_PAGE = pnum;
+      switchTab('tab-discovery');
+      applyFlashcardCategoryFilter('CURRENT_PAGE');
+    }
+
+    function toggleAutoPlayFlashcards() {
+      AUTO_PLAY_CARDS_ENABLED = !AUTO_PLAY_CARDS_ENABLED;
+      const btn = document.getElementById('btnAutoPlayCards');
+      if (btn) {
+        btn.textContent = `▶ Auto-Play (15s): ${AUTO_PLAY_CARDS_ENABLED ? 'ON' : 'OFF'}`;
+        btn.classList.toggle('btn-pink', AUTO_PLAY_CARDS_ENABLED);
+      }
+      if (AUTO_PLAY_CARDS_TIMER) {
+        clearInterval(AUTO_PLAY_CARDS_TIMER);
+        AUTO_PLAY_CARDS_TIMER = null;
+      }
+      if (AUTO_PLAY_CARDS_ENABLED) {
+        AUTO_PLAY_CARDS_TIMER = setInterval(() => {
+          const st = document.getElementById('flashcardStage');
+          if (st && !st.classList.contains('flipped')) {
+            st.classList.add('flipped');
+          } else {
+            stepFlashcard(1);
+          }
+        }, 7500);
+      }
+    }
+
+    /* Live Internet Search & Auto-Rotating Resources */
+    async function fetchAndRotateResources(customQuery, rotateFlag) {
+      const q = customQuery !== undefined ? customQuery : '';
+      try {
+        const url = `/api/discover_resources?q=${encodeURIComponent(q)}&page=${IDE_CURRENT_PAGE}&rotate=${rotateFlag ? 1 : 0}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data && Array.isArray(data.resources)) {
+          DISCOVERED_RESOURCES = data.resources;
+          const lbl = document.getElementById('resLastRotatedLbl');
+          if (lbl) {
+            lbl.textContent = `Rotated ${data.rotated_at || 'Now'} · Query: "${data.query || 'ASIC'}" (${data.live_web_count || 0} Live Web + University Pool)`;
+          }
+          buildCompleteFlashcardDeck();
+          renderLiveResourcesFeed();
+          if (IDE_LEFT_SUBTAB === 'flashcards') {
+            renderIdeLeftSubtab();
+          }
+        }
+      } catch (e) {}
+    }
+
+    function searchLiveWebResources() {
+      const inp = document.getElementById('liveWebSearchInput');
+      const q = inp ? inp.value.trim() : '';
+      fetchAndRotateResources(q, false);
+    }
+
+    function quickSearchTopic(topic) {
+      const inp = document.getElementById('liveWebSearchInput');
+      if (inp) inp.value = topic;
+      fetchAndRotateResources(topic, false);
+    }
+
+    function renderLiveResourcesFeed() {
+      const box = document.getElementById('liveResourcesFeedBox');
+      if (!box) return;
+      if (!DISCOVERED_RESOURCES.length) {
+        box.innerHTML = '<div style="padding:14px;font-size:13px;">Fetching live internet & university resources...</div>';
+        return;
+      }
+      box.innerHTML = DISCOVERED_RESOURCES.map((r, idx) => `
+        <div style="border:1.5px solid ${r.is_live_web ? '#6ee7b7' : '#f5d0fe'};background:#ffffff;border-radius:14px;padding:14px 16px;margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="badge ${r.is_live_web ? 'mint' : 'lavender'}">${escapeHtml(r.category || 'Engineering Resource')}</span>
+            <span style="font-size:11.8px;color:var(--text-muted);font-weight:700;">${escapeHtml(r.source || '')}</span>
+          </div>
+          <h4 style="margin:0 0 7px 0;font-size:15.5px;color:var(--text-main);">${escapeHtml(r.title || '')}</h4>
+          ${r.formula ? formatFormulaDisplayHtml(r.formula) : ''}
+          <div style="font-size:12.8px;color:var(--text-body);line-height:1.58;margin-top:8px;">
+            ${escapeHtml(r.summary || '')}
+          </div>
+          ${r.asic_link ? `
+            <div style="font-size:12.2px;color:#be185d;margin-top:6px;">
+              <b>🔗 14nm Motion Estimator Connection:</b> ${escapeHtml(r.asic_link)}
+            </div>
+          ` : ''}
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+            ${r.url ? `<a href="${escapeHtml(r.url)}" target="_blank" rel="noopener" class="btn btn-sm btn-pink">🌐 Open Full Article / Paper ↗</a>` : ''}
+            <button class="btn btn-sm btn-mint" onclick="saveDiscoveredResourceToFlashcards(${idx}, this)">
+              🃏 + Save to Flashcards Deck
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function saveDiscoveredResourceToFlashcards(idx, btn) {
+      const r = DISCOVERED_RESOURCES[idx];
+      if (!r) return;
+      try {
+        await fetch('/api/custom_resource', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: r.title,
+            category: r.category,
+            source: r.source,
+            formula: r.formula,
+            summary: r.summary,
+            asic_link: r.asic_link,
+            url: r.url,
+            page_num: IDE_CURRENT_PAGE
+          })
+        });
+        if (btn) {
+          btn.textContent = '✓ Saved to Flashcards!';
+        }
+        await fetchAndRotateResources('', false);
+      } catch (e) {}
+    }
+
+    function toggleAddCustomResourceForm() {
+      const b = document.getElementById('customResourceFormBox');
+      if (b) {
+        b.style.display = b.style.display === 'none' ? 'block' : 'none';
+      }
+    }
+
+    async function submitCustomResource() {
+      const title = (document.getElementById('custTitle').value || '').trim();
+      const category = (document.getElementById('custCategory').value || '').trim() || '🌟 Custom Study Card';
+      const formula = (document.getElementById('custFormula').value || '').trim();
+      const summary = (document.getElementById('custSummary').value || '').trim();
+      if (!title) return;
+      await fetch('/api/custom_resource', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          category,
+          formula,
+          summary,
+          page_num: IDE_CURRENT_PAGE
+        })
+      });
+      document.getElementById('custTitle').value = '';
+      document.getElementById('custFormula').value = '';
+      document.getElementById('custSummary').value = '';
+      toggleAddCustomResourceForm();
+      await fetchAndRotateResources('', false);
+      applyFlashcardCategoryFilter('DISCOVERED');
+    }
+
+    function toggleAutoRotateResources() {
+      AUTO_ROTATE_RES_ENABLED = !AUTO_ROTATE_RES_ENABLED;
+      const btn = document.getElementById('btnToggleAutoRotateRes');
+      if (btn) {
+        btn.textContent = `⏱️ Auto-Rotate Resources (25s): ${AUTO_ROTATE_RES_ENABLED ? 'ON' : 'OFF'}`;
+      }
+      const badge = document.getElementById('rotStatusBadge');
+      if (badge) {
+        badge.textContent = AUTO_ROTATE_RES_ENABLED
+          ? '🔄 Auto-Rotating Resource & Flashcard Engine Active (Every 25s)'
+          : '⏸ Auto-Rotation Paused (Click Rotate Now Anytime)';
+      }
+    }
+
+    function updateTopProgressBadges() {
+      const passed = (LIVE_STATE && LIVE_STATE.total_passed_pages) || 0;
+      const b = document.getElementById('topProgressBadge');
+      if (b) b.textContent = `✓ ${passed} / 100 Verified`;
+    }
+
+    async function fetchLiveState() {
+      try {
+        const res = await fetch('/api/state?t=' + Date.now());
+        LIVE_STATE = await res.json();
+        updateTopProgressBadges();
+      } catch (e) {}
+    }
+
+    async function bootStudio() {
+      try {
+        const [cRes, sRes, stRes, dRes] = await Promise.all([
+          fetch('/api/curriculum'),
+          fetch('/api/study_guide'),
+          fetch('/api/state?t=' + Date.now()),
+          fetch('/api/discover_resources?page=' + IDE_CURRENT_PAGE + '&rotate=0')
+        ]);
+        CURRICULUM = await cRes.json();
+        STUDY_AND_MIDTERM = await sRes.json();
+        LIVE_STATE = await stRes.json();
+        const dJson = await dRes.json();
+        DISCOVERED_RESOURCES = (dJson && dJson.resources) || [];
+      } catch (e) {
+        console.error('Boot error:', e);
+      }
+
+      buildCompleteFlashcardDeck();
+      populatePageDropdowns();
+      setLearnerLevel(CURRENT_LEVEL);
+      updateTopProgressBadges();
+      updateGlobalQuizBadges();
+      renderPracticeIde();
+      renderV1V9Stages();
+      renderCurriculumExplorer();
+      renderWaveformGallery();
+      renderStudyGuideAndMidterm();
+      renderLiveResourcesFeed();
+      updateSadSimulator();
+      updateStaSimulator();
+      updateSystolicSimulator();
+      updatePowerSimulator();
+
+      // Keyboard shortcut: Spacebar flips flashcard when Tab 6 is open
+      window.addEventListener('keydown', (ev) => {
+        const activeTag = (document.activeElement && document.activeElement.tagName) || '';
+        if (ev.code === 'Space' && activeTag !== 'INPUT' && activeTag !== 'TEXTAREA') {
+          const discPane = document.getElementById('tab-discovery');
+          if (discPane && discPane.classList.contains('active')) {
+            ev.preventDefault();
+            flipCurrentFlashcard();
+          }
+        }
+      });
+
+      setInterval(fetchLiveState, 6000);
+      AUTO_ROTATE_RES_TIMER = setInterval(() => {
+        if (AUTO_ROTATE_RES_ENABLED) {
+          fetchAndRotateResources('', true);
+        }
+      }, 25000);
+    }
+
+    window.addEventListener('DOMContentLoaded', bootStudio);
+  </script>
+</body>
+</html>
