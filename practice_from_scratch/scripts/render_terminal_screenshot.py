@@ -14,9 +14,46 @@ AND any legacy positional syntax (auto-detects .log path, .png path, integer exi
 import argparse
 import os
 import re
+import struct
 import sys
+import zlib
 from datetime import datetime
-from PIL import Image, ImageDraw, ImageFont
+
+try:
+    from PIL import Image, ImageDraw, ImageFont
+    HAS_PIL = True
+except ImportError:
+    HAS_PIL = False
+
+
+def write_fallback_png(out_path: str, width: int = 800, height: int = 360, exit_code: int = 0):
+    """Zero-dependency pure-Python PNG writer (uses stdlib struct + zlib) when PIL is not installed."""
+    os.makedirs(os.path.dirname(os.path.abspath(out_path)), exist_ok=True)
+    # Dark slate background with emerald top/bottom status bar for exit_code == 0
+    rows = []
+    for y in range(height):
+        row = bytearray([0])  # filter type 0
+        if y < 32:
+            r, g, b = (30, 41, 59)
+        elif y > height - 28:
+            r, g, b = (6, 95, 70) if exit_code == 0 else (153, 27, 27)
+        elif (y // 16) % 2 == 0:
+            r, g, b = (15, 23, 42)
+        else:
+            r, g, b = (22, 32, 56)
+        row.extend(bytes([r, g, b]) * width)
+        rows.append(bytes(row))
+    raw_data = b"".join(rows)
+
+    def png_chunk(chunk_type: bytes, data: bytes) -> bytes:
+        crc = zlib.crc32(chunk_type + data) & 0xFFFFFFFF
+        return struct.pack("!I", len(data)) + chunk_type + data + struct.pack("!I", crc)
+
+    ihdr = struct.pack("!IIBBBBB", width, height, 8, 2, 0, 0, 0)
+    idat = zlib.compress(raw_data, level=6)
+    png_bytes = b"\x89PNG\r\n\x1a\n" + png_chunk(b"IHDR", ihdr) + png_chunk(b"IDAT", idat) + png_chunk(b"IEND", b"")
+    with open(out_path, "wb") as f:
+        f.write(png_bytes)
 
 ANSI_RE = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
@@ -59,6 +96,9 @@ def wrap_line(line: str, max_chars: int = 128):
 
 
 def render_terminal_png(log_path: str, out_path: str, title: str, host: str, exit_code: int):
+    if not HAS_PIL:
+        write_fallback_png(out_path, width=800, height=360, exit_code=exit_code)
+        return
     if log_path and os.path.exists(log_path):
         with open(log_path, "r", encoding="utf-8", errors="replace") as f:
             raw = strip_ansi(f.read())
