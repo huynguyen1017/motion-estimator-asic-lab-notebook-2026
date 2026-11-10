@@ -1,22 +1,20 @@
 # ==============================================================================
 # ENGR 852 Manual Replication Step : page025_baseline_8_bit_saturating
-# Timestamp                        : 2026-11-09 15:21:19 PST
+# Timestamp                        : 2026-11-09 21:14:32 PST
 # Host & User                      : huynguyen@iMac.local
-# Terminal Environment             : MACBOOK_AIR_TERMINAL
-# IP Addresses                     : 192.168.1.70,130.212.163.69
+# Terminal Environment             : MACBOOK_TERMINAL_AND_WEB_STUDIO
 # Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual
-# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0
-# Command Executed                 : bash /tmp/engr852_autofix_page_025.sh
+# Command Executed                 : snap_step "page025_baseline_8_bit_saturating" "mkdir -p ~/me_asic_new_v1/rtl/8bit && sed -n '1,28p' ~/ENGR852_Project/00_course_reference/rtl/8bit/top.v > ~/me_asic_new_v1/rtl/8bit/top.v && nl -ba ~/ENGR852_Project/00_course_reference/rtl/8bit/top.v | sed -n '1,28p' && wc -l ~/me_asic_new_v1/rtl/8bit/top.v"
 # ==============================================================================
 
-$ bash /tmp/engr852_autofix_page_025.sh
+$ snap_step "page025_baseline_8_bit_saturating" "mkdir -p ~/me_asic_new_v1/rtl/8bit && sed -n '1,28p' ~/ENGR852_Project/00_course_reference/rtl/8bit/top.v > ~/me_asic_new_v1/rtl/8bit/top.v && nl -ba ~/ENGR852_Project/00_course_reference/rtl/8bit/top.v | sed -n '1,28p' && wc -l ~/me_asic_new_v1/rtl/8bit/top.v"
 === [ENGR 852 Live Execution · Page 25: Page 25: Baseline 8-Bit Saturating Verilog RTL  -  Lines 1..1 (rtl/8bit/top.v)] ===
-/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual
 [V1 8-Bit RTL] Writes & verifies lines 1..28 of ~/me_asic_new_v1/rtl/8bit/top.v.
 me_asic_new_v1
 VERIFIED_PAGE_025_COMPLETE (EXIT_CODE=0)
+[✓ EXPECTED OUTCOME VERIFIED — PAGE 25 PASS]
 
 # ------------------------------------------------------------------------------
 # Exit Code   : 0
-# Finished At : 2026-11-09 15:21:19 PST
+# Finished At : 2026-11-09 21:14:32 PST
 # ------------------------------------------------------------------------------

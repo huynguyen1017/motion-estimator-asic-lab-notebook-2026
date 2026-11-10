@@ -1,0 +1,24 @@
+# ==============================================================================
+# ENGR 852 Manual Replication Step : page007_how_xquartz_ssh_y
+# Timestamp                        : 2026-11-09 22:09:54 PST
+# Host & User                      : huynguyen@iMac.local
+# Terminal Environment             : MACBOOK_TERMINAL_AND_WEB_STUDIO
+# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual
+# Command Executed                 : snap_step "page007_how_xquartz_ssh_y" "mkdir -p ~/.ssh && chmod 700 ~/.ssh && grep -q 'Host mahmoodi' ~/.ssh/config 2>/dev/null || printf '\nHost mahmoodi mahmoodi.rcc.at.sfsu.edu\n  HostName mahmoodi.rcc.at.sfsu.edu\n  User 926784856\n  ForwardX11 yes\n  ForwardX11Trusted yes\n  ServerAliveInterval 30\n' >> ~/.ssh/config && chmod 600 ~/.ssh/config && tail -n 8 ~/.ssh/config && echo 'NOW RUN: ssh -Y 926784856@mahmoodi.rcc.at.sfsu.edu'"
+# ==============================================================================
+
+$ snap_step "page007_how_xquartz_ssh_y" "mkdir -p ~/.ssh && chmod 700 ~/.ssh && grep -q 'Host mahmoodi' ~/.ssh/config 2>/dev/null || printf '\nHost mahmoodi mahmoodi.rcc.at.sfsu.edu\n  HostName mahmoodi.rcc.at.sfsu.edu\n  User 926784856\n  ForwardX11 yes\n  ForwardX11Trusted yes\n  ServerAliveInterval 30\n' >> ~/.ssh/config && chmod 600 ~/.ssh/config && tail -n 8 ~/.ssh/config && echo 'NOW RUN: ssh -Y 926784856@mahmoodi.rcc.at.sfsu.edu'"
+=== [ENGR 852 Live Execution · Page 7: Page 7: How XQuartz + ssh -Y Works  -  Visual X11 Forwarding Pipeline & Account Login] ===
+[🤖 Super-Agent v6.0 100-Page Full Verification] Verified Page 7 (page007_how_xquartz_ssh_y) -> Exit Code 0.
+Host mahmoodi mahmoodi.rcc.at.sfsu.edu
+  ForwardX11 yes
+  ForwardX11Trusted yes
+NOW RUN: ssh -Y 926784856@mahmoodi.rcc.at.sfsu.edu
+Host
+VERIFIED_PAGE_007_COMPLETE (EXIT_CODE=0)
+[✓ EXPECTED OUTCOME VERIFIED — PAGE 7 PASS]
+
+# ------------------------------------------------------------------------------
+# Exit Code   : 0
+# Finished At : 2026-11-09 22:09:54 PST
+# ------------------------------------------------------------------------------

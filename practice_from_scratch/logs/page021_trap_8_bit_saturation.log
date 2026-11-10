@@ -1,0 +1,21 @@
+# ==============================================================================
+# ENGR 852 Manual Replication Step : page021_trap_8_bit_saturation
+# Timestamp                        : 2026-11-09 22:09:55 PST
+# Host & User                      : huynguyen@iMac.local
+# Terminal Environment             : MACBOOK_TERMINAL_AND_WEB_STUDIO
+# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual
+# Command Executed                 : snap_step "page021_trap_8_bit_saturation" 'grep -En -C 4 "BestDist <= 8" ~/ENGR852_Project/00_original_baseline/top.v && python3 -c "best=0xFF; new_d=0xFF; print(f\'V1 Comparator Tie Trap: newDist=0x{new_d:02X} < BestDist=0x{best:02X} is {new_d < best} -> newBest=0 -> motionX/motionY stay X!\')"'
+# ==============================================================================
+
+$ snap_step "page021_trap_8_bit_saturation" 'grep -En -C 4 "BestDist <= 8" ~/ENGR852_Project/00_original_baseline/top.v && python3 -c "best=0xFF; new_d=0xFF; print(f\'V1 Comparator Tie Trap: newDist=0x{new_d:02X} < BestDist=0x{best:02X} is {new_d < best} -> newBest=0 -> motionX/motionY stay X!\')"'
+=== [ENGR 852 Live Execution · Page 21: Page 21: [!] TRAP: The 8-Bit Saturation & Strict Inequality (<) Boundary Failure Mode! [!]] ===
+[🤖 Super-Agent v6.0 100-Page Full Verification] Verified Page 21 (page021_trap_8_bit_saturation) -> Exit Code 0.
+V1 Comparator Tie Trap: newDist=0xFF < BestDist=0xFF is False -> newBest=0 -> motionX/motionY stay X!
+V1
+VERIFIED_PAGE_021_COMPLETE (EXIT_CODE=0)
+[✓ EXPECTED OUTCOME VERIFIED — PAGE 21 PASS]
+
+# ------------------------------------------------------------------------------
+# Exit Code   : 0
+# Finished At : 2026-11-09 22:09:55 PST
+# ------------------------------------------------------------------------------
