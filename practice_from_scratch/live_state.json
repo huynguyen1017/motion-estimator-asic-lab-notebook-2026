@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-09 15:53:30 PST",
-  "epoch": 1794268410.144973,
+  "updated_at": "2026-11-09 16:51:27 PST",
+  "epoch": 1794271887.161328,
   "last_event": "STEP_COMPLETE",
   "active_terminal": "MACBOOK_AIR_TERMINAL",
   "host": "iMac.local",
@@ -31,7 +31,7 @@
       "drwxr-xr-x ... deliverables  docs  evidence  rtl  scripts  tb",
       ">>> [AUTO-BRIDGE] Uploaded log + screenshot + live state to Web Console & GitHub 'manual-practice-macbook-air': page001_master_roadmap"
     ],
-    "actual_excerpt": "# ENGR 852 Manual Replication Step : page001_master_roadmap\n# Timestamp                        : 2026-11-09 15:53:29 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_001.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_001.sh\n=== [ENGR 852 Live Execution \u00b7 Page 1: Page 1: Master Roadmap  -  Rebuilding the 520 MHz 14nm Motion Estimator on a Brand-New Laptop] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\nAUTO_BRIDGE_READY: branch=manual-practice-macbook-air | live_web=http://127.0.0.1:8788\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\ndrwxr-xr-x ... deliverables  docs  evidence  rtl  scripts  tb\n>>> [AUTO-BRIDGE] Uploaded log + screenshot + live state to Web Console & GitHub 'manual-practice-macbook-air': page001_master_roadmap\nmotion-estimator-14nm-asic-manual\nVERIFIED_PAGE_001_COMPLETE (EXIT_CODE=0)\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 15:53:29 PST\n# ------------------------------------------------------------------------------",
+    "actual_excerpt": "# ENGR 852 Manual Replication Step : page001_master_roadmap\n# Timestamp                        : 2026-11-09 16:51:26 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_001.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_001.sh\n=== [ENGR 852 Live Execution \u00b7 Page 1: Page 1: Master Roadmap  -  Rebuilding the 520 MHz 14nm Motion Estimator on a Brand-New Laptop] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\nAUTO_BRIDGE_READY: branch=manual-practice-macbook-air | live_web=http://127.0.0.1:8788\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\ndrwxr-xr-x ... deliverables  docs  evidence  rtl  scripts  tb\n>>> [AUTO-BRIDGE] Uploaded log + screenshot + live state to Web Console & GitHub 'manual-practice-macbook-air': page001_master_roadmap\nmotion-estimator-14nm-asic-manual\nVERIFIED_PAGE_001_COMPLETE (EXIT_CODE=0)\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 16:51:26 PST\n# ------------------------------------------------------------------------------",
     "mismatch_diagnosis": "If Page 1 (`page001_master_roadmap_rebuilding_520`) failed or its terminal output did not match the expected outcome, the most common causes are: (1) `~/Developer/motion-estimator-14nm-asic-manual` subdirectories were not yet initialized, (2) `auto_bridge.sh` was not sourced in the current terminal tab, or (3) XQuartz / GlobalProtect VPN needed a refresh.",
     "debug_fix_oneliner": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,constraints,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026 2>/dev/null || cd /Users/huynguyen/Developer/portfolio/motion-estimator-asic-lab-notebook-2026 && source practice_from_scratch/scripts/auto_bridge.sh && FORCE_STEP=1 snap_step \"page001_master_roadmap_rebuilding_520\" \"mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/motion-estimator-14nm-asic-manual && pwd && ls -la ~/Developer/motion-estimator-14nm-asic-manual\"",
     "debug_steps_explained": [
@@ -39,7 +39,7 @@
       "2. Re-sources `practice_from_scratch/scripts/auto_bridge.sh` so `snap_step` and the `:8788` telemetry bridge are active.",
       "3. Re-executes Page 1 (`page001_master_roadmap_rebuilding_520`), verifies the expected output markers `['motion-estimator-14nm-asic-manual']`, and syncs the fixed result to `:8788` and GitHub `manual-practice-macbook-air`."
     ],
-    "updated_at": "2026-11-09 15:53:30"
+    "updated_at": "2026-11-09 16:51:27"
   },
   "completed_pages": {
     "1": {
@@ -54,8 +54,8 @@
       "exit_code": 0,
       "log_file": "/files/logs/page001_master_roadmap.log",
       "screenshot_file": "/files/screenshots/page001_master_roadmap_terminal.png",
-      "log_excerpt": "# ENGR 852 Manual Replication Step : page001_master_roadmap\n# Timestamp                        : 2026-11-09 15:53:29 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_001.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_001.sh\n=== [ENGR 852 Live Execution \u00b7 Page 1: Page 1: Master Roadmap  -  Rebuilding the 520 MHz 14nm Motion Estimator on a Brand-New Laptop] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\nAUTO_BRIDGE_READY: branch=manual-practice-macbook-air | live_web=http://127.0.0.1:8788\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\ndrwxr-xr-x ... deliverables  docs  evidence  rtl  scripts  tb\n>>> [AUTO-BRIDGE] Uploaded log + screenshot + live state to Web Console & GitHub 'manual-practice-macbook-air': page001_master_roadmap\nmotion-estimator-14nm-asic-manual\nVERIFIED_PAGE_001_COMPLETE (EXIT_CODE=0)\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 15:53:29 PST\n# ------------------------------------------------------------------------------",
-      "updated_at": "2026-11-09 15:53:29"
+      "log_excerpt": "# ENGR 852 Manual Replication Step : page001_master_roadmap\n# Timestamp                        : 2026-11-09 16:51:26 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_001.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_001.sh\n=== [ENGR 852 Live Execution \u00b7 Page 1: Page 1: Master Roadmap  -  Rebuilding the 520 MHz 14nm Motion Estimator on a Brand-New Laptop] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\nAUTO_BRIDGE_READY: branch=manual-practice-macbook-air | live_web=http://127.0.0.1:8788\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\ndrwxr-xr-x ... deliverables  docs  evidence  rtl  scripts  tb\n>>> [AUTO-BRIDGE] Uploaded log + screenshot + live state to Web Console & GitHub 'manual-practice-macbook-air': page001_master_roadmap\nmotion-estimator-14nm-asic-manual\nVERIFIED_PAGE_001_COMPLETE (EXIT_CODE=0)\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 0\n# Finished At : 2026-11-09 16:51:26 PST\n# ------------------------------------------------------------------------------",
+      "updated_at": "2026-11-09 16:51:26"
     },
     "2": {
       "page_num": 2,
@@ -152,138 +152,6 @@
     }
   },
   "terminal_feed": [
-    {
-      "time": "14:46:24",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "page001_master_roadmap",
-      "command": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/motion-estimator-14nm-asic-manual && pwd && ls -la ~/Developer/motion-estimator-14",
-      "status": "PASS",
-      "message": "Completed page001_master_roadmap (exit=0)"
-    },
-    {
-      "time": "14:46:26",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
-    {
-      "time": "14:46:26",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "page001_master_roadmap",
-      "command": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/motion-estimator-14nm-asic-manual && pwd && ls -la ~/Developer/motion-estimator-14",
-      "status": "PASS",
-      "message": "Completed page001_master_roadmap (exit=0)"
-    },
-    {
-      "time": "15:15:14",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
-    {
-      "time": "15:18:50",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
-    {
-      "time": "15:18:54",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "page001_master_roadmap",
-      "command": "bash /tmp/engr852_autofix_page_001.sh",
-      "status": "PASS",
-      "message": "Completed page001_master_roadmap (exit=0)"
-    },
-    {
-      "time": "15:18:56",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
-    {
-      "time": "15:18:56",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "page025_baseline_8_bit_saturating",
-      "command": "bash /tmp/engr852_autofix_page_025.sh",
-      "status": "PASS",
-      "message": "Completed page025_baseline_8_bit_saturating (exit=0)"
-    },
-    {
-      "time": "15:18:57",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
-    {
-      "time": "15:18:57",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "page051_annotated_verdi_waveform_walkthrough",
-      "command": "bash /tmp/engr852_autofix_page_051.sh",
-      "status": "PASS",
-      "message": "Completed page051_annotated_verdi_waveform_walkthrough (exit=0)"
-    },
-    {
-      "time": "15:18:58",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
     {
       "time": "15:18:58",
       "terminal": "MACBOOK_AIR_TERMINAL",
@@ -574,6 +442,138 @@
     },
     {
       "time": "15:53:30",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "page001_master_roadmap",
+      "command": "bash /tmp/engr852_autofix_page_001.sh",
+      "status": "PASS",
+      "message": "Completed page001_master_roadmap (exit=0)"
+    },
+    {
+      "time": "16:51:13",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "16:51:13",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "16:51:13",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "16:51:17",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "16:51:19",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "16:51:21",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "16:51:23",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "16:51:24",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "16:51:24",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "16:51:26",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "16:51:27",
       "terminal": "MACBOOK_AIR_TERMINAL",
       "host": "iMac.local",
       "ip": "192.168.1.70,130.212.163.69",
