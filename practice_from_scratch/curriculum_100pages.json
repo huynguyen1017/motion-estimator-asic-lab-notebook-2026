@@ -1056,7 +1056,7 @@
       },
       {
         "seq": 8,
-        "cmd": "python3 -c 'import PIL, reportlab, pptx, pypdf",
+        "cmd": "python3 -c 'import PIL, reportlab, pptx, pypdf; print(\"MACBOOK_CLI_AND_VENV_READY\")'",
         "task_performed": "Executes Python verification, mathematical SAD golden-model checking, or automated report/slide generation.",
         "in_depth_meaning": "Uses isolated `.venv` Python packages (`reportlab`, `python-pptx`, `pypdf`, `pillow`) or inline Python one-liners to compute golden SAD vectors, audit RTL bit-widths, or verify the 11-gate sign-off harness.",
         "lecture_correlation": "Lecture 2, Midterm Q2 & F17 (High-Level Golden Modeling & Automated Verification Harness).",
@@ -5049,19 +5049,11 @@
     "subcommand_breakdown": [
       {
         "seq": 1,
-        "cmd": "snap_step \"page013_block_matching_motion_estimation\" 'python3 -c \"print(\\'Ref Block R: 16x16 =\\', 16*16, \\'bytes | Search Window S: 31x31 =\\', 31*31, \\'active bytes (1024 ROM_S) | Candidate Blocks: 16x16 =\\', 16*16, \\'| Displacement Range: [-8, +7]\\')\"",
+        "cmd": "snap_step \"page013_block_matching_motion_estimation\" 'python3 -c \"print(\\'Ref Block R: 16x16 =\\', 16*16, \\'bytes | Search Window S: 31x31 =\\', 31*31, \\'active bytes (1024 ROM_S) | Candidate Blocks: 16x16 =\\', 16*16, \\'| Displacement Range: [-8, +7]\\')\" && grep -En \"module top|AddressR|AddressS\" ~/ENGR852_Project/00_original_baseline/top.v'",
         "task_performed": "Loads the telemetry bridge and wraps the page's command sequence in the Expected-Outcome Verifier.",
         "in_depth_meaning": "`source practice_from_scratch/scripts/auto_bridge.sh` exports all 5 Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) and defines `snap_step`, which logs stdout/stderr, checks the sequential order guardrail (`Page 1 -> Page 100`), verifies expected output markers, renders a PNG screenshot, and posts live JSON telemetry to `:8788`.",
         "lecture_correlation": "Lecture 2 & Midterm Q2 (Automated Verification Scoreboard): Just as a Verilog testbench checks DUT outputs against a golden model, `snap_step` checks your terminal output against expected engineering results.",
         "chip_design_role": "Production EDA flows wrap every tool invocation in a runner script that checks exit codes, parses log warnings/errors, and updates a real-time engineering dashboard."
-      },
-      {
-        "seq": 2,
-        "cmd": "grep -En \"module top|AddressR|AddressS\" ~/ENGR852_Project/00_original_baseline/top.v'",
-        "task_performed": "Inspects, audits, and verifies generated RTL, memory files (`ref.txt`, `search.txt`), or EDA tool reports.",
-        "in_depth_meaning": "Executes `grep -En \"module top|AddressR|AddressS\" ~/ENGR852_Project/00_original_baseline/top.v'` to extract exact lines, count vectors (`256` in `ref.txt`, `1024` in `search.txt`), verify port widths (`[15:0] BestDist`), or confirm zero errors in logs.",
-        "lecture_correlation": "F17 (Step 7 & Step 8 Evidence Auditing): Every engineering step must be verified with concrete quantitative evidence.",
-        "chip_design_role": "Prevents silent failures (such as empty stimulus files, truncated logs, or accidental 8-bit port widths) from propagating to downstream stages."
       }
     ],
     "one_liner": "snap_step \"page013_block_matching_motion_estimation\" 'python3 -c \"print(\\'Ref Block R: 16x16 =\\', 16*16, \\'bytes | Search Window S: 31x31 =\\', 31*31, \\'active bytes (1024 ROM_S) | Candidate Blocks: 16x16 =\\', 16*16, \\'| Displacement Range: [-8, +7]\\')\" && grep -En \"module top|AddressR|AddressS\" ~/ENGR852_Project/00_original_baseline/top.v'",
@@ -5424,19 +5416,11 @@
     "subcommand_breakdown": [
       {
         "seq": 1,
-        "cmd": "snap_step \"page014_sum_absolute_differences_sad\" 'python3 -c \"print(\\'SAD Regimes -> Exact Match:\\', hex(256*0), \\'| +1 LSB Shift:\\', hex(256*1), \\'| +2 Shift:\\', hex(256*2), \\'| Max Contrast (256*255):\\', hex(256*255), \\'=\\', 256*255)\"",
+        "cmd": "snap_step \"page014_sum_absolute_differences_sad\" 'python3 -c \"print(\\'SAD Regimes -> Exact Match:\\', hex(256*0), \\'| +1 LSB Shift:\\', hex(256*1), \\'| +2 Shift:\\', hex(256*2), \\'| Max Contrast (256*255):\\', hex(256*255), \\'=\\', 256*255)\" && grep -En \"difference =\" ~/ENGR852_Project/00_original_baseline/top.v'",
         "task_performed": "Loads the telemetry bridge and wraps the page's command sequence in the Expected-Outcome Verifier.",
         "in_depth_meaning": "`source practice_from_scratch/scripts/auto_bridge.sh` exports all 5 Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) and defines `snap_step`, which logs stdout/stderr, checks the sequential order guardrail (`Page 1 -> Page 100`), verifies expected output markers, renders a PNG screenshot, and posts live JSON telemetry to `:8788`.",
         "lecture_correlation": "Lecture 2 & Midterm Q2 (Automated Verification Scoreboard): Just as a Verilog testbench checks DUT outputs against a golden model, `snap_step` checks your terminal output against expected engineering results.",
         "chip_design_role": "Production EDA flows wrap every tool invocation in a runner script that checks exit codes, parses log warnings/errors, and updates a real-time engineering dashboard."
-      },
-      {
-        "seq": 2,
-        "cmd": "grep -En \"difference =\" ~/ENGR852_Project/00_original_baseline/top.v'",
-        "task_performed": "Inspects, audits, and verifies generated RTL, memory files (`ref.txt`, `search.txt`), or EDA tool reports.",
-        "in_depth_meaning": "Executes `grep -En \"difference =\" ~/ENGR852_Project/00_original_baseline/top.v'` to extract exact lines, count vectors (`256` in `ref.txt`, `1024` in `search.txt`), verify port widths (`[15:0] BestDist`), or confirm zero errors in logs.",
-        "lecture_correlation": "F17 (Step 7 & Step 8 Evidence Auditing): Every engineering step must be verified with concrete quantitative evidence.",
-        "chip_design_role": "Prevents silent failures (such as empty stimulus files, truncated logs, or accidental 8-bit port widths) from propagating to downstream stages."
       }
     ],
     "one_liner": "snap_step \"page014_sum_absolute_differences_sad\" 'python3 -c \"print(\\'SAD Regimes -> Exact Match:\\', hex(256*0), \\'| +1 LSB Shift:\\', hex(256*1), \\'| +2 Shift:\\', hex(256*2), \\'| Max Contrast (256*255):\\', hex(256*255), \\'=\\', 256*255)\" && grep -En \"difference =\" ~/ENGR852_Project/00_original_baseline/top.v'",
@@ -5792,27 +5776,11 @@
     "subcommand_breakdown": [
       {
         "seq": 1,
-        "cmd": "snap_step \"page015_coordinate_transformation_proof_candidate\" 'python3 -c \"pts=[(0,0),(3,15),(6,8),(8,8),(15,15)]",
+        "cmd": "snap_step \"page015_coordinate_transformation_proof_candidate\" 'python3 -c \"pts=[(0,0),(3,15),(6,8),(8,8),(15,15)]; print(\\' | \\'.join(f\\'(i={i},j={j})->dx={i-8}(0x{(i-8)&0xff:02x}),dy={j-8}(0x{(j-8)&0xff:02x})\\' for i,j in pts))\" && grep -En \"vectorX|vectorY|motionX|motionY\" ~/ENGR852_Project/00_original_baseline/top.v'",
         "task_performed": "Loads the telemetry bridge and wraps the page's command sequence in the Expected-Outcome Verifier.",
         "in_depth_meaning": "`source practice_from_scratch/scripts/auto_bridge.sh` exports all 5 Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) and defines `snap_step`, which logs stdout/stderr, checks the sequential order guardrail (`Page 1 -> Page 100`), verifies expected output markers, renders a PNG screenshot, and posts live JSON telemetry to `:8788`.",
         "lecture_correlation": "Lecture 2 & Midterm Q2 (Automated Verification Scoreboard): Just as a Verilog testbench checks DUT outputs against a golden model, `snap_step` checks your terminal output against expected engineering results.",
         "chip_design_role": "Production EDA flows wrap every tool invocation in a runner script that checks exit codes, parses log warnings/errors, and updates a real-time engineering dashboard."
-      },
-      {
-        "seq": 2,
-        "cmd": "print(\\' | \\'.join(f\\'(i={i},j={j})->dx={i-8}(0x{(i-8)&0xff:02x}),dy={j-8}(0x{(j-8)&0xff:02x})\\' for i,j in pts))\"",
-        "task_performed": "Executes sequential step operation: `print(\\' | \\'.join(f\\'(i={i},j={j})->dx={i-8}(0x{(i-8)&0xff:02x}),dy={j-8}(0x{(j-8)&0xff:02x})\\' for i,j in pts))\"`",
-        "in_depth_meaning": "Runs `print(\\' | \\'.join(f\\'(i={i},j={j})->dx={i-8}(0x{(i-8)&0xff:02x}),dy={j-8}(0x{(j-8)&0xff:02x})\\' for i,j in pts))\"` inside the isolated practice workspace and chains (`&&`) to the next step only if exit status is `0`.",
-        "lecture_correlation": "ENGR 852 V1-ARCH Hands-On Lab Sequence (Page 15 of 100).",
-        "chip_design_role": "Ensures deterministic, step-by-step execution toward the 520 MHz 14nm Motion Estimator ASIC sign-off."
-      },
-      {
-        "seq": 3,
-        "cmd": "grep -En \"vectorX|vectorY|motionX|motionY\" ~/ENGR852_Project/00_original_baseline/top.v'",
-        "task_performed": "Inspects, audits, and verifies generated RTL, memory files (`ref.txt`, `search.txt`), or EDA tool reports.",
-        "in_depth_meaning": "Executes `grep -En \"vectorX|vectorY|motionX|motionY\" ~/ENGR852_Project/00_original_baseline/top.v'` to extract exact lines, count vectors (`256` in `ref.txt`, `1024` in `search.txt`), verify port widths (`[15:0] BestDist`), or confirm zero errors in logs.",
-        "lecture_correlation": "F17 (Step 7 & Step 8 Evidence Auditing): Every engineering step must be verified with concrete quantitative evidence.",
-        "chip_design_role": "Prevents silent failures (such as empty stimulus files, truncated logs, or accidental 8-bit port widths) from propagating to downstream stages."
       }
     ],
     "one_liner": "snap_step \"page015_coordinate_transformation_proof_candidate\" 'python3 -c \"pts=[(0,0),(3,15),(6,8),(8,8),(15,15)]; print(\\' | \\'.join(f\\'(i={i},j={j})->dx={i-8}(0x{(i-8)&0xff:02x}),dy={j-8}(0x{(j-8)&0xff:02x})\\' for i,j in pts))\" && grep -En \"vectorX|vectorY|motionX|motionY\" ~/ENGR852_Project/00_original_baseline/top.v'",
@@ -6167,7 +6135,7 @@
     "subcommand_breakdown": [
       {
         "seq": 1,
-        "cmd": "snap_step \"page016_16_pe_1d_systolic\" 'grep -En \"module PE|module PEend|module PEtotal|S1S2mux\" ~/ENGR852_Project/00_original_baseline/top.v",
+        "cmd": "snap_step \"page016_16_pe_1d_systolic\" 'grep -En \"module PE|module PEend|module PEtotal|S1S2mux\" ~/ENGR852_Project/00_original_baseline/top.v && python3 -c \"print(\\'16 PEs in parallel: PE0..PE14 have Rpipe[7:0] forwarding",
         "task_performed": "Loads the telemetry bridge and wraps the page's command sequence in the Expected-Outcome Verifier.",
         "in_depth_meaning": "`source practice_from_scratch/scripts/auto_bridge.sh` exports all 5 Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) and defines `snap_step`, which logs stdout/stderr, checks the sequential order guardrail (`Page 1 -> Page 100`), verifies expected output markers, renders a PNG screenshot, and posts live JSON telemetry to `:8788`.",
         "lecture_correlation": "Lecture 2 & Midterm Q2 (Automated Verification Scoreboard): Just as a Verilog testbench checks DUT outputs against a golden model, `snap_step` checks your terminal output against expected engineering results.",
@@ -6175,19 +6143,11 @@
       },
       {
         "seq": 2,
-        "cmd": "python3 -c \"print(\\'16 PEs in parallel: PE0..PE14 have Rpipe[7:0] forwarding",
+        "cmd": "PE15 (PEend) terminates array.\\')\"'",
         "task_performed": "Executes Python verification, mathematical SAD golden-model checking, or automated report/slide generation.",
         "in_depth_meaning": "Uses isolated `.venv` Python packages (`reportlab`, `python-pptx`, `pypdf`, `pillow`) or inline Python one-liners to compute golden SAD vectors, audit RTL bit-widths, or verify the 11-gate sign-off harness.",
         "lecture_correlation": "Lecture 2, Midterm Q2 & F17 (High-Level Golden Modeling & Automated Verification Harness).",
         "chip_design_role": "Modern ASIC methodology uses Python automation to generate golden test vectors, parse EDA tool reports, and prevent human transcription errors."
-      },
-      {
-        "seq": 3,
-        "cmd": "PE15 (PEend) terminates array.\\')\"'",
-        "task_performed": "Executes sequential step operation: `PE15 (PEend) terminates array.\\')\"'`",
-        "in_depth_meaning": "Runs `PE15 (PEend) terminates array.\\')\"'` inside the isolated practice workspace and chains (`&&`) to the next step only if exit status is `0`.",
-        "lecture_correlation": "ENGR 852 V1-ARCH Hands-On Lab Sequence (Page 16 of 100).",
-        "chip_design_role": "Ensures deterministic, step-by-step execution toward the 520 MHz 14nm Motion Estimator ASIC sign-off."
       }
     ],
     "one_liner": "snap_step \"page016_16_pe_1d_systolic\" 'grep -En \"module PE|module PEend|module PEtotal|S1S2mux\" ~/ENGR852_Project/00_original_baseline/top.v && python3 -c \"print(\\'16 PEs in parallel: PE0..PE14 have Rpipe[7:0] forwarding; PE15 (PEend) terminates array.\\')\"'",
@@ -6565,19 +6525,11 @@
     "subcommand_breakdown": [
       {
         "seq": 1,
-        "cmd": "snap_step \"page017_understanding_15_cycle_rpipe\" 'python3 -c \"for c in [0,1,2,15,255,256]: print(f\\'count={c:4d} (0x{c:04x}): AddressR=0x{c&0xff:02x} | newDist_PE={c&0xf if (c&0xff)<16 else None} | PEready_active={c>=256 and (c&0xff)<16}\\')\"",
+        "cmd": "snap_step \"page017_understanding_15_cycle_rpipe\" 'python3 -c \"for c in [0,1,2,15,255,256]: print(f\\'count={c:4d} (0x{c:04x}): AddressR=0x{c&0xff:02x} | newDist_PE={c&0xf if (c&0xff)<16 else None} | PEready_active={c>=256 and (c&0xff)<16}\\')\" && grep -En \"newDist|PEready\" ~/ENGR852_Project/00_original_baseline/top.v'",
         "task_performed": "Loads the telemetry bridge and wraps the page's command sequence in the Expected-Outcome Verifier.",
         "in_depth_meaning": "`source practice_from_scratch/scripts/auto_bridge.sh` exports all 5 Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) and defines `snap_step`, which logs stdout/stderr, checks the sequential order guardrail (`Page 1 -> Page 100`), verifies expected output markers, renders a PNG screenshot, and posts live JSON telemetry to `:8788`.",
         "lecture_correlation": "Lecture 2 & Midterm Q2 (Automated Verification Scoreboard): Just as a Verilog testbench checks DUT outputs against a golden model, `snap_step` checks your terminal output against expected engineering results.",
         "chip_design_role": "Production EDA flows wrap every tool invocation in a runner script that checks exit codes, parses log warnings/errors, and updates a real-time engineering dashboard."
-      },
-      {
-        "seq": 2,
-        "cmd": "grep -En \"newDist|PEready\" ~/ENGR852_Project/00_original_baseline/top.v'",
-        "task_performed": "Inspects, audits, and verifies generated RTL, memory files (`ref.txt`, `search.txt`), or EDA tool reports.",
-        "in_depth_meaning": "Executes `grep -En \"newDist|PEready\" ~/ENGR852_Project/00_original_baseline/top.v'` to extract exact lines, count vectors (`256` in `ref.txt`, `1024` in `search.txt`), verify port widths (`[15:0] BestDist`), or confirm zero errors in logs.",
-        "lecture_correlation": "F17 (Step 7 & Step 8 Evidence Auditing): Every engineering step must be verified with concrete quantitative evidence.",
-        "chip_design_role": "Prevents silent failures (such as empty stimulus files, truncated logs, or accidental 8-bit port widths) from propagating to downstream stages."
       }
     ],
     "one_liner": "snap_step \"page017_understanding_15_cycle_rpipe\" 'python3 -c \"for c in [0,1,2,15,255,256]: print(f\\'count={c:4d} (0x{c:04x}): AddressR=0x{c&0xff:02x} | newDist_PE={c&0xf if (c&0xff)<16 else None} | PEready_active={c>=256 and (c&0xff)<16}\\')\" && grep -En \"newDist|PEready\" ~/ENGR852_Project/00_original_baseline/top.v'",
@@ -6943,19 +6895,11 @@
     "subcommand_breakdown": [
       {
         "seq": 1,
-        "cmd": "snap_step \"page018_reproducing_lecture_notes_table\" 'python3 -c \"total=16*256+15",
+        "cmd": "snap_step \"page018_reproducing_lecture_notes_table\" 'python3 -c \"total=16*256+15; print(f\\'Table 10.1 Schedule: 16 rows * 256 cycles + 15 fill cycles = {total} cycles (0x{total:04x}) | Wall time @ 520MHz (1.923ns) = {total*1.923:.2f} ns\\')\"'",
         "task_performed": "Loads the telemetry bridge and wraps the page's command sequence in the Expected-Outcome Verifier.",
         "in_depth_meaning": "`source practice_from_scratch/scripts/auto_bridge.sh` exports all 5 Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) and defines `snap_step`, which logs stdout/stderr, checks the sequential order guardrail (`Page 1 -> Page 100`), verifies expected output markers, renders a PNG screenshot, and posts live JSON telemetry to `:8788`.",
         "lecture_correlation": "Lecture 2 & Midterm Q2 (Automated Verification Scoreboard): Just as a Verilog testbench checks DUT outputs against a golden model, `snap_step` checks your terminal output against expected engineering results.",
         "chip_design_role": "Production EDA flows wrap every tool invocation in a runner script that checks exit codes, parses log warnings/errors, and updates a real-time engineering dashboard."
-      },
-      {
-        "seq": 2,
-        "cmd": "print(f\\'Table 10.1 Schedule: 16 rows * 256 cycles + 15 fill cycles = {total} cycles (0x{total:04x}) | Wall time @ 520MHz (1.923ns) = {total*1.923:.2f} ns\\')\"'",
-        "task_performed": "Executes sequential step operation: `print(f\\'Table 10.1 Schedule: 16 rows * 256 cycles + 15 fill cycles = {total} cycles (0x{total:04x}) | Wall time @ 520MHz (1.923ns) = {total*1.923:.2f} ns\\')\"'`",
-        "in_depth_meaning": "Runs `print(f\\'Table 10.1 Schedule: 16 rows * 256 cycles + 15 fill cycles = {total} cycles (0x{total:04x}) | Wall time @ 520MHz (1.923ns) = {total*1.923:.2f} ns\\')\"'` inside the isolated practice workspace and chains (`&&`) to the next step only if exit status is `0`.",
-        "lecture_correlation": "ENGR 852 V1-ARCH Hands-On Lab Sequence (Page 18 of 100).",
-        "chip_design_role": "Ensures deterministic, step-by-step execution toward the 520 MHz 14nm Motion Estimator ASIC sign-off."
       }
     ],
     "one_liner": "snap_step \"page018_reproducing_lecture_notes_table\" 'python3 -c \"total=16*256+15; print(f\\'Table 10.1 Schedule: 16 rows * 256 cycles + 15 fill cycles = {total} cycles (0x{total:04x}) | Wall time @ 520MHz (1.923ns) = {total*1.923:.2f} ns\\')\"'",
@@ -7310,19 +7254,11 @@
     "subcommand_breakdown": [
       {
         "seq": 1,
-        "cmd": "snap_step \"page019_memory_address_generation_math\" 'python3 -c \"for y in (0,1,8,15,30): print(f\\'Row y={y:2d}: 31*y = (y<<5)-y = {(y<<5)-y:3d} (0x{(y<<5)-y:03x}) == {31*y:3d}\\')\"",
+        "cmd": "snap_step \"page019_memory_address_generation_math\" 'python3 -c \"for y in (0,1,8,15,30): print(f\\'Row y={y:2d}: 31*y = (y<<5)-y = {(y<<5)-y:3d} (0x{(y<<5)-y:03x}) == {31*y:3d}\\')\" && grep -En \"AddressS1|AddressS2\" ~/ENGR852_Project/00_original_baseline/top.v'",
         "task_performed": "Loads the telemetry bridge and wraps the page's command sequence in the Expected-Outcome Verifier.",
         "in_depth_meaning": "`source practice_from_scratch/scripts/auto_bridge.sh` exports all 5 Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) and defines `snap_step`, which logs stdout/stderr, checks the sequential order guardrail (`Page 1 -> Page 100`), verifies expected output markers, renders a PNG screenshot, and posts live JSON telemetry to `:8788`.",
         "lecture_correlation": "Lecture 2 & Midterm Q2 (Automated Verification Scoreboard): Just as a Verilog testbench checks DUT outputs against a golden model, `snap_step` checks your terminal output against expected engineering results.",
         "chip_design_role": "Production EDA flows wrap every tool invocation in a runner script that checks exit codes, parses log warnings/errors, and updates a real-time engineering dashboard."
-      },
-      {
-        "seq": 2,
-        "cmd": "grep -En \"AddressS1|AddressS2\" ~/ENGR852_Project/00_original_baseline/top.v'",
-        "task_performed": "Inspects, audits, and verifies generated RTL, memory files (`ref.txt`, `search.txt`), or EDA tool reports.",
-        "in_depth_meaning": "Executes `grep -En \"AddressS1|AddressS2\" ~/ENGR852_Project/00_original_baseline/top.v'` to extract exact lines, count vectors (`256` in `ref.txt`, `1024` in `search.txt`), verify port widths (`[15:0] BestDist`), or confirm zero errors in logs.",
-        "lecture_correlation": "F17 (Step 7 & Step 8 Evidence Auditing): Every engineering step must be verified with concrete quantitative evidence.",
-        "chip_design_role": "Prevents silent failures (such as empty stimulus files, truncated logs, or accidental 8-bit port widths) from propagating to downstream stages."
       }
     ],
     "one_liner": "snap_step \"page019_memory_address_generation_math\" 'python3 -c \"for y in (0,1,8,15,30): print(f\\'Row y={y:2d}: 31*y = (y<<5)-y = {(y<<5)-y:3d} (0x{(y<<5)-y:03x}) == {31*y:3d}\\')\" && grep -En \"AddressS1|AddressS2\" ~/ENGR852_Project/00_original_baseline/top.v'",
@@ -7681,19 +7617,11 @@
     "subcommand_breakdown": [
       {
         "seq": 1,
-        "cmd": "snap_step \"page020_deep_dive_8_bit\" 'grep -En -C 3 \"Carry, AccumulateIn\" ~/ENGR852_Project/00_original_baseline/top.v",
+        "cmd": "snap_step \"page020_deep_dive_8_bit\" 'grep -En -C 3 \"Carry, AccumulateIn\" ~/ENGR852_Project/00_original_baseline/top.v && python3 -c \"print(\\'V1 8-Bit Carry Trap: Any SAD > 255 triggers Carry==1 and clamps AccumulateIn = 8hFF!\\')\"'",
         "task_performed": "Loads the telemetry bridge and wraps the page's command sequence in the Expected-Outcome Verifier.",
         "in_depth_meaning": "`source practice_from_scratch/scripts/auto_bridge.sh` exports all 5 Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) and defines `snap_step`, which logs stdout/stderr, checks the sequential order guardrail (`Page 1 -> Page 100`), verifies expected output markers, renders a PNG screenshot, and posts live JSON telemetry to `:8788`.",
         "lecture_correlation": "Lecture 2 & Midterm Q2 (Automated Verification Scoreboard): Just as a Verilog testbench checks DUT outputs against a golden model, `snap_step` checks your terminal output against expected engineering results.",
         "chip_design_role": "Production EDA flows wrap every tool invocation in a runner script that checks exit codes, parses log warnings/errors, and updates a real-time engineering dashboard."
-      },
-      {
-        "seq": 2,
-        "cmd": "python3 -c \"print(\\'V1 8-Bit Carry Trap: Any SAD > 255 triggers Carry==1 and clamps AccumulateIn = 8hFF!\\')\"'",
-        "task_performed": "Executes Python verification, mathematical SAD golden-model checking, or automated report/slide generation.",
-        "in_depth_meaning": "Uses isolated `.venv` Python packages (`reportlab`, `python-pptx`, `pypdf`, `pillow`) or inline Python one-liners to compute golden SAD vectors, audit RTL bit-widths, or verify the 11-gate sign-off harness.",
-        "lecture_correlation": "Lecture 2, Midterm Q2 & F17 (High-Level Golden Modeling & Automated Verification Harness).",
-        "chip_design_role": "Modern ASIC methodology uses Python automation to generate golden test vectors, parse EDA tool reports, and prevent human transcription errors."
       }
     ],
     "one_liner": "snap_step \"page020_deep_dive_8_bit\" 'grep -En -C 3 \"Carry, AccumulateIn\" ~/ENGR852_Project/00_original_baseline/top.v && python3 -c \"print(\\'V1 8-Bit Carry Trap: Any SAD > 255 triggers Carry==1 and clamps AccumulateIn = 8hFF!\\')\"'",
@@ -8039,35 +7967,11 @@
     "subcommand_breakdown": [
       {
         "seq": 1,
-        "cmd": "snap_step \"page021_trap_8_bit_saturation\" 'grep -En -C 4 \"BestDist <= 8\" ~/ENGR852_Project/00_original_baseline/top.v",
+        "cmd": "snap_step \"page021_trap_8_bit_saturation\" 'grep -En -C 4 \"BestDist <= 8\" ~/ENGR852_Project/00_original_baseline/top.v && python3 -c \"best=0xFF; new_d=0xFF; print(f\\'V1 Comparator Tie Trap: newDist=0x{new_d:02X} < BestDist=0x{best:02X} is {new_d < best} -> newBest=0 -> motionX/motionY stay X!\\')\"'",
         "task_performed": "Loads the telemetry bridge and wraps the page's command sequence in the Expected-Outcome Verifier.",
         "in_depth_meaning": "`source practice_from_scratch/scripts/auto_bridge.sh` exports all 5 Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) and defines `snap_step`, which logs stdout/stderr, checks the sequential order guardrail (`Page 1 -> Page 100`), verifies expected output markers, renders a PNG screenshot, and posts live JSON telemetry to `:8788`.",
         "lecture_correlation": "Lecture 2 & Midterm Q2 (Automated Verification Scoreboard): Just as a Verilog testbench checks DUT outputs against a golden model, `snap_step` checks your terminal output against expected engineering results.",
         "chip_design_role": "Production EDA flows wrap every tool invocation in a runner script that checks exit codes, parses log warnings/errors, and updates a real-time engineering dashboard."
-      },
-      {
-        "seq": 2,
-        "cmd": "python3 -c \"best=0xFF",
-        "task_performed": "Executes Python verification, mathematical SAD golden-model checking, or automated report/slide generation.",
-        "in_depth_meaning": "Uses isolated `.venv` Python packages (`reportlab`, `python-pptx`, `pypdf`, `pillow`) or inline Python one-liners to compute golden SAD vectors, audit RTL bit-widths, or verify the 11-gate sign-off harness.",
-        "lecture_correlation": "Lecture 2, Midterm Q2 & F17 (High-Level Golden Modeling & Automated Verification Harness).",
-        "chip_design_role": "Modern ASIC methodology uses Python automation to generate golden test vectors, parse EDA tool reports, and prevent human transcription errors."
-      },
-      {
-        "seq": 3,
-        "cmd": "new_d=0xFF",
-        "task_performed": "Executes sequential step operation: `new_d=0xFF`",
-        "in_depth_meaning": "Runs `new_d=0xFF` inside the isolated practice workspace and chains (`&&`) to the next step only if exit status is `0`.",
-        "lecture_correlation": "ENGR 852 V1-ARCH Hands-On Lab Sequence (Page 21 of 100).",
-        "chip_design_role": "Ensures deterministic, step-by-step execution toward the 520 MHz 14nm Motion Estimator ASIC sign-off."
-      },
-      {
-        "seq": 4,
-        "cmd": "print(f\\'V1 Comparator Tie Trap: newDist=0x{new_d:02X} < BestDist=0x{best:02X} is {new_d < best} -> newBest=0 -> motionX/motionY stay X!\\')\"'",
-        "task_performed": "Executes sequential step operation: `print(f\\'V1 Comparator Tie Trap: newDist=0x{new_d:02X} < BestDist=0x{best:02X} is {new_d < best} -> newBest=0 -> motionX/motionY stay X!\\')\"'`",
-        "in_depth_meaning": "Runs `print(f\\'V1 Comparator Tie Trap: newDist=0x{new_d:02X} < BestDist=0x{best:02X} is {new_d < best} -> newBest=0 -> motionX/motionY stay X!\\')\"'` inside the isolated practice workspace and chains (`&&`) to the next step only if exit status is `0`.",
-        "lecture_correlation": "ENGR 852 V1-ARCH Hands-On Lab Sequence (Page 21 of 100).",
-        "chip_design_role": "Ensures deterministic, step-by-step execution toward the 520 MHz 14nm Motion Estimator ASIC sign-off."
       }
     ],
     "one_liner": "snap_step \"page021_trap_8_bit_saturation\" 'grep -En -C 4 \"BestDist <= 8\" ~/ENGR852_Project/00_original_baseline/top.v && python3 -c \"best=0xFF; new_d=0xFF; print(f\\'V1 Comparator Tie Trap: newDist=0x{new_d:02X} < BestDist=0x{best:02X} is {new_d < best} -> newBest=0 -> motionX/motionY stay X!\\')\"'",
@@ -8423,35 +8327,11 @@
     "subcommand_breakdown": [
       {
         "seq": 1,
-        "cmd": "snap_step \"page022_16_bit_non_saturating\" 'grep -En -C 3 \"AccumulateIn = Accumulate\" ~/ENGR852_Project/00_course_reference/rtl/16bit/top.v",
+        "cmd": "snap_step \"page022_16_bit_non_saturating\" 'grep -En -C 3 \"AccumulateIn = Accumulate\" ~/ENGR852_Project/00_course_reference/rtl/16bit/top.v && python3 -c \"best=0xFFFF; new_d=256*255; print(f\\'V2 16-Bit Fix: newDist=0x{new_d:04X} ({new_d}) < BestDist=0x{best:04X} ({best}) is {new_d < best} -> newBest=1!\\')\"'",
         "task_performed": "Loads the telemetry bridge and wraps the page's command sequence in the Expected-Outcome Verifier.",
         "in_depth_meaning": "`source practice_from_scratch/scripts/auto_bridge.sh` exports all 5 Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) and defines `snap_step`, which logs stdout/stderr, checks the sequential order guardrail (`Page 1 -> Page 100`), verifies expected output markers, renders a PNG screenshot, and posts live JSON telemetry to `:8788`.",
         "lecture_correlation": "Lecture 2 & Midterm Q2 (Automated Verification Scoreboard): Just as a Verilog testbench checks DUT outputs against a golden model, `snap_step` checks your terminal output against expected engineering results.",
         "chip_design_role": "Production EDA flows wrap every tool invocation in a runner script that checks exit codes, parses log warnings/errors, and updates a real-time engineering dashboard."
-      },
-      {
-        "seq": 2,
-        "cmd": "python3 -c \"best=0xFFFF",
-        "task_performed": "Executes Python verification, mathematical SAD golden-model checking, or automated report/slide generation.",
-        "in_depth_meaning": "Uses isolated `.venv` Python packages (`reportlab`, `python-pptx`, `pypdf`, `pillow`) or inline Python one-liners to compute golden SAD vectors, audit RTL bit-widths, or verify the 11-gate sign-off harness.",
-        "lecture_correlation": "Lecture 2, Midterm Q2 & F17 (High-Level Golden Modeling & Automated Verification Harness).",
-        "chip_design_role": "Modern ASIC methodology uses Python automation to generate golden test vectors, parse EDA tool reports, and prevent human transcription errors."
-      },
-      {
-        "seq": 3,
-        "cmd": "new_d=256*255",
-        "task_performed": "Executes sequential step operation: `new_d=256*255`",
-        "in_depth_meaning": "Runs `new_d=256*255` inside the isolated practice workspace and chains (`&&`) to the next step only if exit status is `0`.",
-        "lecture_correlation": "ENGR 852 V1-ARCH Hands-On Lab Sequence (Page 22 of 100).",
-        "chip_design_role": "Ensures deterministic, step-by-step execution toward the 520 MHz 14nm Motion Estimator ASIC sign-off."
-      },
-      {
-        "seq": 4,
-        "cmd": "print(f\\'V2 16-Bit Fix: newDist=0x{new_d:04X} ({new_d}) < BestDist=0x{best:04X} ({best}) is {new_d < best} -> newBest=1!\\')\"'",
-        "task_performed": "Executes sequential step operation: `print(f\\'V2 16-Bit Fix: newDist=0x{new_d:04X} ({new_d}) < BestDist=0x{best:04X} ({best}) is {new_d < best} -> newBest=1!\\')\"'`",
-        "in_depth_meaning": "Runs `print(f\\'V2 16-Bit Fix: newDist=0x{new_d:04X} ({new_d}) < BestDist=0x{best:04X} ({best}) is {new_d < best} -> newBest=1!\\')\"'` inside the isolated practice workspace and chains (`&&`) to the next step only if exit status is `0`.",
-        "lecture_correlation": "ENGR 852 V1-ARCH Hands-On Lab Sequence (Page 22 of 100).",
-        "chip_design_role": "Ensures deterministic, step-by-step execution toward the 520 MHz 14nm Motion Estimator ASIC sign-off."
       }
     ],
     "one_liner": "snap_step \"page022_16_bit_non_saturating\" 'grep -En -C 3 \"AccumulateIn = Accumulate\" ~/ENGR852_Project/00_course_reference/rtl/16bit/top.v && python3 -c \"best=0xFFFF; new_d=256*255; print(f\\'V2 16-Bit Fix: newDist=0x{new_d:04X} ({new_d}) < BestDist=0x{best:04X} ({best}) is {new_d < best} -> newBest=1!\\')\"'",
@@ -8812,19 +8692,11 @@
     "subcommand_breakdown": [
       {
         "seq": 1,
-        "cmd": "snap_step \"page023_trap_12_bit_counter\" 'grep -En -C 4 \"13\\'h100F|completed\" ~/ENGR852_Project/00_course_reference/rtl/16bit/top.v",
+        "cmd": "snap_step \"page023_trap_12_bit_counter\" 'grep -En -C 4 \"13\\'h100F|completed\" ~/ENGR852_Project/00_course_reference/rtl/16bit/top.v && python3 -c \"print(\\'V2 Counter Fix: 13-bit count[12:0] runs cleanly across 4096..4111 (0x1000..0x100F) and latches completed<=1!\\')\"'",
         "task_performed": "Loads the telemetry bridge and wraps the page's command sequence in the Expected-Outcome Verifier.",
         "in_depth_meaning": "`source practice_from_scratch/scripts/auto_bridge.sh` exports all 5 Synopsys tool paths (`vcs`, `verdi`, `fc_shell`, `icv`, `pt_shell`) and defines `snap_step`, which logs stdout/stderr, checks the sequential order guardrail (`Page 1 -> Page 100`), verifies expected output markers, renders a PNG screenshot, and posts live JSON telemetry to `:8788`.",
         "lecture_correlation": "Lecture 2 & Midterm Q2 (Automated Verification Scoreboard): Just as a Verilog testbench checks DUT outputs against a golden model, `snap_step` checks your terminal output against expected engineering results.",
         "chip_design_role": "Production EDA flows wrap every tool invocation in a runner script that checks exit codes, parses log warnings/errors, and updates a real-time engineering dashboard."
-      },
-      {
-        "seq": 2,
-        "cmd": "python3 -c \"print(\\'V2 Counter Fix: 13-bit count[12:0] runs cleanly across 4096..4111 (0x1000..0x100F) and latches completed<=1!\\')\"'",
-        "task_performed": "Executes Python verification, mathematical SAD golden-model checking, or automated report/slide generation.",
-        "in_depth_meaning": "Uses isolated `.venv` Python packages (`reportlab`, `python-pptx`, `pypdf`, `pillow`) or inline Python one-liners to compute golden SAD vectors, audit RTL bit-widths, or verify the 11-gate sign-off harness.",
-        "lecture_correlation": "Lecture 2, Midterm Q2 & F17 (High-Level Golden Modeling & Automated Verification Harness).",
-        "chip_design_role": "Modern ASIC methodology uses Python automation to generate golden test vectors, parse EDA tool reports, and prevent human transcription errors."
       }
     ],
     "one_liner": "snap_step \"page023_trap_12_bit_counter\" 'grep -En -C 4 \"13\\'h100F|completed\" ~/ENGR852_Project/00_course_reference/rtl/16bit/top.v && python3 -c \"print(\\'V2 Counter Fix: 13-bit count[12:0] runs cleanly across 4096..4111 (0x1000..0x100F) and latches completed<=1!\\')\"'",
