@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-09 16:52:05 PST",
-  "epoch": 1794271925.832432,
+  "updated_at": "2026-11-09 16:52:11 PST",
+  "epoch": 1794271931.89499,
   "last_event": "STEP_COMPLETE",
   "active_terminal": "MACBOOK_AIR_TERMINAL",
   "host": "iMac.local",
@@ -30,7 +30,7 @@
       "git version 2.39+",
       "MACBOOK_CLI_AND_VENV_READY"
     ],
-    "actual_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page003_brand_new_macbook_air\n# Timestamp                        : 2026-11-09 16:52:04 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_003.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_003.sh\n=== [ENGR 852 Live Execution \u00b7 Page 3: Page 3: Brand-New MacBook Air First Boot  -  macOS Terminal, Xcode CLI Tools, & Python Setup] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n/tmp/engr852_autofix_page_003.sh: line 11: unexpected EOF while looking for matching `''\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 2\n# Finished At : 2026-11-09 16:52:05 PST\n# ------------------------------------------------------------------------------",
+    "actual_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page003_brand_new_macbook_air\n# Timestamp                        : 2026-11-09 16:52:10 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_003.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_003.sh\n=== [ENGR 852 Live Execution \u00b7 Page 3: Page 3: Brand-New MacBook Air First Boot  -  macOS Terminal, Xcode CLI Tools, & Python Setup] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n/tmp/engr852_autofix_page_003.sh: line 11: unexpected EOF while looking for matching `''\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 2\n# Finished At : 2026-11-09 16:52:11 PST\n# ------------------------------------------------------------------------------",
     "mismatch_diagnosis": "If Page 3 (`page003_brand_new_macbook_air`) failed or its terminal output did not match the expected outcome, the most common causes are: (1) `~/Developer/motion-estimator-14nm-asic-manual` subdirectories were not yet initialized, (2) `auto_bridge.sh` was not sourced in the current terminal tab, or (3) XQuartz / GlobalProtect VPN needed a refresh.",
     "debug_fix_oneliner": "mkdir -p ~/Developer/motion-estimator-14nm-asic-manual/{rtl/8bit,rtl/16bit,tb/8bit,tb/16bit,constraints,scripts,docs,deliverables,evidence/screenshots} && cd ~/Developer/engr852_practice/motion-estimator-asic-lab-notebook-2026 2>/dev/null || cd /Users/huynguyen/Developer/portfolio/motion-estimator-asic-lab-notebook-2026 && source practice_from_scratch/scripts/auto_bridge.sh && FORCE_STEP=1 snap_step \"page003_brand_new_macbook_air\" \"xcode-select -p && git --version && ssh -V 2>&1 && cd ~/Developer/motion-estimator-14nm-asic-manual && python3 -m venv .venv && source .venv/bin/activate && pip install -q --upgrade pip pillow reportlab python-pptx pypdf && python3 -c 'import PIL, reportlab, pptx, pypdf; print(\\\"MACBOOK_CLI_AND_VENV_READY\\\")'\"",
     "debug_steps_explained": [
@@ -38,7 +38,7 @@
       "2. Re-sources `practice_from_scratch/scripts/auto_bridge.sh` so `snap_step` and the `:8788` telemetry bridge are active.",
       "3. Re-executes Page 3 (`page003_brand_new_macbook_air`), verifies the expected output markers `['MACBOOK_CLI_AND_VENV_READY']`, and syncs the fixed result to `:8788` and GitHub `manual-practice-macbook-air`."
     ],
-    "updated_at": "2026-11-09 16:52:05"
+    "updated_at": "2026-11-09 16:52:11"
   },
   "completed_pages": {
     "1": {
@@ -86,8 +86,8 @@
       "exit_code": 2,
       "log_file": "/files/logs/page003_brand_new_macbook_air.log",
       "screenshot_file": "/files/screenshots/page003_brand_new_macbook_air_terminal.png",
-      "log_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page003_brand_new_macbook_air\n# Timestamp                        : 2026-11-09 16:52:04 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_003.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_003.sh\n=== [ENGR 852 Live Execution \u00b7 Page 3: Page 3: Brand-New MacBook Air First Boot  -  macOS Terminal, Xcode CLI Tools, & Python Setup] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n/tmp/engr852_autofix_page_003.sh: line 11: unexpected EOF while looking for matching `''\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 2\n# Finished At : 2026-11-09 16:52:05 PST\n# ------------------------------------------------------------------------------",
-      "updated_at": "2026-11-09 16:52:05"
+      "log_excerpt": "# ==============================================================================\n# ENGR 852 Manual Replication Step : page003_brand_new_macbook_air\n# Timestamp                        : 2026-11-09 16:52:10 PST\n# Host & User                      : huynguyen@iMac.local\n# Terminal Environment             : MACBOOK_AIR_TERMINAL\n# IP Addresses                     : 192.168.1.70,130.212.163.69\n# Working Directory                : /Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n# DISPLAY                          : /var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0\n# Command Executed                 : bash /tmp/engr852_autofix_page_003.sh\n# ==============================================================================\n\n$ bash /tmp/engr852_autofix_page_003.sh\n=== [ENGR 852 Live Execution \u00b7 Page 3: Page 3: Brand-New MacBook Air First Boot  -  macOS Terminal, Xcode CLI Tools, & Python Setup] ===\n/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual\n/tmp/engr852_autofix_page_003.sh: line 11: unexpected EOF while looking for matching `''\n\n# ------------------------------------------------------------------------------\n# Exit Code   : 2\n# Finished At : 2026-11-09 16:52:11 PST\n# ------------------------------------------------------------------------------",
+      "updated_at": "2026-11-09 16:52:11"
     },
     "25": {
       "page_num": 25,
@@ -151,30 +151,6 @@
     }
   },
   "terminal_feed": [
-    {
-      "time": "15:21:18",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "page001_master_roadmap",
-      "command": "bash /tmp/engr852_autofix_page_001.sh",
-      "status": "PASS",
-      "message": "Completed page001_master_roadmap (exit=0)"
-    },
-    {
-      "time": "15:21:19",
-      "terminal": "MACBOOK_AIR_TERMINAL",
-      "host": "iMac.local",
-      "ip": "192.168.1.70,130.212.163.69",
-      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
-      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
-      "step_id": "step0_terminal_handshake",
-      "command": "source auto_bridge.sh",
-      "status": "CONNECTED",
-      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
-    },
     {
       "time": "15:21:20",
       "terminal": "MACBOOK_AIR_TERMINAL",
@@ -573,6 +549,30 @@
     },
     {
       "time": "16:52:05",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "page003_brand_new_macbook_air",
+      "command": "bash /tmp/engr852_autofix_page_003.sh",
+      "status": "FAIL",
+      "message": "Completed page003_brand_new_macbook_air (exit=2)"
+    },
+    {
+      "time": "16:52:10",
+      "terminal": "MACBOOK_AIR_TERMINAL",
+      "host": "iMac.local",
+      "ip": "192.168.1.70,130.212.163.69",
+      "display": "/var/run/com.apple.launchd.SQD4ShgIqM/org.xquartz:0",
+      "pwd": "/Users/huynguyen/Developer/motion-estimator-14nm-asic-manual",
+      "step_id": "step0_terminal_handshake",
+      "command": "source auto_bridge.sh",
+      "status": "CONNECTED",
+      "message": "Terminal connected (huynguyen@iMac) \u2014 Ready!"
+    },
+    {
+      "time": "16:52:11",
       "terminal": "MACBOOK_AIR_TERMINAL",
       "host": "iMac.local",
       "ip": "192.168.1.70,130.212.163.69",
