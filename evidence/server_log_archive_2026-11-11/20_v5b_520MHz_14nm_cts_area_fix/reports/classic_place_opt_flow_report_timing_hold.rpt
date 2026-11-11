@@ -1,0 +1,45 @@
+Warning: Scenario FUNC_Slow is not configured for hold analysis: skipping. (UIC-058)
+****************************************
+Report : timing
+        -path_type full
+        -delay_type min
+        -max_paths 1
+        -report_by design
+Design : top
+Version: X-2025.06-SP2
+Date   : Thu Nov  5 10:39:34 2026
+****************************************
+
+  Startpoint: pe_u/pe0/Rpipe_reg[6] (rising edge-triggered flip-flop clocked by clock)
+  Endpoint: pe_u/pe1/Rpipe_reg[6] (rising edge-triggered flip-flop clocked by clock)
+  Mode: FUNC
+  Corner: Fast
+  Scenario: FUNC_Fast
+  Path Group: clock
+  Path Type: min
+
+  Point                                            Incr      Path  
+  ------------------------------------------------------------------------
+  clock clock (rise edge)                          0.00      0.00
+  clock network delay (ideal)                      0.06      0.06
+
+  pe_u/pe0/Rpipe_reg[6]/CK (SAEDRVT14_FSDP_V2_1)   0.00      0.06 r
+  pe_u/pe0/Rpipe_reg[6]/QN (SAEDRVT14_FSDP_V2_1)   0.01      0.07 f
+  pe_u/pe1/Rpipe_reg[6]/D (SAEDRVT14_FDP_V2_0P5)   0.00      0.07 f
+  data arrival time                                          0.07
+
+  clock clock (rise edge)                          0.00      0.00
+  clock network delay (ideal)                      0.06      0.06
+  pe_u/pe1/Rpipe_reg[6]/CK (SAEDRVT14_FDP_V2_0P5)
+                                                   0.00      0.06 r
+  clock uncertainty                                0.20      0.26
+  library hold time                               -0.00      0.26
+  data required time                                         0.26
+  ------------------------------------------------------------------------
+  data required time                                         0.26
+  data arrival time                                         -0.07
+  ------------------------------------------------------------------------
+  slack (VIOLATED)                                          -0.18
+
+
+1

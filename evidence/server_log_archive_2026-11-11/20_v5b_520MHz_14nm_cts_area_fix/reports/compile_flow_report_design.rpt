@@ -1,0 +1,75 @@
+****************************************
+Report : design
+Design : top
+Version: X-2025.06-SP2
+Date   : Wed Nov  4 22:20:32 2026
+****************************************
+
+Total number of std cells in library : 860
+Total number of dont_use lib cells   : 67
+Total number of dont_touch lib cells : 17
+Total number of buffers              : 59
+Total number of inverters            : 46
+Total number of flip-flops           : 173
+Total number of latches              : 45
+Total number of ICGs                 : 30
+
+Cell Instance Type  Count         Area
+--------------------------------------
+TOTAL LEAF CELLS     1905     1193.028
+unit                 1905     1193.028
+Standard cells       1905     1193.028
+unit                 1905     1193.028
+Hard macro cells        0        0.000
+unit                 1905     1193.028
+Soft macro cells        0        0.000
+unit                 1905     1193.028
+Always on cells         0        0.000
+unit                 1905     1193.028
+Physical only           0        0.000
+unit                 1905     1193.028
+Fixed cells             0        0.000
+unit                 1905     1193.028
+Moveable cells       1905     1193.028
+unit                 1905     1193.028
+Placed cells         1905     1193.028
+unit                 1905     1193.028
+Sequential            416      510.778
+unit                 1905     1193.028
+Buffer/inverter       159       28.238
+unit                 1905     1193.028
+ICG cells               2        1.598
+unit                 1905     1193.028
+
+Logic Hierarchies                    : 0
+Design Masters count                 : 53
+Total Flat nets count                : 2401
+Total FloatingNets count             : 0
+Total no of Ports                    : 81
+Number of Master Clocks in design    : 1
+Number of Generated Clocks in design : 0
+Number of Path Groups in design      : 7 (1 of them Non Default)
+Number of Scan Chains in design      : 0
+List of Modes                        : FUNC
+List of Corners                      : Fast, Typical, Slow
+List of Scenarios                    : FUNC_Fast, FUNC_Slow, FUNC_Typical
+
+Core Area                            : 1681.694
+Chip Area                            : 1681.694
+Total Site Row Area                  : 1681.694
+Number of Blockages                  : 0
+Total area of Blockages              : 0.000
+Number of Power Domains              : 1
+Number of Voltage Areas              : 1
+Number of Group Bounds               : 0
+Number of Exclusive MoveBounds       : 0
+Number of Hard or Soft MoveBounds    : 0
+Number of Multibit Registers         : 0
+Number of Multibit LS/ISO Cells      : 0
+Number of Top Level RP Groups        : 0
+Number of Tech Layers                : 64 (54 of them have unknown routing dir.)
+
+Total wire length                    : 0.00 micron
+Total number of wires                : 0
+Total number of contacts             : 0
+1

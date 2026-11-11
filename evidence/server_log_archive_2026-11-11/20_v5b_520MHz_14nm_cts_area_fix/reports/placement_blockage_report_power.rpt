@@ -1,0 +1,145 @@
+****************************************
+Report : power
+        -significant_digits 2
+Design : top
+Version: X-2025.06-SP2
+Date   : Thu Nov  5 10:43:50 2026
+****************************************
+Information: Activity for scenario FUNC_Fast was cached, no propagation required. (POW-005)
+Information: Activity for scenario FUNC_Slow was cached, no propagation required. (POW-005)
+Information: Activity for scenario FUNC_Typical was cached, no propagation required. (POW-005)
+Mode: FUNC
+Corner: Fast
+Scenario: FUNC_Fast
+Voltage: 0.88
+Temperature: 125.00
+
+Voltage Unit         : 1V
+Capacitance Unit     : 1fF
+Time Unit            : 1ns
+Temperature Unit     : 1C
+Dynamic Power Unit   : 1pW
+Leakage Power Unit   : 1pW
+
+Switched supply net power scaling:
+scaling for leakage power
+
+Supply nets:
+VDD (power) probability 1.00 (default)
+VSS (ground) probability 1.00 (default)
+Warning: Fall toggles on pin ctl_u/count_reg[10]/QN are impossible given input states; converted to rise toggles. (POW-069)
+Warning: Fall toggles on pin completed_delayed_reg/Q are impossible given input states; converted to rise toggles. (POW-069)
+
+  Cell Internal Power    = 2.94e+08 pW ( 64.0%)
+  Net Switching Power    = 1.66e+08 pW ( 36.0%)
+Total Dynamic Power      = 4.60e+08 pW (100.0%)
+
+Cell Leakage Power       = N/A
+
+
+  Attributes
+  ----------
+      u  -  User defined power group
+      i  -  Includes clock pin internal power
+
+Power Group         Internal Power        Switching Power          Leakage Power            Total Power    (   %  )    Attrs
+-----------------------------------------------------------------------------------------------------------------------------
+io_pad                    0.00e+00               0.00e+00                    N/A               0.00e+00    (  0.0%)         
+memory                    0.00e+00               0.00e+00                    N/A               0.00e+00    (  0.0%)         
+black_box                 0.00e+00               0.00e+00                    N/A               0.00e+00    (  0.0%)         
+clock_network             1.81e+08               1.68e+07                    N/A               1.98e+08    ( 43.1%)        i
+register                  6.94e+07               4.11e+07                    N/A               1.10e+08    ( 24.0%)         
+sequential                0.00e+00               0.00e+00                    N/A               0.00e+00    (  0.0%)         
+combinational             4.34e+07               1.08e+08                    N/A               1.51e+08    ( 32.9%)         
+-----------------------------------------------------------------------------------------------------------------------------
+Total                     2.94e+08 pW            1.66e+08 pW                 N/A               4.60e+08 pW
+Mode: FUNC
+Corner: Slow
+Scenario: FUNC_Slow
+Voltage: 0.72
+Temperature: -40.00
+
+Voltage Unit         : 1V
+Capacitance Unit     : 1fF
+Time Unit            : 1ns
+Temperature Unit     : 1C
+Dynamic Power Unit   : 1pW
+Leakage Power Unit   : 1pW
+
+Switched supply net power scaling:
+scaling for leakage power
+
+Supply nets:
+VDD (power) probability 1.00 (default)
+VSS (ground) probability 1.00 (default)
+Warning: Fall toggles on pin ctl_u/count_reg[10]/QN are impossible given input states; converted to rise toggles. (POW-069)
+Warning: Fall toggles on pin completed_delayed_reg/Q are impossible given input states; converted to rise toggles. (POW-069)
+
+  Cell Internal Power    = 1.75e+08 pW ( 62.4%)
+  Net Switching Power    = 1.05e+08 pW ( 37.6%)
+Total Dynamic Power      = 2.80e+08 pW (100.0%)
+
+Cell Leakage Power       = 2.52e+04 pW
+
+
+  Attributes
+  ----------
+      u  -  User defined power group
+      i  -  Includes clock pin internal power
+
+Power Group         Internal Power        Switching Power          Leakage Power            Total Power    (   %  )    Attrs
+-----------------------------------------------------------------------------------------------------------------------------
+io_pad                    0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+memory                    0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+black_box                 0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+clock_network             1.03e+08               1.01e+07               7.70e+02               1.13e+08    ( 40.3%)        i
+register                  4.00e+07               2.60e+07               1.68e+04               6.59e+07    ( 23.5%)         
+sequential                0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+combinational             3.21e+07               6.92e+07               7.57e+03               1.01e+08    ( 36.2%)         
+-----------------------------------------------------------------------------------------------------------------------------
+Total                     1.75e+08 pW            1.05e+08 pW            2.52e+04 pW            2.80e+08 pW
+Mode: FUNC
+Corner: Typical
+Scenario: FUNC_Typical
+Voltage: 0.80
+Temperature: 25.00
+
+Voltage Unit         : 1V
+Capacitance Unit     : 1fF
+Time Unit            : 1ns
+Temperature Unit     : 1C
+Dynamic Power Unit   : 1pW
+Leakage Power Unit   : 1pW
+
+Switched supply net power scaling:
+scaling for leakage power
+
+Supply nets:
+VDD (power) probability 1.00 (default)
+VSS (ground) probability 1.00 (default)
+Note - message 'POW-069' limit (10) exceeded. Remainder will be suppressed.
+
+  Cell Internal Power    = 2.25e+08 pW ( 62.4%)
+  Net Switching Power    = 1.36e+08 pW ( 37.6%)
+Total Dynamic Power      = 3.61e+08 pW (100.0%)
+
+Cell Leakage Power       = 4.38e+05 pW
+
+
+  Attributes
+  ----------
+      u  -  User defined power group
+      i  -  Includes clock pin internal power
+
+Power Group         Internal Power        Switching Power          Leakage Power            Total Power    (   %  )    Attrs
+-----------------------------------------------------------------------------------------------------------------------------
+io_pad                    0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+memory                    0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+black_box                 0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+clock_network             1.37e+08               1.33e+07               1.16e+04               1.50e+08    ( 41.6%)        i
+register                  5.27e+07               3.35e+07               2.21e+05               8.64e+07    ( 23.9%)         
+sequential                0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+combinational             3.55e+07               8.88e+07               2.05e+05               1.25e+08    ( 34.5%)         
+-----------------------------------------------------------------------------------------------------------------------------
+Total                     2.25e+08 pW            1.36e+08 pW            4.38e+05 pW            3.61e+08 pW
+1

@@ -1,0 +1,206 @@
+2.  Synopsys Commands                                        Command Reference
+                     remove_stdcell_fillers_with_violation
+
+NAME
+       remove_stdcell_fillers_with_violation
+              Deletes filler cells that have routing DRC violations.
+
+SYNTAX
+       status remove_stdcell_fillers_with_violation
+          [-name cell_name]
+          [-check_only true | false]
+          [-check_between_fixed_objects true | false]
+          [-boundary rectangular_regions]
+          [-post_eco true | false]
+          [-shorts_only true | false]
+
+   Data Types
+       cell_name            list
+       rectangular_regions  list
+
+ARGUMENTS
+       -name cell_name
+              Specifies  the cell instances to consider for removal. The names
+              can include wildcard characters.
+
+              If you do not specify this option (or if you specify  '*'),  the
+              name  defaults to '*xofiller*'. If you use this default pattern,
+              all instance names that have the 'xofiller' substring  in  them,
+              including hierarchical names, are considered for removal.
+
+              If  the specified cells are not filler cells (which have connec-
+              tions to signal nets), a warning message alerts  you  about  the
+              cells that are not deleted.
+
+       -check_only true | false
+              Controls  whether  the  command runs in checking mode or removal
+              mode.
+
+              If false (the default), the command runs in removal mode.
+
+              If true, the command runs in checking mode and does not actually
+              remove  the  filler  cells. In checking mode, the command checks
+              for   violations   and    outputs    a    file    named    <cur-
+              rent_design_name>_fillers_with_violation.rpt   that  contains  a
+              list of the filler cells to be removed with the first  violation
+              for each filler cell. This output file is overwritten every time
+              you run the command with the -check_only true option.
+
+       -check_between_fixed_objects true | false
+              Controls which objects are checked for violations.
+
+              If false (the default), the command checks only  for  violations
+              between filler objects and top-level signal routing objects.
+
+              If  true,  the  command  checks  for  violations  between filler
+              objects and all neighboring objects,  including  signal  routing
+              objects,  filler  cells, standard cells, PG rail objects, termi-
+              nals, and so on.
+
+       -boundary rectangular_regions
+              Specifies the rectangular regions within which to delete  filler
+              cells  with violations. Use the following syntax to specify each
+              rectangular region:
+
+              {{llx lly} {urx ury}}
+
+              The llx and lly arguments specify the x-  and  y-coordinates  of
+              the lower-left corner of the rectangular region; the urx and ury
+              arguments specify the x- and y-coordinates  of  the  upper-right
+              corner  of the rectangular region.  The units of the coordinates
+              are the main library units. You can specify one or more  rectan-
+              gular regions.
+
+              If  you  do  not specify this option, the command deletes filler
+              cells with violations for the entire design.
+
+       -post_eco true | false
+              Controls whether the command deletes only filler cells marked as
+              post-ECO cells by the create_stdcell_fillers command.
+
+              If  false  (the  default), the command deletes filler cells with
+              violations for the entire design.
+
+              If true, the command deletes only filler cells  with  violations
+              marked as post-ECO cells by the create_stdcell_fillers -post_eco
+              command. After filler cell  removal,  the  command  removes  the
+              post-ECO  markings  on  the remaining filler cells.  The runtime
+              depends on the distribution of the added filler cells;  if  they
+              are  scattered  across the design, the runtime can increase sig-
+              nificantly.
+
+              This option is mutually exclusive with the -name  and  -boundary
+              options.
+
+       -shorts_only true | false
+              Controls  whether  the  command  deletes filler cells with short
+              violations only.
+
+              If false (the default), the command deletes  filler  cells  with
+              all violations.
+
+              If  true, the command deletes filler cells with short violations
+              only.
+
+              This option is mutually exclusive with the -check_only option.
+
+DESCRIPTION
+       This command deletes the specified filler cells that have  routing  DRC
+       violations.  Filler  cells are standard cells that do not have any con-
+       nections to signal nets. The command does not remove filler cells whose
+       physical_status  attribute has a value of fixed or locked, even if they
+       have violations. To remove these filler cells, you must first set their
+       physical_status attribute to placed.
+
+       This  command is useful when you add filler cells after performing sig-
+       nal routing.
+
+       The command deletes filler cells that have power or  ground  (PG)  pins
+       but  are  not assigned to a PG net if they touch other PG objects, such
+       as rails or pins assigned to a PG net. Therefore,  you  should  connect
+       these    pins    to    PG   nets   before   running   the   remove_std-
+       cell_fillers_with_violation command. For information  about  connecting
+       pins  to  PG  nets,  see  the man pages for the connect_pg_net and cre-
+       ate_stdcell_fillers commands.
+
+       The command does not remove filler cells that have internal violations,
+       which are violations between objects of the same cell; however, it does
+       issue a warning if it detects this type of violation.
+
+       The command outputs an information message  about  the  violation  type
+       that  causes  the deletion for the first 50 deleted cells. If there are
+       multiple violations for the same cell, only one of them is listed.
+
+       It is a known limitation of  the  remove_stdcell_fillers_with_violation
+       command  that  when  filler  cells are removed, new violations might be
+       introduced with neighboring filler cells. Therefore, you should run the
+       remove_stdcell_fillers_with_violation  command  multiple times until no
+       more filler cells are removed. In other words, until the command issues
+       the "Deleted 0 cell instances" message.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The  following  example  removes  all  filler  cells  with  the  prefix
+       "xofiller" that have routing DRC violations. Before removing the filler
+       cells, their status is set to unfixed.
+
+         prompt> change_selection [get_cells -quiet {xofiller*}]
+         prompt> set_locked_objects [get_selection] -unlock
+         prompt> change_selection [get_cells -quiet {xofiller*}] -remove
+         prompt> remove_stdcell_fillers_with_violation -name "xofiller*"
+
+       The  following example removes the filler cells with routing DRC viola-
+       tions within the specified rectangular region.
+
+         prompt> remove_stdcell_fillers_with_violation -boundary { { {16.12 32.38} {18.28 34.66} } }
+
+       The following example shows the post-ECO filler cell insertion flow.
+
+         prompt> create_stdcell_fillers -post_eco \
+            -lib_cells {mylib/DCAP_4X mylib/DCAP_2X mylib/DCAP_1X}
+         prompt> remove_stdcell_fillers_with_violation -post_eco true
+
+       The following example removes the filler cells  with  short  violations
+       only.
+
+         prompt> remove_stdcell_fillers_with_violation -shorts_only true
+
+       The  following example reports all filler cells with routing DRC viola-
+       tions, but does not remove the filler cells.
+
+         prompt> remove_stdcell_fillers_with_violation -check_only true
+
+       The    following    is     the     content     of     the     generated
+       my_design_fillers_with_violation.rpt file:
+
+         ****************************************
+         Report : fillers_with_violation
+         Design : my_design
+         Version: J-2014.06
+         Date   : Mon Jun 16 01:10:44 2014
+         ****************************************
+
+         instance_name     master_name  violation_type
+            layer  violation_location                  all_fixed_shapes
+         xofiller!DCAP!26  DCAP         Less than minimum edge length
+            M1-M1  (504.565 635.990  504.585 636.155)  yes
+         xofiller!DCAP!13  DCAP         Diff net spacing
+            M1-M1  (302.075 235.245  302.105 235.410)  no
+         xofiller!DCAP!59  DCAP         Less than minimum edge length
+            M1-M1  (602.075 235.990  602.105 236.155)  yes
+         xofiller!DCAP!22  DCAP         Short
+            M1-M1  (204.565 216.245  204.585 216.410)  no
+         xofiller!DCAP!10  DCAP         Diff net spacing
+            M1-M1  (102.075 415.245  102.105 415.410)  no.in -0.25in
+
+       In  the report, the all_fixed_shapes column indicates whether the first
+       violation is caused only by fixed shapes.
+
+SEE ALSO
+       connect_pg_net(2)
+       create_stdcell_fillers(2)
+
+                          Version X-2025.06-SP2
+            Copyright (c) 2025 Synopsys, Inc. All rights reserved.

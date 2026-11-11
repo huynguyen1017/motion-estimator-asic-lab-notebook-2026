@@ -1,0 +1,86 @@
+****************************************
+Report : constraint
+	-all_violators
+	-path slack_only
+Design : top
+Version: U-2022.12-SP5-3
+Date   : Thu Nov  5 11:20:19 2026
+****************************************
+
+
+   max_delay/setup ('clock' group)
+
+   Endpoint                                                  Slack
+   -----------------------------------------------------------------
+   pe_u/pe7/Accumulate_reg[15]/D                             -0.06  (VIOLATED)
+   pe_u/pe11/Accumulate_reg[15]/D                            -0.04  (VIOLATED)
+   pe_u/pe7/Accumulate_reg[13]/D                             -0.03  (VIOLATED)
+   pe_u/pe14/Accumulate_reg[15]/D                            -0.02  (VIOLATED)
+   pe_u/pe10/Accumulate_reg[14]/D                            -0.01  (VIOLATED)
+   pe_u/pe14/Accumulate_reg[12]/D                            -0.01  (VIOLATED)
+   pe_u/pe10/Accumulate_reg[15]/D                            -0.01  (VIOLATED)
+   pe_u/pe11/Accumulate_reg[12]/D                            -0.01  (VIOLATED)
+   pe_u/pe7/Accumulate_reg[14]/D                             -0.01  (VIOLATED)
+   pe_u/pe14/Accumulate_reg[13]/D                            -0.01  (VIOLATED)
+   pe_u/pe3/Accumulate_reg[15]/D                             -0.01  (VIOLATED)
+   pe_u/pe11/Accumulate_reg[14]/D                            -0.01  (VIOLATED)
+   pe_u/pe14/Accumulate_reg[10]/D                            -0.01  (VIOLATED)
+   pe_u/pe14/Accumulate_reg[11]/D                            -0.01  (VIOLATED)
+   pe_u/pe11/Accumulate_reg[13]/D                            -0.01  (VIOLATED)
+   pe_u/pe14/Accumulate_reg[14]/D                             0.00  (VIOLATED: increase significant digits)
+   pe_u/pe10/Accumulate_reg[13]/D                             0.00  (VIOLATED: increase significant digits)
+
+
+   min_delay/hold ('clock' group)
+
+   Endpoint                                                  Slack
+   -----------------------------------------------------------------
+   pe_u/pe14/Rpipe_reg[0]/D                                  -0.09  (VIOLATED)
+   pe_u/pe7/Accumulate_reg[2]/D1                             -0.09  (VIOLATED)
+   pe_u/pe12/Accumulate_reg[0]/D0                            -0.09  (VIOLATED)
+   ctl_u/count_reg[8]/D                                      -0.09  (VIOLATED)
+   ctl_u/count_reg[5]/D                                      -0.07  (VIOLATED)
+   ctl_u/count_reg[6]/D                                      -0.07  (VIOLATED)
+   pe_u/pe3/Accumulate_reg[3]/D1                             -0.06  (VIOLATED)
+   pe_u/pe12/Accumulate_reg[1]/D0                            -0.06  (VIOLATED)
+   pe_u/pe6/Accumulate_reg[3]/D1                             -0.06  (VIOLATED)
+   pe_u/pe5/Accumulate_reg[3]/D1                             -0.05  (VIOLATED)
+   pe_u/pe7/Accumulate_reg[7]/D1                             -0.04  (VIOLATED)
+   pe_u/pe6/Accumulate_reg[2]/D1                             -0.04  (VIOLATED)
+   pe_u/pe3/Accumulate_reg[4]/D1                             -0.04  (VIOLATED)
+   ctl_u/count_reg[7]/D                                      -0.04  (VIOLATED)
+   pe_u/pe12/Accumulate_reg[2]/D0                            -0.03  (VIOLATED)
+   pe_u/pe4/Accumulate_reg[5]/D1                             -0.03  (VIOLATED)
+   pe_u/pe7/Accumulate_reg[6]/D1                             -0.03  (VIOLATED)
+   pe_u/pe7/Accumulate_reg[4]/D1                             -0.03  (VIOLATED)
+   pe_u/pe3/Accumulate_reg[6]/D1                             -0.03  (VIOLATED)
+   pe_u/pe13/Accumulate_reg[1]/D1                            -0.03  (VIOLATED)
+   pe_u/pe2/Accumulate_reg[3]/D1                             -0.02  (VIOLATED)
+   pe_u/pe5/Accumulate_reg[4]/D1                             -0.02  (VIOLATED)
+   pe_u/pe2/Accumulate_reg[5]/D1                             -0.02  (VIOLATED)
+   pe_u/pe4/Accumulate_reg[2]/D1                             -0.02  (VIOLATED)
+   pe_u/pe2/Rpipe_reg[5]/D                                   -0.02  (VIOLATED)
+   pe_u/pe6/Accumulate_reg[7]/D1                             -0.01  (VIOLATED)
+   pe_u/pe3/Accumulate_reg[5]/D0                             -0.01  (VIOLATED)
+   pe_u/pe3/Accumulate_reg[2]/D1                             -0.01  (VIOLATED)
+   pe_u/pe3/Accumulate_reg[5]/D1                             -0.01  (VIOLATED)
+   pe_u/pe2/Rpipe_reg[4]/D                                   -0.01  (VIOLATED)
+   pe_u/pe3/Accumulate_reg[6]/D0                             -0.01  (VIOLATED)
+   pe_u/pe7/Accumulate_reg[5]/D1                              0.00  (VIOLATED: increase significant digits)
+   pe_u/pe3/Accumulate_reg[7]/D1                              0.00  (VIOLATED: increase significant digits)
+
+
+
+
+   max_capacitance
+
+                             Required        Actual
+   Pin                      Capacitance    Capacitance       Slack
+   -----------------------------------------------------------------
+   A7510/X                     18.02          20.50          -2.48  (VIOLATED)
+   A7505/X                     18.02          20.12          -2.10  (VIOLATED)
+   place_optcopt_h_inst_21587/X
+                               18.24          18.47          -0.23  (VIOLATED)
+
+
+1

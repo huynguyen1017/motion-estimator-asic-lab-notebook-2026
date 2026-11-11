@@ -1,0 +1,328 @@
+Setting up environment variables for Synthesis version O-2018.06-SP4
+Setting up environment for Synopsys VCS version W-2024.09-1
+Setting up environment variables for Primetime version U-2022.12-SP5-1
+Setting up environment variables for PrimeECO version U-2022.12-SP5-3
+Setting up environment variables for IC Compiler II version S-2021.06-SP5-1
+Setting up environment variables for Verdi version W-2024.09-1
+Setting up environment variables for Fusion Compiler version X-2025.06-SP2a
+Setting up environment variables for IC Validator version W-2024.09-3
+
+
+
+                              Fusion Compiler (TM)
+
+                Version X-2025.06-SP2 for linux64 - Oct 15, 2025
+                           Base build date 9/22/2025
+
+                    Copyright (c) 1988 - 2025 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+ 
+Information: Term was not able to be set up using xterm-256color . Using "xterm" by default instead. (CLE-10)
+source ./setup/fc_common_setup.tcl
+source ./setup/fc_flow_setup.tcl
+1
+open_lib ${RESULTS_PATH}/${DESIGN_LIBRARY}
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/results/top.dlib' (FILE-007)
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/ndm/saed14rvt_frame_timing.ndm' (FILE-007)
+{top.dlib}
+open_block ${DESIGN_NAME}/signoff_v5
+Information: User units loaded from library 'saed14rvt_frame_timing' (LNK-040)
+Opening block 'top.dlib:top/signoff_v5.design' in edit mode
+{top.dlib:top/signoff_v5.design}
+foreach pair [list [list M2 {{48.75 34.00} {49.30 34.20}}] [list M2 {{69.75 8.40} {70.80 8.67}}] [list M5 {{32.15 28.05} {32.26 28.10}}]] {
+ set label [lindex $pair 0]
+ set box [lindex $pair 1]
+ puts "SHAPES_REGION=$label $box"
+ set ss [get_shapes -hierarchical -include_fill -intersect $box]
+ puts "SHAPE_COUNT=[sizeof_collection $ss]"
+ set n 0
+ foreach_in_collection s $ss {
+  if {$n >= 25} {break}
+  set parts {}
+  foreach a {layer_name layer net_name net bbox shape_use shape_type width owner_type} {
+   if {[catch {get_attribute $s $a} v]} {continue}
+   lappend parts "$a=$v"
+  }
+  puts "SHAPE#$n [join $parts { | }]"
+  incr n
+ }
+}
+SHAPES_REGION=M2 {48.75 34.00} {49.30 34.20}
+Using libraries: top.dlib saed14rvt_frame_timing
+Visiting block top.dlib:top/signoff_v5.design
+Information: Cellem using advance interpolation.
+Design 'top' was successfully linked.
+SHAPE_COUNT=54
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#0 layer_name=M6 | layer=_sel6 | net_name= | net=_sel7 | bbox={46.0200 33.9700} {52.7300 34.0300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#1 layer_name=M6 | layer=_sel8 | net_name= | net=_sel9 | bbox={49.2700 34.1700} {58.6300 34.2300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#2 layer_name=M5 | layer=_sel10 | net_name= | net=_sel11 | bbox={49.1700 33.2200} {49.2300 34.7800} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#3 layer_name=M2 | layer=_sel12 | net_name= | net=_sel13 | bbox={48.0340 34.0060} {49.4310 34.0740} | shape_use=detail_route | shape_type=path | width=0.0680 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#4 layer_name=M5 | layer=_sel14 | net_name= | net=_sel15 | bbox={49.2700 33.9700} {49.3300 34.2300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#5 layer_name=M3 | layer=_sel16 | net_name= | net=_sel17 | bbox={49.1440 34.1860} {49.2120 34.2970} | shape_use=detail_route | shape_type=path | width=0.0680 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#6 layer_name=M3 | layer=_sel18 | net_name= | net=_sel19 | bbox={49.1440 33.1060} {49.2120 34.2540} | shape_use=detail_route | shape_type=path | width=0.0680 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#7 layer_name=M1 | layer=_sel20 | net_name= | net=_sel21 | bbox={48.8650 34.1430} {48.8990 34.2970} | shape_use=detail_route | shape_type=path | width=0.0340 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#8 layer_name=M2 | layer=_sel22 | net_name= | net=_sel23 | bbox={48.0540 34.1430} {48.9030 34.1770} | shape_use=detail_route | shape_type=path | width=0.0340 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#9 layer_name=M2 | layer=_sel24 | net_name= | net=_sel25 | bbox={49.1440 34.1860} {49.2120 34.2970} | shape_use=detail_route | shape_type=path | width=0.0680 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#10 layer_name=M4 | layer=_sel26 | net_name= | net=_sel27 | bbox={48.8520 34.1700} {48.9520 34.2300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#11 layer_name=M4 | layer=_sel28 | net_name= | net=_sel29 | bbox={48.8920 34.1700} {49.3850 34.2300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#12 layer_name=M3 | layer=_sel30 | net_name= | net=_sel31 | bbox={48.8650 33.1830} {48.8990 34.2170} | shape_use=detail_route | shape_type=path | width=0.0340 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#13 layer_name=M4 | layer=_sel32 | net_name= | net=_sel33 | bbox={49.2700 33.9700} {49.5780 34.0300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_29_200 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_29_200 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#14 layer_name=M6 | layer=_sel34 | net_name= | net= | bbox={49.2700 34.1700} {58.6300 34.2300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_29_207 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_29_207 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#15 layer_name=M6 | layer=_sel35 | net_name= | net= | bbox={45.9700 33.9700} {52.7300 34.0300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_27_716 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_27_716 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#16 layer_name=M5 | layer=_sel36 | net_name= | net= | bbox={49.2700 33.9700} {49.3300 34.2300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_27_717 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_27_717 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#17 layer_name=M5 | layer=_sel37 | net_name= | net= | bbox={49.1700 33.1700} {49.2300 34.8300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_29_1186 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_29_1186 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#18 layer_name=M6 | layer=_sel38 | net_name= | net= | bbox={49.2700 34.1700} {58.6300 34.2300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_29_1193 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_29_1193 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#19 layer_name=M6 | layer=_sel39 | net_name= | net= | bbox={45.9700 33.9700} {52.7300 34.0300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_25_1663 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_25_1663 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#20 layer_name=M4 | layer=_sel40 | net_name= | net= | bbox={49.2700 33.9700} {49.5780 34.0300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_25_1664 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_25_1664 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#21 layer_name=M4 | layer=_sel41 | net_name= | net= | bbox={48.8520 34.1700} {49.4300 34.2300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_23_6672 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_23_6672 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#22 layer_name=M3 | layer=_sel42 | net_name= | net= | bbox={49.2930 34.1830} {49.4170 34.2170} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_23_6678 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_23_6678 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#23 layer_name=M3 | layer=_sel43 | net_name= | net= | bbox={49.1440 33.1740} {49.2120 34.2970} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_23_6683 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_23_6683 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#24 layer_name=M3 | layer=_sel44 | net_name= | net= | bbox={48.8650 34.1780} {48.9790 34.2220} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+SHAPES_REGION=M2 {69.75 8.40} {70.80 8.67}
+SHAPE_COUNT=59
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#0 layer_name=M1 | layer=_sel47 | net_name= | net=_sel48 | bbox={5.0000 8.5530} {87.5100 8.6470} | shape_use=lib_cell_pin_connect | shape_type=path | width=0.0940 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#1 layer_name=M1 | layer=_sel49 | net_name= | net=_sel50 | bbox={69.6960 8.4630} {69.8410 8.4970} | shape_use=detail_route | shape_type=path | width=0.0340 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#2 layer_name=M6 | layer=_sel51 | net_name= | net=_sel52 | bbox={60.7700 8.6700} {75.8300 8.7300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#3 layer_name=M4 | layer=_sel53 | net_name= | net=_sel54 | bbox={65.5910 8.4700} {69.8540 8.5300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#4 layer_name=M3 | layer=_sel55 | net_name= | net=_sel56 | bbox={70.6950 8.4630} {70.7290 8.7970} | shape_use=detail_route | shape_type=path | width=0.0340 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#5 layer_name=M4 | layer=_sel57 | net_name= | net=_sel58 | bbox={66.5380 8.3700} {78.3190 8.4300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#6 layer_name=M4 | layer=_sel59 | net_name= | net=_sel60 | bbox={68.1320 8.6700} {74.0720 8.7300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_25_320 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_25_320 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#7 layer_name=M4 | layer=_sel61 | net_name= | net= | bbox={56.5480 8.3700} {78.3640 8.4300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_29_917 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_29_917 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#8 layer_name=M6 | layer=_sel62 | net_name= | net= | bbox={60.7700 8.6700} {75.8300 8.7300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_29_1903 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_29_1903 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#9 layer_name=M6 | layer=_sel63 | net_name= | net= | bbox={60.7700 8.6700} {75.8300 8.7300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_25_5883 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_25_5883 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#10 layer_name=M4 | layer=_sel64 | net_name= | net= | bbox={68.0920 8.6700} {74.0890 8.7300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_25_6228 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_25_6228 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#11 layer_name=M4 | layer=_sel65 | net_name= | net= | bbox={65.5890 8.4700} {69.8710 8.5300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_25_6984 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_25_6984 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#12 layer_name=M4 | layer=_sel66 | net_name= | net= | bbox={56.5480 8.3700} {78.3640 8.4300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_25_12547 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_25_12547 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#13 layer_name=M4 | layer=_sel67 | net_name= | net= | bbox={68.0920 8.6700} {74.0890 8.7300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_25_12892 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_25_12892 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#14 layer_name=M4 | layer=_sel68 | net_name= | net= | bbox={65.5890 8.4700} {69.8710 8.5300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_23_21407 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_23_21407 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#15 layer_name=M3 | layer=_sel69 | net_name= | net= | bbox={70.6950 8.4630} {70.7290 8.7970} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_21_32222 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_21_32222 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#16 layer_name=M2 | layer=_sel70 | net_name= | net= | bbox={69.5600 8.5530} {71.1240 8.6470} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_21_32647 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_21_32647 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#17 layer_name=M2 | layer=_sel71 | net_name= | net= | bbox={69.9550 8.3230} {69.9890 8.4030} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_23_47635 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_23_47635 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#18 layer_name=M3 | layer=_sel72 | net_name= | net= | bbox={70.6950 8.4630} {70.7290 8.7970} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_21_67360 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_21_67360 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#19 layer_name=M2 | layer=_sel73 | net_name= | net= | bbox={69.5600 8.5530} {71.1240 8.6470} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_21_67785 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_21_67785 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#20 layer_name=M2 | layer=_sel74 | net_name= | net= | bbox={69.9550 8.3230} {69.9890 8.4030} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_29_127676 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_29_127676 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#21 layer_name=M6 | layer=_sel75 | net_name= | net= | bbox={70.7400 8.3650} {70.8000 8.4650} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_29_127679 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_29_127679 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#22 layer_name=M6 | layer=_sel76 | net_name= | net= | bbox={70.6400 8.3550} {70.7000 8.4550} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_29_127682 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_29_127682 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#23 layer_name=M6 | layer=_sel77 | net_name= | net= | bbox={70.5400 8.3450} {70.6000 8.4450} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_29_127684 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_29_127684 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#24 layer_name=M6 | layer=_sel78 | net_name= | net= | bbox={70.4400 8.3350} {70.5000 8.4350} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+SHAPES_REGION=M5 {32.15 28.05} {32.26 28.10}
+SHAPE_COUNT=10
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#0 layer_name=M5 | layer=_sel81 | net_name= | net=_sel82 | bbox={32.0700 28.0700} {32.2300 28.1300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#1 layer_name=M5 | layer=_sel83 | net_name= | net=_sel84 | bbox={32.1700 24.9700} {32.2300 28.1300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#2 layer_name=M4 | layer=_sel85 | net_name= | net=_sel86 | bbox={32.2200 28.0700} {32.4840 28.1300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#3 layer_name=M4 | layer=_sel87 | net_name= | net=_sel88 | bbox={32.1700 28.0700} {32.2800 28.1300} | shape_use=detail_route | shape_type=path | width=0.0600 | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_27_1429 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_27_1429 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#4 layer_name=M5 | layer=_sel89 | net_name= | net= | bbox={32.1700 24.9700} {32.2300 28.0700} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_27_1432 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_27_1432 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#5 layer_name=M5 | layer=_sel90 | net_name= | net= | bbox={32.0700 28.0700} {32.3300 28.1300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_25_2751 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_25_2751 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#6 layer_name=M4 | layer=_sel91 | net_name= | net= | bbox={32.1700 28.0700} {32.4840 28.1300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_25_9415 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_25_9415 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#7 layer_name=M4 | layer=_sel92 | net_name= | net= | bbox={32.1700 28.0700} {32.4840 28.1300} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_29_69856 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_29_69856 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#8 layer_name=M6 | layer=_sel93 | net_name= | net= | bbox={32.1900 27.9850} {32.2500 28.0850} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+Warning: Attribute 'net_name' has not been defined for the shape object class. (ATTR-1)
+Warning: Attribute 'net' does not exist on shape FILL_INST_0/RECT_29_69859 (ATTR-3)
+Warning: Attribute 'width' does not exist on shape FILL_INST_0/RECT_29_69859 : value is not applicable for this shape sub-type (ATTR-3)
+Warning: Attribute 'owner_type' has not been defined for the shape object class. (ATTR-1)
+SHAPE#9 layer_name=M6 | layer=_sel94 | net_name= | net= | bbox={32.0900 27.9750} {32.1500 28.0750} | shape_use=area_fill | shape_type=rect | width= | owner_type=
+exit
+Maximum memory usage for this session: 670.25 MB
+Maximum memory usage for this session including child processes: 670.25 MB
+CPU usage for this session:     12 seconds (  0.00 hours)
+Elapsed time for this session:     13 seconds (  0.00 hours)
+Thank you for using Fusion Compiler.

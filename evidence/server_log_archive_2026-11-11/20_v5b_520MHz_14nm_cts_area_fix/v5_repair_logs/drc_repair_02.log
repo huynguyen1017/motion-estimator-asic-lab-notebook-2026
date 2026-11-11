@@ -1,0 +1,224 @@
+Setting up environment variables for Synthesis version O-2018.06-SP4
+Setting up environment for Synopsys VCS version W-2024.09-1
+Setting up environment variables for Primetime version U-2022.12-SP5-1
+Setting up environment variables for PrimeECO version U-2022.12-SP5-3
+Setting up environment variables for IC Compiler II version S-2021.06-SP5-1
+Setting up environment variables for Verdi version W-2024.09-1
+Setting up environment variables for Fusion Compiler version X-2025.06-SP2a
+Setting up environment variables for IC Validator version W-2024.09-3
+
+
+
+                              Fusion Compiler (TM)
+
+                Version X-2025.06-SP2 for linux64 - Oct 15, 2025
+                           Base build date 9/22/2025
+
+                    Copyright (c) 1988 - 2025 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+ 
+Information: Term was not able to be set up using xterm-256color . Using "xterm" by default instead. (CLE-10)
+source -echo ./setup/fc_common_setup.tcl
+#####################################################################
+#####		Common Setup Script for Fusion Compiler		#####
+#####################################################################
+set DESIGN_NAME "top"		; # set design name
+set DESIGN_LIBRARY	"${DESIGN_NAME}.dlib"		; # set design library name
+set WORK_DIR		"[pwd]"				; # Get current working directory
+set LIBNAME		"saed14rvt"			; # set library name
+set CELL_PREFIX		"SAEDRVT14"
+set TECH_NODE		"saed14nm"			; # set technology node name
+set METAL_STACK		"1p9m"				; # set metal stack
+set REF_NDM		"frame_timing"			; # set reference ndm type: "frame_only" or "frame_timing_ccs"
+set REFERENCE_LIB_PATH	"${WORK_DIR}/common/ndm"
+set REFERENCE_LIBRARY	"${REFERENCE_LIB_PATH}/${LIBNAME}_${REF_NDM}.ndm"
+set TECH_FILE_PATH      "${WORK_DIR}/common/tf"
+set TECH_FILE		"${WORK_DIR}/common/tf/${TECH_NODE}_${METAL_STACK}.tf"
+set TECH_NDM		"path/to/tech_ndm/if/exist"
+set LIBERTY_PATH	"${WORK_DIR}/common/liberty"
+set TLUP_PATH		"${WORK_DIR}/common/tlup"
+set TLUP_MIN_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cmin.tlup"
+set TLUP_NOM_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cnom.tlup"
+set TLUP_MAX_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cmax.tlup"
+set NXTGRD_PATH		"${WORK_DIR}/common/nxtgrd"
+set NXTGRD_MIN_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cmin.nxtgrd"
+set NXTGRD_NOM_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cnom.nxtgrd"
+set NXTGRD_MAX_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cmax.nxtgrd"
+set MAP_PATH		"${WORK_DIR}/common/map"
+set GDS_PATH		"${WORK_DIR}/common/gds"
+set LAYER_MAP_FILE	"${MAP_PATH}/${TECH_NODE}_tf_itf_tluplus.map"
+set RTL_PATH		"${WORK_DIR}/common/rtl"
+set SDC_PATH		"${WORK_DIR}/common/sdc"
+set SDC_FILE		"${SDC_PATH}/${DESIGN_NAME}.sdc"
+set VERILOG_PATH	"${RTL_PATH}/verilog"
+set VHDL_PATH		"${RTL_PATH}/vhdl"
+set RESULTS_PATH	"${WORK_DIR}/results"
+set REPORTS_PATH	"${WORK_DIR}/reports"
+set DRC_RUNSET_FILE	"${WORK_DIR}/common/runsets/saed14nm_1p9m_drc_rules.rs"
+set GDS_MAP_FILE	"${MAP_PATH}/saed14nm_1p9m_gdsout_mw.map"
+set MFILL_RUNSET_FILE	"${WORK_DIR}/common/runsets/saed14nm_1p9m_mfill_rules.rs"
+set GDS_FILE		"${GDS_PATH}/saed14rvt.gds"
+source ${WORK_DIR}/setup/utilities.tcl
+source -echo ./setup/fc_flow_setup.tcl
+#####################################################################
+#####		Flow Setup Script for Fusion Compiler		#####
+#####################################################################
+set TECH_BASED	"tf"				; # set "tf" for TECH_FILE-based flow or set "ndm" for TECH_NDM-based flow.
+set PARASITIC	"tlup"				; # set "tlup" for using TLUP files or  set "nxtgrd" for using NXTGRD files.
+set HDL		"verilog"			; # set "verilog" for reading Verilog RTL or set "vhdl" for reading VHDL RTL.
+set PVT_FF	"ff0p88v125c"			; # set FF PVT
+set PVT_TT	"tt0p8v25c"			; # set TT PVT
+set PVT_SS	"ss0p72vm40c"			; # set SS PVT
+set DB_FF	"${LIBERTY_PATH}/${LIBNAME}_${PVT_FF}.db"
+set DB_TT	"${LIBERTY_PATH}/${LIBNAME}_${PVT_TT}.db"
+set DB_SS	"${LIBERTY_PATH}/${LIBNAME}_${PVT_SS}.db"
+set_host_options -max_cores 1
+1
+open_lib ${RESULTS_PATH}/${DESIGN_LIBRARY}
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/results/top.dlib' (FILE-007)
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/ndm/saed14rvt_frame_timing.ndm' (FILE-007)
+{top.dlib}
+copy_block -from ${DESIGN_NAME}/signoff_v5 -to ${DESIGN_NAME}/signoff_v5_drc_repair_02
+Information: User units loaded from library 'saed14rvt_frame_timing' (LNK-040)
+{top.dlib:top/signoff_v5_drc_repair_02.design}
+open_block ${DESIGN_NAME}/signoff_v5_drc_repair_02
+Information: Incrementing open_count of block 'top.dlib:top/signoff_v5_drc_repair_02.design' to 2. (DES-021)
+{top.dlib:top/signoff_v5_drc_repair_02.design}
+save_block
+RDE-checksum: dad59bf3
+Information: Saving block 'top.dlib:top/signoff_v5_drc_repair_02.design'
+1
+save_lib
+Saving library 'top.dlib'
+RDE-checksum: dad59bf3
+1
+puts "V5_DRC_REPAIR02_SAVED_BEFORE_ICV"
+V5_DRC_REPAIR02_SAVED_BEFORE_ICV
+set_host_options -target ICV -max_cores 2
+1
+set_app_options -name signoff.check_drc.runset -value ${DRC_RUNSET_FILE}
+signoff.check_drc.runset /home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/common/runsets/saed14nm_1p9m_drc_rules.rs
+set_app_options -name signoff.check_drc.run_dir -value "./v5_repair_logs/repair2_icv"
+signoff.check_drc.run_dir ./v5_repair_logs/repair2_icv
+set_app_options -name signoff.physical.layer_map_file -value ${GDS_MAP_FILE}
+signoff.physical.layer_map_file /home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/common/map/saed14nm_1p9m_gdsout_mw.map
+puts "V5_DRC_REPAIR02_BEGINS"
+V5_DRC_REPAIR02_BEGINS
+set rc [catch {signoff_fix_drc -start_repair_loop 3 -max_number_repair_loop 6 -select_rules {M2.S.2 M2.S.3 M5.W.1} -timing_preserve_setup_slack_threshold 0.1} msg]
+Using libraries: top.dlib saed14rvt_frame_timing
+Visiting block top.dlib:top/signoff_v5_drc_repair_02.design
+Information: Cellem using advance interpolation.
+Design 'top' was successfully linked.
+User-specified selected rule patterns: { M2.S.2 M2.S.3 M5.W.1}
+Initial DRC run directory path is set to "empty".
+Information: Running the advanced guidance based ADR flow.
+INFO: Initial DRC database is not provided. ADR will run DRC first.
+User-specified selected rule patterns: { M2.S.2 M2.S.3 M5.W.1}
+User-specified unselected rule patterns: { USER_GUIDE.M* USER_GUIDE.VIA* *:*Density*of* M*.DN.*:* VIA*.DN.*:* CSR*:* DM*:* Rule*DEN*:* Rule:.*USER_GUIDE.M* Rule:.*USER_GUIDE.VIA* Rule:.*:*Density*of* Rule:.*M*.DN.*:* Rule:.*VIA*.DN.*:* Rule:.*CSR*:* Rule:.*DM*:* *M*.R.14* *USER_GUIDE* *:WARNING* *:LOGO* *NW.[A-Z].* *NWRSTI.[A-Z].* *NWROD.[A-Z].* *OD[0-1].[A-Z].* *OD.[A-Z].* *Gate *PP.[A-Z].* *NP.[A-Z].* *SSD.[A-Z].* *DIODMY.[A-Z].* *RH_OD.[A-Z].* *RH_TN.[A-Z].* *HV_N.[A-Z].* *SR.[A-Z].* *:*Density*of* *ESD.[A-Z].* *SRAM.[A-Z].[0-9]* *ROM.[A-Z].[0-9]* *LUP.[A-Z][0-9].* *[0-9][A-Z]:HIADMY *[A-Z][0-9]:BJTDMY* *[A-Z][0-9]:BJTHDMY* *AN.R.[0-9]* *DOD.[A-Z].[0-9]* *DIODMY.[A-Z].[0-9]* *DTCD.[A-Z].[0-9]* *GRMx.C.2_M1* *GRMx.C.2_M2* *GRMx.C.2_M3* *GRMx.C.2_M4* *GRV1.C.6* *GRVx.C.6_V2* *GRVx.C.6_V3* *M1.G0.1__M1.G0.2__M1.G0.3* *M2.G0.1__M2.G0.2__M2.G0.3* *M3.G0.1__M3.G0.2__M3.G0.3* *M4.G0.1__M4.G0.2__M4.G0.3* *M5.G0.1__M5.G0.2__M5.G0.3* *M6.G0.1__M6.G0.2__M6.G0.3*}
+Warning: Attribute 'technology_node' does not exist on block top.dlib:top/signoff_v5_drc_repair_02.design (ATTR-3)
+Name /home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/signoff_fix_drc_run/signoff_check_drc_run/_icv.started End /home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/signoff_fix_drc_run/signoff_check_drc_run/_icv.finished Value1 0 Value2 0
+Info:: The time stamp of FILL view is newer than time stamp of corresponding design view.
+
+Start to run ICV ...
+Running new impl for popen..
+Return code from ICV is 33.
+Error: ICV run failed (). (IND-003)
+See /home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/signoff_fix_drc_run/signoff_check_drc_run/signoff_check_drc.log for details.
+Error: signoff_check_drc Command Failed. (IND-030)
+Error: signoff_fix_drc Command Failed. (IND-030)
+1
+puts "V5_DRC_REPAIR02_RESULT=$rc MESSAGE=$msg"
+V5_DRC_REPAIR02_RESULT=1 MESSAGE=signoff.check_drc.max_errors_per_rule 1000 signoff.check_drc.run_dir ./v5_repair_logs/repair2_icv signoff.check_drc.user_defined_options {}
+save_block
+RDE-checksum: dad59bf3
+Information: Saving block 'top.dlib:top/signoff_v5_drc_repair_02.design'
+1
+save_lib
+Saving library 'top.dlib'
+RDE-checksum: dad59bf3
+1
+puts "V5_DRC_REPAIR02_RECHECK"
+V5_DRC_REPAIR02_RECHECK
+set rc2 [catch {signoff_check_drc} msg2]
+Warning: Attribute 'technology_node' does not exist on block top.dlib:top/signoff_v5_drc_repair_02.design (ATTR-3)
+Name /home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/v5_repair_logs/repair2_icv/_icv.started End /home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/v5_repair_logs/repair2_icv/_icv.finished Value1 0 Value2 0
+Info:: The time stamp of FILL view is newer than time stamp of corresponding design view.
+
+Start to run ICV ...
+Running new impl for popen..
+    [0:00:00][0%]   Total: 2 CPUs on 1 host
+    [0:00:00][1%]   
+    [0:00:07][2%]   Rules: 110/241, Rules with Violations: 0, Total Violations: 0
+    [0:00:07][3%]   
+    [0:00:08][4%]   
+    [0:00:08][5%]   
+    [0:00:09][10%]  
+    [0:00:09][15%]  
+    [0:00:09][20%]  Rules: 111/242, Rules with Violations: 0, Total Violations: 0
+    [0:00:09][25%]  
+    [0:00:09][30%]  
+    [0:00:10][35%]  
+    [0:00:10][40%]  Rules: 116/242, Rules with Violations: 0, Total Violations: 0
+    [0:00:10][45%]  Rules: 129/242, Rules with Violations: 0, Total Violations: 0
+    [0:00:11][50%]  Rules: 145/242, Rules with Violations: 0, Total Violations: 0
+    [0:00:11][55%]  Rules: 153/242, Rules with Violations: 0, Total Violations: 0
+    [0:00:11][60%]  Rules: 154/242, Rules with Violations: 0, Total Violations: 0
+    [0:00:12][65%]  Rules: 157/242, Rules with Violations: 0, Total Violations: 0
+    [0:00:12][70%]  Rules: 170/242, Rules with Violations: 1, Total Violations: 6
+    [0:00:12][75%]  Rules: 178/242, Rules with Violations: 2, Total Violations: 12
+    [0:00:12][80%]  Rules: 190/242, Rules with Violations: 2, Total Violations: 12
+    [0:00:13][85%]  Rules: 205/242, Rules with Violations: 2, Total Violations: 12
+    [0:00:13][90%]  Rules: 214/242, Rules with Violations: 2, Total Violations: 12
+    [0:00:13][95%]  Rules: 228/242, Rules with Violations: 3, Total Violations: 18
+    [0:00:13][100%] Rules: 242/242, Rules with Violations: 3, Total Violations: 18
+
+Updated tech file has been written at: /home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/v5_repair_logs/repair2_icv/tech.tf
+
+ICV is done!
+For more details see /home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/v5_repair_logs/repair2_icv/signoff_check_drc.log
+Overall engine Time=0:00:21 Highest command Mem=0.125 GB
+Errdm data is attached to the main block successfully
+
+-------------------------------------------------------------------------------
+Rule: M2.S.2: Minimum spacing if metal width of one of lines > 0.058 and  their parallel run length > 0.15 must be 0.06	              6 errors
+Rule: M2.S.3: Minimum spacing if metal width of one of lines > 0.06 and  their parallel run length > 0.2 must be 0.065	              6 errors
+Rule: M5.W.1: m5 width must be  0.06 , 0.08 , 0.10, 0.12, 0.16 or > 0.2	              6 errors
+-------------------------------------------------------------------------------
+
+signoff_check_drc is finished.
+
+Create error data signoff_check_drc.err ...
+
+Info: Populated ICV Heat Map Data on current block.
+0
+puts "V5_DRC_REPAIR02_CHECK_RESULT=$rc2 MESSAGE=$msg2"
+V5_DRC_REPAIR02_CHECK_RESULT=0 MESSAGE=
+save_block
+RDE-checksum: dad59bf3
+Information: Saving block 'top.dlib:top/signoff_v5_drc_repair_02.design'
+1
+save_lib
+Saving library 'top.dlib'
+RDE-checksum: dad59bf3
+1
+puts "V5_DRC_REPAIR02_DONE"
+V5_DRC_REPAIR02_DONE
+exit
+Maximum memory usage for this session: 606.34 MB
+Maximum memory usage for this session including child processes: 2997.86 MB
+CPU usage for this session:     19 seconds (  0.01 hours)
+Elapsed time for this session:     45 seconds (  0.01 hours)
+Thank you for using Fusion Compiler.

@@ -1,0 +1,51 @@
+
+
+
+                              Fusion Compiler (TM)
+
+                Version X-2025.06-SP2 for linux64 - Oct 15, 2025
+                           Base build date 9/22/2025
+
+                    Copyright (c) 1988 - 2025 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+ 
+open_lib ./v9_closure/top.dlib
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/v9_closure/top.dlib' (FILE-007)
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/ndm/saed14rvt_frame_timing.ndm' (FILE-007)
+{top.dlib}
+open_block top/v9_signoff_clean.design
+NP[]: App option "time.enable_xcaps_stitch" changed to "true"
+Information: User units loaded from library 'saed14rvt_frame_timing' (LNK-040)
+Opening block 'top.dlib:top/v9_signoff_clean.design' in edit mode
+{top.dlib:top/v9_signoff_clean.design}
+gui_start
+gui_set_current_task -name {All}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -full
+Using libraries: top.dlib saed14rvt_frame_timing
+Visiting block top.dlib:top/v9_signoff_clean.design
+Information: Cellem using advance interpolation.
+Design 'top' was successfully linked.
+1
+gui_write_window_image -window [gui_get_current_window -types Layout -mru] -file ./v9_closure/reports/v9_signoff_clean_layout.png
+1
+gui_stop
+To restart the GUI, type 'gui_start'.
+exit
+Maximum memory usage for this session: 713.37 MB
+Maximum memory usage for this session including child processes: 713.37 MB
+CPU usage for this session:     16 seconds (  0.00 hours)
+Elapsed time for this session:     17 seconds (  0.00 hours)
+Thank you for using Fusion Compiler.

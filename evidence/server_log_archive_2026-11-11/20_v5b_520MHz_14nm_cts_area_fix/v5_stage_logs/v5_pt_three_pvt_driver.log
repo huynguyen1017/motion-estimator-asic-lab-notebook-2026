@@ -1,0 +1,12 @@
+START_PVT_FAST 2026-11-05T11:17:17-08:00
+END_PVT_FAST EXIT=0
+Error: Nothing matched for lib (SEL-005)
+Error: Nothing matched for collection (SEL-005)
+Error: Cannot find library cell 'SAEDRVT14_BUF_16' in library 'saed14rvt_ss0p72vm40c.db:saed14rvt_ss0p72vm40c'. (DES-008)
+START_PVT_TYPICAL 2026-11-05T11:17:28-08:00
+END_PVT_TYPICAL EXIT=0
+Error: Nothing matched for lib (SEL-005)
+Error: Nothing matched for collection (SEL-005)
+Error: Cannot find library cell 'SAEDRVT14_BUF_16' in library 'saed14rvt_ss0p72vm40c.db:saed14rvt_ss0p72vm40c'. (DES-008)
+START_PVT_SLOW 2026-11-05T11:17:37-08:00
+END_PVT_SLOW EXIT=0

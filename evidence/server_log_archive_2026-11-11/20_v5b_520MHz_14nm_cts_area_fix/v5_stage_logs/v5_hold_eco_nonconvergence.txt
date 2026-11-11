@@ -1,0 +1,27 @@
+ECO_ABORT_DIAGNOSTIC at 2026-11-05 11:55:45 PST
+Pre-ECO signoff_v5 preserved; ECO 731 buffers legalized; route_eco did not converge.
+Routed	9/115 Partitions, Violations =	7740
+Routed	10/115 Partitions, Violations =	7740
+Routed	11/115 Partitions, Violations =	7737
+Routed	12/115 Partitions, Violations =	7746
+Routed	13/115 Partitions, Violations =	7737
+Routed	14/115 Partitions, Violations =	7738
+Routed	15/115 Partitions, Violations =	7723
+Routed	16/115 Partitions, Violations =	7719
+Routed	17/115 Partitions, Violations =	7720
+Routed	18/115 Partitions, Violations =	7719
+Routed	19/115 Partitions, Violations =	7721
+Routed	20/115 Partitions, Violations =	7728
+Routed	21/115 Partitions, Violations =	7748
+Routed	22/115 Partitions, Violations =	7717
+Routed	23/115 Partitions, Violations =	7716
+Routed	24/115 Partitions, Violations =	7722
+Routed	25/115 Partitions, Violations =	7724
+Routed	26/115 Partitions, Violations =	7724
+Routed	27/115 Partitions, Violations =	7734
+Routed	28/115 Partitions, Violations =	7732
+Routed	29/115 Partitions, Violations =	7745
+Routed	30/115 Partitions, Violations =	7727
+Routed	31/115 Partitions, Violations =	7701
+Routed	32/115 Partitions, Violations =	7699
+NONCONVERGENCE STOP: 2026-11-05 11:56:57 PST

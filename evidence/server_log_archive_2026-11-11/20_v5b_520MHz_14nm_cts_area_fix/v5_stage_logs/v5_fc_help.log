@@ -1,0 +1,63 @@
+Setting up environment variables for Synthesis version O-2018.06-SP4
+Setting up environment for Synopsys VCS version W-2024.09-1
+Setting up environment variables for Primetime version U-2022.12-SP5-1
+Setting up environment variables for PrimeECO version U-2022.12-SP5-3
+Setting up environment variables for IC Compiler II version S-2021.06-SP5-1
+Setting up environment variables for Verdi version W-2024.09-1
+Setting up environment variables for Fusion Compiler version X-2025.06-SP2a
+Setting up environment variables for IC Validator version W-2024.09-3
+
+
+
+                              Fusion Compiler (TM)
+
+                Version X-2025.06-SP2 for linux64 - Oct 15, 2025
+                           Base build date 9/22/2025
+
+                    Copyright (c) 1988 - 2025 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+ 
+Information: Term was not able to be set up using xterm-256color . Using "xterm" by default instead. (CLE-10)
+puts "=== CMD route_opt ==="
+=== CMD route_opt ===
+help route_opt
+ route_opt            # Post-Route Optimization
+puts "=== CMD signoff_fix_drc ==="
+=== CMD signoff_fix_drc ===
+help signoff_fix_drc
+ signoff_fix_drc      # Automatic DRC fixing
+puts "=== CMD route_eco ==="
+=== CMD route_eco ===
+help route_eco
+ route_eco            # Perform eco route
+puts "=== CMD route_detail ==="
+=== CMD route_detail ===
+help route_detail
+ route_detail         # Perform detail route
+puts "=== CMD set_fix_hold ==="
+=== CMD set_fix_hold ===
+help set_fix_hold
+Information: No commands matched 'set_fix_hold'. (CMD-040)
+puts "=== CMD report_qor ==="
+=== CMD report_qor ===
+help report_qor
+ report_qor           # Report QoR information
+exit
+Maximum memory usage for this session: 379.21 MB
+Maximum memory usage for this session including child processes: 379.21 MB
+CPU usage for this session:     11 seconds (  0.00 hours)
+Elapsed time for this session:     11 seconds (  0.00 hours)
+Thank you for using Fusion Compiler.

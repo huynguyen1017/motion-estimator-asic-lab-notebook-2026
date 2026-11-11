@@ -1,0 +1,990 @@
+2.  Synopsys Commands                                        Command Reference
+                                   write_gds
+
+NAME
+       write_gds
+              Writes a GDSII stream file from a given design.
+
+SYNTAX
+       status write_gds
+              [-bus_delimiters delimiters]
+              [-block_map block_map_file_name]
+              [-chamfer_rdl_path]
+              [-compress]
+              [-connect_below_cut_metal]
+              [-design design_name]
+              [-disable_output_mask_layers mask_layers]
+              [-fill include | exclude | fill_only]
+              [-flat_vias]
+              [-foreign]
+              [-hierarchy top | design | design_lib | all_design_libs | all]
+              [-ignore_cut_datatype_tbl_mapping]
+              [-instance_property instance_property_value]
+              [-keep_data_type]
+              [-layer_map layer_map_file_name]
+              [-layer_map_format icc2 | icc_default | icc_extended]
+              [-layers layers]
+              [-exclude_layers layers]
+              [-lib_cell_view views]
+              [-library name]
+              [-long_names]
+              [-mask_shifted_suffix suffix_string]
+              [-mask_shifted_suffix_without_constraint suffix_string]
+              [-merge_conflict_suffix suffix_string]
+              [-merge_files merge_files]
+              [-merge_gds_top_cell top_cell]
+              [-merge_cell_shapes]
+              [-merge_overwrite_conflicting_cell]
+              [-merge_adding]
+              [-net_property net_property_value]
+              [-net_text_on all_shapes_and_vias | all_shapes | each_layer | single_shape]
+              [-output_net_text]
+              [-output_pin text | geometry | all | none]
+              [-output_text_only_pins port_list]
+              [-pin_property pin_property_value]
+              [-via_property via_property_value]
+              [-propagate_pin_mask_to_via_metal]
+              [-rename_cell cell_renaming_files]
+              [-units units_per_micron]
+              [-report_cell_source report_file_name]
+              [-skip_unplaced_cells]
+              [-verbose_report_cell_source verbose_report_file_name]
+              [-use_block_name]
+              [-view frame | abstract | layout | design]
+              [-write_default_layers layer_collection]
+              [-write_instance_shape_mask]
+              [-write_instance_via_mask]
+              [-write_instance_blockage_mask]
+              [-write_instance_mask_on_layers layers]
+              [-exclude_empty_block]
+              [-allow_design_mismatch]
+              [-marker_layer_map marker_layer_map_file_name]
+              [-no_marker_layer]
+              [-switch_view_list views]
+              [-cell_types cell_type_list]
+              [-child_depth depth]
+              [-text_for_pin]
+              [-mirror_mx]
+              [-verbose]
+              output_file
+
+   Data Types
+       delimiters               string
+       block_map_file_name      string
+       design_name              string
+       mask_layers              collection
+       instance_property_value  integer
+       layer_map_file_name      string
+       layers                   collection
+       views                    string
+       name                     string
+       suffix_string            string
+       merge_files              string
+       top_cell                 string
+       net_property_value       integer
+       pin_property_value       integer
+       via_property_value       integer
+       cell_renaming_files       string
+       units_per_micron         integer
+       report_file_name         string
+       verbose_report_file_name  string
+       layer_collection         collection
+       port_list                collection
+       cell_type_list           list
+       depth                    integer
+       output_file              string
+
+ARGUMENTS
+       -bus_delimiters delimiters
+              Specifies  the  bus  delimiters to be used in port, pin, and net
+              names to denote bus subscripts. Valid values of  the  delimiters
+              are: "[]", "{}", "()", and "<>".
+
+       -block_map block_map_file_name
+              Specifies the name of a block mapping file, a text file contain-
+              ing a list of blocks to ignore (not write out), in the following
+              format:
+
+              ; This is a block mapping file
+               myBlockA:ignore      ; ignores myBlockA
+               myBlockB:ignore      ; ignores myBlockB
+
+       -chamfer_rdl_path
+              Enable the chamfer for path middle points while writing octangu-
+              lar and round path.
+
+       -compress
+              Writes out the GDSII file in gzip  (.gz)  compressed  format  to
+              save  disk  space.  A .gz extension is appended to the file name
+              if no extension is specified.  By default, the output is  uncom-
+              pressed.
+
+       -connect_below_cut_metal
+              Generates  the  metal layers below the cut metal. For generating
+              metal, it is assumed that two pieces of metal of same  size  and
+              mask  color  abut with the cut metal. By default, this action is
+              not performed.
+
+       -design design_name
+              Specifies the name of the top design (block) to be written as  a
+              GDSII stream. The default is the current block.
+
+       -disable_output_mask_layers mask_layers
+              Specifies the layers for which the geometry and text information
+              corresponding to a color-mask configuration are written  without
+              considering  the color-mask configuration. The color-mask infor-
+              mation of the objects is not considered while writing them.
+
+       -fill include | exclude | fill_only
+              Writes or omits fill data according to the specified mode:
+
+            o include: Writes all geometries, including fill data (default)
+
+            o exclude: Omits all fill data
+
+            o fill_only: Writes only the fill data
+
+       -flat_vias
+              Flattens via shapes when writing the  GDSII  file.  By  default,
+              vias  are  written as instances of via masters and are not flat-
+              tened.
+
+              When you specify this option along with -output_net_text  option
+              and  the  -net_text_on  option  (when set to all_shapes_and_vias
+              value), the valid text appears once in the  OASIS  stream  file,
+              otherwise the text is not included in the output file.
+
+       -foreign
+              Uses  the  LEF  foreign  cell  name  as  the  structure name and
+              instance name. This option affects the  STRNAME  structure  name
+              and  the SREF structure element reference name in the GDSII.  By
+              default, the command ignores the LEF FOREIGN statements and uses
+              the original cell name.
+
+       -hierarchy design | design_lib | all_design_libs | all
+              Specifies the parts of the design hierarchy to write out:
+
+            o  design: Writes the specified or current design, stopping at its
+              boundary.
+
+            o design_lib: Writes the design, stopping at  its  design  library
+              boundary.   If  the design has sub blocks in the same library as
+              the top design, these sub blocks will be written out as well.
+
+            o all_design_libs: Writes the designs in all design libraries  but
+              excluding  the  reference libraries; stops at all design library
+              boundaries.
+
+            o all: Writes the entire design, including  modules  in  reference
+              libraries.
+
+              The default is "design_lib".
+
+       -ignore_cut_datatype_tbl_mapping
+              Ignores  the  mapping of data type, based on the via dimensions,
+              from  the  cutDataTypeTbl  entry  in  the  technology  file.  By
+              default, the command writes cuts of different sizes as different
+              data types as defined by the cut data table  in  the  technology
+              file.
+
+       -instance_property instance_property_value
+              Writes out instance names as a property attribute with the given
+              attribute number in the GDSII stream. By  default,  no  instance
+              property attribute is written.
+
+       -keep_data_type
+              Keeps  the  data  type  for each object as defined in the design
+              library (when run in an implementation tool) or the cell library
+              (when run in the library manager).  By default, the command con-
+              verts the data type to 0.
+
+              When the -layer_map option is used, the layer data  type  speci-
+              fied  in  the  layer mapping file overrides the data type in the
+              database, and the -keep_data_type option setting is ignored. For
+              objects  on  layers  not  defined in the layer mapping file, the
+              -keep_data_type option still applies.
+
+       -layer_map layer_map_file_name
+              Specifies a layer mapping file that customizes  the  translation
+              of  layer,  data type, and purpose between the tool's data model
+              and the GDSII file. For details, see "Layer Mapping File" in the
+              DESCRIPTION section.
+
+       -layer_map_format icc2 | icc_default | icc_extended
+              Specifies  the  format  of  the  layer mapping file. This option
+              allows the command to accept an IC Compiler layer mapping  file.
+              These are the allowed settings:
+
+            o  icc_default:  IC  Compiler  default  layer  mode, system layers
+              188-255
+
+            o icc_extended: IC Compiler extended  layer  mode,  system  layers
+              4001-4095
+
+            o icc2: IC Compiler II layer mapping file format (default)
+
+       -layers layers
+              Writes  only  the  specified layers of the technology; all other
+              layers are excluded. By default, the command writes  all  layers
+              to  the  GDSII  file.   The  -layers  option cannot be used with
+              option -exclude_layers.
+
+       -exclude_layers layers
+              Writes all other layers excepts  the  specified  layers  of  the
+              technology.   By  default,  the command writes all layers to the
+              GDSII file.  The -exclude_layers  option  cannot  be  used  with
+              option -layers.
+
+       -lib_cell_view views
+              Specifies  the name of the view used for writing leaf-level ref-
+              erence library cells to the GDSII file. The default  is  layout.
+              The view at the head of the list is in higher priority.
+
+              The supported views include design, frame, layout.
+
+       -library name
+              Specifies  the  name  of  the source library. The default is the
+              current library.
+
+       -long_names
+              Writes out names longer than 32 characters.  Use this option  to
+              write  long hierarchical names without modification. By default,
+              the command limits each name string to 32 characters.
+
+       -mask_shifted_suffix suffix_string
+              Specifies the suffix string used to generate cell  master  names
+              when  the  tool  performs  double-patterning  mask swapping. For
+              details, see "Double-Patterning Cell-Level Mask Swapping" in the
+              DESCRIPTION  section. This option is mutually exclusive with the
+              -mask_shifted_suffix_without_constraint option.
+
+       -mask_shifted_suffix_without_constraint suffix_string
+              Specifies the suffix string used to generate cell  master  names
+              when  the  tool  performs  double-patterning mask swapping. This
+              option differs from the mask_shifted_suffix option  because  the
+              instance-specific mask information is not added to the cell mas-
+              ter names. For details, see "Double-Patterning  Cell-Level  Mask
+              Swapping" in the DESCRIPTION section.
+
+       -merge_conflict_suffix suffix_string
+              Specifies the suffix string to be used to generate new names for
+              resolving merge  conflicts  that  occur  with  the  -merge_files
+              option.
+
+       -merge_files merge_files
+              Specifies  the names of the input stream files to be merged. You
+              can specify both GDSII and OASIS files as input that are  to  be
+              merged  with the newly generated GDSII stream. The command first
+              merges the specified files into an intermediate GDSII file. Then
+              it  merges the newly generated GDSII stream with this intermedi-
+              ate file to produce the final GDSII file.
+
+       -merge_gds_top_cell top_cell
+              Specifies the top cell to be considered for the merge flow. When
+              this  option  is  specified only the cells in it's hierarchy are
+              considered for merge operation. All remaining cells are  removed
+              from the resultant GDSII file.
+
+       -merge_cell_shapes
+              Specifies  that  the shapes from identically named cells in dif-
+              ferent source files are to be merged into a single cell  in  the
+              output file.
+
+       -merge_overwrite_conflicting_cell
+              Writes  out  the  last  conflicting cell, only if there are con-
+              flicting cells in GDSII files to be merged.
+
+       -merge_adding
+              Specifies the merge mode as adding for the merge flow.  It  com-
+              bines  the  top cells in the source files to the top cell corre-
+              sponding to the current block, resolves conflicts for the  child
+              cells  by  adding  cell  name prefix.  The output file will have
+              exactly one top cell.
+
+       -net_property net_property_value
+              Writes out the net names as a property attribute with the  given
+              attribute  number in the GDSII stream. A property attribute num-
+              ber is an integer from 0 to 127. By  default,  no  net  property
+              attribute is written.
+
+       -net_text_on  all_shapes_and_vias  |  all_shapes  |  each_layer  | sin-
+       gle_shape
+              Writes or omits net text according to the specified mode:
+
+            o  all_shapes_and_vias: Writes net text on all shapes and vias per
+              net
+
+            o all_shapes: Writes net text on all shapes (excluding via shapes)
+              per net
+
+            o  each_layer:  Writes  net text on one shape per layer (excluding
+              via layers) per net
+
+            o single_shape: Writes net text on one shape per net (default)
+
+              This option require -output_net_text to be specified.
+
+       -output_net_text
+              Writes out TEXT objects for net  shapes.  By  default,  no  TEXT
+              objects are written out for net shapes.
+
+       -output_pin text | geometry | all | none
+              Specifies  the  manner in which pin objects are written into the
+              GDSII file.  Allowed values are:
+
+            o "text": Writes the name of each pin as a TEXT object  associated
+              with the pin.
+
+            o  "geometry":  Writes  the  geometry  of each pin as a POLYGON or
+              BOUNDARY object associated with the pin.
+
+            o "all": Writes both the text and geometry of each pin.
+
+            o "none": Prevents the writing of pin data.
+
+              The default is "all"
+
+       -output_text_only_pins port_list
+              Writes only text information for the pins  of  specified  ports.
+              By default, the command writes geometry and text information for
+              all the pins to the GDSII file.
+
+       -pin_property pin_property_value
+              Writes out pin names as a  property  attribute  with  the  given
+              attribute  number  in the GDSII stream. By default, no pin prop-
+              erty attribute is written.
+
+       -via_property via_property_value
+              Generates the via and via matrix  property  with  the  specified
+              attribute  number in the GDSII stream. By default, no via or via
+              matrix property is written into GDSII file.
+
+       -propagate_pin_mask_to_via_metal
+              Propagates the double-patterning mask property  of  each  metal1
+              pin  shape,  as  specified  by  the  pin shape's mask_constraint
+              attribute, to the corresponding metal1 layer of a via dropped on
+              the  pin. This modifies the lower_mask_constraint attribute set-
+              ting of the via from no_mask to match the attribute  setting  on
+              the  pin  shape.  (An existing setting other than no_mask is not
+              modified).
+
+              This option affects only the data written to the GDSII file.
+
+       -rename_cell cell_renaming_files
+              Specifies the mapping files which contain pairs of original  and
+              new  cell  names.   Each  line in the mapping file specifies the
+              name mapping for a single cell.
+
+              OldCellName NewCellName
+
+              The following example maps ADDFHX1_A to ADDFHX1_B, NOR  to  NOR2
+              and XOR to XOR2X4.
+
+              #mapfile
+              ADDFHX1_A ADDFHX1_B
+              NOR NOR2
+              XOR XOR2X4
+
+              Mask-shifted  cells, however, are represented differently in the
+              mapping  file.   The  name  mapping  comprises  three  sections:
+              MASKSHIFTLAYER, MASKSHIFTPATTERN and CELLMAP.
+
+              For example, to rename the cell A with mask shifting on layer M1
+              or/and M2, enter the following:
+
+              <MASKSHIFTLAYER>
+              M1 M2
+              </MASKSHIFTLAYER>
+              <MASKSHIFTPATTERN>
+              00 01 10 11
+              </MASKSHIFTPATTERN>
+              <CELLMAP>
+              A AM2B NONE AM1BM2B
+              </CELLMAP>
+
+              MASKSHIFTLAYER specifies the relevant metal layers, in order, on
+              a single row.
+
+              MASKSHIFTPATTERN  specifies the mask shift combinations to apply
+              to the metal layers. The digits in each  combination  correspond
+              to  the metal layers listed in MASKSHIFTLAYER, respectively. For
+              example, the 00 combination represents a shift  value  of  0  on
+              layers M1 and M2; the 01 combination represents a shift value of
+              0 on layer M1 and 1 on layer M2; the 10 combination represents a
+              shift value of 1 on layer M1 and 0 on layer M2; and so on.
+
+              The  number  of mask shift combinations is less than or equal to
+              pow(m, n),  where  n  is  the  number  of  layers  specified  in
+              MASKSHIFTLAYER  and  m  is  the  count  of the shift values. For
+              2-mask layers, valid shift values are 0 and 1, so m is 2. In the
+              example  above, two metal layers are specified (M1 M2), so there
+              are four mask shift combinations (00 01 10 11).
+
+              CELLMAP specifies the cell mappings that correspond to each mask
+              shift pattern for a given cell. (Each row specifies the mappings
+              for a single cell, so the number of mappings in each row  corre-
+              sponds  to  the  number  of  MASKSHIFTPATTERN combinations.) The
+              write_gds command renames a cell based on the cell's  mask_shift
+              attribute and the mapping file content.
+
+              In  the  previous  above, cell A is mapped to A, AM2B, NONE, and
+              AM1BM2B when its mask_shift attribute is set to 0 on both layers
+              (00),  set to 1 on layer M2 (01), set to 1 on layer M1 (10), and
+              set to 1 on both layers (11), respectively. When a  mask-shifted
+              cell  is  not  expected for a particular mask shift combination,
+              the cell name is mapped to NONE and write_gds errors out. When a
+              mask-shifted  cell  is undefined, the mapping file does not con-
+              tain the corresponding name mappings and write_gds errors out.
+
+              By default, the original cell name is preserved  in  the  output
+              GDSII file.
+
+       -units units_per_micron
+              Specifies the resolution to use for writing the GDSII, expressed
+              as the number of units per micron. The default  value  is  scale
+              factor of current library.
+
+       -report_cell_source report_file_name
+              Specifies the name of the summary report file in which the phys-
+              ical data of a top-level  design  is  written  corresponding  to
+              GDSII  stream  file  in  plain  ascii  format.  By default, this
+              option writes out the design view of the current  block  in  the
+              current  library.  For  available  data,  it reports for all the
+              unique libraries used to export cells and one instance from each
+              library  which  gives  you  a  capability  to  validate that the
+              exported data come from the right versions of the instantiations
+              be it std cells, IP and blocks.  It writes five columns:
+
+            o  Path:  The  source path or reference location of every reported
+              ndmInstance.
+
+            o Type: The type of instance whether it is  macro_cell,  lib_cell,
+              std_cell, and so on.
+
+            o  Reference  Name:  The  name  of  the  Reference  design of that
+              instance.
+
+            o Instance Name: The name of ndmInst.
+
+            o Physical Hierarchy: The reference module is present in which all
+              other physical blocks.
+
+       -skip_unplaced_cells
+              Skips unplaced cells in design when writing to a GDS file.
+
+       -verbose_report_cell_source verbose_report_file_name
+              Specifies  the  name of the summary report file. It reports same
+              data as in -report_cell_source option but for available data, it
+              reports  for  all libraries and all physical instances which are
+              exported from them and which are not  part  of  hierarchy  of  a
+              macro_cell.
+
+       -use_block_name
+              Uses  the  block name (and user-specified label, if any) instead
+              of the module name for the top structure in the GDSII file.   By
+              default,  the  name  used  for each structure name is the module
+              name in the data model. In cases where the module name and block
+              name  for  the  top module are different, this option causes the
+              block name to be used; if the block has a user-specified  label,
+              the resulting name is block_user_label.
+
+       -view frame | abstract | layout | design
+              Specifies the name of the view to be written. The default is the
+              design view.
+
+       -write_default_layers layer_collection
+              Specifies the layers for which the geometry and text information
+              corresponding  to a color-mask configuration is written into the
+              default base. When this option is used with layer-mapping infor-
+              mation  for  the color-masks, all the geometry and text informa-
+              tion corresponding to the layers in  the  input  collection  are
+              written  twice: first into the layer-datatype pair obtained from
+              the layer-map by considering the color-mask  configuration,  and
+              then again without considering the color-mask configuration.
+
+       -write_instance_shape_mask
+              Writes  an  instance-specific  shape  masks to the GDSII file as
+              overlapping shapes in the parent structure. For a  library  cell
+              instance,  the  shape  mask in bound view is the output when the
+              value specified by -lib_cell_view is different  from  its  bound
+              view.   By  default,  the  instance-specific shape masks are not
+              written.
+
+       -write_instance_via_mask
+              Writes an instance-specific via masks to the GDSII file as over-
+              lapping  shapes  in  the  parent  structure.  For a library cell
+              instance, the via mask in bound view  is  the  output  when  the
+              value  specified  by  -lib_cell_view is different from its bound
+              view.  By default, the instance-specific via masks are not writ-
+              ten.
+
+       -write_instance_blockage_mask
+              Writes  an instance-specific blockage masks to the GDSII file as
+              overlapping shapes in the  parent  structure.  By  default,  the
+              instance-specific blockage masks are not written.
+
+       -write_instance_mask_on_layers layers
+              Writes an instance-specific mask to the GDSII file on the speci-
+              fied layers only. By default, it is enabled for all the  layers.
+              You  must specify this option at least with one of the following
+              options:
+              -write_instance_shape_mask
+              -write_instance_via_mask
+              -write_instance_blockage_mask
+
+       -exclude_empty_block
+              Exclude the empty structure definitions  and  instances  in  the
+              GDSII  file  for  each empty block or library cell.  By default,
+              the empty block or library-cell definitions are included in  the
+              output.
+
+       -allow_design_mismatch
+              Writes  out  the  GDSII  file, even if the design or library has
+              mismatches; by default, the command issues an error message  and
+              stops.
+
+       -marker_layer_map marker_layer_map_file_name
+              Specifies  a  marker  layer  mapping file to duplicate shapes to
+              GDSII marker layer.
+
+       -no_marker_layer
+              Does not generates the marker layer data.
+
+       -switch_view_list views
+              Specifies the reference block views for the  hierarchical  block
+              instances  to be opened.  The view at the head of the list is in
+              higher priority.
+
+              The supported views include abstract, design, frame, layout.
+
+       -cell_types cell_type_list
+              Writes out only the specified types of cells.  By  default,  the
+              write_gds  command  writes out all types of cells. The following
+              are the cell types that you can specify in the cell_type_list:
+
+               lib_cell
+               macro
+               corner
+               cover
+               end_cap
+               filler
+               flip_chip_driver
+               flip_chip_pad
+               pad
+               pad_spacer
+               tsv
+               vib
+               well_tap
+
+              If you use the -child_depth option, the write_gds command writes
+              out  only the types of cells specified by the -cell_types option
+              at the current block and their children (including all types  of
+              cells  in  the  children)  through the specified child depth. It
+              does not write out any other types of cells at the current block
+              nor any of their children.
+
+       -child_depth
+              Specifies  the  maximum  hierarchical  block depth to be output.
+              The default value is to output all hierarchical  blocks  in  the
+              hierarchical  scope specified by option "-hierarchy".  The hier-
+              archical depth is 0 for top block, the depth is increased 1  for
+              child blocks to which instances referred in current block.
+
+       -text_for_pin
+              Specifies  the  output text shapes in database, in layer mapping
+              port rule if the shapes are in top block; in layer  mapping  pin
+              rule  if  the shapes are in sub block.  The text shape is mapped
+              in layer mapping rule of signal net when this option is off.  It
+              should  be noticed that the subtype net/port/pin is only used to
+              control whether to map the text from top or sub or top&sub.
+
+              For example, for a text shape, when -text_for_pin is on, rule a.
+              applies  when it's in top block and rule b. applies when it's in
+              subblock.  when -text_for_pin is off, rule d. applies.
+                a. text 105:0:signal,port 202:18
+                b. text 105:0:signal,pin 202:20
+                c. text 105:0:clock,port 202:18
+                d. text 105:0:signal,net 202:19
+                e. all 105:18:* 202:18
+                f. text 105:0:* 127:30
+
+       -verbose
+              Prints the details of the hierarchical blocks to be output,  and
+              warning  messages for those which reference design and view can-
+              not be found.
+
+       output_file
+              Specifies the name of the output GDSII file. If  the  name  ends
+              with the .gz extension, it is compressed using the gzip format.
+
+       -mirror_mx
+              Indicates  that  write_gds   writes  the  rotated content of the
+              block, the orientation is MX.  By default, there is  no  on  the
+              fly rotation operation.
+
+DESCRIPTION
+       This  command  writes  out the physical data of a top-level design in a
+       GDSII stream file for tapeout or for export to third-party  tools.   By
+       default, the command writes out the design view of the current block in
+       the current library and maintains the original layer numbers as it con-
+       verts the data to GDSII format.
+
+       The command offers the following options:
+
+       o The name of the library, design, and view to be written out
+
+       o The mapping of the database layers to GDSII layers
+
+       o  The  mapping  of  net,  instance, and pin names in the conversion to
+         GDSII format
+
+       o The manner of writing out pin objects (text or geometry)
+
+       o The handling of mask-shifted multiple-patterning data
+
+       o The layers, hierarchical blocks, and fill data to be included in  the
+         GDSII output
+
+       o The merging of design data with existing GDSII files
+
+       To  locate  files  that  have relative path names, the command uses the
+       search_path variable and searches  for  each  file  in  each  directory
+       listed  in  the  search_path.  Files  that have absolute path names are
+       loaded as though there are no search_path. To determine the  file  that
+       write_gds loads, use the which command.
+
+   Layer Mapping File
+       By  default, the write_gds command maintains the original layer numbers
+       when it writes out the GDSII file.
+
+       When there is explicit mapping of system purpose (-1, -2, -3 and -4) in
+       layer  mapping  file, the tool uses that mapping; for example, with the
+       mapping "all 32:-1 32:55", the tool maps database layer "32:-1" to  GDS
+       layer  32:55; if no mapping for these system purposes, the tool follows
+       the mapping of the purpose 0 of the same layer.  For  example,  if  the
+       mapping  has  "all  32:0  32:70",  system purpose "-1" is mapped to GDS
+       layer 32:70.  Note that GDS data type cannot be any data less  than  0,
+       the  usage like "all 32:-1 132:-1" is invalid for GDS language, and the
+       data type is taken as 0 like "A 32:-1 132 0".  Besides, a hyphen  char-
+       acter(-)  is  used  in  GDSII layer field to ignore the tool object and
+       layer during stream out. For example, with the mapping "all 14 -",  the
+       tool  will  ignore the objects on database layer "14" and not write out
+       to GDSII.
+
+       You can optionally provide a layer mapping file to specify the  mapping
+       of  layers  and  data  types between the database and the GDSII layers.
+       You can use the same mapping file for both the write_gds  and  read_gds
+       commands. The following is the mapping file format:
+
+       ; single line comment
+       [read_always { true | false [-mapped_only | -ignore_missing_layers ] } ]
+       [blockage_as_zero_spacing {true|false}]
+       [cell_prop_attribute attribute_number]
+       [net_prop_attribute  attribute_number]
+       [pin_prop_attribute  attribute_number]
+       [via_prop_attribute  attribute_number]
+       [object_type] tool_layer_number[:tool_purpose][:use_type]
+       [:mask_type]  gdsii_layer_num[:gdsii_data_type]
+
+       For example,
+
+       ; This is my layer mapping file
+                           ;
+            84       92    ; ICC2 layer 84 = GDSII layer 92
+                           ;
+            59       69:3  ; ICC2 layer 59 = GDSII layer 69, data type 3
+                           ;
+            17:1    117:3  ; ICC2 layer 17, purpose 1 = GDSII layer 117, data type 3
+                           ;
+       data 33:0:*:*  1:2  ; ICC2 data on layer 33, purpose 0, any use type,
+                           ;  any mask type = GDSII layer 1, data type 2
+       text 33:0:*:*  1:4  ; ICC2 text on layer 33, purpose 0, any use type,
+                           ;  any mask type = GDSII layer 1, data type 4
+                           ;
+       all  14       -     ; All ICC2 data and text on layer 14 will
+                           ; be ignored and not be written into GDSII file
+       ; all other layers and data types match between ICC2 and GDSII
+
+       In each line, any text after a semicolon ";" is a comment.
+
+       The  read_always  statement determines how the read_gds command handles
+       differences between GDSII  layers  and  database  layers.   The  block-
+       age_as_zero_spacing  statement  determines  how  the  read_gds  command
+       interprets GDSII blockage layers, as  either  zero-spacing  or  design-
+       rule-spacing  guides.  For  details,  see the man page for the read_gds
+       command.
+
+       The cell_prop_attribute,  net_prop_attribute,  pin_prop_attribute,  and
+       via_prop_attribute  statements  specify  the property attribute numbers
+       used for storing cell instance, net, pin names, via  attribute  in  the
+       GDSII file.  The specified value for the properties should be distinct.
+       For example, the statement "net_prop_attribute 5" causes the  write_gds
+       command to write out the net names of the objects as property attribute
+       5 in the GDSII file. These statements in the layer  mapping  file  have
+       higher  priority  than  the  corresponding  write_gds  command options,
+       -instance_property, -net_property, -pin_property, and -via_property.
+
+       After you write a GDSII file with these properties, when you  read  the
+       file  back  into  the tool with the read_gds command, the original cell
+       names are restored, and the pins and nets are properly identified with-
+       out the tool spending time on connectivity tracing.
+
+       Each field of the layer mapping line is separated by a colon ":".  Each
+       field can be an explicit value, an asterisk "*" wildcard character,  or
+       left blank. An asterisk or black space indicates any value.
+
+       A  more  specific  rule priority than a more general rule. For example,
+       the rule "5:3 8", has higher priority than "5 7".  If conflicting rules
+       are  specified  in different lines (for example, first "6:2 4" and then
+       "6:2 7"), the last one in the file is  used  and  the  earlier  one  is
+       ignored.
+
+       The  optional  object_type  keyword at the beginning of a layer mapping
+       line restricts the mapping rule to only the specified object types:
+
+       o data: Mapping applies only to nontext objects
+
+       o text: Mapping applies only to text objects
+
+       o all: Mapping applies to both text and nontext objects (default)
+
+       tool_layer_number is the layer number in the database, an integer.
+
+       tool_purpose is the purpose number in the database, an integer.
+
+       use_type is the usage type in the database, which is one of the follow-
+       ing.      "route_guide,single_row_via_ladder_pattern_must_join_allowed"
+       requires the relative "tool_layer_number" is any layer  number(*),  and
+       the  format  of the layer mapping file is specified as icc_default with
+       -layer_map_format option.   "instance_specific_mask"  is  to  copy  the
+       instance-specific  mask  constraints  data (via cut-shapes, shapes, and
+       blockages)to a layer, it is  effective  when  at  least  one  of  three
+       options   (-write_instance_via_mask,   -write_instance_shape_mask,  and
+       -write_instance_blockage_mask) is specified. Note that this  is  "copy"
+       operation,  which  means the instance specific mask is written onto the
+       original layer still at the same time.  By default "power"  is  to  map
+       all power data.  "power,net", "power,port", "power, pin" are to distin-
+       guish net, port, pin respectively.  The same rules apply  to  "ground",
+       "clock",    "signal"   and   their   corresponding   net,   port,   pin
+       use_types."same_net_feedthrough_tsv" can  be  used  to  create  special
+       marking  layers  in GDS for qualified TSV. Any shape whose mask_name is
+       'tsv' in the design database is duplicated as a marking layer shape  in
+       GDS  only  when "same_net_feedthrough_tsv" is defined in the layer map.
+       The qualified TSV should have a pin. This pin should have  a  net.  The
+       net  should  have ports of shapes with layer mask_names on backside and
+       front-side both.  "hi_voltage" is to  index  write_gds  to  output  net
+       voltage_range_max as a text. "lo_voltage" is to index write_gds to out-
+       put net voltage_range_min as a text. The  net  can  be  signal,  clock,
+       power  or ground.  "pg_mesh" is to stream out pg objects to specific PG
+       marker layer. The pg_mesh collection can be controlled using app option
+       "file.gds.shape_use_for_pg_mesh".  By  default,  stripe and ring shapes
+       are streamed out.   "shield_route"  is  to  duplicate  pg  shapes  with
+       shield_route    shape_use   attribute   to   specific   marker   layer.
+       "probe_marker" is to map the layer shape which is  on  the  layer  with
+       "probeMarker"  maskName  and probeLayer attributes to the specific map-
+       ping marker layer of the probeLayer.  "probe_pin" is  to  map  the  pin
+       shape  connected  with  probe shape to specific marker layer, the pin's
+       is_scan attribute must be true and  direction  attribute  must  be  in.
+       "output_only_marker"  is to map the cut metal on the layer with purpose
+       metal_cut(-2) to specific marker layer.   The  sealring_name  in  seal-
+       ring_boundary[,sealring_name] is a design library sealring object name.
+       If it's not specified, it  will  map  to  keepout  margin  object  type
+       seal_ring.  For example,
+       all *:*:sealring_boundary,SR1 136:1 ;map GDS layer 136:1 to design library sealring object
+                                  ;named SR1
+       all *:*:sealring_boundary,SR2 136:2 ;map GDS layer 136:2 to design library sealring object
+                                  ;named SR2
+       all *:*:sealring_boundary 136:3 ;map GDS layer 136:3 to design library keepout margin object
+                                  ;type seal_ring
+
+       "assembly_die_boundary"  maps  to  keepout  margin  object  type assem-
+       bly_die.  The custom[,label] is a custom manufacturing shape with spec-
+       ified label name.  If label is not specified with "custom" use_type, an
+       error is reported by the tool.  For example,
+       all *:*:custom,DIE1 136:1 ;map GDS layer 136:1 to design library custom object
+                                  ;labeled DIE1
+       all *:*:custom,DIE2 136:2 ;map GDS layer 136:2 to design library custom object
+                                  ;labeled DIE2
+
+        power
+        power,net
+        power,port
+        power,pin
+        ground
+        ground,net
+        ground,port
+        ground,pin
+        clock
+        clock,net
+        clock,port
+        clock,pin
+        signal
+        signal,net
+        signal,port
+        signal,pin
+        boundary
+        hard_placement_blockage
+        soft_placement_blockage
+        routing_blockage
+        area_fill
+        track
+        route_guide,single_row_via_ladder_pattern_must_join_allowed
+        bridge_shape
+        routing_blockage,is_allow_metal_fill_only
+        routing_blockage,reserve_for_top_level_routing
+        routing_blockage,is_forbid_metal_fill_only
+        instance_specific_mask
+        same_net_feedthrough_tsv
+        hi_voltage
+        lo_voltage
+        sealring_boundary[,sealring_name]
+        assembly_die_boundary
+        stitching_zone
+        pg_mesh
+        shield_route
+        ring
+        probe_marker
+        probe_pin
+        output_only_marker
+        custom[,label]
+
+        .
+
+       mask_type is the mask type of the shape in a multiple-patterning  tech-
+       nology. For a metal layer, the following mask types are supported:
+
+        mask_one
+        mask_two
+        mask_three
+        same_mask
+
+       For a VIA cut layer, the following additional mask types are supported:
+
+        MASK_FOUR
+        MASK_FIVE
+        MASK_SIX
+        ...
+        MASK_FIFTEEN
+
+       gdsii_layer_num  is  the  layer  number  of the geometry or TEXT in the
+       GDSII file, an integer.
+
+       gdsii_data_type is the data type number of the geometry or TEXT in  the
+       GDSII file, an integer.
+
+   Double-Patterning Cell-Level Mask Swapping
+       In  a double-patterning technology, a layer is decomposed into two dif-
+       ferent masks, with physically adjacent geometries assigned  alternately
+       to  the  two  masks. The physical layer is fabricated on the chip using
+       two  separate  photolithography  steps,  minimizing  optical  proximity
+       degradation  between  adjacent geometries. Double-patterning technology
+       is typically used only for the finest, densest, lowest-level  intercon-
+       nection layers such as M1, VIA1, and M2 layers.
+
+       The  assignment  of  adjacent  geometries  to  one mask or the other is
+       called "coloring" and each geometry assigned to a mask is said to  have
+       "color"  such  as  mask_one  or  mask_two.  In  the  cell  library, the
+       mask_constraint attribute specifies the coloring of each shape  in  the
+       library cell.
+
+       Two  shapes  of different colors are allowed to be closer to each other
+       than two shapes of the same color. When the spacing between two  shapes
+       of  the  same  color  is small enough to violate the same-color spacing
+       requirement (but not the different-color spacing  requirement),  it  is
+       called a color violation.
+
+       In  a  "correct-by-construction" standard cell library, the double-pat-
+       terning shapes are far enough inside the cell boundary to prevent color
+       violations from occurring, even when two cells are placed edge-to-edge.
+       In that case, the tool performs placement and legalization without con-
+       sidering the coloring inside the cells.
+
+       On  the  other  hand, for a "precolored" standard cell library, colored
+       shapes are close enough to the cell boundary that color violations  can
+       occur  between  shapes of the same color in two different cells, if the
+       cells are placed edge-to-edge. The placer or  legalizer  can  fix  such
+       violations by moving the cells apart in the row, leaving a gap; or pos-
+       sibly by flipping one of the cells in place.
+
+       Another way to fix a color violation is to swap the  color  assignments
+       in  the cell instance, without moving or flipping the cell. To do this,
+       the placer sets a cell attribute  called  mask_shift  at  the  instance
+       level.  This  attribute is a text string that specifies whether to swap
+       the color assignments within each layer.
+
+       For example, when a cell's mask_shift attribute is set to the following
+       string,  it  swaps  the  coloring  assignments  of the shapes in the M1
+       layer, but not in the VIA1 and M2 layers:
+
+       {{M1 1} {VIA1 0} {M2 0}}
+
+       Based on the mask_shift attribute setting, the write_gds  command  per-
+       forms  color  modification of each cell during stream-out to GDSII for-
+       mat. In this example, the write_gds command swaps the coloring  assign-
+       ments  in  layer M1. For that layer only, it writes out the shapes with
+       the mask_one attribute to the mask_two mask, and conversely, writes out
+       the shapes with the mask_two attribute to the mask_one mask.
+
+       The  write_gds  command  carries out the modification by writing out an
+       instance of a new master cell master having the switched  mask  assign-
+       ments.  In  effect,  the command copies the original cell, modifies the
+       mask assignments as specified by the mask_shift  attribute,  creates  a
+       new  master  cell having the switched masks, and writes out one or more
+       instances of the new cell.
+
+       The write_gds command creates a name for the new cell master by joining
+       the following items with underscore characters:
+
+        The original cell master name
+        The suffix string set by the -mask_shifted_suffix option ("SHIFT" by default)
+        The layer number of first swapped layer
+        The number 1, indicating the amount to shift the mask for the layer
+        The layer number of next swapped layer
+        The number 1, indicating the amount to shift the mask for the layer
+         ...
+
+       For example, suppose that the name of the original cell master is INV1,
+       the default suffix string "SHIFT" is being  used,  and  the  mask_shift
+       attribute of an INV1 cell instance is set as follows:
+
+       {{M1 1} {VIA1 0} {M2 1}}
+
+       In  that  case,  the swap occurs in layer M1 (layer 15) and in layer M2
+       (layer number 17), so the name of the newly generated  cell  master  is
+       "INV1_SHIFT_15_1_17_1".
+
+       The  tool  does not add the new reference cell to the database. It only
+       streams out the new reference cell to the GDSII file.
+
+EXAMPLES
+       The following command writes out the current block as  a  GDSII  stream
+       file named myDesign.gds:
+
+         prompt> write_gds -units 1000 myDesign.gds
+
+       The  following  command  writes  out the block myLib:BlockA.design as a
+       GDSII stream file named myBlockA.gds, using a database unit size  of  1
+       nanometer:
+
+         prompt> write_gds -library myLib -design BlockA -units 1000 myBlockA.gds
+
+       The  following  command  writes out the current block as a GDSII stream
+       file using a layer mapping file to modify the layers and  datatypes,  a
+       block  mapping  file  that  specifies  some  blocks to skip, and a cell
+       renaming file to rename some of the blocks before writing:
+
+         prompt> write_gds -layer_map myLayerMap -block_map myBlockMap \
+           -rename_cell myRenamingFile myDesign.gds
+
+       The following command writes out the current block as  a  GDSII  stream
+       file, including only layers M1, V1, M2, V2, and M3:
+
+         prompt> write_gds -layers {M1 V1 M2 V2 M3} myDesign.gds
+
+SEE ALSO
+       read_gds(2)
+       trace_connectivity(2)
+       search_path(3)
+
+                          Version X-2025.06-SP2
+            Copyright (c) 2025 Synopsys, Inc. All rights reserved.

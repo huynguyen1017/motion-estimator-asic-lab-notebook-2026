@@ -1,0 +1,3540 @@
+Setting up environment variables for Synthesis version O-2018.06-SP4
+Setting up environment for Synopsys VCS version W-2024.09-1
+Setting up environment variables for Primetime version U-2022.12-SP5-1
+Setting up environment variables for PrimeECO version U-2022.12-SP5-3
+Setting up environment variables for IC Compiler II version S-2021.06-SP5-1
+Setting up environment variables for Verdi version W-2024.09-1
+Setting up environment variables for Fusion Compiler version X-2025.06-SP2a
+Setting up environment variables for IC Validator version W-2024.09-3
+
+
+
+                              Fusion Compiler (TM)
+
+                Version X-2025.06-SP2 for linux64 - Oct 15, 2025
+                           Base build date 9/22/2025
+
+                    Copyright (c) 1988 - 2025 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+ 
+Information: Term was not able to be set up using xterm-256color . Using "xterm" by default instead. (CLE-10)
+source -echo ./setup/fc_common_setup.tcl
+#####################################################################
+#####		Common Setup Script for Fusion Compiler		#####
+#####################################################################
+set DESIGN_NAME "top"		; # set design name
+set DESIGN_LIBRARY	"${DESIGN_NAME}.dlib"		; # set design library name
+set WORK_DIR		"[pwd]"				; # Get current working directory
+set LIBNAME		"saed14rvt"			; # set library name
+set CELL_PREFIX		"SAEDRVT14"
+set TECH_NODE		"saed14nm"			; # set technology node name
+set METAL_STACK		"1p9m"				; # set metal stack
+set REF_NDM		"frame_timing"			; # set reference ndm type: "frame_only" or "frame_timing_ccs"
+set REFERENCE_LIB_PATH	"${WORK_DIR}/common/ndm"
+set REFERENCE_LIBRARY	"${REFERENCE_LIB_PATH}/${LIBNAME}_${REF_NDM}.ndm"
+set TECH_FILE_PATH      "${WORK_DIR}/common/tf"
+set TECH_FILE		"${WORK_DIR}/common/tf/${TECH_NODE}_${METAL_STACK}.tf"
+set TECH_NDM		"path/to/tech_ndm/if/exist"
+set LIBERTY_PATH	"${WORK_DIR}/common/liberty"
+set TLUP_PATH		"${WORK_DIR}/common/tlup"
+set TLUP_MIN_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cmin.tlup"
+set TLUP_NOM_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cnom.tlup"
+set TLUP_MAX_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cmax.tlup"
+set NXTGRD_PATH		"${WORK_DIR}/common/nxtgrd"
+set NXTGRD_MIN_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cmin.nxtgrd"
+set NXTGRD_NOM_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cnom.nxtgrd"
+set NXTGRD_MAX_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cmax.nxtgrd"
+set MAP_PATH		"${WORK_DIR}/common/map"
+set GDS_PATH		"${WORK_DIR}/common/gds"
+set LAYER_MAP_FILE	"${MAP_PATH}/${TECH_NODE}_tf_itf_tluplus.map"
+set RTL_PATH		"${WORK_DIR}/common/rtl"
+set SDC_PATH		"${WORK_DIR}/common/sdc"
+set SDC_FILE		"${SDC_PATH}/${DESIGN_NAME}.sdc"
+set VERILOG_PATH	"${RTL_PATH}/verilog"
+set VHDL_PATH		"${RTL_PATH}/vhdl"
+set RESULTS_PATH	"${WORK_DIR}/results"
+set REPORTS_PATH	"${WORK_DIR}/reports"
+set DRC_RUNSET_FILE	"${WORK_DIR}/common/runsets/saed14nm_1p9m_drc_rules.rs"
+set GDS_MAP_FILE	"${MAP_PATH}/saed14nm_1p9m_gdsout_mw.map"
+set MFILL_RUNSET_FILE	"${WORK_DIR}/common/runsets/saed14nm_1p9m_mfill_rules.rs"
+set GDS_FILE		"${GDS_PATH}/saed14rvt.gds"
+source ${WORK_DIR}/setup/utilities.tcl
+source -echo ./setup/fc_flow_setup.tcl
+#####################################################################
+#####		Flow Setup Script for Fusion Compiler		#####
+#####################################################################
+set TECH_BASED	"tf"				; # set "tf" for TECH_FILE-based flow or set "ndm" for TECH_NDM-based flow.
+set PARASITIC	"tlup"				; # set "tlup" for using TLUP files or  set "nxtgrd" for using NXTGRD files.
+set HDL		"verilog"			; # set "verilog" for reading Verilog RTL or set "vhdl" for reading VHDL RTL.
+set PVT_FF	"ff0p88v125c"			; # set FF PVT
+set PVT_TT	"tt0p8v25c"			; # set TT PVT
+set PVT_SS	"ss0p72vm40c"			; # set SS PVT
+set DB_FF	"${LIBERTY_PATH}/${LIBNAME}_${PVT_FF}.db"
+set DB_TT	"${LIBERTY_PATH}/${LIBNAME}_${PVT_TT}.db"
+set DB_SS	"${LIBERTY_PATH}/${LIBNAME}_${PVT_SS}.db"
+set_host_options -max_cores 1
+1
+open_lib ${RESULTS_PATH}/${DESIGN_LIBRARY}
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/results/top.dlib' (FILE-007)
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/ndm/saed14rvt_frame_timing.ndm' (FILE-007)
+{top.dlib}
+copy_block -from ${DESIGN_NAME}/signoff_v5 -to ${DESIGN_NAME}/signoff_v5_holdfix1
+Information: User units loaded from library 'saed14rvt_frame_timing' (LNK-040)
+{top.dlib:top/signoff_v5_holdfix1.design}
+open_block ${DESIGN_NAME}/signoff_v5_holdfix1
+Information: Incrementing open_count of block 'top.dlib:top/signoff_v5_holdfix1.design' to 2. (DES-021)
+{top.dlib:top/signoff_v5_holdfix1.design}
+puts "V5_APPLY_ECO_731_BUFFERS_BEGIN"
+V5_APPLY_ECO_731_BUFFERS_BEGIN
+source ./results/v5_FAST_hold_eco.tcl
+Using libraries: top.dlib saed14rvt_frame_timing
+Visiting block top.dlib:top/signoff_v5_holdfix1.design
+Information: Cellem using advance interpolation.
+Design 'top' was successfully linked.
+Current instance is the top-level of block 'top.dlib:top/signoff_v5_holdfix1.design'
+Cell is added at (10.2910 19.1200).
+Cell is added at (13.3250 20.3200).
+Cell is added at (32.4910 17.3010).
+Cell is added at (49.3330 19.7600).
+Cell is added at (59.5750 20.8295).
+Cell is added at (16.9510 19.6245).
+Cell is added at (7.3310 20.3200).
+Cell is added at (37.4490 8.9295).
+Cell is added at (32.6020 17.3010).
+Cell is added at (15.3230 17.9200).
+Cell is added at (34.2670 10.1120).
+Cell is added at (38.7810 23.8880).
+Cell is added at (35.4510 16.0800).
+Cell is added at (27.0150 17.8910).
+Cell is added at (29.5310 19.1600).
+Cell is added at (31.8250 17.2800).
+Cell is added at (41.4450 22.0800).
+Cell is added at (16.4330 17.9755).
+Cell is added at (11.7710 17.2800).
+Cell is added at (34.3040 17.2830).
+Cell is added at (38.7070 25.1200).
+Cell is added at (34.4150 22.0800).
+Cell is added at (45.1450 28.7200).
+Cell is added at (14.7310 17.2800).
+Cell is added at (36.2650 24.4800).
+Cell is added at (37.9670 24.4800).
+Cell is added at (44.3310 22.6910).
+Cell is added at (56.9110 22.7600).
+Cell is added at (16.5070 32.3200).
+Cell is added at (35.8210 19.1200).
+Cell is added at (38.5590 26.3200).
+Cell is added at (34.9330 20.9010).
+Cell is added at (36.5610 28.7200).
+Cell is added at (17.8390 17.9000).
+Cell is added at (33.6010 28.0800).
+Cell is added at (41.8150 28.1090).
+Cell is added at (53.8770 28.0400).
+Cell is added at (37.0050 27.5200).
+Cell is added at (43.8870 15.5200).
+Cell is added at (35.5250 18.5120).
+Cell is added at (41.0580 23.3000).
+Cell is added at (16.5810 18.4750).
+Cell is added at (29.7530 17.3010).
+Cell is added at (24.4990 18.5090).
+Cell is added at (9.2550 17.9200).
+Cell is added at (16.5810 26.3200).
+Cell is added at (39.5950 20.8800).
+Cell is added at (40.8530 27.5000).
+Cell is added at (23.6850 19.0910).
+Cell is added at (30.2710 32.9120).
+Cell is added at (43.8130 21.4910).
+Cell is added at (34.2670 21.6200).
+Cell is added at (34.6370 21.4990).
+Cell is added at (39.0030 19.1200).
+Cell is added at (27.9030 17.2800).
+Cell is added at (39.7620 11.4200).
+Cell is added at (40.4090 16.6910).
+Cell is added at (35.2290 23.8990).
+Cell is added at (40.7050 18.5090).
+Cell is added at (20.8730 14.3200).
+Cell is added at (13.9910 28.6880).
+Cell is added at (29.3090 35.3010).
+Cell is added at (44.7750 31.0910).
+Cell is added at (16.1370 11.9200).
+Cell is added at (17.3210 16.7200).
+Cell is added at (29.0870 11.2800).
+Cell is added at (51.6570 11.2400).
+Cell is added at (38.7260 9.3800).
+Cell is added at (14.8050 15.9800).
+Cell is added at (41.3710 29.8910).
+Cell is added at (33.7490 18.4800).
+Cell is added at (24.2030 17.3090).
+Cell is added at (41.5380 28.2200).
+Cell is added at (47.2910 29.2400).
+Cell is added at (15.3230 26.8800).
+Cell is added at (42.8510 24.5090).
+Cell is added at (44.4980 30.9800).
+Cell is added at (22.8360 17.9000).
+Cell is added at (9.5510 14.2880).
+Cell is added at (40.0390 35.9200).
+Cell is added at (43.9060 27.3800).
+Cell is added at (38.1340 17.4200).
+Cell is added at (46.8470 17.9600).
+Cell is added at (57.7250 25.1755).
+Cell is added at (51.0950 28.1600).
+Cell is added at (45.0710 36.5090).
+Cell is added at (23.4080 18.9800).
+Cell is added at (29.3190 19.1000).
+Cell is added at (22.0570 18.4400).
+Cell is added at (45.3120 35.7800).
+Cell is added at (39.2990 13.0880).
+Cell is added at (34.9330 31.1200).
+Cell is added at (23.9260 17.4200).
+Cell is added at (15.7670 34.0800).
+Cell is added at (35.2290 17.2905).
+Cell is added at (43.5360 21.3800).
+Cell is added at (38.1890 16.6880).
+Cell is added at (15.6190 5.9200).
+Cell is added at (8.2930 23.9200).
+Cell is added at (39.4470 17.9200).
+Cell is added at (45.8110 10.6910).
+Cell is added at (16.7290 11.9200).
+Cell is added at (45.2930 24.4800).
+Cell is added at (45.2190 23.2400).
+Cell is added at (21.1690 19.0910).
+Cell is added at (11.8450 14.9010).
+Cell is added at (13.8430 5.9200).
+Cell is added at (51.5830 22.0400).
+Cell is added at (17.8390 8.8800).
+Cell is added at (31.6960 11.7800).
+Cell is added at (16.9510 11.2800).
+Cell is added at (49.5110 16.1030).
+Cell is added at (18.0610 14.8800).
+Cell is added at (47.9940 38.2990).
+Cell is added at (44.7940 36.6200).
+Cell is added at (34.6370 14.9120).
+Cell is added at (12.5850 5.8880).
+Cell is added at (39.0770 37.7090).
+Cell is added at (44.8490 14.2910).
+Cell is added at (48.8450 17.9200).
+Cell is added at (41.8520 30.5010).
+Cell is added at (16.3590 10.7000).
+Cell is added at (41.9630 26.2910).
+Cell is added at (40.7050 39.5200).
+Cell is added at (56.8370 19.7080).
+Cell is added at (48.0310 18.4400).
+Cell is added at (19.5780 8.2990).
+Cell is added at (38.7070 10.1120).
+Cell is added at (47.3650 22.7600).
+Cell is added at (41.3900 30.9800).
+Cell is added at (30.4190 37.1200).
+Cell is added at (19.0970 34.0800).
+Cell is added at (17.8390 37.1200).
+Cell is added at (52.2490 17.3030).
+Cell is added at (41.0940 29.7800).
+Cell is added at (15.1010 22.7200).
+Cell is added at (24.9430 12.5090).
+Cell is added at (17.6170 10.7755).
+Cell is added at (30.1970 41.9200).
+Cell is added at (17.0250 9.4880).
+Cell is added at (25.9050 27.4910).
+Cell is added at (28.4950 26.2910).
+Cell is added at (43.9610 26.8800).
+Cell is added at (33.7490 38.2840).
+Cell is added at (43.1470 32.2880).
+Cell is added at (19.0230 28.7755).
+Cell is added at (29.4760 11.4200).
+Cell is added at (60.1670 14.2990).
+Cell is added at (47.6610 11.9000).
+Cell is added at (18.5790 27.4880).
+Cell is added at (51.7310 16.0800).
+Cell is added at (28.3470 38.9010).
+Cell is added at (40.7790 38.3200).
+Cell is added at (39.0770 30.5090).
+Cell is added at (43.2950 33.4910).
+Cell is added at (25.3870 25.7090).
+Cell is added at (21.8350 11.8920).
+Cell is added at (9.6250 22.7200).
+Cell is added at (23.0190 22.1090).
+Cell is added at (31.0850 42.4800).
+Cell is added at (40.2060 40.5800).
+Cell is added at (41.3710 41.2800).
+Cell is added at (30.1970 41.2800).
+Cell is added at (40.0580 41.7800).
+Cell is added at (22.7420 22.2200).
+Cell is added at (16.8770 12.4400).
+Cell is added at (26.3490 14.8800).
+Cell is added at (40.4090 25.1200).
+Cell is added at (27.9030 43.1200).
+Cell is added at (31.5290 39.5200).
+Cell is added at (27.0890 16.1090).
+Cell is added at (26.1270 28.1090).
+Cell is added at (33.8230 22.6705).
+Cell is added at (42.0370 17.2400).
+Cell is added at (14.2130 23.3120).
+Cell is added at (25.6090 28.6910).
+Cell is added at (24.4250 11.8910).
+Cell is added at (22.5010 38.3200).
+Cell is added at (24.4250 41.9200).
+Cell is added at (47.2910 31.0910).
+Cell is added at (23.5370 14.9090).
+Cell is added at (29.4760 9.3800).
+Cell is added at (6.1840 29.3125).
+Cell is added at (39.2250 41.2800).
+Cell is added at (23.5370 43.0560).
+Cell is added at (38.4110 43.0910).
+Cell is added at (38.1340 42.9800).
+Cell is added at (34.0450 33.5200).
+Cell is added at (33.6010 34.7200).
+Cell is added at (41.0750 23.8880).
+Cell is added at (52.3230 33.5600).
+Cell is added at (35.3770 44.2910).
+Cell is added at (40.1320 35.4200).
+Cell is added at (43.3140 11.7800).
+Cell is added at (40.1130 44.3600).
+Cell is added at (33.3790 44.8800).
+Cell is added at (24.3510 12.5120).
+Cell is added at (41.2970 32.9090).
+Cell is added at (55.7270 44.9120).
+Cell is added at (23.2410 44.2880).
+Cell is added at (41.0200 33.0200).
+Cell is added at (29.8270 14.3200).
+Cell is added at (9.8470 25.1200).
+Cell is added at (23.0930 28.6910).
+Cell is added at (49.6590 34.7000).
+Cell is added at (37.8930 29.7575).
+Cell is added at (23.3890 16.6910).
+Cell is added at (47.0690 43.0880).
+Cell is added at (44.6270 8.8800).
+Cell is added at (33.5270 35.2800).
+Cell is added at (32.9350 28.6990).
+Cell is added at (41.8250 17.3000).
+Cell is added at (43.2950 5.8400).
+Cell is added at (35.6730 12.5000).
+Cell is added at (23.2410 37.0910).
+Cell is added at (26.5710 37.6400).
+Cell is added at (48.3640 7.1135).
+Cell is added at (39.2250 6.5600).
+Cell is added at (41.0750 7.6845).
+Cell is added at (21.9090 31.7090).
+Cell is added at (28.5690 33.5600).
+Cell is added at (33.3790 32.9120).
+Cell is added at (48.2530 7.1155).
+Cell is added at (20.2810 35.8910).
+Cell is added at (21.4650 35.2400).
+Cell is added at (46.1070 8.3200).
+Cell is added at (58.0210 20.8400).
+Cell is added at (43.9420 7.7000).
+Cell is added at (41.0750 10.1295).
+Cell is added at (45.4410 44.3200).
+Cell is added at (40.6310 8.8245).
+Cell is added at (54.0250 38.8245).
+Cell is added at (21.5490 12.5000).
+Cell is added at (26.4970 23.3090).
+Cell is added at (26.8670 21.4910).
+Cell is added at (28.1250 28.6910).
+Cell is added at (45.2930 32.8800).
+Cell is added at (24.5730 38.2910).
+Cell is added at (53.9810 28.6400).
+Cell is added at (29.1800 11.7800).
+Cell is added at (21.3420 35.4200).
+Cell is added at (25.8310 35.3090).
+Cell is added at (23.3150 35.3090).
+Cell is added at (44.6270 7.7385).
+Cell is added at (26.5900 21.3800).
+Cell is added at (22.2050 16.1090).
+Cell is added at (26.2010 22.6880).
+Cell is added at (53.1370 7.1200).
+Cell is added at (22.6490 32.2910).
+Cell is added at (29.8270 32.8400).
+Cell is added at (28.3470 13.6800).
+Cell is added at (27.5330 30.4800).
+Cell is added at (26.2010 21.5200).
+Cell is added at (21.0950 32.3200).
+Cell is added at (24.0180 25.0990).
+Cell is added at (23.7100 44.1800).
+Cell is added at (26.0530 23.9200).
+Cell is added at (24.2770 29.9200).
+Cell is added at (48.2530 21.5000).
+Cell is added at (22.4270 35.8880).
+Cell is added at (54.9870 5.8880).
+Cell is added at (48.3270 26.2625).
+Cell is added at (23.6850 26.2920).
+Cell is added at (42.0370 12.5110).
+Cell is added at (32.5650 20.2990).
+Cell is added at (19.6890 31.0880).
+Cell is added at (41.2230 43.1200).
+Cell is added at (19.5410 36.4800).
+Cell is added at (29.4940 34.1010).
+Cell is added at (28.6920 33.3800).
+Cell is added at (25.7570 24.5120).
+Cell is added at (26.6940 37.8200).
+Cell is added at (30.7150 20.3200).
+Cell is added at (35.5250 8.3200).
+Cell is added at (51.8790 8.8400).
+Cell is added at (30.4190 25.0625).
+Cell is added at (20.2810 16.6910).
+Cell is added at (45.2660 10.0400).
+Cell is added at (56.8370 23.9200).
+Cell is added at (54.1730 38.9010).
+Cell is added at (26.3490 10.1120).
+Cell is added at (28.6430 5.9200).
+Cell is added at (31.0850 36.4800).
+Cell is added at (26.4420 29.7800).
+Cell is added at (10.6610 5.9200).
+Cell is added at (57.8730 25.0990).
+Cell is added at (27.6810 44.8800).
+Cell is added at (68.7510 22.7200).
+Cell is added at (49.5850 26.7970).
+Cell is added at (23.9460 13.1000).
+Cell is added at (63.3490 20.3200).
+Cell is added at (76.8910 24.5120).
+Cell is added at (68.7510 13.6800).
+Cell is added at (13.9170 40.0800).
+Cell is added at (62.1650 21.5200).
+Cell is added at (11.2530 34.7200).
+Cell is added at (76.8170 31.7120).
+Cell is added at (69.7130 32.9120).
+Cell is added at (76.4470 44.9120).
+Cell is added at (14.2500 20.6080).
+Cell is added at (33.4160 17.5890).
+Cell is added at (16.2480 18.2080).
+Cell is added at (35.5990 16.3770).
+Cell is added at (35.0810 21.1980).
+Cell is added at (12.6960 17.5680).
+Cell is added at (39.4840 26.6080).
+Cell is added at (10.2910 19.1200).
+Cell is added at (36.7090 29.0170).
+Cell is added at (42.3700 22.3680).
+Cell is added at (15.6560 17.5680).
+Cell is added at (35.2290 17.5710).
+Cell is added at (30.5670 18.5120).
+Cell is added at (27.0150 17.8910).
+Cell is added at (34.9330 27.4880).
+Cell is added at (31.9730 25.1200).
+Cell is added at (30.6410 19.1000).
+Cell is added at (30.1970 16.6990).
+Cell is added at (43.3690 14.3200).
+Cell is added at (23.6850 19.0910).
+Cell is added at (29.7530 14.9120).
+Cell is added at (40.2610 31.1200).
+Cell is added at (46.3290 22.1090).
+Cell is added at (24.2030 17.3090).
+Cell is added at (46.5510 37.6575).
+Cell is added at (46.8470 37.0880).
+Cell is added at (26.6450 19.7000).
+Cell is added at (48.6230 28.0400).
+Cell is added at (47.7350 32.9120).
+Cell is added at (21.7980 14.6080).
+Cell is added at (35.5250 12.5120).
+Cell is added at (38.7260 9.3800).
+Cell is added at (16.2110 13.7120).
+Cell is added at (22.4270 20.3000).
+Cell is added at (21.0950 17.9600).
+Cell is added at (18.2460 17.0080).
+Cell is added at (46.0520 22.2200).
+Cell is added at (36.7460 19.4080).
+Cell is added at (32.7870 19.0880).
+Cell is added at (44.8490 14.2910).
+Cell is added at (22.3530 17.9000).
+Cell is added at (23.3150 18.5000).
+Cell is added at (41.6300 39.8080).
+Cell is added at (29.7530 17.3010).
+Cell is added at (31.3440 37.4080).
+Cell is added at (53.5810 23.3000).
+Cell is added at (50.6950 10.1000).
+Cell is added at (41.6670 31.0910).
+Cell is added at (12.7330 16.0800).
+Cell is added at (37.0240 10.5800).
+Cell is added at (18.5790 18.4400).
+Cell is added at (42.5740 24.6200).
+Cell is added at (44.2570 38.2880).
+Cell is added at (36.5610 37.1385).
+Cell is added at (48.5490 27.5600).
+Cell is added at (23.2410 19.7120).
+Cell is added at (17.4690 13.0880).
+Cell is added at (16.4330 11.8880).
+Cell is added at (45.1450 28.0400).
+Cell is added at (34.7480 21.9080).
+Cell is added at (34.7850 21.7960).
+Cell is added at (46.4030 28.1000).
+Cell is added at (42.0190 30.0680).
+Cell is added at (42.5550 30.4400).
+Cell is added at (40.7790 32.9120).
+Cell is added at (13.5100 6.1760).
+Cell is added at (39.8540 25.0990).
+Cell is added at (25.4610 22.0800).
+Cell is added at (45.2930 29.0170).
+Cell is added at (28.0510 17.5790).
+Cell is added at (26.6640 11.7800).
+Cell is added at (28.3470 38.9010).
+Cell is added at (29.3830 14.9000).
+Cell is added at (41.9630 26.2910).
+Cell is added at (33.3420 28.9990).
+Cell is added at (45.8110 29.8880).
+Cell is added at (31.1220 42.2080).
+Cell is added at (26.4600 15.1690).
+Cell is added at (37.1900 24.7680).
+Cell is added at (35.9690 10.7000).
+Cell is added at (39.8910 24.5090).
+Cell is added at (53.2850 25.1200).
+Cell is added at (14.1390 14.8400).
+Cell is added at (43.8130 19.1250).
+Cell is added at (37.3010 19.0880).
+Cell is added at (39.0030 16.0800).
+Cell is added at (40.6310 8.8245).
+Cell is added at (23.3890 40.6880).
+Cell is added at (42.8140 7.1160).
+Cell is added at (25.3870 40.7600).
+Cell is added at (45.0710 23.9000).
+Cell is added at (15.1010 16.6880).
+Cell is added at (46.2550 8.6170).
+Cell is added at (34.4520 35.5680).
+Cell is added at (32.6390 10.1120).
+Cell is added at (33.6750 10.7000).
+Cell is added at (44.8670 7.9880).
+Cell is added at (21.6130 38.2880).
+Cell is added at (25.7570 28.9880).
+Cell is added at (26.8670 29.2400).
+Cell is added at (10.5130 26.9120).
+Cell is added at (22.5750 41.8880).
+Cell is added at (41.1680 33.3170).
+Cell is added at (25.8310 35.3090).
+Cell is added at (35.3030 25.0880).
+Cell is added at (39.2250 6.5600).
+Cell is added at (27.1630 15.5000).
+Cell is added at (45.4410 33.1770).
+Cell is added at (31.1220 41.5680).
+Cell is added at (23.0560 36.1280).
+Cell is added at (31.0850 29.9000).
+Cell is added at (52.5450 28.6880).
+Cell is added at (39.2250 41.2800).
+Cell is added at (26.4970 23.3090).
+Cell is added at (23.3890 37.3880).
+Cell is added at (24.9430 34.6880).
+Cell is added at (50.9910 37.2030).
+Cell is added at (46.6250 38.4030).
+Cell is added at (30.9370 43.6800).
+Cell is added at (27.3850 43.6800).
+Cell is added at (58.9460 21.1280).
+Cell is added at (24.2770 38.9090).
+Cell is added at (22.8340 31.9970).
+Cell is added at (22.7970 34.7200).
+Cell is added at (23.1300 16.3970).
+Cell is added at (23.2410 33.5200).
+Cell is added at (36.5610 43.0880).
+Cell is added at (21.6870 37.1200).
+Cell is added at (29.0130 22.0400).
+Cell is added at (27.9030 43.7120).
+Cell is added at (27.0890 44.3200).
+Cell is added at (25.4610 26.8400).
+Cell is added at (27.1260 21.8080).
+Cell is added at (22.0200 32.6080).
+Cell is added at (28.2730 27.5600).
+Cell is added at (28.4580 30.7680).
+Cell is added at (28.7170 32.9000).
+Cell is added at (22.0570 33.5200).
+Cell is added at (51.8790 26.4030).
+Cell is added at (27.6440 37.7010).
+Cell is added at (38.7440 8.8840).
+Cell is added at (24.5730 32.9090).
+Cell is added at (27.9030 25.1600).
+Cell is added at (39.5950 44.9120).
+Cell is added at (31.4550 12.4800).
+Cell is added at (54.5430 21.5000).
+Cell is added at (23.9070 13.7120).
+Cell is added at (29.2350 26.9120).
+Cell is added at (16.6650 12.5000).
+Cell is added at (23.0190 29.3120).
+Cell is added at (45.5370 23.9670).
+Cell is added at (20.9470 16.1120).
+Cell is added at (42.8510 5.9755).
+Cell is added at (24.9430 12.5090).
+Cell is added at (25.0170 11.2800).
+Cell is added at (42.1480 43.4080).
+Cell is added at (28.4950 12.4400).
+Cell is added at (47.1430 8.9070).
+Cell is added at (50.5840 34.9880).
+Cell is added at (40.7050 18.5090).
+Cell is added at (31.6030 28.6960).
+Cell is added at (31.2330 32.2880).
+Cell is added at (50.0290 24.4800).
+Cell is added at (47.2910 31.0910).
+Cell is added at (47.5130 34.6880).
+Cell is added at (29.3090 41.8880).
+Cell is added at (31.9730 9.5200).
+Cell is added at (10.6610 5.9200).
+Cell is added at (61.4990 20.2990).
+Cell is added at (15.1750 20.8960).
+Cell is added at (10.9570 19.0880).
+Cell is added at (9.1810 19.6800).
+Cell is added at (15.4710 18.4800).
+Cell is added at (37.6340 29.3050).
+Cell is added at (41.0750 26.9120).
+Cell is added at (35.8210 29.8880).
+Cell is added at (16.8770 19.7440).
+Cell is added at (36.0060 21.4860).
+Cell is added at (37.9670 22.6880).
+Cell is added at (16.0630 16.0800).
+Cell is added at (33.1200 17.5410).
+Cell is added at (27.9400 18.1790).
+Cell is added at (29.6790 19.4570).
+Cell is added at (41.8150 28.1090).
+Cell is added at (15.1750 16.1010).
+Cell is added at (21.9460 14.9050).
+Cell is added at (33.5270 17.5890).
+Cell is added at (35.3030 13.0880).
+Cell is added at (12.6590 18.5040).
+Cell is added at (13.4730 17.8960).
+Cell is added at (17.3580 12.1760).
+Cell is added at (39.0770 30.5090).
+Cell is added at (18.2090 15.1770).
+Cell is added at (27.6440 18.1310).
+Cell is added at (48.1050 33.4880).
+Cell is added at (40.9270 19.7120).
+Cell is added at (47.8090 31.6400).
+Cell is added at (12.7330 16.0800).
+Cell is added at (40.0390 11.3090).
+Cell is added at (29.7530 11.3090).
+Cell is added at (40.4830 29.9000).
+Cell is added at (33.5270 29.2900).
+Cell is added at (47.0690 29.8880).
+Cell is added at (24.6470 18.8060).
+Cell is added at (44.9970 9.4890).
+Cell is added at (40.6310 8.8245).
+Cell is added at (25.1280 17.5970).
+Cell is added at (23.8330 19.6400).
+Cell is added at (21.9710 35.6600).
+Cell is added at (40.7790 25.3870).
+Cell is added at (27.0890 16.1090).
+Cell is added at (41.1860 7.9725).
+Cell is added at (15.7300 16.9280).
+Cell is added at (48.4010 7.4125).
+Cell is added at (40.1500 6.8480).
+Cell is added at (27.3230 38.0600).
+Cell is added at (49.6890 40.1600).
+Cell is added at (28.1620 30.7200).
+Cell is added at (24.9800 12.7520).
+Cell is added at (23.7590 21.5200).
+Cell is added at (22.6500 19.7600).
+Cell is added at (15.0640 15.1280).
+Cell is added at (22.2670 35.7080).
+Cell is added at (45.0220 28.2200).
+Cell is added at (26.8300 21.7600).
+Cell is added at (24.1660 20.0000).
+Cell is added at (24.3140 37.6760).
+Cell is added at (39.8540 6.8000).
+Cell is added at (25.0910 34.9850).
+Cell is added at (26.7560 35.5970).
+Cell is added at (26.7930 36.4400).
+Cell is added at (27.2370 16.4060).
+Cell is added at (46.8100 8.6080).
+Cell is added at (23.7590 32.2850).
+Cell is added at (22.9450 35.0170).
+Cell is added at (27.4220 23.5970).
+Cell is added at (23.3890 16.6910).
+Cell is added at (23.5370 34.0800).
+Cell is added at (26.6820 29.2760).
+Cell is added at (25.4610 37.7000).
+Cell is added at (24.1660 25.3980).
+Cell is added at (23.5740 32.5790).
+Cell is added at (39.9100 21.3800).
+Cell is added at (32.0100 30.1880).
+Cell is added at (26.7930 35.8880).
+Cell is added at (47.2170 6.5120).
+Cell is added at (28.5690 37.9890).
+Cell is added at (34.6000 10.9880).
+Cell is added at (34.8590 10.7600).
+Cell is added at (25.6460 34.9760).
+Cell is added at (23.1300 29.6010).
+Cell is added at (24.0550 16.6850).
+Cell is added at (31.7140 30.1400).
+Cell is added at (27.3850 31.7090).
+Cell is added at (42.8510 5.9755).
+Cell is added at (45.4780 14.5310).
+Cell is added at (28.5690 28.0800).
+Cell is added at (24.7210 33.2060).
+Cell is added at (26.5710 26.9000).
+Cell is added at (40.5570 25.4170).
+Cell is added at (28.4210 14.2880).
+Cell is added at (47.8830 7.1050).
+Cell is added at (27.1260 23.5490).
+Cell is added at (27.9770 29.3000).
+Cell is added at (35.6730 22.1960).
+Cell is added at (29.3830 27.5000).
+Cell is added at (44.3310 22.6910).
+Cell is added at (39.8910 24.5090).
+Cell is added at (45.7620 24.9800).
+Cell is added at (31.9730 11.2800).
+Cell is added at (23.5370 16.9880).
+Cell is added at (29.7800 18.4400).
+Cell is added at (26.7440 29.4200).
+Cell is added at (28.0510 38.3000).
+Cell is added at (30.1050 12.0680).
+Cell is added at (26.8180 38.1800).
+Cell is added at (35.3770 35.8560).
+Cell is added at (30.6410 16.6400).
+Cell is added at (30.4930 22.1120).
+Cell is added at (30.9370 22.1120).
+Cell is added at (21.4650 44.8800).
+Cell is added at (34.2670 7.6800).
+Cell is added at (43.1470 26.8800).
+Cell is added at (44.4790 22.9880).
+Cell is added at (42.0930 33.6050).
+Cell is added at (43.8130 21.4910).
+Cell is added at (27.8290 13.1200).
+Cell is added at (6.0730 6.4800).
+Cell is added at (32.0470 41.8560).
+Cell is added at (45.6150 23.9070).
+Cell is added at (25.8680 12.7970).
+Cell is added at (25.4610 39.4880).
+Cell is added at (29.2350 38.8800).
+Cell is added at (28.4210 17.3040).
+Cell is added at (29.0130 40.1040).
+Cell is added at (25.5720 12.7490).
+Cell is added at (28.3470 16.7200).
+Cell is added at (42.7770 9.5200).
+Cell is added at (28.1250 11.3120).
+Cell is added at (47.4760 37.9455).
+Cell is added at (16.8030 44.2880).
+Cell is added at (31.8620 32.5280).
+Cell is added at (18.3570 8.2880).
+Cell is added at (41.9630 17.8880).
+Cell is added at (47.2910 36.4800).
+Cell is added at (31.0110 26.2880).
+Cell is added at (25.0170 11.2800).
+Cell is added at (28.7170 32.9000).
+Cell is added at (22.8710 40.6880).
+Cell is added at (30.2220 27.0200).
+Cell is added at (47.2170 33.5200).
+Cell is added at (31.9730 29.8880).
+Cell is added at (27.0150 38.9040).
+Cell is added at (48.4260 34.5800).
+Cell is added at (43.7390 40.7200).
+Cell is added at (56.0230 19.1200).
+Cell is added at (61.2770 28.1120).
+Cell is added at (48.6970 43.7120).
+Cell is added at (15.9520 18.1600).
+Cell is added at (14.9530 16.2770).
+Cell is added at (15.3600 17.5200).
+Cell is added at (46.4030 8.9140).
+Cell is added at (40.6310 8.8245).
+Cell is added at (42.1110 8.2605).
+Cell is added at (48.7190 7.7530).
+Cell is added at (26.2750 35.2160).
+Cell is added at (40.7240 16.2200).
+Cell is added at (34.0820 29.5780).
+Cell is added at (49.3260 7.7005).
+Cell is added at (36.9310 21.7740).
+Cell is added at (38.3370 22.1120).
+Cell is added at (14.3980 18.1840).
+Cell is added at (39.2250 29.9600).
+Cell is added at (45.1260 8.2880).
+Cell is added at (35.8210 29.8880).
+Cell is added at (24.4990 18.5090).
+Cell is added at (23.8330 19.3880).
+Cell is added at (39.3730 6.8570).
+Cell is added at (26.1270 28.1090).
+Cell is added at (26.0530 17.8850).
+Cell is added at (27.2370 16.4060).
+Cell is added at (28.8650 18.4670).
+Cell is added at (30.6040 19.7450).
+Cell is added at (27.0890 18.5120).
+Cell is added at (50.1030 6.4950).
+Cell is added at (21.9090 31.7090).
+Cell is added at (27.6070 29.5640).
+Cell is added at (23.5750 20.0480).
+Cell is added at (23.3150 35.3090).
+Cell is added at (28.2730 14.8400).
+Cell is added at (27.3670 36.3080).
+Cell is added at (25.0910 25.6860).
+Cell is added at (39.2250 6.5600).
+Cell is added at (25.2390 35.2820).
+Cell is added at (24.6840 32.5730).
+Cell is added at (26.7190 16.6960).
+Cell is added at (27.7920 16.3970).
+Cell is added at (23.8700 35.3050).
+Cell is added at (27.0150 17.8910).
+Cell is added at (27.4470 38.4200).
+Cell is added at (43.0730 6.5120).
+Cell is added at (23.3890 16.6910).
+Cell is added at (24.9800 16.9730).
+Cell is added at (26.5220 18.9800).
+Cell is added at (22.9820 33.8080).
+Cell is added at (25.6460 33.4940).
+Cell is added at (25.9300 15.3800).
+Cell is added at (28.0880 15.7880).
+Cell is added at (25.9050 27.4910).
+Cell is added at (25.3870 25.7090).
+Cell is added at (29.1610 22.6880).
+Cell is added at (24.0180 37.6280).
+Cell is added at (24.3140 37.6760).
+Cell is added at (43.7390 31.6400).
+Cell is added at (25.2390 27.5200).
+Cell is added at (27.6810 35.8850).
+Cell is added at (27.3110 23.8400).
+Cell is added at (27.6070 23.8370).
+Cell is added at (40.2060 40.5800).
+Cell is added at (33.7020 17.2400).
+Cell is added at (31.6960 11.7800).
+Cell is added at (17.5430 13.0880).
+Cell is added at (29.4760 11.4200).
+Cell is added at (32.4420 10.5800).
+Cell is added at (31.4550 16.1600).
+Cell is added at (34.7110 13.7120).
+Cell is added at (40.3350 27.5000).
+Cell is added at (29.8520 29.7800).
+Cell is added at (46.3910 25.2200).
+Cell is added at (30.3450 30.5120).
+Cell is added at (42.4070 21.5200).
+Cell is added at (29.2720 17.0080).
+Cell is added at (38.3560 31.8200).
+Cell is added at (46.5510 9.2110).
+Cell is added at (42.8510 7.6800).
+Cell is added at (44.9970 9.4890).
+Cell is added at (41.8150 8.2125).
+Cell is added at (41.7410 27.4990).
+Cell is added at (25.1650 31.0880).
+Cell is added at (27.0150 29.5370).
+Cell is added at (25.6090 28.6910).
+Cell is added at (45.2930 29.0170).
+Cell is added at (23.8330 19.3880).
+Cell is added at (26.5710 16.1120).
+Cell is added at (24.2030 17.3090).
+Cell is added at (26.1270 16.1120).
+Cell is added at (41.0750 7.6845).
+Cell is added at (24.7580 19.6760).
+Cell is added at (25.8310 17.8880).
+Cell is added at (48.4560 7.2200).
+Cell is added at (27.2370 32.2880).
+Cell is added at (24.6840 32.5730).
+Cell is added at (28.2730 25.6800).
+Cell is added at (25.8310 31.7120).
+Cell is added at (24.7950 25.6380).
+Cell is added at (23.6110 24.5090).
+Cell is added at (40.1500 6.8480).
+Cell is added at (31.3440 20.5600).
+Cell is added at (15.8780 16.5650).
+Cell is added at (26.5710 35.2640).
+Cell is added at (46.6990 8.9065).
+Cell is added at (27.0890 18.5120).
+Cell is added at (39.2810 32.1080).
+Cell is added at (38.3560 31.8200).
+Cell is added at (47.4760 9.4990).
+Cell is added at (26.7190 16.6960).
+Cell is added at (40.7790 9.1215).
+Cell is added at (28.2730 29.3120).
+Cell is added at (38.8000 30.6200).
+Cell is added at (39.7250 30.9080).
+Cell is added at (38.8000 30.6200).
+Cell is added at (40.2060 32.3960).
+{U_PTECO_HOLD_BUF731}
+puts "V5_ECO_APPLIED_START_LEGALIZE"
+V5_ECO_APPLIED_START_LEGALIZE
+legalize_placement -incremental
+Information: Starting 'legalize_placement' (FLW-8000)
+Information: Time: 2026-11-05 11:24:34 / Session:  00:00:14 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 606 MB (FLW-8100)
+Information: Initializing classic cellmap without advanced rules enabled and without PDC enabled
+Information: The following app options are used in cellmap
+        place.legalize.enable_color_aware_placement : false
+        place.legalize.use_nll_query_cm : false
+        place.legalize.enable_advanced_legalizer : false
+        place.legalize.enable_prerouted_net_check : true
+        place.legalize.enable_advanced_prerouted_net_check : false
+        place.legalize.always_continue : true
+        place.legalize.limit_legality_checks : false
+        place.common.pnet_aware_density : 1.0000
+        place.common.pnet_aware_min_width : 0.0000
+        place.common.pnet_aware_layers : {}
+        place.common.use_placement_model : false
+        place.common.enable_advanced_placement_model : true
+        cts.placement.cell_spacing_rule_style : maximum
+Warning: Library cell saed14rvt_frame_timing:SAEDRVT14_ISOFSDPQ_PECO_8.frame is missing supply pins. Its power structure cannot be determined. (LGL-050)
+Warning: Library cell saed14rvt_frame_timing:SAEDRVT14_DCAP_PV1ECO_12.frame is missing supply pins. Its power structure cannot be determined. (LGL-050)
+Total 0.6342 seconds to build cellmap data
+Information: Creating classic rule checker.
+Warning: Routing direction of metal layer PO is neither "horizontal" nor "vertical".  PDC checks will not be performed on this layer. (PDC-003)
+PDC app_options settings =========
+	place.legalize.enable_prerouted_net_check: 1
+	place.legalize.num_tracks_for_access_check: 1
+	place.legalize.use_eol_spacing_for_access_check: 0
+	place.legalize.allow_touch_track_for_access_check: 1
+	place.legalize.reduce_conservatism_in_eol_check: 0
+	place.legalize.preroute_shape_merge_distance: 0.0
+	place.legalize.enable_non_preferred_direction_span_check: 0
+
+Layer M1: cached 0 shapes out of 7687 total shapes.
+Layer M2: cached 1414 shapes out of 22036 total shapes.
+Layer M3: cached 1414 shapes out of 13611 total shapes.
+Cached 4242 vias out of 43523 total vias.
+=====> Processed 147 ref cells (23 fillers) from library
+Design has no advanced rules
+Checking legality
+Checking cell legality:
+0%....10%....20%....30%....40%....50%....60%....70%....80%....90%....100%
+Sorting rows.
+Checking spacing rule legality.
+0%....10%....20%....30%....40%....50%....60%....70%....80%....90%....100%
+Checking packing rule legality.
+
+
+****************************************
+  Report : Legality
+****************************************
+
+VIOLATIONS BY CATEGORY:
+   MOVABLE  APP-FIXED USER-FIXED  DESCRIPTION
+      4382          0          0  Two objects overlap.
+         0          0          0  A cell violates a pnet.
+         0          0          0  A cell is illegal at a site.
+       729          0          0  A cell is not aligned with a site.
+         0          0          0  A cell has an illegal orientation.
+         0          0          0  A cell spacing rule is violated.
+         0          0          0  A layer rule is violated.
+         0          0          0  A cell is in the wrong region.
+         0          0          0  Two cells violate cts margins.
+         0          0          0  Two cells violate coloring.
+
+      5111          0          0  TOTAL
+
+TOTAL 5111 Violations.
+
+VIOLATIONS BY SUBCATEGORY:
+     MOVABLE  APP-FIXED USER-FIXED  DESCRIPTION
+
+      4382          0          0    Two objects overlap.
+        4382          0          0    Two cells overlap.
+           0          0          0    Two cells have overlapping keepout margins.
+           0          0          0    A cell overlaps a blockage.
+           0          0          0    A cell keepout margin overlaps a blockage.
+
+         0          0          0    A cell violates a pnet.
+
+         0          0          0    A cell is illegal at a site.
+           0          0          0    A cell violates pin-track alignment rules.
+           0          0          0    A cell is illegal at a site.
+           0          0          0    A cell violates legal index rule.
+           0          0          0    A cell has the wrong variant for its location.
+
+       729          0          0    A cell is not aligned with a site.
+         729          0          0    A cell is not aligned with the base site.
+           0          0          0    A cell is not aligned with an overlaid site.
+
+         0          0          0    A cell has an illegal orientation.
+
+         0          0          0    A cell spacing rule is violated.
+           0          0          0    A spacing rule is violated in a row.
+           0          0          0    A spacing rule is violated between adjacent rows.
+           0          0          0    A cell violates vertical abutment rule.
+           0          0          0    A cell violates metal spacing rule.
+
+         0          0          0    A layer rule is violated.
+           0          0          0    A layer VTH rule is violated.
+           0          0          0    A layer OD rule is violated.
+           0          0          0    A layer OD max-width rule is violated.
+           0          0          0    A layer ALL_OD corner rule is violated.
+           0          0          0    A layer max-vertical-length rule is violated.
+           0          0          0    A layer TPO rule is violated.
+           0          0          0    Filler cell insertion cannot satisfy layer rules.
+
+         0          0          0    A cell is in the wrong region.
+           0          0          0    A cell is outside its hard bound.
+           0          0          0    A cell is in the wrong voltage area.
+           0          0          0    A cell violates an exclusive movebound.
+
+         0          0          0    Two cells violate cts margins.
+
+         0          0          0    Two cells violate coloring.
+
+Information: Legalizing 3009 cells and 4516 out of total 8349 cells will remain unchanged during legalization
+Information: 824 cells were skipped due to unplaced or fixed status
+nplDplc2Placer::setParam(effort,1)
+nplDplc2Placer::setParam(debug,0)
+nplDplc2Placer::setParam(site_check,2)
+nplDplc2Placer::setParam(app_firm_wgt,0)
+Warning: Routing direction of metal layer PO is neither "horizontal" nor "vertical".  PDC checks will not be performed on this layer. (PDC-003)
+PDC app_options settings =========
+	place.legalize.enable_prerouted_net_check: 1
+	place.legalize.num_tracks_for_access_check: 1
+	place.legalize.use_eol_spacing_for_access_check: 0
+	place.legalize.allow_touch_track_for_access_check: 1
+	place.legalize.reduce_conservatism_in_eol_check: 0
+	place.legalize.preroute_shape_merge_distance: 0.0
+	place.legalize.enable_non_preferred_direction_span_check: 0
+
+Layer M1: cached 0 shapes out of 7687 total shapes.
+Layer M2: cached 1414 shapes out of 22036 total shapes.
+Layer M3: cached 1414 shapes out of 13611 total shapes.
+Cached 4242 vias out of 43523 total vias.
+
+Legalizing Top Level Design top ... 
+Information: Initializing classic cellmap without advanced rules enabled and without PDC enabled
+Information: The following app options are used in cellmap
+        place.legalize.enable_color_aware_placement : false
+        place.legalize.use_nll_query_cm : false
+        place.legalize.enable_advanced_legalizer : false
+        place.legalize.enable_prerouted_net_check : true
+        place.legalize.enable_advanced_prerouted_net_check : false
+        place.legalize.always_continue : true
+        place.legalize.limit_legality_checks : false
+        place.common.pnet_aware_density : 1.0000
+        place.common.pnet_aware_min_width : 0.0000
+        place.common.pnet_aware_layers : {}
+        place.common.use_placement_model : false
+        place.common.enable_advanced_placement_model : true
+        cts.placement.cell_spacing_rule_style : maximum
+Warning: Library cell saed14rvt_frame_timing:SAEDRVT14_ISOFSDPQ_PECO_8.frame is missing supply pins. Its power structure cannot be determined. (LGL-050)
+Warning: Library cell saed14rvt_frame_timing:SAEDRVT14_DCAP_PV1ECO_12.frame is missing supply pins. Its power structure cannot be determined. (LGL-050)
+Total 0.6199 seconds to build cellmap data
+Information: Creating classic rule checker.
+Warning: Routing direction of metal layer PO is neither "horizontal" nor "vertical".  PDC checks will not be performed on this layer. (PDC-003)
+=====> Processed 147 ref cells (23 fillers) from library
+
+Bounds/Regions In This Design:
+        Area    Num Cells  Exclusive Name
+ (square um)
+     3366.41         8349        Yes DEFAULT_VA
+
+Warning: max_legality_failures=5000 ignored.
+	To use it, set limit_legality_checks to true.
+Warning: max_legality_check_range=500 ignored.
+	To use it, set limit_legality_checks to true.
+Starting legalizer.
+Warning: Density is 100.0%
+Warning: Exclusive bound 'DEFAULT' has no cells.
+Optimizing Exclusive Bound 'DEFAULT_VA' (2/2)
+Warning: Density is 100.0%
+
+Warning: Found cells with large displacements during legalization. If the
+    cells with large displacements are timing critical these displacements
+    may cause problems. Please see the following plots for details.
+
+    The 'max_displacements' plot shows the design with blockages in green
+    and the legalized cells with the largest displacements drawn
+    with red displacement vectors.
+
+    The 'colored_displacements' plot shows the design with blockages in green
+    and with placed cells colored according to their displacements.
+    The mapping of colors to displacements can be seen in the
+    legend in the lower right.
+
+    Done Exclusive Bound 'DEFAULT_VA' (2/2) (1 sec)
+
+Warning: Found cells with large displacements during legalization. If the
+    cells with large displacements are timing critical these displacements
+    may cause problems. Please see the following plots for details.
+
+    The 'max_displacements' plot shows the design with blockages in green
+    and the legalized cells with the largest displacements drawn
+    with red displacement vectors.
+
+    The 'colored_displacements' plot shows the design with blockages in green
+    and with placed cells colored according to their displacements.
+    The mapping of colors to displacements can be seen in the
+    legend in the lower right.
+
+Writing GIF plot to file './legalizer_debug_plots/top_SITE_unit.003-0001-max_displacements.gif'.
+Writing GIF plot to file './legalizer_debug_plots/top_SITE_unit.003-0002-colored_displacements.gif'.
+Legalization complete (2 total sec)
+
+****************************************
+  Report : Placement Attempts
+  Site   : unit
+****************************************
+
+number of cells:                   8349
+number of references:               147
+number of site rows:                 68
+number of locations attempted:   181179
+number of locations failed:         834  (0.5%)
+
+Legality of references at locations:
+1 references had failures.
+
+Worst 1 references by total failures:
+ CELLS       UNFLIPPED                       FLIPPED                REFERENCE NAME
+         ATTEMPTS  FAILURES            ATTEMPTS  FAILURES           
+    94       1301       417 ( 32.1%)        650       417 ( 64.2%)  SAEDRVT14_ADDH_0P5
+
+Worst 1 references by failure rate:
+ CELLS       UNFLIPPED                       FLIPPED                REFERENCE NAME
+         ATTEMPTS  FAILURES            ATTEMPTS  FAILURES           
+    94       1301       417 ( 32.1%)        650       417 ( 64.2%)  SAEDRVT14_ADDH_0P5
+
+Legality of references in rows:
+0 references had row failures.
+
+****************************************
+  Report : Cell Displacements
+****************************************
+
+Warning: There were 1004 cells for which the legalizer could not find a legal placement:
+ pe_u/pe15/add_88/U_13
+ RS_OP_341_8441_40159_J1/snps_ADD_296/U_14
+ RS_OP_341_8441_40159_J1/snps_ADD_296/U_16
+ pe_u/pe1/add_61/U_10
+ pe_u/pe10/add_61/U_8
+ pe_u/pe11/add_61/U_10
+ pe_u/pe12/add_61/U_8
+ pe_u/pe13/add_61/U_3
+ pe_u/pe13/add_61/U_15
+ pe_u/pe3/add_61/U_10
+...
+number of cells aggregated:        2005 (23983 total sites)
+avg row height over cells:        0.600 um
+rms cell displacement:            3.294 um ( 5.49 row height)
+rms weighted cell displacement:   3.294 um ( 5.49 row height)
+max cell displacement:           57.882 um (96.47 row height)
+avg cell displacement:            1.668 um ( 2.78 row height)
+avg weighted cell displacement:   1.668 um ( 2.78 row height)
+number of cells moved:             1797
+number of large displacements:      699
+large displacement threshold:     3.000 row height
+
+Displacements of worst 10 cells:
+Cell: A7657 (SAEDRVT14_OAI22_0P5)
+  Input location: (11.438,15.2)
+  Legal location: (65.828,35)
+  Displacement:  57.882 um (96.47 row height)
+Cell: U_PTECO_HOLD_BUF315 (SAEDRVT14_BUF_ECO_1)
+  Input location: (31.973,25.12)
+  Legal location: (69.01,32.6)
+  Displacement:  37.785 um (62.97 row height)
+Cell: A8092 (SAEDRVT14_ND2B_U_0P5)
+  Input location: (15.508,17.6)
+  Legal location: (33.49,38)
+  Displacement:  27.194 um (45.32 row height)
+Cell: ctmi_4177 (SAEDRVT14_OAI22_1)
+  Input location: (33.49,38)
+  Legal location: (57.762,28.4)
+  Displacement:  26.102 um (43.50 row height)
+Cell: A7512 (SAEDRVT14_OR2_MM_0P5)
+  Input location: (50.806,27.8)
+  Legal location: (73.746,35.6)
+  Displacement:  24.230 um (40.38 row height)
+Cell: A7470 (SAEDRVT14_OAI22_0P5)
+  Input location: (15.508,14.6)
+  Legal location: (12.4,38.6)
+  Displacement:  24.200 um (40.33 row height)
+Cell: U_PTECO_HOLD_BUF374 (SAEDRVT14_BUF_ECO_1)
+  Input location: (33.342,28.999)
+  Legal location: (54.654,18.8)
+  Displacement:  23.627 um (39.38 row height)
+Cell: A7520 (SAEDRVT14_OR2_MM_0P5)
+  Input location: (53.692,28.4)
+  Legal location: (75.078,31.4)
+  Displacement:  21.595 um (35.99 row height)
+Cell: A7662 (SAEDRVT14_OAI22_0P5)
+  Input location: (16.988,10.4)
+  Legal location: (26.238,29.6)
+  Displacement:  21.312 um (35.52 row height)
+Cell: ctmi_3690 (SAEDRVT14_OAI22_0P5)
+  Input location: (41.704,18.8)
+  Legal location: (60.722,27.8)
+  Displacement:  21.040 um (35.07 row height)
+
+Warning: Some cells could not be placed.
+Warning: Perform NDM update as "place.legalize.always_continue" is set to true
+Legalization failed.
+Total Legalizer CPU: 7.214
+Total Legalizer Wall Time: 7.248
+----------------------------------------------------------------
+Information: Ending   'legalize_placement' (FLW-8001)
+Information: Time: 2026-11-05 11:24:41 / Session:  00:00:21 / Command:  00:00:07 / CPU:  00:00:07 / Memory: 664 MB (FLW-8100)
+0
+puts "V5_ECO_LEGALIZE_DONE"
+V5_ECO_LEGALIZE_DONE
+connect_pg_net -net VDD [get_pins -hierarchical */VDD]
+1
+connect_pg_net -net VSS [get_pins -hierarchical */VSS]
+1
+puts "V5_ECO_START_ROUTING"
+V5_ECO_START_ROUTING
+route_eco
+Information: The command 'route_eco' cleared the undo history. (UNDO-016)
+INFO: wire-opt feature for router enabled
+Generating Timing information  
+Information: Timer using 1 threads
+Information: RDE mode is turned on. (TIM-124)
+Timing Update Started(Full_timing_update) : updateCount: 1 / Mem-peak : 663 MB / Date: Thu Nov  5 11:24:41 2026
+
+Information: Corner Slow: no PVT mismatches. (PVT-032)
+Information: Corner Typical: no PVT mismatches. (PVT-032)
+Information: Corner Fast: no PVT mismatches. (PVT-032)
+Information: The stitching and editing of coupling caps is turned OFF for design 'top.dlib:top/signoff_v5_holdfix1.design'. (TIM-125)
+Information: Design top has 7518 nets, 0 global routed, 6785 detail routed. (NEX-024)
+Information: The RC mode used is DR for design 'top'. (NEX-022)
+---extraction options---
+Corner: Fast
+ late_cap_scale                : 1
+ late_res_scale                : 1
+ late_rde_cap_scale            : 1
+ late_rde_res_scale            : 1
+ early_cap_scale               : 1
+ early_res_scale               : 1
+ early_rde_cap_scale           : 1
+ early_rde_res_scale           : 1
+Corner: Typical
+ late_cap_scale                : 1
+ late_res_scale                : 1
+ late_rde_cap_scale            : 1
+ late_rde_res_scale            : 1
+ early_cap_scale               : 1
+ early_res_scale               : 1
+ early_rde_cap_scale           : 1
+ early_rde_res_scale           : 1
+Corner: Slow
+ late_cap_scale                : 1
+ late_res_scale                : 1
+ late_rde_cap_scale            : 1
+ late_rde_res_scale            : 1
+ early_cap_scale               : 1
+ early_res_scale               : 1
+ early_rde_cap_scale           : 1
+ early_rde_res_scale           : 1
+Global options:
+ reference_direction       : use_from_tluplus
+ real_metalfill_extraction : none
+ virtual_shield_extraction : true
+---app options---
+ host.max_cores                   : 1
+ extract.connect_open           : true
+ extract.enable_coupling_cap    : false
+Extracting design: top 
+NEX: virtual shield is applied in extraction.
+Warning: Net 'copt_net_4717' is not fully connected and will be estimated. (NEX-021)
+Warning: Net 'copt_gre_net_6199' is not fully connected and will be estimated. (NEX-021)
+Warning: Net 'ropt_net_7504' is not fully connected and will be estimated. (NEX-021)
+Warning: Net 'copt_net_3734' is not fully connected and will be estimated. (NEX-021)
+Warning: Net 'copt_net_4190' is not fully connected and will be estimated. (NEX-021)
+Warning: Net 'copt_gre_net_6146' is not fully connected and will be estimated. (NEX-021)
+Warning: Net 'copt_gre_net_6193' is not fully connected and will be estimated. (NEX-021)
+Information: coupling capacitance is lumped to ground. (NEX-030)
+Information: 6778 nets are successfully extracted. (NEX-028)
+Warning: Advanced receiver model has not been enabled for detailed routed design. (TIM-204)
+Information: Update timing completed net estimation for all the timing graph nets (TIM-111)
+Information: Net estimation statistics: timing graph nets = 7516, routed nets = 6778, across physical hierarchy nets = 0, parasitics cached nets = 7516, delay annotated nets = 0, parasitics annotated nets = 0, multi-voltage nets = 0. (TIM-112)
+************************************************************
+Timer Settings:
+Delay Calculation Style:                   auto
+Signal Integrity Analysis:                 disabled
+Timing Window Analysis:                    disabled
+Advanced Waveform Propagation:             disabled
+Variation Type:                            fixed_derate
+Clock Reconvergence Pessimism Removal:     disabled
+Advanced Receiver Model:                   disabled
+LLE:                                       disabled
+ML Acceleration:                           off
+Smart Arc Optimization:                    disabled
+************************************************************
+Timing Update Completed: Mem-peak: 747 MB / Date: Thu Nov  5 11:24:45 2026
+
+Design  Scenario FUNC_Slow (Mode FUNC Corner Slow)
+Generating Timing information  ... Done
+Information: Serialized np data
+INFO: timer data saved to /tmp/top_145150_606215776.timdat
+[End of Generating Timing Information] Elapsed real time: 0:00:03 
+[End of Generating Timing Information] Elapsed cpu  time: sys=0:00:00 usr=0:00:03 total=0:00:03
+NEX(Warning): extract.rc_techfile_for_diode_mode_26_thickness not set, will igonre it
+Warning: numMusks defined for colorless layer M1, it will be ignored.
+Warning: numMusks defined for colorless layer M2, it will be ignored.
+Warning: numMusks defined for colorless layer M3, it will be ignored.
+Cell Min-Routing-Layer = M1
+Cell Max-Routing-Layer = M7
+Turn off antenna since no rule is specified
+Information: Option route.detail.force_end_on_preferred_grid will be ignored since none of the layers have preferred grid. (ZRT-703)
+Skipping 3 internal pins that are not physical. Set route.common.verbose_level to > 0 and run routing command to get skipped pin names.
+Info: number of net_type_blockage: 1 
+Information: Via ladder engine would be activated for pattern must join connection in certain commands. Please refer to man-page for the command list. (ZRT-619)
+Information: AutoNdr rule can't be found. Check the settings.
+Via on layer (VIA1) needs more than one tracks
+Warning: Layer M1 default pitch 0.074 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.074" & "wire/via-up 0.078". (ZRT-026)
+Via on layer (VIA1) needs more than one tracks
+Warning: Layer M2 default pitch 0.060 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.078" & "wire/via-up 0.060". (ZRT-026)
+Via on layer (VIA4) needs more than one tracks
+Warning: Layer M5 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.125" & "wire/via-up 0.100". (ZRT-026)
+Via on layer (VIA7) needs more than one tracks
+Warning: Layer M7 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.100" & "wire/via-up 0.107". (ZRT-026)
+Wire on layer (M8) needs more than one tracks
+Via on layer (VIA7) needs more than one tracks
+Via on layer (VIA8) needs more than one tracks
+Warning: Layer M8 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.107" & "wire/via-up 0.135". (ZRT-026)
+Wire on layer (M9) needs more than one tracks
+Via on layer (VIA8) needs more than one tracks
+Via on layer (VIARDL) needs more than one tracks
+Warning: Layer M9 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.135" & "wire/via-up 1.570". (ZRT-026)
+Via on layer (VIARDL) needs more than one tracks
+Warning: Layer MRDL default pitch 4.000 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 4.500" & "wire/via-up 4.000". (ZRT-026)
+Information: When applicable Min-max layer allow_pin_connection mode will allow paths of length 0.90 outside the layer range. (ZRT-707)
+Information: When applicable Min-max layer allow_pin_connection mode will allow paths of length 0.90 outside the layer range on clock nets. (ZRT-718)
+Information: When applicable layer based tapering will taper up to 0.00 in distance from the pin. (ZRT-706)
+Warning: Standard cell pin SAEDRVT14_AO221_1/B2 has no valid via regions. (ZRT-044)
+Warning: Standard cell pin SAEDRVT14_ADDH_0P5/CO has no valid via regions. (ZRT-044)
+Warning: Standard cell pin SAEDRVT14_EO2_V1_0P75/A1 has no valid via regions. (ZRT-044)
+Warning: Standard cell pin SAEDRVT14_BUF_ECO_1/A has no valid via regions. (ZRT-044)
+Warning: Cell place_optcopt_h_inst_18250 is placed overlapping with other cells at {{10.624 5.600} {11.438 6.200}}. (ZRT-763)
+[ECO: DbIn With Extraction] Elapsed real time: 0:00:00 
+[ECO: DbIn With Extraction] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[ECO: DbIn With Extraction] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[ECO: DbIn With Extraction] Total (MB): Used    0  Alloctr    0  Proc 4901 
+[ECO: Before Refresh Via Ladder Phase] Elapsed real time: 0:00:00 
+[ECO: Before Refresh Via Ladder Phase] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[ECO: Before Refresh Via Ladder Phase] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[ECO: Before Refresh Via Ladder Phase] Total (MB): Used    0  Alloctr    0  Proc 4901 
+
+    Found 0 via ladders to verify.
+
+VIA LADDER INFO: found 0 via ladder DRCs across 0 nets.
+Updating the database ...
+
+    Via ladders will be inserted on 0 of 0 ports with via ladder constraints.
+
+Updating the database ...
+[Arrange data for GR] Elapsed real time: 0:00:00 
+[Arrange data for GR] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[Arrange data for GR] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[Arrange data for GR] Total (MB): Used    0  Alloctr    0  Proc 4901 
+[ECO: After Refresh Via Ladder Phase] Elapsed real time: 0:00:01 
+[ECO: After Refresh Via Ladder Phase] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+[ECO: After Refresh Via Ladder Phase] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[ECO: After Refresh Via Ladder Phase] Total (MB): Used    0  Alloctr    0  Proc 4901 
+[ECO: Analysis] Elapsed real time: 0:00:01 
+[ECO: Analysis] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+[ECO: Analysis] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[ECO: Analysis] Total (MB): Used    0  Alloctr    0  Proc 4901 
+Num of eco nets = 7518
+Num of open eco nets = 3531
+[ECO: Init] Elapsed real time: 0:00:01 
+[ECO: Init] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+[ECO: Init] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[ECO: Init] Total (MB): Used    0  Alloctr    0  Proc 4901 
+Start Global Route ... 
+[Init] Elapsed real time: 0:00:00 
+[Init] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[Init] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[Init] Total (MB): Used    0  Alloctr    0  Proc 4901 
+Info: route.global.delay_based_route_rejection is 20.
+Info: autoNdrPhase0RejectSfRatio = 0.700000 autoNdrReRouteRejectSfRatio = 0.700000
+Info: soft cost in different spacing layers for auto-NDR nets is enabled.
+Info: relaxMinRtLayPhase0RejectRatio = 0.500000 relaxMinRtLayRRtRejectRatio = 0.500000 relaxMinRtLayUseHiGCellCnt = 1 relaxMinRtLayStartLayerBinIdx = 2 relaxMinRtLaySmallNetHPWL = 0
+Printing options for 'route.common.*'
+common.eco_route_fix_existing_drc                       :	 true                
+common.single_connection_to_pins                        :	 off                 
+common.verbose_level                                    :	 0                   
+common.via_on_grid_by_layer_name                        :	 {VIA1 false} {VIA2 true}
+common.wire_on_grid_by_layer_name                       :	 {M1 true} {M2 true} {M3 true}
+
+Printing options for 'route.global.*'
+global.enable_gr_graph_lock                             :	 true                
+global.force_rerun_after_global_route_opt               :	 true                
+global.timing_driven                                    :	 true                
+
+Begin global routing.
+Loading timing information to the router from design
+Timing information loaded to the router.
+[End of Loading Timing] Elapsed real time: 0:00:00 
+[End of Loading Timing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+Constructing data structure ...
+Design statistics:
+Design Bounding Box (0.00um,0.00um,92.51um,50.80um)
+Number of routing layers = 10
+layer M1, dir Ver, min width = 0.034um, min space = 0.026um pitch = 0.074um
+layer M2, dir Hor, min width = 0.034um, min space = 0.026um pitch = 0.06um
+layer M3, dir Ver, min width = 0.034um, min space = 0.026um pitch = 0.074um
+layer M4, dir Hor, min width = 0.06um, min space = 0.04um pitch = 0.1um
+layer M5, dir Ver, min width = 0.06um, min space = 0.04um pitch = 0.1um
+layer M6, dir Hor, min width = 0.06um, min space = 0.04um pitch = 0.1um
+layer M7, dir Ver, min width = 0.06um, min space = 0.04um pitch = 0.1um
+layer M8, dir Hor, min width = 0.06um, min space = 0.04um pitch = 0.1um
+layer M9, dir Ver, min width = 0.06um, min space = 0.04um pitch = 0.1um
+layer MRDL, dir Hor, min width = 2um, min space = 2um pitch = 4um
+Current Stage stats:
+[End of Build Tech Data] Elapsed real time: 0:00:00 
+[End of Build Tech Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build Tech Data] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Build Tech Data] Total (MB): Used    0  Alloctr    0  Proc 4901 
+Net statistics:
+Total number of nets     = 7518
+Number of nets to route  = 3531
+Number of nets with min-layer-mode soft = 48
+Number of nets with min-layer-mode soft-cost-low = 3
+Number of nets with min-layer-mode soft-cost-medium = 45
+Number of nets with max-layer-mode hard = 45
+23 open nets with min layer constraint
+ of which 0 are fully open nets
+3531 open nets
+ of which 728 are without routing or PSV shapes
+2803 nets are partially connected,
+ of which 2803 are detail routed and 0 are global routed.
+3987 nets are fully connected,
+ of which 3987 are detail routed and 0 are global routed.
+45 nets have non-default rule CLK_NDR
+	 45 non-user-specified nets, 45 non-user-specified clock nets, 0 user-specified nets
+Current Stage stats:
+[End of Build All Nets] Elapsed real time: 0:00:00 
+[End of Build All Nets] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build All Nets] Stage (MB): Used    0  Alloctr    0  Proc    2 
+[End of Build All Nets] Total (MB): Used    0  Alloctr    0  Proc 4904 
+Net length statistics: 
+Net Count(Ignore Fully Rted) 3531, Total Half Perimeter Wire Length (HPWL) 25056 microns
+HPWL   0 ~   50 microns: Net Count     3495	Total HPWL        22758 microns
+HPWL  50 ~  100 microns: Net Count       36	Total HPWL         2298 microns
+HPWL 100 ~  200 microns: Net Count        0	Total HPWL            0 microns
+HPWL 200 ~  300 microns: Net Count        0	Total HPWL            0 microns
+HPWL 300 ~  400 microns: Net Count        0	Total HPWL            0 microns
+HPWL 400 ~  500 microns: Net Count        0	Total HPWL            0 microns
+HPWL 500 ~  600 microns: Net Count        0	Total HPWL            0 microns
+HPWL 600 ~  700 microns: Net Count        0	Total HPWL            0 microns
+HPWL 700 ~  800 microns: Net Count        0	Total HPWL            0 microns
+HPWL 800 ~  900 microns: Net Count        0	Total HPWL            0 microns
+HPWL 900 ~ 1000 microns: Net Count        0	Total HPWL            0 microns
+HPWL     > 1000 microns: Net Count        0	Total HPWL            0 microns
+Number of partitions: 1 (1 x 1)
+Size of partitions: 154 gCells x 84 gCells
+Average gCell capacity  2.23	 on layer (1)	 M1
+Average gCell capacity  8.75	 on layer (2)	 M2
+Average gCell capacity  7.35	 on layer (3)	 M3
+Average gCell capacity  5.58	 on layer (4)	 M4
+Average gCell capacity  5.30	 on layer (5)	 M5
+Average gCell capacity  4.64	 on layer (6)	 M6
+Average gCell capacity  4.78	 on layer (7)	 M7
+Average gCell capacity  6.04	 on layer (8)	 M8
+Average gCell capacity  0.00	 on layer (9)	 M9
+Average gCell capacity  0.00	 on layer (10)	 MRDL
+Average number of tracks per gCell 8.12	 on layer (1)	 M1
+Average number of tracks per gCell 10.10	 on layer (2)	 M2
+Average number of tracks per gCell 8.12	 on layer (3)	 M3
+Average number of tracks per gCell 6.06	 on layer (4)	 M4
+Average number of tracks per gCell 6.01	 on layer (5)	 M5
+Average number of tracks per gCell 6.06	 on layer (6)	 M6
+Average number of tracks per gCell 6.01	 on layer (7)	 M7
+Average number of tracks per gCell 6.06	 on layer (8)	 M8
+Average number of tracks per gCell 6.01	 on layer (9)	 M9
+Average number of tracks per gCell 0.15	 on layer (10)	 MRDL
+Number of gCells = 129360
+Current Stage stats:
+[End of Build Congestion Map] Elapsed real time: 0:00:00 
+[End of Build Congestion Map] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build Congestion Map] Stage (MB): Used    0  Alloctr    0  Proc    3 
+[End of Build Congestion Map] Total (MB): Used    0  Alloctr    0  Proc 4907 
+Current Stage stats:
+[End of Add Nets Demand] Elapsed real time: 0:00:00 
+[End of Add Nets Demand] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Add Nets Demand] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Add Nets Demand] Total (MB): Used    0  Alloctr    0  Proc 4907 
+Number of user frozen nets = 0
+Information: force to set the criticality of auto-NDR nets as 7
+Timing criticality report: total 7133 (94.88)% critical nets.
+   Number of criticality 1 nets = 5629 (74.87)%
+   Number of criticality 2 nets = 445 (5.92)%
+   Number of criticality 3 nets = 357 (4.75)%
+   Number of criticality 4 nets = 245 (3.26)%
+   Number of criticality 5 nets = 115 (1.53)%
+   Number of criticality 6 nets = 83 (1.10)%
+   Number of criticality 7 nets = 259 (3.45)%
+Information: RC layer preference is turned on for this design. (ZRT-613)
+Total stats:
+[End of Build Data] Elapsed real time: 0:00:00 
+[End of Build Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build Data] Stage (MB): Used    0  Alloctr    0  Proc    7 
+[End of Build Data] Total (MB): Used    0  Alloctr    0  Proc 4909 
+Number of partitions: 1 (1 x 1)
+Size of partitions: 154 gCells x 84 gCells
+Current Stage stats:
+[End of Blocked Pin Detection] Elapsed real time: 0:00:00 
+[End of Blocked Pin Detection] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Blocked Pin Detection] Stage (MB): Used    0  Alloctr    0  Proc  179 
+[End of Blocked Pin Detection] Total (MB): Used    0  Alloctr    0  Proc 5088 
+Information: Using 1 threads for routing. (ZRT-444)
+Information: Multiple gcell levels ON
+Information: Buffer distance is estimated to be ~271.0000um (451 gCells)
+
+Start GR phase 0
+Number of partitions: 1 (1 x 1)
+Size of partitions: 154 gCells x 84 gCells
+[rtAllBotParts] Elapsed real time: 0:00:02 
+[rtAllBotParts] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+[rtTop] Elapsed real time: 0:00:00 
+[rtTop] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+Current Stage stats:
+[End of Initial Routing] Elapsed real time: 0:00:02 
+[End of Initial Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+[End of Initial Routing] Stage (MB): Used    0  Alloctr    0  Proc    4 
+[End of Initial Routing] Total (MB): Used    0  Alloctr    0  Proc 5092 
+Initial. Routing result:
+Initial. Both Dirs: Dmd-Cap  =    17 Max = 5 GRCs =    15 (0.06%)
+Initial. H routing: Dmd-Cap  =     1 Max = 1 (GRCs =  2) GRCs =     2 (0.02%)
+Initial. V routing: Dmd-Cap  =    16 Max = 5 (GRCs =  1) GRCs =    13 (0.10%)
+Initial. Both Dirs: Overflow =  2466 Max = 8 GRCs =  1858 (7.18%)
+Initial. H routing: Overflow =  1278 Max = 8 (GRCs =  2) GRCs =   989 (7.65%)
+Initial. V routing: Overflow =  1188 Max = 8 (GRCs =  2) GRCs =   869 (6.72%)
+Initial. M1         Overflow =     1 Max = 1 (GRCs =  2) GRCs =     2 (0.02%)
+Initial. M2         Overflow =  1106 Max = 8 (GRCs =  2) GRCs =   739 (5.71%)
+Initial. M3         Overflow =  1170 Max = 8 (GRCs =  2) GRCs =   839 (6.49%)
+Initial. M4         Overflow =   166 Max = 4 (GRCs =  3) GRCs =   233 (1.80%)
+Initial. M5         Overflow =    15 Max = 3 (GRCs =  2) GRCs =    28 (0.22%)
+Initial. M6         Overflow =     5 Max = 2 (GRCs =  1) GRCs =    17 (0.13%)
+Initial. M7         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. M8         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. M9         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. MRDL       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+
+Density distribution:
+Layer    0.0  0.1  0.2  0.3  0.4  0.5  0.6  0.7  0.8  0.9  1.0  1.1  1.2  > 1.2 
+M1       99.9 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.01
+M2       37.0 7.56 3.03 13.0 2.98 10.3 8.33 5.59 4.77 0.47 3.25 0.83 0.83 1.85
+M3       36.1 8.82 6.42 9.79 1.73 10.6 8.68 4.51 5.79 0.00 3.56 1.01 0.66 2.22
+M4       42.4 14.1 0.26 16.1 0.00 9.90 10.2 0.18 4.36 0.00 1.60 0.13 0.13 0.41
+M5       56.8 16.6 2.57 14.8 0.00 5.31 2.73 0.19 0.42 0.00 0.39 0.01 0.01 0.05
+M6       55.2 12.2 2.35 15.1 0.00 9.58 4.15 0.22 0.52 0.00 0.52 0.00 0.00 0.03
+M7       80.8 14.0 0.81 3.65 0.00 0.60 0.04 0.00 0.00 0.00 0.02 0.00 0.00 0.00
+M8       100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+M9       100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+MRDL     100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+Total    70.1 7.53 1.58 7.44 0.48 4.76 3.51 1.09 1.63 0.05 0.96 0.20 0.17 0.47
+
+
+Initial. Total Wire Length = 11623.73
+Initial. Layer M1 wire length = 4.07
+Initial. Layer M2 wire length = 1901.67
+Initial. Layer M3 wire length = 2602.78
+Initial. Layer M4 wire length = 2125.15
+Initial. Layer M5 wire length = 1670.02
+Initial. Layer M6 wire length = 1983.90
+Initial. Layer M7 wire length = 1336.14
+Initial. Layer M8 wire length = 0.00
+Initial. Layer M9 wire length = 0.00
+Initial. Layer MRDL wire length = 0.00
+Initial. Total Number of Contacts = 14328
+Initial. Via VIA1_Base count = 4311
+Initial. Via VIA2_Base count = 4738
+Initial. Via VIA34SQ_C count = 2335
+Initial. Via VIA4SQ count = 1470
+Initial. Via VIA5SQ_C count = 889
+Initial. Via VIA67SQ_C count = 585
+Initial. Via VIA78SQ_C count = 0
+Initial. Via VIA89_C count = 0
+Initial. Via VIA9RDL count = 0
+Initial. completed.
+
+Start GR phase 1
+Thu Nov  5 11:24:50 2026
+Number of partitions: 1 (1 x 1)
+Size of partitions: 154 gCells x 84 gCells
+[rtAllParts] Elapsed real time: 0:00:01 
+[rtAllParts] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+Current Stage stats:
+[End of Phase1 Routing] Elapsed real time: 0:00:01 
+[End of Phase1 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+[End of Phase1 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Phase1 Routing] Total (MB): Used    0  Alloctr    0  Proc 5092 
+phase1. Routing result:
+phase1. Both Dirs: Dmd-Cap  =    13 Max = 4 GRCs =    12 (0.05%)
+phase1. H routing: Dmd-Cap  =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. V routing: Dmd-Cap  =    13 Max = 4 (GRCs =  1) GRCs =    12 (0.09%)
+phase1. Both Dirs: Overflow =  2097 Max = 8 GRCs =  1687 (6.52%)
+phase1. H routing: Overflow =  1179 Max = 7 (GRCs =  6) GRCs =   938 (7.25%)
+phase1. V routing: Overflow =   918 Max = 8 (GRCs =  1) GRCs =   749 (5.79%)
+phase1. M1         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. M2         Overflow =  1053 Max = 7 (GRCs =  6) GRCs =   700 (5.41%)
+phase1. M3         Overflow =   904 Max = 8 (GRCs =  1) GRCs =   726 (5.61%)
+phase1. M4         Overflow =   122 Max = 4 (GRCs =  1) GRCs =   222 (1.72%)
+phase1. M5         Overflow =    13 Max = 4 (GRCs =  1) GRCs =    23 (0.18%)
+phase1. M6         Overflow =     3 Max = 1 (GRCs = 16) GRCs =    16 (0.12%)
+phase1. M7         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. M8         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. M9         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. MRDL       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+
+Density distribution:
+Layer    0.0  0.1  0.2  0.3  0.4  0.5  0.6  0.7  0.8  0.9  1.0  1.1  1.2  > 1.2 
+M1       100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+M2       37.0 7.53 3.06 13.1 2.95 10.5 8.30 5.47 4.94 0.54 3.17 0.73 0.83 1.76
+M3       36.0 8.93 6.44 9.82 1.75 10.8 8.71 4.53 6.28 0.00 3.63 0.66 0.54 1.78
+M4       42.4 13.4 0.23 15.7 0.00 9.96 10.8 0.22 4.79 0.00 1.79 0.10 0.09 0.30
+M5       55.8 16.2 2.73 14.7 0.00 5.64 3.39 0.29 0.56 0.00 0.47 0.01 0.00 0.05
+M6       53.9 11.4 2.26 15.0 0.00 10.5 5.06 0.34 0.64 0.00 0.70 0.00 0.00 0.02
+M7       76.6 16.0 1.65 4.73 0.00 0.79 0.06 0.01 0.00 0.00 0.04 0.00 0.00 0.00
+M8       100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+M9       100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+MRDL     100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+Total    69.5 7.53 1.67 7.50 0.48 4.94 3.72 1.11 1.76 0.06 1.00 0.15 0.15 0.40
+
+
+phase1. Total Wire Length = 11744.40
+phase1. Layer M1 wire length = 3.34
+phase1. Layer M2 wire length = 1830.49
+phase1. Layer M3 wire length = 2247.61
+phase1. Layer M4 wire length = 2049.19
+phase1. Layer M5 wire length = 1720.88
+phase1. Layer M6 wire length = 2246.37
+phase1. Layer M7 wire length = 1646.53
+phase1. Layer M8 wire length = 0.00
+phase1. Layer M9 wire length = 0.00
+phase1. Layer MRDL wire length = 0.00
+phase1. Total Number of Contacts = 15777
+phase1. Via VIA1_Base count = 4310
+phase1. Via VIA2_Base count = 4747
+phase1. Via VIA34SQ_C count = 2683
+phase1. Via VIA4SQ count = 1942
+phase1. Via VIA5SQ_C count = 1223
+phase1. Via VIA67SQ_C count = 872
+phase1. Via VIA78SQ_C count = 0
+phase1. Via VIA89_C count = 0
+phase1. Via VIA9RDL count = 0
+phase1. completed.
+
+Start GR phase 2
+Thu Nov  5 11:24:51 2026
+Number of partitions: 1 (1 x 1)
+Size of partitions: 154 gCells x 84 gCells
+[rtAllParts] Elapsed real time: 0:00:00 
+[rtAllParts] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+Current Stage stats:
+[End of Phase2 Routing] Elapsed real time: 0:00:00 
+[End of Phase2 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Phase2 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Phase2 Routing] Total (MB): Used    0  Alloctr    0  Proc 5092 
+phase2. Routing result:
+phase2. Both Dirs: Dmd-Cap  =     3 Max = 2 GRCs =     6 (0.02%)
+phase2. H routing: Dmd-Cap  =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. V routing: Dmd-Cap  =     3 Max = 2 (GRCs =  1) GRCs =     6 (0.05%)
+phase2. Both Dirs: Overflow =  1949 Max = 8 GRCs =  1616 (6.25%)
+phase2. H routing: Overflow =  1154 Max = 8 (GRCs =  2) GRCs =   932 (7.20%)
+phase2. V routing: Overflow =   794 Max = 8 (GRCs =  1) GRCs =   684 (5.29%)
+phase2. M1         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. M2         Overflow =  1063 Max = 8 (GRCs =  2) GRCs =   711 (5.50%)
+phase2. M3         Overflow =   788 Max = 8 (GRCs =  1) GRCs =   667 (5.16%)
+phase2. M4         Overflow =    88 Max = 4 (GRCs =  1) GRCs =   208 (1.61%)
+phase2. M5         Overflow =     6 Max = 2 (GRCs =  2) GRCs =    17 (0.13%)
+phase2. M6         Overflow =     2 Max = 1 (GRCs = 13) GRCs =    13 (0.10%)
+phase2. M7         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. M8         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. M9         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase2. MRDL       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+
+Density distribution:
+Layer    0.0  0.1  0.2  0.3  0.4  0.5  0.6  0.7  0.8  0.9  1.0  1.1  1.2  > 1.2 
+M1       100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+M2       36.9 7.49 2.99 13.0 2.95 10.4 8.21 5.57 5.05 0.58 3.26 0.78 0.79 1.79
+M3       36.0 8.97 6.38 9.69 1.69 10.7 8.80 4.68 6.73 0.00 3.60 0.60 0.42 1.58
+M4       42.3 13.5 0.24 15.4 0.00 9.98 10.9 0.19 4.99 0.00 1.89 0.04 0.03 0.25
+M5       55.9 15.8 2.72 14.8 0.00 5.86 3.52 0.31 0.53 0.00 0.51 0.01 0.00 0.02
+M6       53.8 11.1 2.24 15.2 0.00 10.4 5.19 0.36 0.73 0.00 0.71 0.00 0.00 0.02
+M7       76.2 15.7 1.63 5.43 0.00 0.76 0.08 0.00 0.00 0.00 0.05 0.00 0.00 0.00
+M8       100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+M9       100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+MRDL     100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+Total    69.5 7.42 1.65 7.53 0.47 4.93 3.75 1.14 1.84 0.06 1.02 0.15 0.13 0.37
+
+
+phase2. Total Wire Length = 11878.52
+phase2. Layer M1 wire length = 2.52
+phase2. Layer M2 wire length = 1915.55
+phase2. Layer M3 wire length = 2206.62
+phase2. Layer M4 wire length = 2024.65
+phase2. Layer M5 wire length = 1731.48
+phase2. Layer M6 wire length = 2289.12
+phase2. Layer M7 wire length = 1708.59
+phase2. Layer M8 wire length = 0.00
+phase2. Layer M9 wire length = 0.00
+phase2. Layer MRDL wire length = 0.00
+phase2. Total Number of Contacts = 16041
+phase2. Via VIA1_Base count = 4307
+phase2. Via VIA2_Base count = 4770
+phase2. Via VIA34SQ_C count = 2744
+phase2. Via VIA4SQ count = 2025
+phase2. Via VIA5SQ_C count = 1276
+phase2. Via VIA67SQ_C count = 919
+phase2. Via VIA78SQ_C count = 0
+phase2. Via VIA89_C count = 0
+phase2. Via VIA9RDL count = 0
+phase2. completed.
+
+Start GR phase 3
+Thu Nov  5 11:24:52 2026
+Number of partitions: 1 (1 x 1)
+Size of partitions: 154 gCells x 84 gCells
+[rtAllParts] Elapsed real time: 0:00:00 
+[rtAllParts] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+Current Stage stats:
+[End of Phase3 Routing] Elapsed real time: 0:00:00 
+[End of Phase3 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Phase3 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Phase3 Routing] Total (MB): Used    0  Alloctr    0  Proc 5092 
+phase3. Routing result:
+phase3. Both Dirs: Dmd-Cap  =     2 Max = 2 GRCs =     3 (0.01%)
+phase3. H routing: Dmd-Cap  =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase3. V routing: Dmd-Cap  =     2 Max = 2 (GRCs =  1) GRCs =     3 (0.02%)
+phase3. Both Dirs: Overflow =  1896 Max = 8 GRCs =  1580 (6.11%)
+phase3. H routing: Overflow =  1152 Max = 8 (GRCs =  3) GRCs =   918 (7.10%)
+phase3. V routing: Overflow =   743 Max = 8 (GRCs =  1) GRCs =   662 (5.12%)
+phase3. M1         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase3. M2         Overflow =  1071 Max = 8 (GRCs =  3) GRCs =   712 (5.50%)
+phase3. M3         Overflow =   741 Max = 8 (GRCs =  1) GRCs =   648 (5.01%)
+phase3. M4         Overflow =    78 Max = 4 (GRCs =  1) GRCs =   196 (1.52%)
+phase3. M5         Overflow =     2 Max = 1 (GRCs = 14) GRCs =    14 (0.11%)
+phase3. M6         Overflow =     2 Max = 1 (GRCs = 10) GRCs =    10 (0.08%)
+phase3. M7         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase3. M8         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase3. M9         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase3. MRDL       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+
+Density distribution:
+Layer    0.0  0.1  0.2  0.3  0.4  0.5  0.6  0.7  0.8  0.9  1.0  1.1  1.2  > 1.2 
+M1       100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+M2       37.0 7.46 2.98 13.0 2.96 10.4 8.24 5.57 5.04 0.60 3.25 0.77 0.83 1.79
+M3       36.0 8.98 6.36 9.60 1.65 10.8 8.86 4.77 6.86 0.00 3.56 0.57 0.41 1.51
+M4       42.2 13.4 0.26 15.4 0.00 10.0 11.0 0.22 5.09 0.00 1.87 0.02 0.02 0.23
+M5       55.8 15.6 2.65 15.1 0.00 5.93 3.42 0.34 0.57 0.00 0.49 0.00 0.00 0.00
+M6       54.0 11.0 2.28 14.8 0.00 10.6 5.25 0.38 0.89 0.00 0.66 0.00 0.00 0.02
+M7       75.9 16.2 1.71 5.27 0.00 0.77 0.06 0.00 0.00 0.00 0.04 0.00 0.00 0.00
+M8       100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+M9       100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+MRDL     100. 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+Total    69.4 7.43 1.66 7.49 0.47 4.96 3.77 1.15 1.88 0.06 1.01 0.14 0.13 0.36
+
+
+phase3. Total Wire Length = 11932.28
+phase3. Layer M1 wire length = 2.52
+phase3. Layer M2 wire length = 1933.76
+phase3. Layer M3 wire length = 2192.21
+phase3. Layer M4 wire length = 2043.23
+phase3. Layer M5 wire length = 1732.40
+phase3. Layer M6 wire length = 2314.34
+phase3. Layer M7 wire length = 1713.82
+phase3. Layer M8 wire length = 0.00
+phase3. Layer M9 wire length = 0.00
+phase3. Layer MRDL wire length = 0.00
+phase3. Total Number of Contacts = 16169
+phase3. Via VIA1_Base count = 4307
+phase3. Via VIA2_Base count = 4777
+phase3. Via VIA34SQ_C count = 2775
+phase3. Via VIA4SQ count = 2061
+phase3. Via VIA5SQ_C count = 1308
+phase3. Via VIA67SQ_C count = 941
+phase3. Via VIA78SQ_C count = 0
+phase3. Via VIA89_C count = 0
+phase3. Via VIA9RDL count = 0
+phase3. completed.
+[End of Whole Chip Routing] Elapsed real time: 0:00:05 
+[End of Whole Chip Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:05 total=0:00:05
+[End of Whole Chip Routing] Stage (MB): Used    0  Alloctr    0  Proc  191 
+[End of Whole Chip Routing] Total (MB): Used    0  Alloctr    0  Proc 5092 
+
+Congestion utilization per direction:
+Average vertical track utilization   = 19.48 %
+Peak    vertical track utilization   = 115.38 %
+Average horizontal track utilization = 22.83 %
+Peak    horizontal track utilization = 104.76 %
+
+[End of Global Routing] Elapsed real time: 0:00:05 
+[End of Global Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:05 total=0:00:05
+[End of Global Routing] Stage (MB): Used    0  Alloctr    0  Proc  191 
+[End of Global Routing] Total (MB): Used    0  Alloctr    0  Proc 5092 
+Total number of open nets = 0, of which 0 are frozen
+Updating congestion ...
+Updating congestion ...
+[End of dbOut] Elapsed real time: 0:00:00 
+[End of dbOut] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of dbOut] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of dbOut] Total (MB): Used    0  Alloctr    0  Proc 5092 
+Information: Maximum hot spot size per layer
+	M4	4
+	M5	1
+	M6	0
+	M7	0
+	M8	0
+	M9	0
+	MRDL	0
+Maximum hot spot size is 4 
+CONG_HS metric is 1.125 
+
+[ECO: GR] Elapsed real time: 0:00:07 
+[ECO: GR] Elapsed cpu  time: sys=0:00:00 usr=0:00:07 total=0:00:07
+[ECO: GR] Stage (MB): Used    0  Alloctr    0  Proc  191 
+[ECO: GR] Total (MB): Used    0  Alloctr    0  Proc 5092 
+[GR excluding DbIn] Elapsed real time: 0:00:06 
+[GR excluding DbIn] Elapsed cpu  time: sys=0:00:00 usr=0:00:06 total=0:00:06
+[GR excluding DbIn] Stage (MB): Used    0  Alloctr    0  Proc  191 
+[GR excluding DbIn] Total (MB): Used    0  Alloctr    0  Proc 5092 
+
+Start track assignment
+
+Printing options for 'route.common.*'
+common.eco_route_fix_existing_drc                       :	 true                
+common.single_connection_to_pins                        :	 off                 
+common.verbose_level                                    :	 0                   
+common.via_on_grid_by_layer_name                        :	 {VIA1 false} {VIA2 true}
+common.wire_on_grid_by_layer_name                       :	 {M1 true} {M2 true} {M3 true}
+
+Printing options for 'route.track.*'
+track.allow_wire_outside_gcell                          :	 true                
+track.enable_auto_ndr_flow                              :	 true                
+track.timing_driven                                     :	 true                
+
+Information: Using 1 threads for routing. (ZRT-444)
+Information: RC layer preference is turned on for this design. (ZRT-613)
+
+[Track Assign: TA init] Elapsed real time: 0:00:00 
+[Track Assign: TA init] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[Track Assign: TA init] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[Track Assign: TA init] Total (MB): Used    0  Alloctr    0  Proc 5092 
+INFO: GRTA is turned off for eco routing and group routing in TA
+
+Start initial assignment
+
+Assign Horizontal partitions, iteration 0 
+Routed partition 1/11       
+Routed partition 2/11       
+Routed partition 3/11       
+Routed partition 4/11       
+Routed partition 5/11       
+Routed partition 6/11       
+Routed partition 7/11       
+Routed partition 8/11       
+Routed partition 9/11       
+Routed partition 10/11      
+Routed partition 11/11      
+
+Assign Vertical partitions, iteration 0 
+Routed partition 1/11       
+Routed partition 2/11       
+Routed partition 3/11       
+Routed partition 4/11       
+Routed partition 5/11       
+Routed partition 6/11       
+Routed partition 7/11       
+Routed partition 8/11       
+Routed partition 9/11       
+Routed partition 10/11      
+Routed partition 11/11      
+
+Number of wires with overlap after iteration 0 = 14748 of 22126
+
+
+[Track Assign: Iteration 0] Elapsed real time: 0:00:01 
+[Track Assign: Iteration 0] Elapsed cpu  time: sys=0:00:00 usr=0:00:01 total=0:00:01
+[Track Assign: Iteration 0] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[Track Assign: Iteration 0] Total (MB): Used    0  Alloctr    0  Proc 5092 
+
+Reroute to fix overlaps (iter = 1)
+
+Assign Horizontal partitions, iteration 1 
+Routed partition 1/11       
+Routed partition 2/11       
+Routed partition 3/11       
+Routed partition 4/11       
+Routed partition 5/11       
+Routed partition 6/11       
+Routed partition 7/11       
+Routed partition 8/11       
+Routed partition 9/11       
+Routed partition 10/11      
+Routed partition 11/11      
+
+Assign Vertical partitions, iteration 1 
+Routed partition 1/11       
+Routed partition 2/11       
+Routed partition 3/11       
+Routed partition 4/11       
+Routed partition 5/11       
+Routed partition 6/11       
+Routed partition 7/11       
+Routed partition 8/11       
+Routed partition 9/11       
+Routed partition 10/11      
+Routed partition 11/11      
+
+Number of wires with overlap after iteration 1 = 15237 of 22753
+
+
+[Track Assign: Iteration 1] Elapsed real time: 0:00:03 
+[Track Assign: Iteration 1] Elapsed cpu  time: sys=0:00:00 usr=0:00:03 total=0:00:03
+[Track Assign: Iteration 1] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[Track Assign: Iteration 1] Total (MB): Used    0  Alloctr    0  Proc 5092 
+
+Reroute to fix overlaps (iter = 2)
+
+Assign Horizontal partitions, iteration 2 
+Routed partition 1/11       
+Routed partition 2/11       
+Routed partition 3/11       
+Routed partition 4/11       
+Routed partition 5/11       
+Routed partition 6/11       
+Routed partition 7/11       
+Routed partition 8/11       
+Routed partition 9/11       
+Routed partition 10/11      
+Routed partition 11/11      
+
+Assign Vertical partitions, iteration 2 
+Routed partition 1/11       
+Routed partition 2/11       
+Routed partition 3/11       
+Routed partition 4/11       
+Routed partition 5/11       
+Routed partition 6/11       
+Routed partition 7/11       
+Routed partition 8/11       
+Routed partition 9/11       
+Routed partition 10/11      
+Routed partition 11/11      
+
+[Track Assign: Iteration 2] Elapsed real time: 0:00:05 
+[Track Assign: Iteration 2] Elapsed cpu  time: sys=0:00:00 usr=0:00:05 total=0:00:05
+[Track Assign: Iteration 2] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[Track Assign: Iteration 2] Total (MB): Used    0  Alloctr    0  Proc 5092 
+
+Number of wires with overlap after iteration 2 = 12114 of 20195
+
+
+Wire length and via report:
+---------------------------
+Number of M1 wires: 3124 		  : 0
+Number of M2 wires: 6145 		 VIA1_Base: 4903
+Number of M3 wires: 4899 		 VIA2_Base: 5925
+Number of M4 wires: 3156 		 VIA34SQ_C: 3456
+Number of M5 wires: 1531 		 VIA4SQ: 2296
+Number of M6 wires: 936 		 VIA5SQ_C: 1350
+Number of M7 wires: 404 		 VIA67SQ_C: 793
+Number of M8 wires: 0 		 VIA78SQ_C: 0
+Number of M9 wires: 0 		 VIA89_C: 0
+Number of MRDL wires: 0 		 VIA9RDL: 0
+Total number of wires: 20195 		 vias: 18723
+
+Total M1 wire length: 92.8
+Total M2 wire length: 1867.8
+Total M3 wire length: 2080.9
+Total M4 wire length: 2353.0
+Total M5 wire length: 2076.7
+Total M6 wire length: 2386.5
+Total M7 wire length: 1586.7
+Total M8 wire length: 0.0
+Total M9 wire length: 0.0
+Total MRDL wire length: 0.0
+Total wire length: 12444.5
+
+Longest M1 wire length: 0.4
+Longest M2 wire length: 8.9
+Longest M3 wire length: 5.9
+Longest M4 wire length: 50.4
+Longest M5 wire length: 17.6
+Longest M6 wire length: 24.3
+Longest M7 wire length: 20.6
+Longest M8 wire length: 0.0
+Longest M9 wire length: 0.0
+Longest MRDL wire length: 0.0
+
+Warning: Shape {601130 209430 601470 209815} on layer M1 is not on min manufacturing grid. Snap it to {601130 209430 601470 209820}. The shape belongs to Net: net_PTECO_HOLD_NET5. (ZRT-543)
+Warning: Shape {427970 86430 428310 86975} on layer M2 is not on min manufacturing grid. Snap it to {427970 86430 428310 86980}. The shape belongs to Net: net_PTECO_HOLD_NET623. (ZRT-543)
+
+[Track Assign: Done] Elapsed real time: 0:00:05 
+[Track Assign: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:05 total=0:00:05
+[Track Assign: Done] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[Track Assign: Done] Total (MB): Used    0  Alloctr    0  Proc 5092 
+[ECO: CDR] Elapsed real time: 0:00:13 
+[ECO: CDR] Elapsed cpu  time: sys=0:00:00 usr=0:00:13 total=0:00:13
+[ECO: CDR] Stage (MB): Used    0  Alloctr    0  Proc  191 
+[ECO: CDR] Total (MB): Used    0  Alloctr    0  Proc 5092 
+Printing options for 'route.common.*'
+common.eco_route_fix_existing_drc                       :	 true                
+common.single_connection_to_pins                        :	 off                 
+common.verbose_level                                    :	 0                   
+common.via_on_grid_by_layer_name                        :	 {VIA1 false} {VIA2 true}
+common.wire_on_grid_by_layer_name                       :	 {M1 true} {M2 true} {M3 true}
+
+Printing options for 'route.detail.*'
+detail.antenna                                          :	 true                
+detail.eco_route_use_soft_spacing_for_timing_optimization:	 true                
+detail.enable_auto_ndr_flow                             :	 true                
+detail.timing_driven                                    :	 true                
+
+Printing options for 'route.auto_via_ladder.*'
+
+There are 0 out of total 7518 nets with relaxed min layer from GR.
+Information: RC layer preference is turned on for this design. (ZRT-613)
+Total number of nets = 7518, of which 0 are not extracted
+Total number of open nets = 0, of which 0 are frozen
+Information: Using 1 threads for routing. (ZRT-444)
+
+Switch to reduced partition bloat for speedup (DRC report is not accurate)
+Start DR iteration 0: uniform partition
+Routed	12/144 Partitions, Violations =	86
+Routed	13/144 Partitions, Violations =	426
+Routed	14/144 Partitions, Violations =	609
+Routed	15/144 Partitions, Violations =	764
+Routed	16/144 Partitions, Violations =	1221
+Routed	17/144 Partitions, Violations =	1221
+Routed	18/144 Partitions, Violations =	1222
+Routed	19/144 Partitions, Violations =	1337
+Routed	20/144 Partitions, Violations =	1374
+Routed	21/144 Partitions, Violations =	1374
+Routed	22/144 Partitions, Violations =	1374
+Routed	23/144 Partitions, Violations =	1465
+Routed	24/144 Partitions, Violations =	1630
+Routed	25/144 Partitions, Violations =	1693
+Routed	26/144 Partitions, Violations =	1693
+Routed	27/144 Partitions, Violations =	1693
+Routed	28/144 Partitions, Violations =	1756
+Routed	29/144 Partitions, Violations =	1863
+Routed	30/144 Partitions, Violations =	2003
+Routed	31/144 Partitions, Violations =	2003
+Routed	32/144 Partitions, Violations =	2003
+Routed	33/144 Partitions, Violations =	2090
+Routed	34/144 Partitions, Violations =	2139
+Routed	35/144 Partitions, Violations =	2139
+Routed	36/144 Partitions, Violations =	2144
+Routed	37/144 Partitions, Violations =	2144
+Routed	38/144 Partitions, Violations =	2150
+Routed	39/144 Partitions, Violations =	2150
+Routed	40/144 Partitions, Violations =	2164
+Routed	41/144 Partitions, Violations =	2177
+Routed	42/144 Partitions, Violations =	2177
+Routed	43/144 Partitions, Violations =	2451
+Routed	44/144 Partitions, Violations =	2852
+Routed	45/144 Partitions, Violations =	2945
+Routed	46/144 Partitions, Violations =	3133
+Routed	47/144 Partitions, Violations =	3178
+Routed	48/144 Partitions, Violations =	3178
+Routed	49/144 Partitions, Violations =	3179
+Routed	50/144 Partitions, Violations =	3195
+Routed	51/144 Partitions, Violations =	3272
+Routed	52/144 Partitions, Violations =	3412
+Routed	53/144 Partitions, Violations =	3443
+Routed	54/144 Partitions, Violations =	3780
+Routed	55/144 Partitions, Violations =	3974
+Routed	56/144 Partitions, Violations =	3974
+Routed	57/144 Partitions, Violations =	3974
+Routed	58/144 Partitions, Violations =	3998
+Routed	59/144 Partitions, Violations =	4007
+Routed	60/144 Partitions, Violations =	4027
+Routed	61/144 Partitions, Violations =	4285
+Routed	62/144 Partitions, Violations =	4344
+Routed	63/144 Partitions, Violations =	4344
+Routed	64/144 Partitions, Violations =	4641
+Routed	65/144 Partitions, Violations =	4650
+Routed	66/144 Partitions, Violations =	4652
+Routed	67/144 Partitions, Violations =	4655
+Routed	68/144 Partitions, Violations =	4655
+Routed	69/144 Partitions, Violations =	4758
+Routed	70/144 Partitions, Violations =	5016
+Routed	71/144 Partitions, Violations =	5014
+Routed	72/144 Partitions, Violations =	5014
+Routed	73/144 Partitions, Violations =	5029
+Routed	74/144 Partitions, Violations =	5115
+Routed	75/144 Partitions, Violations =	5115
+Routed	76/144 Partitions, Violations =	5121
+Routed	77/144 Partitions, Violations =	5430
+Routed	78/144 Partitions, Violations =	5430
+Routed	79/144 Partitions, Violations =	5456
+Routed	80/144 Partitions, Violations =	5456
+Routed	81/144 Partitions, Violations =	5482
+Routed	82/144 Partitions, Violations =	5487
+Routed	83/144 Partitions, Violations =	5548
+Routed	84/144 Partitions, Violations =	5595
+Routed	85/144 Partitions, Violations =	5982
+Routed	86/144 Partitions, Violations =	6003
+Routed	87/144 Partitions, Violations =	6014
+Routed	88/144 Partitions, Violations =	6012
+Routed	89/144 Partitions, Violations =	6129
+Routed	90/144 Partitions, Violations =	6129
+Routed	91/144 Partitions, Violations =	6131
+Routed	92/144 Partitions, Violations =	6234
+Routed	93/144 Partitions, Violations =	6304
+Routed	94/144 Partitions, Violations =	6304
+Routed	95/144 Partitions, Violations =	6307
+Routed	96/144 Partitions, Violations =	6314
+Routed	97/144 Partitions, Violations =	6314
+Routed	98/144 Partitions, Violations =	6452
+Routed	99/144 Partitions, Violations =	6679
+Routed	100/144 Partitions, Violations =	6834
+Routed	101/144 Partitions, Violations =	6834
+Routed	102/144 Partitions, Violations =	7152
+Routed	103/144 Partitions, Violations =	7159
+Routed	104/144 Partitions, Violations =	7200
+Routed	105/144 Partitions, Violations =	7231
+Routed	106/144 Partitions, Violations =	7229
+Routed	107/144 Partitions, Violations =	7234
+Routed	108/144 Partitions, Violations =	7299
+Routed	109/144 Partitions, Violations =	7375
+Routed	110/144 Partitions, Violations =	7362
+Routed	111/144 Partitions, Violations =	7354
+Routed	112/144 Partitions, Violations =	7354
+Routed	113/144 Partitions, Violations =	7407
+Routed	114/144 Partitions, Violations =	7407
+Routed	115/144 Partitions, Violations =	7477
+Routed	116/144 Partitions, Violations =	7477
+Routed	117/144 Partitions, Violations =	7476
+Routed	118/144 Partitions, Violations =	7487
+Routed	119/144 Partitions, Violations =	7489
+Routed	120/144 Partitions, Violations =	7677
+Routed	121/144 Partitions, Violations =	7677
+Routed	122/144 Partitions, Violations =	7677
+Routed	123/144 Partitions, Violations =	7659
+Routed	124/144 Partitions, Violations =	7735
+Routed	125/144 Partitions, Violations =	7878
+Routed	126/144 Partitions, Violations =	7950
+Routed	127/144 Partitions, Violations =	7964
+Routed	128/144 Partitions, Violations =	7964
+Routed	129/144 Partitions, Violations =	8006
+Routed	130/144 Partitions, Violations =	8047
+Routed	131/144 Partitions, Violations =	8153
+Routed	132/144 Partitions, Violations =	8153
+Routed	133/144 Partitions, Violations =	8156
+Routed	134/144 Partitions, Violations =	8156
+Routed	135/144 Partitions, Violations =	8174
+Routed	136/144 Partitions, Violations =	8178
+Routed	137/144 Partitions, Violations =	8177
+Routed	138/144 Partitions, Violations =	8175
+Routed	139/144 Partitions, Violations =	8175
+Routed	140/144 Partitions, Violations =	8245
+Routed	141/144 Partitions, Violations =	8231
+Routed	142/144 Partitions, Violations =	8275
+Routed	143/144 Partitions, Violations =	8275
+Routed	144/144 Partitions, Violations =	8276
+
+DRC-SUMMARY:
+	@@@@@@@ TOTAL VIOLATIONS =	8267
+	Diff net spacing : 2562
+	Diff net via-cut spacing : 951
+	Edge-line via spacing : 35
+	End of line enclosure : 97
+	Less than minimum area : 18
+	Less than minimum width : 16
+	Off-grid : 391
+	Same net spacing : 265
+	Same net via-cut spacing : 100
+	Short : 3832
+
+Information: The app option "route.detail.report_soft_drc_separately" will be on-by-default in future release. (ZRT-807)
+	@@@@@@@ TOTAL SOFT VIOLATIONS =	9
+	Less than NDR width : 4
+	Soft spacing (shielding) : 5
+
+[Iter 0] Elapsed real time: 0:01:42 
+[Iter 0] Elapsed cpu  time: sys=0:00:00 usr=0:01:41 total=0:01:42
+[Iter 0] Stage (MB): Used    0  Alloctr    0  Proc  134 
+[Iter 0] Total (MB): Used    0  Alloctr    0  Proc 5227 
+
+End DR iteration 0 with 144 parts
+
+Start DR iteration 1: non-uniform partition
+Routed	1/179 Partitions, Violations =	8272
+Routed	2/179 Partitions, Violations =	8291
+Routed	3/179 Partitions, Violations =	8291
+Routed	4/179 Partitions, Violations =	8290
+Routed	5/179 Partitions, Violations =	8290
+Routed	6/179 Partitions, Violations =	8289
+Routed	7/179 Partitions, Violations =	8282
+Routed	8/179 Partitions, Violations =	8271
+Routed	9/179 Partitions, Violations =	8269
+Routed	10/179 Partitions, Violations =	8260
+Routed	11/179 Partitions, Violations =	8259
+Routed	12/179 Partitions, Violations =	8264
+Routed	13/179 Partitions, Violations =	8232
+Routed	14/179 Partitions, Violations =	8223
+Routed	15/179 Partitions, Violations =	8220
+Routed	16/179 Partitions, Violations =	8223
+Routed	17/179 Partitions, Violations =	8228
+Routed	18/179 Partitions, Violations =	8231
+Routed	19/179 Partitions, Violations =	8207
+Routed	20/179 Partitions, Violations =	8199
+Routed	21/179 Partitions, Violations =	8191
+Routed	22/179 Partitions, Violations =	8198
+Routed	23/179 Partitions, Violations =	8198
+Routed	24/179 Partitions, Violations =	8198
+Routed	25/179 Partitions, Violations =	8197
+Routed	26/179 Partitions, Violations =	8198
+Routed	27/179 Partitions, Violations =	8199
+Routed	28/179 Partitions, Violations =	8209
+Routed	29/179 Partitions, Violations =	8205
+Routed	30/179 Partitions, Violations =	8218
+Routed	31/179 Partitions, Violations =	8214
+Routed	32/179 Partitions, Violations =	8221
+Routed	33/179 Partitions, Violations =	8219
+Routed	34/179 Partitions, Violations =	8225
+Routed	35/179 Partitions, Violations =	8234
+Routed	36/179 Partitions, Violations =	8234
+Routed	37/179 Partitions, Violations =	8232
+Routed	38/179 Partitions, Violations =	8232
+Routed	39/179 Partitions, Violations =	8225
+Routed	40/179 Partitions, Violations =	8224
+Routed	41/179 Partitions, Violations =	8224
+Routed	42/179 Partitions, Violations =	8195
+Routed	43/179 Partitions, Violations =	8180
+Routed	44/179 Partitions, Violations =	8181
+Routed	45/179 Partitions, Violations =	8181
+Routed	46/179 Partitions, Violations =	8183
+Routed	47/179 Partitions, Violations =	8183
+Routed	48/179 Partitions, Violations =	8180
+Routed	49/179 Partitions, Violations =	8154
+Routed	50/179 Partitions, Violations =	8171
+Routed	51/179 Partitions, Violations =	8175
+Routed	52/179 Partitions, Violations =	8173
+Routed	53/179 Partitions, Violations =	8166
+Routed	54/179 Partitions, Violations =	8161
+Routed	55/179 Partitions, Violations =	8162
+Routed	56/179 Partitions, Violations =	8162
+Routed	57/179 Partitions, Violations =	8165
+Routed	58/179 Partitions, Violations =	8159
+Routed	59/179 Partitions, Violations =	8139
+Routed	60/179 Partitions, Violations =	8145
+Routed	61/179 Partitions, Violations =	8137
+Routed	62/179 Partitions, Violations =	8136
+Routed	63/179 Partitions, Violations =	8138
+Routed	64/179 Partitions, Violations =	8142
+Routed	65/179 Partitions, Violations =	8142
+Routed	66/179 Partitions, Violations =	8129
+Routed	67/179 Partitions, Violations =	8133
+Routed	68/179 Partitions, Violations =	8155
+Routed	69/179 Partitions, Violations =	8155
+Routed	70/179 Partitions, Violations =	8154
+Routed	71/179 Partitions, Violations =	8151
+Routed	72/179 Partitions, Violations =	8147
+Routed	73/179 Partitions, Violations =	8144
+Routed	74/179 Partitions, Violations =	8126
+Routed	75/179 Partitions, Violations =	8126
+Routed	76/179 Partitions, Violations =	8126
+Routed	77/179 Partitions, Violations =	8124
+Routed	78/179 Partitions, Violations =	8126
+Routed	79/179 Partitions, Violations =	8090
+Routed	80/179 Partitions, Violations =	8091
+Routed	81/179 Partitions, Violations =	8089
+Routed	82/179 Partitions, Violations =	8118
+Routed	83/179 Partitions, Violations =	8112
+Routed	84/179 Partitions, Violations =	8109
+Routed	85/179 Partitions, Violations =	8107
+Routed	86/179 Partitions, Violations =	8134
+Routed	87/179 Partitions, Violations =	8126
+Routed	88/179 Partitions, Violations =	8129
+Routed	89/179 Partitions, Violations =	8118
+Routed	90/179 Partitions, Violations =	8118
+Routed	91/179 Partitions, Violations =	8117
+Routed	92/179 Partitions, Violations =	8113
+Routed	93/179 Partitions, Violations =	8115
+Routed	94/179 Partitions, Violations =	8115
+Routed	95/179 Partitions, Violations =	8101
+Routed	96/179 Partitions, Violations =	8098
+Routed	97/179 Partitions, Violations =	8085
+Routed	98/179 Partitions, Violations =	8097
+Routed	99/179 Partitions, Violations =	8083
+Routed	100/179 Partitions, Violations =	8085
+Routed	101/179 Partitions, Violations =	8092
+Routed	102/179 Partitions, Violations =	8088
+Routed	103/179 Partitions, Violations =	8110
+Routed	104/179 Partitions, Violations =	8112
+Routed	105/179 Partitions, Violations =	8136
+Routed	106/179 Partitions, Violations =	8136
+Routed	107/179 Partitions, Violations =	8152
+Routed	108/179 Partitions, Violations =	8147
+Routed	109/179 Partitions, Violations =	8133
+Routed	110/179 Partitions, Violations =	8133
+Routed	111/179 Partitions, Violations =	8117
+Routed	112/179 Partitions, Violations =	8121
+Routed	113/179 Partitions, Violations =	8112
+Routed	114/179 Partitions, Violations =	8107
+Routed	115/179 Partitions, Violations =	8129
+Routed	116/179 Partitions, Violations =	8117
+Routed	117/179 Partitions, Violations =	8117
+Routed	118/179 Partitions, Violations =	8127
+Routed	119/179 Partitions, Violations =	8131
+Routed	120/179 Partitions, Violations =	8122
+Routed	121/179 Partitions, Violations =	8122
+Routed	122/179 Partitions, Violations =	8122
+Routed	123/179 Partitions, Violations =	8113
+Routed	124/179 Partitions, Violations =	8115
+Routed	125/179 Partitions, Violations =	8120
+Routed	126/179 Partitions, Violations =	8118
+Routed	127/179 Partitions, Violations =	8099
+Routed	128/179 Partitions, Violations =	8103
+Routed	129/179 Partitions, Violations =	8095
+Routed	130/179 Partitions, Violations =	8091
+Routed	131/179 Partitions, Violations =	8105
+Routed	132/179 Partitions, Violations =	8108
+Routed	133/179 Partitions, Violations =	8108
+Routed	134/179 Partitions, Violations =	8105
+Routed	135/179 Partitions, Violations =	8093
+Routed	136/179 Partitions, Violations =	8096
+Routed	137/179 Partitions, Violations =	8089
+Routed	138/179 Partitions, Violations =	8106
+Routed	139/179 Partitions, Violations =	8104
+Routed	140/179 Partitions, Violations =	8104
+Routed	141/179 Partitions, Violations =	8106
+Routed	142/179 Partitions, Violations =	8106
+Routed	143/179 Partitions, Violations =	8109
+Routed	144/179 Partitions, Violations =	8107
+Routed	145/179 Partitions, Violations =	8107
+Routed	146/179 Partitions, Violations =	8094
+Routed	147/179 Partitions, Violations =	8098
+Routed	148/179 Partitions, Violations =	8096
+Routed	149/179 Partitions, Violations =	8093
+Routed	150/179 Partitions, Violations =	8095
+Routed	151/179 Partitions, Violations =	8081
+Routed	152/179 Partitions, Violations =	8073
+Routed	153/179 Partitions, Violations =	8083
+Routed	154/179 Partitions, Violations =	8098
+Routed	155/179 Partitions, Violations =	8100
+Routed	156/179 Partitions, Violations =	8099
+Routed	157/179 Partitions, Violations =	8117
+Routed	158/179 Partitions, Violations =	8128
+Routed	159/179 Partitions, Violations =	8131
+Routed	160/179 Partitions, Violations =	8146
+Routed	161/179 Partitions, Violations =	8139
+Routed	162/179 Partitions, Violations =	8140
+Routed	163/179 Partitions, Violations =	8117
+Routed	164/179 Partitions, Violations =	8102
+Routed	165/179 Partitions, Violations =	8086
+Routed	166/179 Partitions, Violations =	8045
+Routed	167/179 Partitions, Violations =	8028
+Routed	168/179 Partitions, Violations =	8024
+Routed	169/179 Partitions, Violations =	8019
+Routed	170/179 Partitions, Violations =	8020
+Routed	171/179 Partitions, Violations =	8025
+Routed	172/179 Partitions, Violations =	8012
+Routed	173/179 Partitions, Violations =	7982
+Routed	174/179 Partitions, Violations =	7977
+Routed	175/179 Partitions, Violations =	7980
+Routed	176/179 Partitions, Violations =	7995
+Routed	177/179 Partitions, Violations =	7995
+Routed	178/179 Partitions, Violations =	7983
+Routed	179/179 Partitions, Violations =	7977
+
+DRC-SUMMARY:
+	@@@@@@@ TOTAL VIOLATIONS =	7973
+	Diff net spacing : 2526
+	Diff net via-cut spacing : 903
+	Edge-line via spacing : 13
+	End of line enclosure : 74
+	Less than minimum area : 9
+	Less than minimum enclosed area : 1
+	Less than minimum width : 15
+	Off-grid : 359
+	Same net spacing : 265
+	Same net via-cut spacing : 91
+	Short : 3717
+
+Information: The app option "route.detail.report_soft_drc_separately" will be on-by-default in future release. (ZRT-807)
+	@@@@@@@ TOTAL SOFT VIOLATIONS =	4
+	Less than NDR width : 1
+	Soft spacing (shielding) : 3
+
+[Iter 1] Elapsed real time: 0:03:13 
+[Iter 1] Elapsed cpu  time: sys=0:00:00 usr=0:03:12 total=0:03:12
+[Iter 1] Stage (MB): Used    0  Alloctr    0  Proc  134 
+[Iter 1] Total (MB): Used    0  Alloctr    0  Proc 5227 
+
+End DR iteration 1 with 179 parts
+
+Start DR iteration 2: non-uniform partition
+Routed	1/142 Partitions, Violations =	7983
+Routed	2/142 Partitions, Violations =	7986
+Routed	3/142 Partitions, Violations =	7994
+Routed	4/142 Partitions, Violations =	7994
+Routed	5/142 Partitions, Violations =	7967
+Routed	6/142 Partitions, Violations =	7973
+Routed	7/142 Partitions, Violations =	7981
+Routed	8/142 Partitions, Violations =	7982
+Routed	9/142 Partitions, Violations =	7978
+Routed	10/142 Partitions, Violations =	7978
+Routed	11/142 Partitions, Violations =	7976
+Routed	12/142 Partitions, Violations =	7979
+Routed	13/142 Partitions, Violations =	7978
+Routed	14/142 Partitions, Violations =	7962
+Routed	15/142 Partitions, Violations =	7962
+Routed	16/142 Partitions, Violations =	7985
+Routed	17/142 Partitions, Violations =	7997
+Routed	18/142 Partitions, Violations =	7973
+Routed	19/142 Partitions, Violations =	8012
+Routed	20/142 Partitions, Violations =	7995
+Routed	21/142 Partitions, Violations =	7995
+Routed	22/142 Partitions, Violations =	8008
+Routed	23/142 Partitions, Violations =	8024
+Routed	24/142 Partitions, Violations =	8029
+Routed	25/142 Partitions, Violations =	8011
+Routed	26/142 Partitions, Violations =	8011
+Routed	27/142 Partitions, Violations =	8012
+Routed	28/142 Partitions, Violations =	8005
+Routed	29/142 Partitions, Violations =	7999
+Routed	30/142 Partitions, Violations =	7994
+Routed	31/142 Partitions, Violations =	7994
+Routed	32/142 Partitions, Violations =	7996
+Routed	33/142 Partitions, Violations =	7995
+Routed	34/142 Partitions, Violations =	7995
+Routed	35/142 Partitions, Violations =	7994
+Routed	36/142 Partitions, Violations =	7996
+Routed	37/142 Partitions, Violations =	7995
+Routed	38/142 Partitions, Violations =	7998
+Routed	39/142 Partitions, Violations =	7998
+Routed	40/142 Partitions, Violations =	7998
+Routed	41/142 Partitions, Violations =	8000
+Routed	42/142 Partitions, Violations =	8000
+Routed	43/142 Partitions, Violations =	8005
+Routed	44/142 Partitions, Violations =	8002
+Routed	45/142 Partitions, Violations =	7999
+Routed	46/142 Partitions, Violations =	8000
+Routed	47/142 Partitions, Violations =	8009
+Routed	48/142 Partitions, Violations =	8005
+Routed	49/142 Partitions, Violations =	8000
+Routed	50/142 Partitions, Violations =	7972
+Routed	51/142 Partitions, Violations =	7973
+Routed	52/142 Partitions, Violations =	7978
+Routed	53/142 Partitions, Violations =	7976
+Routed	54/142 Partitions, Violations =	7968
+Routed	55/142 Partitions, Violations =	7969
+Routed	56/142 Partitions, Violations =	7949
+Routed	57/142 Partitions, Violations =	7952
+Routed	58/142 Partitions, Violations =	7956
+Routed	59/142 Partitions, Violations =	7978
+Routed	60/142 Partitions, Violations =	7976
+Routed	61/142 Partitions, Violations =	7970
+Routed	62/142 Partitions, Violations =	7962
+Routed	63/142 Partitions, Violations =	7950
+Routed	64/142 Partitions, Violations =	7938
+Routed	65/142 Partitions, Violations =	7959
+Routed	66/142 Partitions, Violations =	7963
+Routed	67/142 Partitions, Violations =	7963
+Routed	68/142 Partitions, Violations =	7966
+Routed	69/142 Partitions, Violations =	7966
+Routed	70/142 Partitions, Violations =	7964
+Routed	71/142 Partitions, Violations =	7961
+Routed	72/142 Partitions, Violations =	7971
+Routed	73/142 Partitions, Violations =	7967
+Routed	74/142 Partitions, Violations =	7980
+Routed	75/142 Partitions, Violations =	7972
+Routed	76/142 Partitions, Violations =	7975
+Routed	77/142 Partitions, Violations =	7956
+Routed	78/142 Partitions, Violations =	7947
+Routed	79/142 Partitions, Violations =	7949
+Routed	80/142 Partitions, Violations =	7962
+Routed	81/142 Partitions, Violations =	7969
+Routed	82/142 Partitions, Violations =	7970
+Routed	83/142 Partitions, Violations =	7971
+Routed	84/142 Partitions, Violations =	7989
+Routed	85/142 Partitions, Violations =	8013
+Routed	86/142 Partitions, Violations =	7993
+Routed	87/142 Partitions, Violations =	7983
+Routed	88/142 Partitions, Violations =	7983
+Routed	89/142 Partitions, Violations =	7984
+Routed	90/142 Partitions, Violations =	7994
+Routed	91/142 Partitions, Violations =	7999
+Routed	92/142 Partitions, Violations =	7975
+Routed	93/142 Partitions, Violations =	7975
+Routed	94/142 Partitions, Violations =	7977
+Routed	95/142 Partitions, Violations =	7976
+Routed	96/142 Partitions, Violations =	7983
+Routed	97/142 Partitions, Violations =	7986
+Routed	98/142 Partitions, Violations =	8000
+Routed	99/142 Partitions, Violations =	8001
+Routed	100/142 Partitions, Violations =	8005
+Routed	101/142 Partitions, Violations =	8003
+Routed	102/142 Partitions, Violations =	8002
+Routed	103/142 Partitions, Violations =	8024
+Routed	104/142 Partitions, Violations =	8000
+Routed	105/142 Partitions, Violations =	7993
+Routed	106/142 Partitions, Violations =	7991
+Routed	107/142 Partitions, Violations =	7982
+Routed	108/142 Partitions, Violations =	8000
+Routed	109/142 Partitions, Violations =	8008
+Routed	110/142 Partitions, Violations =	8015
+Routed	111/142 Partitions, Violations =	8013
+Routed	112/142 Partitions, Violations =	8010
+Routed	113/142 Partitions, Violations =	8029
+Routed	114/142 Partitions, Violations =	8022
+Routed	115/142 Partitions, Violations =	8021
+Routed	116/142 Partitions, Violations =	7998
+Routed	117/142 Partitions, Violations =	7995
+Routed	118/142 Partitions, Violations =	7977
+Routed	119/142 Partitions, Violations =	7979
+Routed	120/142 Partitions, Violations =	7980
+Routed	121/142 Partitions, Violations =	7981
+Routed	122/142 Partitions, Violations =	7949
+Routed	123/142 Partitions, Violations =	7974
+Routed	124/142 Partitions, Violations =	7951
+Routed	125/142 Partitions, Violations =	7943
+Routed	126/142 Partitions, Violations =	7943
+Routed	127/142 Partitions, Violations =	7931
+Routed	128/142 Partitions, Violations =	7926
+Routed	129/142 Partitions, Violations =	7899
+Routed	130/142 Partitions, Violations =	7908
+Routed	131/142 Partitions, Violations =	7905
+Routed	132/142 Partitions, Violations =	7899
+Routed	133/142 Partitions, Violations =	7904
+Routed	134/142 Partitions, Violations =	7913
+Routed	135/142 Partitions, Violations =	7925
+Routed	136/142 Partitions, Violations =	7904
+Routed	137/142 Partitions, Violations =	7902
+Routed	138/142 Partitions, Violations =	7913
+Routed	139/142 Partitions, Violations =	7912
+Routed	140/142 Partitions, Violations =	7879
+Routed	141/142 Partitions, Violations =	7882
+Routed	142/142 Partitions, Violations =	7885
+
+DRC-SUMMARY:
+	@@@@@@@ TOTAL VIOLATIONS =	7878
+	Diff net spacing : 2534
+	Diff net via-cut spacing : 788
+	Edge-line via spacing : 19
+	End of line enclosure : 89
+	Less than minimum area : 5
+	Less than minimum width : 12
+	Off-grid : 369
+	Same net spacing : 289
+	Same net via-cut spacing : 61
+	Short : 3712
+
+Information: The app option "route.detail.report_soft_drc_separately" will be on-by-default in future release. (ZRT-807)
+	@@@@@@@ TOTAL SOFT VIOLATIONS =	7
+	Soft spacing (shielding) : 7
+
+[Iter 2] Elapsed real time: 0:05:05 
+[Iter 2] Elapsed cpu  time: sys=0:00:00 usr=0:05:04 total=0:05:04
+[Iter 2] Stage (MB): Used    0  Alloctr    0  Proc  134 
+[Iter 2] Total (MB): Used    0  Alloctr    0  Proc 5227 
+
+End DR iteration 2 with 142 parts
+
+Start DR iteration 3: non-uniform partition
+Routed	1/136 Partitions, Violations =	7895
+Routed	2/136 Partitions, Violations =	7899
+Routed	3/136 Partitions, Violations =	7903
+Routed	4/136 Partitions, Violations =	7903
+Routed	5/136 Partitions, Violations =	7904
+Routed	6/136 Partitions, Violations =	7904
+Routed	7/136 Partitions, Violations =	7908
+Routed	8/136 Partitions, Violations =	7902
+Routed	9/136 Partitions, Violations =	7903
+Routed	10/136 Partitions, Violations =	7906
+Routed	11/136 Partitions, Violations =	7907
+Routed	12/136 Partitions, Violations =	7912
+Routed	13/136 Partitions, Violations =	7947
+Routed	14/136 Partitions, Violations =	7945
+Routed	15/136 Partitions, Violations =	7939
+Routed	16/136 Partitions, Violations =	7939
+Routed	17/136 Partitions, Violations =	7937
+Routed	18/136 Partitions, Violations =	7937
+Routed	19/136 Partitions, Violations =	7938
+Routed	20/136 Partitions, Violations =	7936
+Routed	21/136 Partitions, Violations =	7945
+Routed	22/136 Partitions, Violations =	7942
+Routed	23/136 Partitions, Violations =	7943
+Routed	24/136 Partitions, Violations =	7956
+Routed	25/136 Partitions, Violations =	7956
+Routed	26/136 Partitions, Violations =	7916
+Routed	27/136 Partitions, Violations =	7915
+Routed	28/136 Partitions, Violations =	7922
+Routed	29/136 Partitions, Violations =	7917
+Routed	30/136 Partitions, Violations =	7916
+Routed	31/136 Partitions, Violations =	7915
+Routed	32/136 Partitions, Violations =	7916
+Routed	33/136 Partitions, Violations =	7941
+Routed	34/136 Partitions, Violations =	7929
+Routed	35/136 Partitions, Violations =	7905
+Routed	36/136 Partitions, Violations =	7912
+Routed	37/136 Partitions, Violations =	7919
+Routed	38/136 Partitions, Violations =	7918
+Routed	39/136 Partitions, Violations =	7935
+Routed	40/136 Partitions, Violations =	7931
+Routed	41/136 Partitions, Violations =	7931
+Routed	42/136 Partitions, Violations =	7944
+Routed	43/136 Partitions, Violations =	7927
+Routed	44/136 Partitions, Violations =	7915
+Routed	45/136 Partitions, Violations =	7894
+Routed	46/136 Partitions, Violations =	7894
+Routed	47/136 Partitions, Violations =	7895
+Routed	48/136 Partitions, Violations =	7913
+Routed	49/136 Partitions, Violations =	7915
+Routed	50/136 Partitions, Violations =	7920
+Routed	51/136 Partitions, Violations =	7920
+Routed	52/136 Partitions, Violations =	7910
+Routed	53/136 Partitions, Violations =	7925
+Routed	54/136 Partitions, Violations =	7925
+Routed	55/136 Partitions, Violations =	7929
+Routed	56/136 Partitions, Violations =	7933
+Routed	57/136 Partitions, Violations =	7947
+Routed	58/136 Partitions, Violations =	7920
+Routed	59/136 Partitions, Violations =	7841
+Routed	60/136 Partitions, Violations =	7832
+Routed	61/136 Partitions, Violations =	7833
+Routed	62/136 Partitions, Violations =	7835
+Routed	63/136 Partitions, Violations =	7822
+Routed	64/136 Partitions, Violations =	7807
+Routed	65/136 Partitions, Violations =	7807
+Routed	66/136 Partitions, Violations =	7802
+Routed	67/136 Partitions, Violations =	7800
+Routed	68/136 Partitions, Violations =	7806
+Routed	69/136 Partitions, Violations =	7835
+Routed	70/136 Partitions, Violations =	7845
+Routed	71/136 Partitions, Violations =	7863
+Routed	72/136 Partitions, Violations =	7863
+Routed	73/136 Partitions, Violations =	7864
+Routed	74/136 Partitions, Violations =	7912
+Routed	75/136 Partitions, Violations =	7901
+Routed	76/136 Partitions, Violations =	7903
+Routed	77/136 Partitions, Violations =	7918
+Routed	78/136 Partitions, Violations =	7914
+Routed	79/136 Partitions, Violations =	7897
+Routed	80/136 Partitions, Violations =	7891
+Routed	81/136 Partitions, Violations =	7885
+Routed	82/136 Partitions, Violations =	7894
+Routed	83/136 Partitions, Violations =	7895
+Routed	84/136 Partitions, Violations =	7911
+Routed	85/136 Partitions, Violations =	7919
+Routed	86/136 Partitions, Violations =	7916
+Routed	87/136 Partitions, Violations =	7886
+Routed	88/136 Partitions, Violations =	7891
+Routed	89/136 Partitions, Violations =	7875
+Routed	90/136 Partitions, Violations =	7877
+Routed	91/136 Partitions, Violations =	7881
+Routed	92/136 Partitions, Violations =	7878
+Routed	93/136 Partitions, Violations =	7898
+Routed	94/136 Partitions, Violations =	7895
+Routed	95/136 Partitions, Violations =	7895
+Routed	96/136 Partitions, Violations =	7898
+Routed	97/136 Partitions, Violations =	7893
+Routed	98/136 Partitions, Violations =	7884
+Routed	99/136 Partitions, Violations =	7877
+Routed	100/136 Partitions, Violations =	7877
+Routed	101/136 Partitions, Violations =	7865
+Routed	102/136 Partitions, Violations =	7912
+Routed	103/136 Partitions, Violations =	7912
+Routed	104/136 Partitions, Violations =	7919
+Routed	105/136 Partitions, Violations =	7918
+Routed	106/136 Partitions, Violations =	7923
+Routed	107/136 Partitions, Violations =	7920
+Routed	108/136 Partitions, Violations =	7912
+Routed	109/136 Partitions, Violations =	7905
+Routed	110/136 Partitions, Violations =	7909
+Routed	111/136 Partitions, Violations =	7872
+Routed	112/136 Partitions, Violations =	7865
+Routed	113/136 Partitions, Violations =	7865
+Routed	114/136 Partitions, Violations =	7864
+Routed	115/136 Partitions, Violations =	7864
+Routed	116/136 Partitions, Violations =	7876
+Routed	117/136 Partitions, Violations =	7879
+Routed	118/136 Partitions, Violations =	7883
+Routed	119/136 Partitions, Violations =	7877
+Routed	120/136 Partitions, Violations =	7875
+Routed	121/136 Partitions, Violations =	7868
+Routed	122/136 Partitions, Violations =	7869
+Routed	123/136 Partitions, Violations =	7869
+Routed	124/136 Partitions, Violations =	7864
+Routed	125/136 Partitions, Violations =	7855
+Routed	126/136 Partitions, Violations =	7864
+Routed	127/136 Partitions, Violations =	7880
+Routed	128/136 Partitions, Violations =	7917
+Routed	129/136 Partitions, Violations =	7913
+Routed	130/136 Partitions, Violations =	7923
+Routed	131/136 Partitions, Violations =	7897
+Routed	132/136 Partitions, Violations =	7908
+Routed	133/136 Partitions, Violations =	7925
+Routed	134/136 Partitions, Violations =	7925
+Routed	135/136 Partitions, Violations =	7931
+Routed	136/136 Partitions, Violations =	7944
+
+DRC-SUMMARY:
+	@@@@@@@ TOTAL VIOLATIONS =	7936
+	Diff net spacing : 2449
+	Diff net via-cut spacing : 805
+	Edge-line via spacing : 31
+	End of line enclosure : 48
+	Less than minimum area : 9
+	Less than minimum width : 12
+	Multiple pin connections : 2
+	Off-grid : 386
+	Same net spacing : 275
+	Same net via-cut spacing : 70
+	Short : 3849
+
+Information: The app option "route.detail.report_soft_drc_separately" will be on-by-default in future release. (ZRT-807)
+	@@@@@@@ TOTAL SOFT VIOLATIONS =	8
+	Less than NDR width : 3
+	Soft spacing (shielding) : 5
+
+[Iter 3] Elapsed real time: 0:07:53 
+[Iter 3] Elapsed cpu  time: sys=0:00:00 usr=0:07:51 total=0:07:51
+[Iter 3] Stage (MB): Used    0  Alloctr    0  Proc  134 
+[Iter 3] Total (MB): Used    0  Alloctr    0  Proc 5227 
+
+End DR iteration 3 with 136 parts
+
+Start DR iteration 4: non-uniform partition
+Routed	1/129 Partitions, Violations =	7953
+Routed	2/129 Partitions, Violations =	7955
+Routed	3/129 Partitions, Violations =	7965
+Routed	4/129 Partitions, Violations =	7965
+Routed	5/129 Partitions, Violations =	7921
+Routed	6/129 Partitions, Violations =	7937
+Routed	7/129 Partitions, Violations =	7932
+Routed	8/129 Partitions, Violations =	7931
+Routed	9/129 Partitions, Violations =	7929
+Routed	10/129 Partitions, Violations =	7926
+Routed	11/129 Partitions, Violations =	7922
+Routed	12/129 Partitions, Violations =	7923
+Routed	13/129 Partitions, Violations =	7925
+Routed	14/129 Partitions, Violations =	7929
+Routed	15/129 Partitions, Violations =	7925
+Routed	16/129 Partitions, Violations =	7923
+Routed	17/129 Partitions, Violations =	7941
+Routed	18/129 Partitions, Violations =	7938
+Routed	19/129 Partitions, Violations =	7971
+Routed	20/129 Partitions, Violations =	7982
+Routed	21/129 Partitions, Violations =	7978
+Routed	22/129 Partitions, Violations =	7971
+Routed	23/129 Partitions, Violations =	7972
+Routed	24/129 Partitions, Violations =	7968
+Routed	25/129 Partitions, Violations =	7971
+Routed	26/129 Partitions, Violations =	7966
+Routed	27/129 Partitions, Violations =	7972
+Routed	28/129 Partitions, Violations =	7969
+Routed	29/129 Partitions, Violations =	7970
+Routed	30/129 Partitions, Violations =	7968
+Routed	31/129 Partitions, Violations =	7968
+Routed	32/129 Partitions, Violations =	7978
+Routed	33/129 Partitions, Violations =	7983
+Routed	34/129 Partitions, Violations =	7984
+Routed	35/129 Partitions, Violations =	7982
+Routed	36/129 Partitions, Violations =	7981
+Routed	37/129 Partitions, Violations =	7975
+Routed	38/129 Partitions, Violations =	7978
+Routed	39/129 Partitions, Violations =	7976
+Routed	40/129 Partitions, Violations =	7954
+Routed	41/129 Partitions, Violations =	7961
+Routed	42/129 Partitions, Violations =	7958
+Routed	43/129 Partitions, Violations =	7919
+Routed	44/129 Partitions, Violations =	7938
+Routed	45/129 Partitions, Violations =	7922
+Routed	46/129 Partitions, Violations =	7921
+Routed	47/129 Partitions, Violations =	7909
+Routed	48/129 Partitions, Violations =	7909
+Routed	49/129 Partitions, Violations =	7907
+Routed	50/129 Partitions, Violations =	7908
+Routed	51/129 Partitions, Violations =	7910
+Routed	52/129 Partitions, Violations =	7922
+Routed	53/129 Partitions, Violations =	7923
+Routed	54/129 Partitions, Violations =	7914
+Routed	55/129 Partitions, Violations =	7921
+Routed	56/129 Partitions, Violations =	7918
+Routed	57/129 Partitions, Violations =	7925
+Routed	58/129 Partitions, Violations =	7898
+Routed	59/129 Partitions, Violations =	7898
+Routed	60/129 Partitions, Violations =	7904
+Routed	61/129 Partitions, Violations =	7887
+Routed	62/129 Partitions, Violations =	7900
+Routed	63/129 Partitions, Violations =	7898
+Routed	64/129 Partitions, Violations =	7945
+Routed	65/129 Partitions, Violations =	7934
+Routed	66/129 Partitions, Violations =	7933
+Routed	67/129 Partitions, Violations =	7930
+Routed	68/129 Partitions, Violations =	7938
+Routed	69/129 Partitions, Violations =	7935
+Routed	70/129 Partitions, Violations =	7928
+Routed	71/129 Partitions, Violations =	7920
+Routed	72/129 Partitions, Violations =	7917
+Routed	73/129 Partitions, Violations =	7916
+Routed	74/129 Partitions, Violations =	7924
+Routed	75/129 Partitions, Violations =	7920
+Routed	76/129 Partitions, Violations =	7916
+Routed	77/129 Partitions, Violations =	7916
+Routed	78/129 Partitions, Violations =	7909
+Routed	79/129 Partitions, Violations =	7910
+Routed	80/129 Partitions, Violations =	7959
+Routed	81/129 Partitions, Violations =	7951
+Routed	82/129 Partitions, Violations =	7951
+Routed	83/129 Partitions, Violations =	7954
+Routed	84/129 Partitions, Violations =	7940
+Routed	85/129 Partitions, Violations =	7910
+Routed	86/129 Partitions, Violations =	7901
+Routed	87/129 Partitions, Violations =	7891
+Routed	88/129 Partitions, Violations =	7881
+Routed	89/129 Partitions, Violations =	7866
+Routed	90/129 Partitions, Violations =	7848
+Routed	91/129 Partitions, Violations =	7834
+Routed	92/129 Partitions, Violations =	7834
+Routed	93/129 Partitions, Violations =	7836
+Routed	94/129 Partitions, Violations =	7853
+Routed	95/129 Partitions, Violations =	7853
+Routed	96/129 Partitions, Violations =	7855
+Routed	97/129 Partitions, Violations =	7858
+Routed	98/129 Partitions, Violations =	7840
+Routed	99/129 Partitions, Violations =	7838
+Routed	100/129 Partitions, Violations =	7828
+Routed	101/129 Partitions, Violations =	7831
+Routed	102/129 Partitions, Violations =	7819
+Routed	103/129 Partitions, Violations =	7788
+Routed	104/129 Partitions, Violations =	7774
+Routed	105/129 Partitions, Violations =	7778
+Routed	106/129 Partitions, Violations =	7793
+Routed	107/129 Partitions, Violations =	7788
+Routed	108/129 Partitions, Violations =	7796
+Routed	109/129 Partitions, Violations =	7801
+Routed	110/129 Partitions, Violations =	7802
+Routed	111/129 Partitions, Violations =	7811
+Routed	112/129 Partitions, Violations =	7809
+Routed	113/129 Partitions, Violations =	7819
+Routed	114/129 Partitions, Violations =	7824
+Routed	115/129 Partitions, Violations =	7822
+Routed	116/129 Partitions, Violations =	7836
+Routed	117/129 Partitions, Violations =	7829
+Routed	118/129 Partitions, Violations =	7832
+Routed	119/129 Partitions, Violations =	7837
+Routed	120/129 Partitions, Violations =	7836
+Routed	121/129 Partitions, Violations =	7836
+Routed	122/129 Partitions, Violations =	7837
+Routed	123/129 Partitions, Violations =	7839
+Routed	124/129 Partitions, Violations =	7846
+Routed	125/129 Partitions, Violations =	7841
+Routed	126/129 Partitions, Violations =	7841
+Routed	127/129 Partitions, Violations =	7840
+Routed	128/129 Partitions, Violations =	7842
+Routed	129/129 Partitions, Violations =	7843
+
+DRC-SUMMARY:
+	@@@@@@@ TOTAL VIOLATIONS =	7839
+	Diff net spacing : 2413
+	Diff net via-cut spacing : 811
+	Edge-line via spacing : 25
+	End of line enclosure : 60
+	Less than minimum area : 6
+	Less than minimum width : 26
+	Off-grid : 429
+	Same net spacing : 259
+	Same net via-cut spacing : 58
+	Short : 3752
+
+Information: The app option "route.detail.report_soft_drc_separately" will be on-by-default in future release. (ZRT-807)
+	@@@@@@@ TOTAL SOFT VIOLATIONS =	4
+	Soft spacing (shielding) : 4
+
+[Iter 4] Elapsed real time: 0:11:02 
+[Iter 4] Elapsed cpu  time: sys=0:00:00 usr=0:10:59 total=0:11:00
+[Iter 4] Stage (MB): Used    0  Alloctr    0  Proc  134 
+[Iter 4] Total (MB): Used    0  Alloctr    0  Proc 5227 
+
+End DR iteration 4 with 129 parts
+
+
+Switch back to normal partition bloat and recalculate DRC:
+
+Begin full DRC check ...
+
+Information: Using 1 threads for routing. (ZRT-444)
+Checked	1/12 Partitions, Violations =	7848
+Checked	2/12 Partitions, Violations =	7848
+Checked	3/12 Partitions, Violations =	7868
+Checked	4/12 Partitions, Violations =	7988
+Checked	5/12 Partitions, Violations =	7992
+Checked	6/12 Partitions, Violations =	7992
+Checked	7/12 Partitions, Violations =	7988
+Checked	8/12 Partitions, Violations =	8054
+Checked	9/12 Partitions, Violations =	8054
+Checked	10/12 Partitions, Violations =	8054
+Checked	11/12 Partitions, Violations =	8054
+Checked	12/12 Partitions, Violations =	8054
+[DRC CHECK] Elapsed real time: 0:11:04 
+[DRC CHECK] Elapsed cpu  time: sys=0:00:00 usr=0:11:01 total=0:11:01
+[DRC CHECK] Stage (MB): Used    0  Alloctr    0  Proc  134 
+[DRC CHECK] Total (MB): Used    0  Alloctr    0  Proc 5227 
+Start DR iteration 5: non-uniform partition
+Routed	1/125 Partitions, Violations =	8060
+Routed	2/125 Partitions, Violations =	8060
+Routed	3/125 Partitions, Violations =	8028
+Routed	4/125 Partitions, Violations =	8030
+Routed	5/125 Partitions, Violations =	8030
+Routed	6/125 Partitions, Violations =	8050
+Routed	7/125 Partitions, Violations =	8049
+Routed	8/125 Partitions, Violations =	8049
+Routed	9/125 Partitions, Violations =	8065
+Routed	10/125 Partitions, Violations =	8063
+Routed	11/125 Partitions, Violations =	8064
+Routed	12/125 Partitions, Violations =	8047
+Routed	13/125 Partitions, Violations =	8051
+Routed	14/125 Partitions, Violations =	8052
+Routed	15/125 Partitions, Violations =	8055
+Routed	16/125 Partitions, Violations =	8056
+Routed	17/125 Partitions, Violations =	8033
+Routed	18/125 Partitions, Violations =	8040
+Routed	19/125 Partitions, Violations =	8054
+Routed	20/125 Partitions, Violations =	8045
+Routed	21/125 Partitions, Violations =	8007
+Routed	22/125 Partitions, Violations =	7998
+Routed	23/125 Partitions, Violations =	7993
+Routed	24/125 Partitions, Violations =	7987
+Routed	25/125 Partitions, Violations =	7987
+Routed	26/125 Partitions, Violations =	7984
+Routed	27/125 Partitions, Violations =	7990
+Routed	28/125 Partitions, Violations =	8001
+Routed	29/125 Partitions, Violations =	7983
+Routed	30/125 Partitions, Violations =	7975
+Routed	31/125 Partitions, Violations =	7975
+Routed	32/125 Partitions, Violations =	7973
+Routed	33/125 Partitions, Violations =	7982
+Routed	34/125 Partitions, Violations =	7932
+Routed	35/125 Partitions, Violations =	7931
+Routed	36/125 Partitions, Violations =	7924
+Routed	37/125 Partitions, Violations =	7930
+Routed	38/125 Partitions, Violations =	7953
+Routed	39/125 Partitions, Violations =	7949
+Routed	40/125 Partitions, Violations =	7947
+Routed	41/125 Partitions, Violations =	7962
+Routed	42/125 Partitions, Violations =	7964
+Routed	43/125 Partitions, Violations =	7966
+Routed	44/125 Partitions, Violations =	7967
+Routed	45/125 Partitions, Violations =	7967
+Routed	46/125 Partitions, Violations =	7966
+Routed	47/125 Partitions, Violations =	7974
+Routed	48/125 Partitions, Violations =	8007
+Routed	49/125 Partitions, Violations =	8006
+Routed	50/125 Partitions, Violations =	8015
+Routed	51/125 Partitions, Violations =	8019
+Routed	52/125 Partitions, Violations =	8024
+Routed	53/125 Partitions, Violations =	8016
+Routed	54/125 Partitions, Violations =	7989
+Routed	55/125 Partitions, Violations =	7999
+Routed	56/125 Partitions, Violations =	8007
+Routed	57/125 Partitions, Violations =	8012
+Routed	58/125 Partitions, Violations =	8012
+Routed	59/125 Partitions, Violations =	8007
+Routed	60/125 Partitions, Violations =	8017
+Routed	61/125 Partitions, Violations =	8023
+Routed	62/125 Partitions, Violations =	7987
+Routed	63/125 Partitions, Violations =	7971
+Routed	64/125 Partitions, Violations =	7971
+Routed	65/125 Partitions, Violations =	7959
+Routed	66/125 Partitions, Violations =	7943
+Routed	67/125 Partitions, Violations =	7954
+Routed	68/125 Partitions, Violations =	7969
+Routed	69/125 Partitions, Violations =	7968
+Routed	70/125 Partitions, Violations =	7968
+Routed	71/125 Partitions, Violations =	7980
+Routed	72/125 Partitions, Violations =	7979
+Routed	73/125 Partitions, Violations =	7974
+Routed	74/125 Partitions, Violations =	7969
+Routed	75/125 Partitions, Violations =	7914
+Routed	76/125 Partitions, Violations =	7911
+Routed	77/125 Partitions, Violations =	7904
+Routed	78/125 Partitions, Violations =	7902
+Routed	79/125 Partitions, Violations =	7906
+Routed	80/125 Partitions, Violations =	7908
+Routed	81/125 Partitions, Violations =	7903
+Routed	82/125 Partitions, Violations =	7901
+Routed	83/125 Partitions, Violations =	7902
+Routed	84/125 Partitions, Violations =	7893
+Routed	85/125 Partitions, Violations =	7894
+Routed	86/125 Partitions, Violations =	7897
+Routed	87/125 Partitions, Violations =	7897
+Routed	88/125 Partitions, Violations =	7907
+Routed	89/125 Partitions, Violations =	7908
+Routed	90/125 Partitions, Violations =	7891
+Routed	91/125 Partitions, Violations =	7886
+Routed	92/125 Partitions, Violations =	7892
+Routed	93/125 Partitions, Violations =	7890
+Routed	94/125 Partitions, Violations =	7882
+Routed	95/125 Partitions, Violations =	7896
+Routed	96/125 Partitions, Violations =	7903
+Routed	97/125 Partitions, Violations =	7906
+Routed	98/125 Partitions, Violations =	7892
+Routed	99/125 Partitions, Violations =	7880
+Routed	100/125 Partitions, Violations =	7884
+Routed	101/125 Partitions, Violations =	7877
+Routed	102/125 Partitions, Violations =	7870
+Routed	103/125 Partitions, Violations =	7847
+Routed	104/125 Partitions, Violations =	7864
+Routed	105/125 Partitions, Violations =	7819
+Routed	106/125 Partitions, Violations =	7819
+Routed	107/125 Partitions, Violations =	7815
+Routed	108/125 Partitions, Violations =	7803
+Routed	109/125 Partitions, Violations =	7808
+Routed	110/125 Partitions, Violations =	7797
+Routed	111/125 Partitions, Violations =	7786
+Routed	112/125 Partitions, Violations =	7780
+Routed	113/125 Partitions, Violations =	7779
+Routed	114/125 Partitions, Violations =	7771
+Routed	115/125 Partitions, Violations =	7747
+Routed	116/125 Partitions, Violations =	7756
+Routed	117/125 Partitions, Violations =	7760
+Routed	118/125 Partitions, Violations =	7763
+Routed	119/125 Partitions, Violations =	7769
+Routed	120/125 Partitions, Violations =	7779
+Routed	121/125 Partitions, Violations =	7786
+Routed	122/125 Partitions, Violations =	7780
+Routed	123/125 Partitions, Violations =	7800
+Routed	124/125 Partitions, Violations =	7810
+Routed	125/125 Partitions, Violations =	7810
+
+DRC-SUMMARY:
+	@@@@@@@ TOTAL VIOLATIONS =	7800
+	Diff net spacing : 2436
+	Diff net via-cut spacing : 797
+	Edge-line via spacing : 21
+	End of line enclosure : 63
+	Less than minimum area : 5
+	Less than minimum width : 10
+	Off-grid : 425
+	Same net spacing : 251
+	Same net via-cut spacing : 56
+	Short : 3736
+
+Information: The app option "route.detail.report_soft_drc_separately" will be on-by-default in future release. (ZRT-807)
+	@@@@@@@ TOTAL SOFT VIOLATIONS =	10
+	Diff net var rule spacing : 1
+	Soft spacing (shielding) : 9
+
+[Iter 5] Elapsed real time: 0:14:51 
+[Iter 5] Elapsed cpu  time: sys=0:00:00 usr=0:14:47 total=0:14:47
+[Iter 5] Stage (MB): Used    0  Alloctr    0  Proc  134 
+[Iter 5] Total (MB): Used    0  Alloctr    0  Proc 5227 
+
+End DR iteration 5 with 125 parts
+
+Start DR iteration 6: non-uniform partition
+Routed	1/121 Partitions, Violations =	7804
+Routed	2/121 Partitions, Violations =	7797
+Routed	3/121 Partitions, Violations =	7796
+Routed	4/121 Partitions, Violations =	7799
+Routed	5/121 Partitions, Violations =	7812
+Routed	6/121 Partitions, Violations =	7815
+Routed	7/121 Partitions, Violations =	7810
+Routed	8/121 Partitions, Violations =	7813
+Routed	9/121 Partitions, Violations =	7812
+Routed	10/121 Partitions, Violations =	7810
+Routed	11/121 Partitions, Violations =	7772
+Routed	12/121 Partitions, Violations =	7806
+Routed	13/121 Partitions, Violations =	7770
+Routed	14/121 Partitions, Violations =	7729
+Routed	15/121 Partitions, Violations =	7722
+Routed	16/121 Partitions, Violations =	7721
+Routed	17/121 Partitions, Violations =	7712
+Routed	18/121 Partitions, Violations =	7713
+Routed	19/121 Partitions, Violations =	7709
+Routed	20/121 Partitions, Violations =	7736
+Routed	21/121 Partitions, Violations =	7722
+Routed	22/121 Partitions, Violations =	7723
+Routed	23/121 Partitions, Violations =	7724
+Routed	24/121 Partitions, Violations =	7725
+Routed	25/121 Partitions, Violations =	7707
+Routed	26/121 Partitions, Violations =	7707
+Routed	27/121 Partitions, Violations =	7700
+Routed	28/121 Partitions, Violations =	7721
+Routed	29/121 Partitions, Violations =	7724
+Routed	30/121 Partitions, Violations =	7723
+Routed	31/121 Partitions, Violations =	7724
+Routed	32/121 Partitions, Violations =	7856
+Routed	33/121 Partitions, Violations =	7856
+Routed	34/121 Partitions, Violations =	7844
+Routed	35/121 Partitions, Violations =	7876
+Routed	36/121 Partitions, Violations =	7899
+Routed	37/121 Partitions, Violations =	7904
+Routed	38/121 Partitions, Violations =	7907
+Routed	39/121 Partitions, Violations =	7913
+Routed	40/121 Partitions, Violations =	7912
+Routed	41/121 Partitions, Violations =	7918
+Routed	42/121 Partitions, Violations =	7922
+Routed	43/121 Partitions, Violations =	7926
+Routed	44/121 Partitions, Violations =	7926
+Routed	45/121 Partitions, Violations =	7936
+Routed	46/121 Partitions, Violations =	7936
+Routed	47/121 Partitions, Violations =	7937
+Routed	48/121 Partitions, Violations =	7936
+Routed	49/121 Partitions, Violations =	7939
+Routed	50/121 Partitions, Violations =	7940
+Routed	51/121 Partitions, Violations =	7949
+Routed	52/121 Partitions, Violations =	7947
+Routed	53/121 Partitions, Violations =	7921
+Routed	54/121 Partitions, Violations =	7922
+Routed	55/121 Partitions, Violations =	7931
+Routed	56/121 Partitions, Violations =	7916
+Routed	57/121 Partitions, Violations =	7908
+Routed	58/121 Partitions, Violations =	7907
+Routed	59/121 Partitions, Violations =	7858
+Routed	60/121 Partitions, Violations =	7856
+Routed	61/121 Partitions, Violations =	7792
+Routed	62/121 Partitions, Violations =	7789
+Routed	63/121 Partitions, Violations =	7787
+Routed	64/121 Partitions, Violations =	7781
+Routed	65/121 Partitions, Violations =	7782
+Routed	66/121 Partitions, Violations =	7779
+Routed	67/121 Partitions, Violations =	7810
+Routed	68/121 Partitions, Violations =	7816
+Routed	69/121 Partitions, Violations =	7814
+Routed	70/121 Partitions, Violations =	7809
+Routed	71/121 Partitions, Violations =	7787
+Routed	72/121 Partitions, Violations =	7788
+Routed	73/121 Partitions, Violations =	7803
+Routed	74/121 Partitions, Violations =	7807
+Routed	75/121 Partitions, Violations =	7871
+Routed	76/121 Partitions, Violations =	7861
+Routed	77/121 Partitions, Violations =	7861
+Routed	78/121 Partitions, Violations =	7848
+Routed	79/121 Partitions, Violations =	7828
+Routed	80/121 Partitions, Violations =	7840
+Routed	81/121 Partitions, Violations =	7835
+Routed	82/121 Partitions, Violations =	7839
+Routed	83/121 Partitions, Violations =	7839
+Routed	84/121 Partitions, Violations =	7831
+Routed	85/121 Partitions, Violations =	7814
+Routed	86/121 Partitions, Violations =	7819
+Routed	87/121 Partitions, Violations =	7819
+Routed	88/121 Partitions, Violations =	7743
+Routed	89/121 Partitions, Violations =	7740
+Routed	90/121 Partitions, Violations =	7744
+Routed	91/121 Partitions, Violations =	7746
+Routed	92/121 Partitions, Violations =	7774
+Routed	93/121 Partitions, Violations =	7825
+Routed	94/121 Partitions, Violations =	7822
+Routed	95/121 Partitions, Violations =	7822
+Routed	96/121 Partitions, Violations =	7819
+Routed	97/121 Partitions, Violations =	7832
+Routed	98/121 Partitions, Violations =	7850
+Routed	99/121 Partitions, Violations =	7832
+Routed	100/121 Partitions, Violations =	7824
+Routed	101/121 Partitions, Violations =	7861
+Routed	102/121 Partitions, Violations =	7854
+Routed	103/121 Partitions, Violations =	7853
+Routed	104/121 Partitions, Violations =	7845
+Routed	105/121 Partitions, Violations =	7855
+Routed	106/121 Partitions, Violations =	7853
+Routed	107/121 Partitions, Violations =	7849
+Routed	108/121 Partitions, Violations =	7849
+Routed	109/121 Partitions, Violations =	7850
+Routed	110/121 Partitions, Violations =	7823
+Routed	111/121 Partitions, Violations =	7812
+Routed	112/121 Partitions, Violations =	7815
+Routed	113/121 Partitions, Violations =	7837
+Routed	114/121 Partitions, Violations =	7833
+Routed	115/121 Partitions, Violations =	7840
+Routed	116/121 Partitions, Violations =	7833
+Routed	117/121 Partitions, Violations =	7824
+Routed	118/121 Partitions, Violations =	7803
+Routed	119/121 Partitions, Violations =	7796
+Routed	120/121 Partitions, Violations =	7793
+Routed	121/121 Partitions, Violations =	7776
+
+DRC-SUMMARY:
+	@@@@@@@ TOTAL VIOLATIONS =	7633
+	Diff net spacing : 2338
+	Diff net via-cut spacing : 781
+	Edge-line via spacing : 24
+	End of line enclosure : 68
+	Less than minimum area : 2
+	Less than minimum width : 23
+	Off-grid : 446
+	Same net spacing : 218
+	Same net via-cut spacing : 67
+	Short : 3666
+
+Information: The app option "route.detail.report_soft_drc_separately" will be on-by-default in future release. (ZRT-807)
+	@@@@@@@ TOTAL SOFT VIOLATIONS =	143
+	Less than NDR width : 134
+	Soft spacing (shielding) : 9
+
+[Iter 6] Elapsed real time: 0:19:10 
+[Iter 6] Elapsed cpu  time: sys=0:00:00 usr=0:19:05 total=0:19:06
+[Iter 6] Stage (MB): Used    0  Alloctr    0  Proc  134 
+[Iter 6] Total (MB): Used    0  Alloctr    0  Proc 5227 
+
+End DR iteration 6 with 121 parts
+
+Start DR iteration 7: non-uniform partition
+Routed	1/120 Partitions, Violations =	7775
+Routed	2/120 Partitions, Violations =	7765
+Routed	3/120 Partitions, Violations =	7767
+Routed	4/120 Partitions, Violations =	7697
+Routed	5/120 Partitions, Violations =	7704
+Routed	6/120 Partitions, Violations =	7709
+Routed	7/120 Partitions, Violations =	7712
+Routed	8/120 Partitions, Violations =	7718
+Routed	9/120 Partitions, Violations =	7709
+Routed	10/120 Partitions, Violations =	7684
+Routed	11/120 Partitions, Violations =	7684
+Routed	12/120 Partitions, Violations =	7686
+Routed	13/120 Partitions, Violations =	7694
+Routed	14/120 Partitions, Violations =	7694
+Routed	15/120 Partitions, Violations =	7703
+Routed	16/120 Partitions, Violations =	7705
+Routed	17/120 Partitions, Violations =	7718
+Routed	18/120 Partitions, Violations =	7739
+Routed	19/120 Partitions, Violations =	7751
+Routed	20/120 Partitions, Violations =	7735
+Routed	21/120 Partitions, Violations =	7747
+Routed	22/120 Partitions, Violations =	7750
+Routed	23/120 Partitions, Violations =	7742
+Routed	24/120 Partitions, Violations =	7737
+Routed	25/120 Partitions, Violations =	7737
+Routed	26/120 Partitions, Violations =	7736
+Routed	27/120 Partitions, Violations =	7739
+Routed	28/120 Partitions, Violations =	7740
+Routed	29/120 Partitions, Violations =	7754
+Routed	30/120 Partitions, Violations =	7750
+Routed	31/120 Partitions, Violations =	7759
+Routed	32/120 Partitions, Violations =	7763
+Routed	33/120 Partitions, Violations =	7770
+Routed	34/120 Partitions, Violations =	7784
+Routed	35/120 Partitions, Violations =	7772
+Routed	36/120 Partitions, Violations =	7771
+Routed	37/120 Partitions, Violations =	7774
+Routed	38/120 Partitions, Violations =	7822
+Routed	39/120 Partitions, Violations =	7820
+Routed	40/120 Partitions, Violations =	7821
+Routed	41/120 Partitions, Violations =	7822
+Routed	42/120 Partitions, Violations =	7835
+Routed	43/120 Partitions, Violations =	7833
+Routed	44/120 Partitions, Violations =	7816
+Routed	45/120 Partitions, Violations =	7809
+Routed	46/120 Partitions, Violations =	7818
+Routed	47/120 Partitions, Violations =	7820
+Routed	48/120 Partitions, Violations =	7823
+Routed	49/120 Partitions, Violations =	7696
+Routed	50/120 Partitions, Violations =	7734
+Routed	51/120 Partitions, Violations =	7724
+Routed	52/120 Partitions, Violations =	7708
+Routed	53/120 Partitions, Violations =	7708
+Routed	54/120 Partitions, Violations =	7708
+Routed	55/120 Partitions, Violations =	7707
+Routed	56/120 Partitions, Violations =	7710
+Routed	57/120 Partitions, Violations =	7710
+Routed	58/120 Partitions, Violations =	7740
+Routed	59/120 Partitions, Violations =	7753
+Routed	60/120 Partitions, Violations =	7754
+Routed	61/120 Partitions, Violations =	7752
+Routed	62/120 Partitions, Violations =	7752
+Routed	63/120 Partitions, Violations =	7711
+Routed	64/120 Partitions, Violations =	7696
+Routed	65/120 Partitions, Violations =	7659
+Routed	66/120 Partitions, Violations =	7668
+Routed	67/120 Partitions, Violations =	7670
+Routed	68/120 Partitions, Violations =	7682
+Routed	69/120 Partitions, Violations =	7670
+Routed	70/120 Partitions, Violations =	7675
+Routed	71/120 Partitions, Violations =	7667
+Routed	72/120 Partitions, Violations =	7650
+Routed	73/120 Partitions, Violations =	7637
+Routed	74/120 Partitions, Violations =	7611
+Routed	75/120 Partitions, Violations =	7609
+Routed	76/120 Partitions, Violations =	7610
+Routed	77/120 Partitions, Violations =	7624
+Routed	78/120 Partitions, Violations =	7601
+Routed	79/120 Partitions, Violations =	7609
+Routed	80/120 Partitions, Violations =	7613
+Routed	81/120 Partitions, Violations =	7612
+Routed	82/120 Partitions, Violations =	7598
+Routed	83/120 Partitions, Violations =	7600
+Routed	84/120 Partitions, Violations =	7601
+Routed	85/120 Partitions, Violations =	7602
+Routed	86/120 Partitions, Violations =	7599
+Routed	87/120 Partitions, Violations =	7606
+Routed	88/120 Partitions, Violations =	7625
+Routed	89/120 Partitions, Violations =	7637
+Routed	90/120 Partitions, Violations =	7631
+Routed	91/120 Partitions, Violations =	7635
+Routed	92/120 Partitions, Violations =	7639
+Routed	93/120 Partitions, Violations =	7641
+Routed	94/120 Partitions, Violations =	7637
+Routed	95/120 Partitions, Violations =	7650
+Routed	96/120 Partitions, Violations =	7630
+Routed	97/120 Partitions, Violations =	7662
+Routed	98/120 Partitions, Violations =	7683
+Routed	99/120 Partitions, Violations =	7681
+Routed	100/120 Partitions, Violations =	7681
+Routed	101/120 Partitions, Violations =	7682
+Routed	102/120 Partitions, Violations =	7680
+Routed	103/120 Partitions, Violations =	7700
+Routed	104/120 Partitions, Violations =	7695
+Routed	105/120 Partitions, Violations =	7695
+Routed	106/120 Partitions, Violations =	7682
+Routed	107/120 Partitions, Violations =	7681
+Routed	108/120 Partitions, Violations =	7692
+Routed	109/120 Partitions, Violations =	7705
+Routed	110/120 Partitions, Violations =	7698
+Routed	111/120 Partitions, Violations =	7703
+Routed	112/120 Partitions, Violations =	7712
+Routed	113/120 Partitions, Violations =	7726
+Routed	114/120 Partitions, Violations =	7736
+Routed	115/120 Partitions, Violations =	7735
+Routed	116/120 Partitions, Violations =	7735
+Routed	117/120 Partitions, Violations =	7738
+Routed	118/120 Partitions, Violations =	7758
+Routed	119/120 Partitions, Violations =	7766
+Routed	120/120 Partitions, Violations =	7786
+
+DRC-SUMMARY:
+	@@@@@@@ TOTAL VIOLATIONS =	7770
+	Diff net spacing : 2258
+	Diff net via-cut spacing : 820
+	Edge-line via spacing : 45
+	End of line enclosure : 76
+	Less than minimum area : 3
+	Less than minimum width : 14
+	Off-grid : 488
+	Same net spacing : 221
+	Same net via-cut spacing : 77
+	Short : 3768
+
+Information: The app option "route.detail.report_soft_drc_separately" will be on-by-default in future release. (ZRT-807)
+	@@@@@@@ TOTAL SOFT VIOLATIONS =	16
+	Soft spacing (shielding) : 16
+
+[Iter 7] Elapsed real time: 0:23:53 
+[Iter 7] Elapsed cpu  time: sys=0:00:01 usr=0:23:47 total=0:23:48
+[Iter 7] Stage (MB): Used    0  Alloctr    0  Proc  134 
+[Iter 7] Total (MB): Used    0  Alloctr    0  Proc 5227 
+
+End DR iteration 7 with 120 parts
+
+Start DR iteration 8: non-uniform partition
+Routed	1/113 Partitions, Violations =	7784
+Routed	2/113 Partitions, Violations =	7774
+Routed	3/113 Partitions, Violations =	7779
+Routed	4/113 Partitions, Violations =	7779
+Routed	5/113 Partitions, Violations =	7777
+Routed	6/113 Partitions, Violations =	7770
+Routed	7/113 Partitions, Violations =	7730
+Routed	8/113 Partitions, Violations =	7730
+Routed	9/113 Partitions, Violations =	7729
+Routed	10/113 Partitions, Violations =	7731
+Routed	11/113 Partitions, Violations =	7730
+Routed	12/113 Partitions, Violations =	7710
+Routed	13/113 Partitions, Violations =	7710
+Routed	14/113 Partitions, Violations =	7749
+Routed	15/113 Partitions, Violations =	7747
+Routed	16/113 Partitions, Violations =	7751
+Routed	17/113 Partitions, Violations =	7749
+Routed	18/113 Partitions, Violations =	7737
+Routed	19/113 Partitions, Violations =	7737
+Routed	20/113 Partitions, Violations =	7729
+Routed	21/113 Partitions, Violations =	7731
+Routed	22/113 Partitions, Violations =	7764
+Routed	23/113 Partitions, Violations =	7769
+Routed	24/113 Partitions, Violations =	7780
+Routed	25/113 Partitions, Violations =	7740
+Routed	26/113 Partitions, Violations =	7740
+Routed	27/113 Partitions, Violations =	7761
+Routed	28/113 Partitions, Violations =	7762
+Routed	29/113 Partitions, Violations =	7770
+Routed	30/113 Partitions, Violations =	7771
+Routed	31/113 Partitions, Violations =	7773
+Routed	32/113 Partitions, Violations =	7774
+Routed	33/113 Partitions, Violations =	7773
+Routed	34/113 Partitions, Violations =	7779
+Routed	35/113 Partitions, Violations =	7821
+Routed	36/113 Partitions, Violations =	7831
+Routed	37/113 Partitions, Violations =	7833
+Routed	38/113 Partitions, Violations =	7875
+Routed	39/113 Partitions, Violations =	7881
+Routed	40/113 Partitions, Violations =	7869
+Routed	41/113 Partitions, Violations =	7870
+Routed	42/113 Partitions, Violations =	7860
+Routed	43/113 Partitions, Violations =	7858
+Routed	44/113 Partitions, Violations =	7842
+Routed	45/113 Partitions, Violations =	7838
+Routed	46/113 Partitions, Violations =	7838
+Routed	47/113 Partitions, Violations =	7828
+Routed	48/113 Partitions, Violations =	7824
+Routed	49/113 Partitions, Violations =	7825
+Routed	50/113 Partitions, Violations =	7841
+Routed	51/113 Partitions, Violations =	7813
+Routed	52/113 Partitions, Violations =	7819
+Routed	53/113 Partitions, Violations =	7817
+Routed	54/113 Partitions, Violations =	7823
+Routed	55/113 Partitions, Violations =	7816
+Routed	56/113 Partitions, Violations =	7820
+Routed	57/113 Partitions, Violations =	7833
+Routed	58/113 Partitions, Violations =	7842
+Routed	59/113 Partitions, Violations =	7836
+Routed	60/113 Partitions, Violations =	7839
+Routed	61/113 Partitions, Violations =	7834
+Routed	62/113 Partitions, Violations =	7848
+Routed	63/113 Partitions, Violations =	7812
+Routed	64/113 Partitions, Violations =	7820
+Routed	65/113 Partitions, Violations =	7811
+Routed	66/113 Partitions, Violations =	7812
+Routed	67/113 Partitions, Violations =	7812
+Routed	68/113 Partitions, Violations =	7805
+Routed	69/113 Partitions, Violations =	7819
+Routed	70/113 Partitions, Violations =	7843
+Routed	71/113 Partitions, Violations =	7844
+Routed	72/113 Partitions, Violations =	7843
+Routed	73/113 Partitions, Violations =	7846
+Routed	74/113 Partitions, Violations =	7848
+Routed	75/113 Partitions, Violations =	7899
+Routed	76/113 Partitions, Violations =	7900
+Routed	77/113 Partitions, Violations =	7902
+Routed	78/113 Partitions, Violations =	7893
+Routed	79/113 Partitions, Violations =	7906
+Routed	80/113 Partitions, Violations =	7898
+Routed	81/113 Partitions, Violations =	7897
+Routed	82/113 Partitions, Violations =	7884
+Routed	83/113 Partitions, Violations =	7877
+Routed	84/113 Partitions, Violations =	7889
+Routed	85/113 Partitions, Violations =	7886
+Routed	86/113 Partitions, Violations =	7885
+Routed	87/113 Partitions, Violations =	7873
+Routed	88/113 Partitions, Violations =	7871
+Routed	89/113 Partitions, Violations =	7872
+Routed	90/113 Partitions, Violations =	7845
+Routed	91/113 Partitions, Violations =	7863
+Routed	92/113 Partitions, Violations =	7839
+Routed	93/113 Partitions, Violations =	7840
+Routed	94/113 Partitions, Violations =	7838
+Routed	95/113 Partitions, Violations =	7843
+Routed	96/113 Partitions, Violations =	7838
+Routed	97/113 Partitions, Violations =	7830
+Routed	98/113 Partitions, Violations =	7820
+Routed	99/113 Partitions, Violations =	7823
+Routed	100/113 Partitions, Violations =	7829
+Routed	101/113 Partitions, Violations =	7822
+Routed	102/113 Partitions, Violations =	7822
+Routed	103/113 Partitions, Violations =	7810
+Routed	104/113 Partitions, Violations =	7829
+Routed	105/113 Partitions, Violations =	7826
+Routed	106/113 Partitions, Violations =	7832
+Routed	107/113 Partitions, Violations =	7834
+Routed	108/113 Partitions, Violations =	7820
+Routed	109/113 Partitions, Violations =	7814
+Routed	110/113 Partitions, Violations =	7826
+Routed	111/113 Partitions, Violations =	7815
+Routed	112/113 Partitions, Violations =	7802
+Routed	113/113 Partitions, Violations =	7751
+
+DRC-SUMMARY:
+	@@@@@@@ TOTAL VIOLATIONS =	7727
+	Diff net spacing : 2343
+	Diff net via-cut spacing : 831
+	Edge-line via spacing : 45
+	End of line enclosure : 78
+	Less than minimum area : 8
+	Less than minimum width : 25
+	Off-grid : 474
+	Same net spacing : 204
+	Same net via-cut spacing : 75
+	Short : 3644
+
+Information: The app option "route.detail.report_soft_drc_separately" will be on-by-default in future release. (ZRT-807)
+	@@@@@@@ TOTAL SOFT VIOLATIONS =	24
+	Soft spacing (shielding) : 24
+
+[Iter 8] Elapsed real time: 0:29:01 
+[Iter 8] Elapsed cpu  time: sys=0:00:01 usr=0:28:54 total=0:28:55
+[Iter 8] Stage (MB): Used    0  Alloctr    0  Proc  134 
+[Iter 8] Total (MB): Used    0  Alloctr    0  Proc 5227 
+
+End DR iteration 8 with 113 parts
+
+Start DR iteration 9: non-uniform partition
+Routed	1/115 Partitions, Violations =	7747
+Routed	2/115 Partitions, Violations =	7754
+Routed	3/115 Partitions, Violations =	7762
+Routed	4/115 Partitions, Violations =	7754
+Routed	5/115 Partitions, Violations =	7746
+Routed	6/115 Partitions, Violations =	7746
+Routed	7/115 Partitions, Violations =	7736
+Routed	8/115 Partitions, Violations =	7741
+Routed	9/115 Partitions, Violations =	7740
+Routed	10/115 Partitions, Violations =	7740
+Routed	11/115 Partitions, Violations =	7737
+Routed	12/115 Partitions, Violations =	7746
+Routed	13/115 Partitions, Violations =	7737
+Routed	14/115 Partitions, Violations =	7738
+Routed	15/115 Partitions, Violations =	7723
+Routed	16/115 Partitions, Violations =	7719
+Routed	17/115 Partitions, Violations =	7720
+Routed	18/115 Partitions, Violations =	7719
+Routed	19/115 Partitions, Violations =	7721
+Routed	20/115 Partitions, Violations =	7728
+Routed	21/115 Partitions, Violations =	7748
+Routed	22/115 Partitions, Violations =	7717
+Routed	23/115 Partitions, Violations =	7716
+Routed	24/115 Partitions, Violations =	7722
+Routed	25/115 Partitions, Violations =	7724
+Routed	26/115 Partitions, Violations =	7724
+Routed	27/115 Partitions, Violations =	7734
+Routed	28/115 Partitions, Violations =	7732
+Routed	29/115 Partitions, Violations =	7745
+Routed	30/115 Partitions, Violations =	7727
+Routed	31/115 Partitions, Violations =	7701
+Routed	32/115 Partitions, Violations =	7699
+
+Terminated.
+
+Stack trace for crashing thread
+-------------------------------
+SNPSee_72fe6ee5e6adf88ac107a01d196ffb8ed40842348ffb0f8b+36
+SNPSee_9ea8dbbd5e74784445edf9ed12a0bc4777b489dcaefdb88f6aa47f4097fccf5e+124
+SNPSee_9ea8dbbd5e74784484d3cce2fced02c05a3783bc3b9f8fad49ba3bacacc1ac73ecf347a38534d06f+2069
+funlockfile+80
+SNPSee_24e99d558e8c6aff1db5e66e3adc8049174439fb227f55d70c6997a6c2c690bec161250b995bd90d+17639
+SNPSee_24e99d558e8c6aff1db5e66e3adc8049c695f532059d2741f8914b5b74353939+1147
+SNPSee_e59868f69115736a107470a1e242d7e387cc3967ce66f84d2e7f3c013da1b85154df27aac328bb30a15f70e93e848c238bd6b6932a8aac910888bc1ecdc7ccebefe71e2b26adf318f7f3d966ce809ac8f39a01b581c76df2fafb4dc5a6ef2d644553c90b892aa958+547
+SNPSee_24e99d558e8c6aff94559703502d47af45d2b7d9137f1a48d251003a4933e7c8b07c3486b91184fffd1640dbf83afd9c38faa0cdd3dd27217328c5e4d48d8195+3295
+SNPSee_24e99d558e8c6aff94559703502d47afd7eee58afb5979ec51e45c694a1436e8e5727e7650fcdf31d3ce27b880859fe3dead9504f8497ce119ab9172ba36ba80196f9aeef7af519324a5967023da44cb260c056463b7c64c+2443
+SNPSee_93ead7156bcd5cbcc2652764ed4b0169fdbd842500d63bfb4bf269daf83cccf4+827
+SNPSee_93ead7156bcd5cbcc2652764ed4b01690b45ea156d644b318fa0afda89a522f9+5103
+SNPSee_93ead7156bcd5cbc2a4fbf90fa8d16df0fb0afd525819a9e+1679
+SNPSee_d2b4fe5311510b4aaf32e4947e454ed920d917d9109d49e2f78b26e39209c8a106c1c37ccad4e1a5+19131
+SNPSee_d2b4fe5311510b4a29faf1c24296261caa6fc79cacf8ab898f04c0cc26d50d59c2d7c60ef82191fd6ea269e044dc4ff3+114
+SNPSee_840eda91b1fef6c92c5e040649dd811a4b3583a93c8baedaa13862f88dadba06+368
+SNPSee_d2b4fe5311510b4ad2c6b182d6d7067ed70da8d01f69d7eb5a9aa402a9f60c79216bb8537afadceb5bc605fecdb59d30+493
+SNPSee_9a40b30c7d376d11603f05486eab4d4c+821
+SNPSee_4a250d02070129e3cdb391dff87f9c9fea2c679532071b89ea153057eb72ecfe6c2148e4925a7e1f33e4795117612ed79a9c3bade1b8e072c9fa82ff55acb200cf623320750564ec7b6d4d81d83fc246bcc679cb981dfe544050501676417bb54692166119c340b5c24ae183492012843740628cd41f6782e0fd07b678354afbe566566519a205b102afe04ddd49382be5a427809d6b19753210b5b2a916d90a90a37d958ac1bf41266e7dad3341b350237d6725daea3357623f1ccfb408b6dcc4041727ab35ea9fef8ecf45357639c6f7bfe92528d4afabc11ad7960463f2b54d180ced882dbfed54eae4756280229db621bfba5bdb2c5d112ca93573ac5b81+14252
+SNPSee_710c8707c53af9eedc167fe06056ebe6+426
+SNPSee_12dbaa6fc7c74a21626a605d0240dd30fea28b1a571109fdb7778e1da95f268ce30684afb78dea0ab7756b5fcfefa190e532f70062d8ba268dbe84f3df90bc61f9fd07afdf187adf6fef71a3eb9442c1de301d310edd2d74+8003
+SNPSee_b33c09d91ce56faf32f307b3d0d7bfe6a81ece2db4e646fc7bfea8b89aa8d21c72b1b5fed030f4a7deda4e3278b32b4526a3d89237fa738f85fb51d28c1446d9b729f7d279808157+1713
+SNPSee_18ae1188a5a6482452f3b67abbc891010269f13ce0e30d67+3469
+SNPSee_57415c5b07ec5e8b8118f96e6212a2c42c69fd3f49376c0d+134
+SNPSee_1ac40924fdff8310f5184d6eb67c5798036a89169a27d790+71
+SNPSee_a00aeeb47fd325df3eff4946e57739a1+1412
+SNPSee_5b9e0c983f97901fa4e0af164abe7efeb24c5f4c6136879c869b2b88ca4e26329cbb10d1a609855d+398
+SNPSee_59511b0144537c36c6614840eb25b067+953
+SNPSee_dfcfd18c870f576645dec230cc55940481eea9a4962927b3b2419a5f9f3803d6e6d6151e8a6657b75c63db485ae230e97b8a0dd27c2cdfedd6e7ab8b3504080f+1631
+SNPSee_18ae1188a5a6482452f3b67abbc891010269f13ce0e30d67+3469
+SNPSee_57415c5b07ec5e8b8118f96e6212a2c42c69fd3f49376c0d+134
+SNPSee_1ac40924fdff8310f5184d6eb67c5798036a89169a27d790+71
+SNPSee_eb883b8643ac3618e46fbd7d90d84cd1d9cf41f1ea1de2433ad64196cf3fcc2ce0cf4135a98ecf06+676
+SNPSee_c9aef8ff45700e7498f09e7fe7ec58c036cd580d7ddf92c3+175
+SNPSee_b3a63ca9beb66366a2beecdfa325f5f8c719d82372ce6e492c882226fc02de178a5dbe8c39c15154310ed0500f64f55b24abe2287dca37ea+208
+SNPSee_b3a63ca9beb66366a2beecdfa325f5f850e37c16b964335ba934f8a7afefeaf1+864
+SNPSee_6188b3f9a7e769c7eb2dc22ab181ff5c0260e7bf3c6e6c5b6dd310362dd3e58b19a33122e2a80c1014bca5a076370ba0686492d474ef148ca36ababef5945158a888f7e536545dec88d039942c447aad829ec3c9a13ccf1352c7f068f1dc0d713b949058f841385ce96831542394be36f2ec7e463409336ff9646fa385cc5a553529ff78d8277054cb68eca1e74b2650bc52a0a187546145fe12efa21abc06a8+19387
+main+4086
+__libc_start_main+229
+SNPSee_d06eed713327be76+41
+
+A detailed stack trace has been captured in /home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/Synopsys_stack_trace_145150.txt.
+
+The tool has just encountered a fatal error:
+
+If you encountered this fatal error when using the most recent
+Synopsys release, submit the above stack trace and a test case that
+reproduces the problem to the Synopsys Support Center by using
+Enter A Call at http://solvnet.synopsys.com/EnterACall.
+
+* For information about the latest software releases, go to the Synopsys
+  SolvNet Release Library at http://solvnet.synopsys.com/ReleaseLibrary.
+
+* For information about required Operating System patches, go to
+  http://www.synopsys.com/support
+
+
+Fatal: Internal system error, cannot recover.
+Error code=15
+CPU time=1930
+
+Release = 'X-2025.06-SP2'  Architecture = 'linux64'  Program = 'Fusion Compiler'
+Exec = '/packages/synopsys/fc/X-2025.06-SP2a/linux64/nwtn/bin/dgcom_exec'
+
+'1459284837 140478338255248 1522826503 1522871739 1522789635 1522743231 1522750363 1523135931 1523210687 1520762335 1520930027 1520966898 1517248288 1520987085 1517608421 1503958332 1503962538 1183809779 1539684177 1539381213 1668388694 1668407623 1668415092 1539519646 1539213913 1539306063 1539381213 1668388694 1668407623 1539362372 1539384639 1453357248'
+
+A snapshot of runtime data has been captured in /home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/crte_000145150.txt
+/packages/synopsys/fc/X-2025.06-SP2a/bin/fc_shell: line 381: 145150 Terminated              ${CONTAINER} ${REAL_EXEC_NAME} -shell fc -root_path ${SYNOPSYS_ROOT} ${ARGS}

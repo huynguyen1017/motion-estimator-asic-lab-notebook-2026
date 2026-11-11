@@ -1,0 +1,488 @@
+Setting up environment variables for Synthesis version O-2018.06-SP4
+Setting up environment for Synopsys VCS version W-2024.09-1
+Setting up environment variables for Primetime version U-2022.12-SP5-1
+Setting up environment variables for PrimeECO version U-2022.12-SP5-3
+Setting up environment variables for IC Compiler II version S-2021.06-SP5-1
+Setting up environment variables for Verdi version W-2024.09-1
+Setting up environment variables for Fusion Compiler version X-2025.06-SP2a
+Setting up environment variables for IC Validator version W-2024.09-3
+
+
+
+                              Fusion Compiler (TM)
+
+                Version X-2025.06-SP2 for linux64 - Oct 15, 2025
+                           Base build date 9/22/2025
+
+                    Copyright (c) 1988 - 2025 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+ 
+Information: Term was not able to be set up using xterm-256color . Using "xterm" by default instead. (CLE-10)
+source -echo ./setup/fc_common_setup.tcl
+#####################################################################
+#####		Common Setup Script for Fusion Compiler		#####
+#####################################################################
+set DESIGN_NAME "top"		; # set design name
+set DESIGN_LIBRARY	"${DESIGN_NAME}.dlib"		; # set design library name
+set WORK_DIR		"[pwd]"				; # Get current working directory
+set LIBNAME		"saed14rvt"			; # set library name
+set CELL_PREFIX		"SAEDRVT14"
+set TECH_NODE		"saed14nm"			; # set technology node name
+set METAL_STACK		"1p9m"				; # set metal stack
+set REF_NDM		"frame_timing"			; # set reference ndm type: "frame_only" or "frame_timing_ccs"
+set REFERENCE_LIB_PATH	"${WORK_DIR}/common/ndm"
+set REFERENCE_LIBRARY	"${REFERENCE_LIB_PATH}/${LIBNAME}_${REF_NDM}.ndm"
+set TECH_FILE_PATH      "${WORK_DIR}/common/tf"
+set TECH_FILE		"${WORK_DIR}/common/tf/${TECH_NODE}_${METAL_STACK}.tf"
+set TECH_NDM		"path/to/tech_ndm/if/exist"
+set LIBERTY_PATH	"${WORK_DIR}/common/liberty"
+set TLUP_PATH		"${WORK_DIR}/common/tlup"
+set TLUP_MIN_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cmin.tlup"
+set TLUP_NOM_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cnom.tlup"
+set TLUP_MAX_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cmax.tlup"
+set NXTGRD_PATH		"${WORK_DIR}/common/nxtgrd"
+set NXTGRD_MIN_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cmin.nxtgrd"
+set NXTGRD_NOM_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cnom.nxtgrd"
+set NXTGRD_MAX_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cmax.nxtgrd"
+set MAP_PATH		"${WORK_DIR}/common/map"
+set GDS_PATH		"${WORK_DIR}/common/gds"
+set LAYER_MAP_FILE	"${MAP_PATH}/${TECH_NODE}_tf_itf_tluplus.map"
+set RTL_PATH		"${WORK_DIR}/common/rtl"
+set SDC_PATH		"${WORK_DIR}/common/sdc"
+set SDC_FILE		"${SDC_PATH}/${DESIGN_NAME}.sdc"
+set VERILOG_PATH	"${RTL_PATH}/verilog"
+set VHDL_PATH		"${RTL_PATH}/vhdl"
+set RESULTS_PATH	"${WORK_DIR}/results"
+set REPORTS_PATH	"${WORK_DIR}/reports"
+set DRC_RUNSET_FILE	"${WORK_DIR}/common/runsets/saed14nm_1p9m_drc_rules.rs"
+set GDS_MAP_FILE	"${MAP_PATH}/saed14nm_1p9m_gdsout_mw.map"
+set MFILL_RUNSET_FILE	"${WORK_DIR}/common/runsets/saed14nm_1p9m_mfill_rules.rs"
+set GDS_FILE		"${GDS_PATH}/saed14rvt.gds"
+source ${WORK_DIR}/setup/utilities.tcl
+source -echo ./setup/fc_flow_setup.tcl
+#####################################################################
+#####		Flow Setup Script for Fusion Compiler		#####
+#####################################################################
+set TECH_BASED	"tf"				; # set "tf" for TECH_FILE-based flow or set "ndm" for TECH_NDM-based flow.
+set PARASITIC	"tlup"				; # set "tlup" for using TLUP files or  set "nxtgrd" for using NXTGRD files.
+set HDL		"verilog"			; # set "verilog" for reading Verilog RTL or set "vhdl" for reading VHDL RTL.
+set PVT_FF	"ff0p88v125c"			; # set FF PVT
+set PVT_TT	"tt0p8v25c"			; # set TT PVT
+set PVT_SS	"ss0p72vm40c"			; # set SS PVT
+set DB_FF	"${LIBERTY_PATH}/${LIBNAME}_${PVT_FF}.db"
+set DB_TT	"${LIBERTY_PATH}/${LIBNAME}_${PVT_TT}.db"
+set DB_SS	"${LIBERTY_PATH}/${LIBNAME}_${PVT_SS}.db"
+set_host_options -max_cores 1
+1
+open_lib ${RESULTS_PATH}/${DESIGN_LIBRARY}
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/results/top.dlib' (FILE-007)
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/ndm/saed14rvt_frame_timing.ndm' (FILE-007)
+{top.dlib}
+open_block ${DESIGN_NAME}/signoff_v5
+Information: User units loaded from library 'saed14rvt_frame_timing' (LNK-040)
+Opening block 'top.dlib:top/signoff_v5.design' in edit mode
+{top.dlib:top/signoff_v5.design}
+puts "=== V5_DIAGNOSTIC_OPENED ==="
+=== V5_DIAGNOSTIC_OPENED ===
+puts "UNPLACED_QUERY_BEGIN"
+UNPLACED_QUERY_BEGIN
+if {[catch {set uc [get_cells -hierarchical -filter "is_placed == false"]} err]} {puts "UNPLACED_QUERY_ERROR=$err"} else {puts "UNPLACED_COUNT=[sizeof_collection $uc]"; foreach_in_collection c $uc {puts "UNPLACED_CELL=[get_object_name $c]"} }
+Using libraries: top.dlib saed14rvt_frame_timing
+Visiting block top.dlib:top/signoff_v5.design
+Information: Cellem using advance interpolation.
+Design 'top' was successfully linked.
+UNPLACED_COUNT=0
+puts "=== HELP_ROUTE_ECO ==="
+=== HELP_ROUTE_ECO ===
+help route_eco
+ route_eco            # Perform eco route
+puts "=== HELP_SIGNOFF_FIX_DRC ==="
+=== HELP_SIGNOFF_FIX_DRC ===
+help signoff_fix_drc
+ signoff_fix_drc      # Automatic DRC fixing
+puts "=== HELP_FILL ==="
+=== HELP_FILL ===
+help remove_metal_fill
+Information: No commands matched 'remove_metal_fill'. (CMD-040)
+puts "=== CHECK_PLACEMENT ==="
+=== CHECK_PLACEMENT ===
+check_legality
+
+************************
+
+running check_legality
+
+Warning: Routing direction of metal layer PO is neither "horizontal" nor "vertical".  PDC checks will not be performed on this layer. (PDC-003)
+PDC app_options settings =========
+	place.legalize.enable_prerouted_net_check: 1
+	place.legalize.num_tracks_for_access_check: 1
+	place.legalize.use_eol_spacing_for_access_check: 0
+	place.legalize.allow_touch_track_for_access_check: 1
+	place.legalize.reduce_conservatism_in_eol_check: 0
+	place.legalize.preroute_shape_merge_distance: 0.0
+	place.legalize.enable_non_preferred_direction_span_check: 0
+
+Layer M1: cached 0 shapes out of 7687 total shapes.
+Layer M2: cached 1414 shapes out of 22036 total shapes.
+Layer M3: cached 1414 shapes out of 13611 total shapes.
+Cached 4242 vias out of 43523 total vias.
+
+check_legality for block design top ... 
+Information: Initializing classic cellmap without advanced rules enabled and without PDC enabled
+Information: The following app options are used in cellmap
+        place.legalize.enable_color_aware_placement : false
+        place.legalize.use_nll_query_cm : false
+        place.legalize.enable_advanced_legalizer : false
+        place.legalize.enable_prerouted_net_check : true
+        place.legalize.enable_advanced_prerouted_net_check : false
+        place.legalize.always_continue : true
+        place.legalize.limit_legality_checks : false
+        place.common.pnet_aware_density : 1.0000
+        place.common.pnet_aware_min_width : 0.0000
+        place.common.pnet_aware_layers : {}
+        place.common.use_placement_model : false
+        place.common.enable_advanced_placement_model : true
+        cts.placement.cell_spacing_rule_style : maximum
+Warning: Library cell saed14rvt_frame_timing:SAEDRVT14_ISOFSDPQ_PECO_8.frame is missing supply pins. Its power structure cannot be determined. (LGL-050)
+Warning: Library cell saed14rvt_frame_timing:SAEDRVT14_DCAP_PV1ECO_12.frame is missing supply pins. Its power structure cannot be determined. (LGL-050)
+Total 0.3954 seconds to build cellmap data
+Information: Creating classic rule checker.
+Warning: Routing direction of metal layer PO is neither "horizontal" nor "vertical".  PDC checks will not be performed on this layer. (PDC-003)
+=====> Processed 129 ref cells (23 fillers) from library
+Design has no advanced rules
+Checking legality
+Checking cell legality:
+0%....10%....20%....30%....40%....50%....60%....70%....80%....90%....100%
+Sorting rows.
+Checking spacing rule legality.
+0%....10%....20%....30%....40%....50%....60%....70%....80%....90%....100%
+Checking packing rule legality.
+
+
+****************************************
+  Report : Legality
+****************************************
+
+VIOLATIONS BY CATEGORY:
+   MOVABLE  APP-FIXED USER-FIXED  DESCRIPTION
+         0          0          0  Two objects overlap.
+         0          0          0  A cell violates a pnet.
+         0          0          0  A cell is illegal at a site.
+         0          0          0  A cell is not aligned with a site.
+         0          0          0  A cell has an illegal orientation.
+         0          0          0  A cell spacing rule is violated.
+         0          0          0  A layer rule is violated.
+         0          0          0  A cell is in the wrong region.
+         0          0          0  Two cells violate cts margins.
+         0          0          0  Two cells violate coloring.
+
+         0          0          0  TOTAL
+
+TOTAL 0 Violations.
+
+VIOLATIONS BY SUBCATEGORY:
+     MOVABLE  APP-FIXED USER-FIXED  DESCRIPTION
+
+         0          0          0    Two objects overlap.
+           0          0          0    Two cells overlap.
+           0          0          0    Two cells have overlapping keepout margins.
+           0          0          0    A cell overlaps a blockage.
+           0          0          0    A cell keepout margin overlaps a blockage.
+
+         0          0          0    A cell violates a pnet.
+
+         0          0          0    A cell is illegal at a site.
+           0          0          0    A cell violates pin-track alignment rules.
+           0          0          0    A cell is illegal at a site.
+           0          0          0    A cell violates legal index rule.
+           0          0          0    A cell has the wrong variant for its location.
+
+         0          0          0    A cell is not aligned with a site.
+           0          0          0    A cell is not aligned with the base site.
+           0          0          0    A cell is not aligned with an overlaid site.
+
+         0          0          0    A cell has an illegal orientation.
+
+         0          0          0    A cell spacing rule is violated.
+           0          0          0    A spacing rule is violated in a row.
+           0          0          0    A spacing rule is violated between adjacent rows.
+           0          0          0    A cell violates vertical abutment rule.
+           0          0          0    A cell violates metal spacing rule.
+
+         0          0          0    A layer rule is violated.
+           0          0          0    A layer VTH rule is violated.
+           0          0          0    A layer OD rule is violated.
+           0          0          0    A layer OD max-width rule is violated.
+           0          0          0    A layer ALL_OD corner rule is violated.
+           0          0          0    A layer max-vertical-length rule is violated.
+           0          0          0    A layer TPO rule is violated.
+           0          0          0    Filler cell insertion cannot satisfy layer rules.
+
+         0          0          0    A cell is in the wrong region.
+           0          0          0    A cell is outside its hard bound.
+           0          0          0    A cell is in the wrong voltage area.
+           0          0          0    A cell violates an exclusive movebound.
+
+         0          0          0    Two cells violate cts margins.
+
+         0          0          0    Two cells violate coloring.
+
+
+check_legality for block design top succeeded!
+
+
+check_legality succeeded.
+
+**************************
+
+1
+puts "=== CHECK_ROUTE ==="
+=== CHECK_ROUTE ===
+check_routes
+INFO: wire-opt feature for router enabled
+INFO: wire-opt feature for router enabled
+NEX(Warning): extract.rc_techfile_for_diode_mode_26_thickness not set, will igonre it
+Warning: numMusks defined for colorless layer M1, it will be ignored.
+Warning: numMusks defined for colorless layer M2, it will be ignored.
+Warning: numMusks defined for colorless layer M3, it will be ignored.
+Cell Min-Routing-Layer = M1
+Cell Max-Routing-Layer = M7
+Turn off antenna since no rule is specified
+Information: Option route.detail.force_end_on_preferred_grid will be ignored since none of the layers have preferred grid. (ZRT-703)
+Skipping 3 internal pins that are not physical. Set route.common.verbose_level to > 0 and run routing command to get skipped pin names.
+Info: number of net_type_blockage: 1 
+Information: Via ladder engine would be activated for pattern must join connection in certain commands. Please refer to man-page for the command list. (ZRT-619)
+Information: AutoNdr rule can't be found. Check the settings.
+Via on layer (VIA1) needs more than one tracks
+Warning: Layer M1 default pitch 0.074 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.074" & "wire/via-up 0.078". (ZRT-026)
+Via on layer (VIA1) needs more than one tracks
+Warning: Layer M2 default pitch 0.060 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.078" & "wire/via-up 0.060". (ZRT-026)
+Via on layer (VIA4) needs more than one tracks
+Warning: Layer M5 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.125" & "wire/via-up 0.100". (ZRT-026)
+Via on layer (VIA7) needs more than one tracks
+Warning: Layer M7 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.100" & "wire/via-up 0.107". (ZRT-026)
+Wire on layer (M8) needs more than one tracks
+Via on layer (VIA7) needs more than one tracks
+Via on layer (VIA8) needs more than one tracks
+Warning: Layer M8 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.107" & "wire/via-up 0.135". (ZRT-026)
+Wire on layer (M9) needs more than one tracks
+Via on layer (VIA8) needs more than one tracks
+Via on layer (VIARDL) needs more than one tracks
+Warning: Layer M9 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.135" & "wire/via-up 1.570". (ZRT-026)
+Via on layer (VIARDL) needs more than one tracks
+Warning: Layer MRDL default pitch 4.000 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 4.500" & "wire/via-up 4.000". (ZRT-026)
+Information: When applicable Min-max layer allow_pin_connection mode will allow paths of length 1.35 outside the layer range. (ZRT-707)
+Information: When applicable Min-max layer allow_pin_connection mode will allow paths of length 1.35 outside the layer range on clock nets. (ZRT-718)
+Information: When applicable layer based tapering will taper up to 0.00 in distance from the pin. (ZRT-706)
+Warning: Standard cell pin SAEDRVT14_AO221_1/B2 has no valid via regions. (ZRT-044)
+Warning: Standard cell pin SAEDRVT14_ADDH_0P5/CO has no valid via regions. (ZRT-044)
+Warning: Standard cell pin SAEDRVT14_EO2_V1_0P75/A1 has no valid via regions. (ZRT-044)
+Warning: Standard cell pin SAEDRVT14_BUF_ECO_1/A has no valid via regions. (ZRT-044)
+
+
+Start checking for open nets ... 
+
+Total number of nets = 6787, of which 0 are not extracted
+Total number of open nets = 0, of which 0 are frozen
+
+Check 6787 nets, 0 have Errors
+
+[CHECK OPEN NETS] Elapsed real time: 0:00:00 
+[CHECK OPEN NETS] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[CHECK OPEN NETS] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[CHECK OPEN NETS] Total (MB): Used    0  Alloctr    0  Proc 4721 
+Printing options for 'route.common.*'
+common.eco_route_fix_existing_drc                       :	 true                
+common.single_connection_to_pins                        :	 off                 
+common.verbose_level                                    :	 0                   
+common.via_on_grid_by_layer_name                        :	 {VIA1 false} {VIA2 true}
+common.wire_on_grid_by_layer_name                       :	 {M1 true} {M2 true} {M3 true}
+
+Printing options for 'route.detail.*'
+detail.antenna                                          :	 true                
+detail.eco_route_use_soft_spacing_for_timing_optimization:	 true                
+detail.enable_auto_ndr_flow                             :	 true                
+detail.timing_driven                                    :	 true                
+
+Printing options for 'route.auto_via_ladder.*'
+
+There are 0 out of total 6787 nets with relaxed min layer from GR.
+
+Begin full DRC check ...
+
+Information: Using 1 threads for routing. (ZRT-444)
+Checked	1/12 Partitions, Violations =	0
+Checked	2/12 Partitions, Violations =	0
+Checked	3/12 Partitions, Violations =	0
+Checked	4/12 Partitions, Violations =	1
+Checked	5/12 Partitions, Violations =	3
+Checked	6/12 Partitions, Violations =	3
+Checked	7/12 Partitions, Violations =	3
+Checked	8/12 Partitions, Violations =	3
+Checked	9/12 Partitions, Violations =	3
+Checked	10/12 Partitions, Violations =	3
+Checked	11/12 Partitions, Violations =	3
+Checked	12/12 Partitions, Violations =	3
+[DRC CHECK] Elapsed real time: 0:00:03 
+[DRC CHECK] Elapsed cpu  time: sys=0:00:00 usr=0:00:03 total=0:00:03
+[DRC CHECK] Stage (MB): Used    0  Alloctr    0  Proc  131 
+[DRC CHECK] Total (MB): Used    0  Alloctr    0  Proc 4941 
+Warning: No antenna rules defined, Skip antenna analysis. (ZRT-309)
+Information: Merged away 1 aligned/redundant DRCs. (ZRT-305)
+
+DRC-SUMMARY:
+	@@@@@@@ TOTAL VIOLATIONS =	2
+	Diff net via-cut spacing : 2
+
+Information: The app option "route.detail.report_soft_drc_separately" will be on-by-default in future release. (ZRT-807)
+	@@@@@@@ TOTAL SOFT VIOLATIONS =	0
+
+
+Total Wire Length =                    34812 micron
+Total Number of Contacts =             37304
+Total Number of Wires =                43620
+Total Number of PtConns =              5604
+Total Number of Routed Wires =       43173
+Total Routed Wire Length =           34427 micron
+Total Number of Routed Contacts =       37264
+	Layer                 M1 :        471 micron
+	Layer                 M2 :      12019 micron
+	Layer                 M3 :       8605 micron
+	Layer                 M4 :       6558 micron
+	Layer                 M5 :       2497 micron
+	Layer                 M6 :       3988 micron
+	Layer                 M7 :        289 micron
+	Layer                 M8 :          0 micron
+	Layer                 M9 :          0 micron
+	Layer               MRDL :          0 micron
+	Via            VIA67SQ_C :         16
+	Via        VIA67SQ_C_1x2 :         26
+	Via        VIA67SQ_C_2x1 :         65
+	Via             VIA5SQ_C :        242
+	Via         VIA5SQ_C_1x2 :        428
+	Via         VIA5SQ_C_2x1 :        181
+	Via               VIA4SQ :        636
+	Via       VIA4BAR1_C_1x2 :        276
+	Via       VIA4BAR1_C_2x1 :          1
+	Via           VIA4SQ_2x1 :        671
+	Via            VIA34SQ_C :       1259
+	Via     VIA3_34SQ_C(rot) :          3
+	Via   VIA34SQ_C(rot)_2x1 :        808
+	Via        VIA34SQ_C_2x1 :         12
+	Via      VIA34BAR1_C_1x2 :       1601
+	Via     VIA34SQ(rot)_2x1 :         17
+	Via          VIA34SQ_2x1 :        684
+	Via            VIA2_Base :       4109
+	Via            VIA23SQ_C :          5
+	Via        VIA2_Base_1x2 :       2902
+	Via        VIA2_Base_2x1 :       8732
+	Via       VIA12SQ_C(rot) :         19
+	Via            VIA1_Base :       8568
+	Via        VIA1_Base_1x2 :       3388
+	Via        VIA1_Base_2x1 :       2615
+
+ 
+Redundant via conversion report:
+--------------------------------
+
+  Total optimized via conversion rate = 60.08% (22413 / 37304 vias)
+ 
+    Layer VIA1       = 41.15% (6005   / 14592   vias)
+        Weight 1     = 41.15% (6005    vias)
+        Un-optimized =  0.00% (0       vias)
+        Un-mapped    = 58.85% (8587    vias)
+    Layer VIA2       = 73.87% (11635  / 15750   vias)
+        Weight 1     = 73.87% (11635   vias)
+        Un-optimized =  0.00% (0       vias)
+        Un-mapped    = 26.13% (4115    vias)
+    Layer VIA3       = 71.18% (3122   / 4386    vias)
+        Weight 1     = 71.18% (3122    vias)
+        Un-optimized =  0.00% (0       vias)
+        Un-mapped    = 28.82% (1264    vias)
+    Layer VIA4       = 59.75% (950    / 1590    vias)
+        Weight 1     = 59.75% (950     vias)
+        Un-optimized =  0.00% (0       vias)
+        Un-mapped    = 40.25% (640     vias)
+    Layer VIA5       = 69.40% (610    / 879     vias)
+        Weight 1     = 69.40% (610     vias)
+        Un-optimized =  0.00% (0       vias)
+        Un-mapped    = 30.60% (269     vias)
+    Layer VIA6       = 85.05% (91     / 107     vias)
+        Weight 1     = 85.05% (91      vias)
+        Un-optimized =  0.00% (0       vias)
+        Un-mapped    = 14.95% (16      vias)
+ 
+  Total double via conversion rate    = 60.08% (22413 / 37304 vias)
+ 
+    Layer VIA1       = 41.15% (6005   / 14592   vias)
+    Layer VIA2       = 73.87% (11635  / 15750   vias)
+    Layer VIA3       = 71.18% (3122   / 4386    vias)
+    Layer VIA4       = 59.75% (950    / 1590    vias)
+    Layer VIA5       = 69.40% (610    / 879     vias)
+    Layer VIA6       = 85.05% (91     / 107     vias)
+ 
+  The optimized via conversion rate based on total routed via count = 60.08% (22413 / 37304 vias)
+ 
+    Layer VIA1       = 41.15% (6005   / 14592   vias)
+        Weight 1     = 41.15% (6005    vias)
+        Un-optimized =  0.00% (0       vias)
+        Un-mapped    = 58.85% (8587    vias)
+    Layer VIA2       = 73.87% (11635  / 15750   vias)
+        Weight 1     = 73.87% (11635   vias)
+        Un-optimized =  0.00% (0       vias)
+        Un-mapped    = 26.13% (4115    vias)
+    Layer VIA3       = 71.18% (3122   / 4386    vias)
+        Weight 1     = 71.18% (3122    vias)
+        Un-optimized =  0.00% (0       vias)
+        Un-mapped    = 28.82% (1264    vias)
+    Layer VIA4       = 59.75% (950    / 1590    vias)
+        Weight 1     = 59.75% (950     vias)
+        Un-optimized =  0.00% (0       vias)
+        Un-mapped    = 40.25% (640     vias)
+    Layer VIA5       = 69.40% (610    / 879     vias)
+        Weight 1     = 69.40% (610     vias)
+        Un-optimized =  0.00% (0       vias)
+        Un-mapped    = 30.60% (269     vias)
+    Layer VIA6       = 85.05% (91     / 107     vias)
+        Weight 1     = 85.05% (91      vias)
+        Un-optimized =  0.00% (0       vias)
+        Un-mapped    = 14.95% (16      vias)
+ 
+
+
+Verify Summary:
+
+Total number of nets = 6787, of which 0 are not extracted
+Total number of open nets = 0, of which 0 are frozen
+Total number of excluded ports = 0 ports of 0 unplaced cells connected to 0 nets
+                                 0 ports without pins of 0 cells connected to 0 nets
+                                 0 ports of 0 cover cells connected to 0 non-pg nets
+
+Total number of DRCs = 2
+Total number of antenna violations = no antenna rules defined
+Total number of tie to rail violations = not checked
+Total number of tie to rail directly violations = not checked
+
+Total number of DRCs on M3 and below = 2
+
+puts "=== V5_DIAGNOSTIC_END ==="
+=== V5_DIAGNOSTIC_END ===
+exit
+Maximum memory usage for this session: 850.05 MB
+Maximum memory usage for this session including child processes: 850.05 MB
+CPU usage for this session:     18 seconds (  0.00 hours)
+Elapsed time for this session:     19 seconds (  0.01 hours)
+Thank you for using Fusion Compiler.

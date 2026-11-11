@@ -1,0 +1,299 @@
+2.  Synopsys Commands                                        Command Reference
+                                  get_shapes
+
+NAME
+       get_shapes
+              Creates a collection by selecting shapes from the block.
+
+SYNTAX
+       collection get_shapes
+              [-design design]
+              [-filter expression]
+              [-quiet]
+              [-regexp]
+              [-nocase]
+              [-exact]
+              [-expect exact_count]
+              [-expect_at_least minimum_count]
+              [-expect_each_pattern_matches]
+              [-hierarchical]
+              [-include_fill]
+              [-include_lib_cell]
+              [-include_shield]
+              [-shield_only]
+              [patterns
+                | -of_objects objects
+                | -at point
+                | -within region
+                | -touching region
+                | -intersect region]
+
+   Data Types
+       design            collection
+       expression        string
+       exact_count       integer
+       minimum_count     integer
+       patterns          string
+       objects           list
+       point             list
+       region            list
+
+ARGUMENTS
+       -design design
+              Specifies the block in which to find shapes.
+
+              By default, the tool finds objects in the current block.
+
+       -filter expression
+              Filters  the collection with the value of expression, which must
+              be a Boolean expression  based  on  shape  attributes.  You  can
+              determine  the  shape  attributes  by  using the list_attributes
+              -class shape command.  If the expression evaluates to true,  the
+              shape is included in the collection.
+
+       -quiet Suppresses warning and error messages if no objects match.  Syn-
+              tax error messages are not suppressed.
+
+       -regexp
+              Views the patterns argument as real regular  expressions  rather
+              than  simple  wildcard  patterns. Also, modifies the behavior of
+              the =~ and !~ filter operators  to  compare  with  real  regular
+              expressions  rather  than simple wildcard patterns.  The -regexp
+              and -exact options are mutually exclusive.
+
+       -nocase
+              Makes matches case-insensitive.
+
+       -exact Disables simple pattern matching.  This is used  when  searching
+              for  objects  that contain the * and ? wildcard characters.  The
+              -exact and -regexp options are mutually exclusive.
+
+       -expect exact_count
+              Specifies an expected number of objects to find.  If the command
+              finds  a  different number of objects, a Tcl error is raised and
+              command processing stops.
+
+       -expect_at_least minimum_count
+              Specifies a minimum number of objects to find.  If  the  command
+              finds  fewer objects, a Tcl error is raised and command process-
+              ing stops.
+
+       -expect_each_pattern_matches
+              Specifies that each pattern in patterns must match at least  one
+              object.   If one or more patterns does not match, a Tcl error is
+              raised and command processing stops.
+
+       -hierarchical
+              Searches for  shapes  level-by-level  relative  to  the  current
+              instance.    You   can   use  this  option  with  the  patterns,
+              -within,fB-touching, -intersect, and -at arguments, but not with
+              the -of_objects option.
+
+       -include_fill
+              Search  for  fill  shapes.   You  must specify the -hierarchical
+              option to search the fill cell hierarchy instance in the current
+              block.
+
+              By default, fill shapes are excluded from search.
+
+       -include_lib_cell
+              Search for shapes in library cells.  You must specify the -hier-
+              archical option to search for shapes in the library cells.
+
+              By default, library cell shapes are excluded from search.
+
+       -include_shield
+              Includes shield shapes when  the  -of_objects  option  specifies
+              nets.   This  option  is  valid only when the -of_objects option
+              specifies nets.
+
+              This option is mutually exclusive with the -shield_only option.
+
+       -shield_only
+              Search only for shield shapes when the -of_objects option speci-
+              fies  nets.   This  option  is  valid  only when the -of_objects
+              option specifies nets.
+
+              This option  is  mutually  exclusive  with  the  -include_shield
+              option.
+
+       -of_objects of_objects
+              Creates  a  collection that contains the shapes connected to the
+              specified net, port, pin, terminal,  library  cell  pin,  layer,
+              edit  group,  or  fill cell.  Each object in the list is a name,
+              pattern, or collection.
+
+              When you specify ports,  the  get_shapes  command  searches  for
+              shapes  attached  to the terminals associated with the specified
+              ports.
+
+              When you specify  pins,  the  get_shapes  command  searches  for
+              shapes  attached  to  the terminals of the ports associated with
+              the specified pins.
+
+              When you specify fill cells, the get_shapes command searches for
+              shapes contained in the specified fill cells.
+
+              The  patterns,  -of_objects, -within, -touching, -intersect, and
+              -at arguments are mutually exclusive; you can specify only  one.
+              However,  you  can  specify  the  -within and -intersect options
+              together. If you do not specify any of these arguments, the com-
+              mand uses * (asterisk) as the pattern.
+
+       patterns
+              Matches  the  shape  names  against  the patterns in the current
+              block.  You can specify the patterns by using the following for-
+              mats:
+
+              o * (asterisk) specifies all shapes
+
+              o PATH_* specifies all path shapes
+
+              o RECT_* specifies all rectangle shapes
+
+              The  patterns,  -of_objects, -within, -touching, -intersect, and
+              -at arguments are mutually exclusive; you can specify only  one.
+              However,  you  can  specify  the  -within and -intersect options
+              together. If you do not specify any of these arguments, the com-
+              mand uses * (asterisk) as the pattern.
+
+       -at point
+              Creates  a  collection that contains all shapes at the specified
+              point.  The format for specifying a point is {x y}.
+
+              The coordinate unit is specified in the technology  file;  typi-
+              cally it is microns.
+
+              The  patterns,  -of_objects, -within, -touching, -intersect, and
+              -at arguments are mutually exclusive; you can specify only  one.
+              However,  you  can  specify  the  -within and -intersect options
+              together. If you do not specify any of these arguments, the com-
+              mand uses * (asterisk) as the pattern.
+
+              By default, the query is limited to the current physical hierar-
+              chy.  To query objects  across  physical  hierarchies,  use  the
+              -hierarchical option.
+
+       -within region
+              Creates  a  collection  that  contains  all shapes that are com-
+              pletely inside the specified region and does not include  shapes
+              that  abut the specified region or touch it from the inside. The
+              region boundary can be a rectangle or polygon.
+
+              The format for specifying a rectangle is {{llx lly} {urx  ury}},
+              which  specifies  the  lower-left and upper-right corners of the
+              rectangle.
+
+              The format for specifying a polygon is {{x1 y1} {x2 y2} ...  {xN
+              yN}  {x1  y1}}, where each {x y} pair specifies one point of the
+              input polygon.  A valid polygon  must  be  rectilinear,  so  the
+              startpoint and endpoint of the polygon are the same point.
+
+              The  coordinate  unit is specified in the technology file; typi-
+              cally the unit is microns.
+
+              The patterns, -of_objects, -within, -touching,  -intersect,  and
+              -at  arguments are mutually exclusive; you can specify only one.
+              However, you can specify  the  -within  and  -intersect  options
+              together. If you do not specify any of these arguments, the com-
+              mand uses * (asterisk) as the pattern.
+
+              By default, the query is limited to the current physical hierar-
+              chy.   To  query  objects  across  physical hierarchies, use the
+              -hierarchical option.
+
+       -touching region
+              Creates a collection that contains  all  shapes  that  are  com-
+              pletely inside the specified region and the shapes that abut the
+              specified region or touch it from the inside. The region  bound-
+              ary can be a rectangle or polygon.
+
+              The  format for specifying a rectangle is {{llx lly} {urx ury}},
+              which specifies the lower-left and upper-right  corners  of  the
+              rectangle.
+
+              The  format for specifying a polygon is {{x1 y1} {x2 y2} ... {xN
+              yN} {x1 y1}}, where each {x y} pair specifies one point  of  the
+              input  polygon.   A  valid  polygon  must be rectilinear, so the
+              startpoint and endpoint of the polygon are the same point.
+
+              The coordinate unit is specified in the technology  file;  typi-
+              cally the unit is microns.
+
+              The  patterns,  -of_objects, -within, -touching, -intersect, and
+              -at arguments are mutually exclusive; you can specify only  one.
+              However,  you  can  specify  the  -within and -intersect options
+              together. If you do not specify any of these arguments, the com-
+              mand uses * (asterisk) as the pattern.
+
+              By default, the query is limited to the current physical hierar-
+              chy.  To query objects  across  physical  hierarchies,  use  the
+              -hierarchical option.
+
+       -intersect region
+              Creates  a  collection  that  contains  all shapes that abut the
+              specified region or touch it from the  inside  or  outside.  The
+              region boundary can be a rectangle or polygon.
+
+              The  format for specifying a rectangle is {{llx lly} {urx ury}},
+              which specifies the lower-left and upper-right  corners  of  the
+              rectangle.
+
+              The  format for specifying a polygon is {{x1 y1} {x2 y2} ... {xN
+              yN} {x1 y1}}, where each {x y} pair specifies one point  of  the
+              input  polygon.   A  valid  polygon  must be rectilinear, so the
+              startpoint and endpoint of the polygon are the same point.
+
+              The coordinate unit is specified in the technology  file;  typi-
+              cally the unit is microns.
+
+              The  patterns,  -of_objects, -within, -touching, -intersect, and
+              -at arguments are mutually exclusive; you can specify only  one.
+              However,  you  can  specify  the  -within and -intersect options
+              together. If you do not specify any of these arguments, the com-
+              mand uses * (asterisk) as the pattern.
+
+              By default, the query is limited to the current physical hierar-
+              chy.  To query objects  across  physical  hierarchies,  use  the
+              -hierarchical option.
+
+DESCRIPTION
+       This  command  creates  a collection of shapes by selecting shapes from
+       the nets, ports, pins, or layers that meet the selection criteria.   It
+       returns a collection if one or more shapes meet the selection criteria.
+       If no shapes match the selection criteria, it returns an empty string.
+
+       You can use the get_shapes command at the command prompt, use it as  an
+       argument nested in another command, or assign its result to a variable.
+
+       See the collections man page for information about working with collec-
+       tions.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The following example gets all shapes connected to the specified net.
+
+         prompt> get_shapes -of_objects [get_nets net1]
+         {PATH_31_0 PATH_31_1}
+
+       The following example creates a collection of shapes on the M2 layer.
+
+         prompt> get_shapes -of_objects [get_layers M2]
+         {RECT_32_0 RECT_32_1 PATH_32_99 ...}
+
+       The following example creates a collection of path shapes.
+
+         prompt> get_shapes -filter {number_of_points > 2}
+         {PATH_31_2375 PATH_31_2396 PATH_32_2294 PATH_32_2301}
+
+SEE ALSO
+       collections(2)
+       filter_collection(2)
+       query_objects(2)
+       regexp(2)
+       shell.common.collection_result_display_limit(3)
+
+                          Version X-2025.06-SP2
+            Copyright (c) 2025 Synopsys, Inc. All rights reserved.

@@ -1,0 +1,440 @@
+
+
+
+                              Fusion Compiler (TM)
+
+                Version X-2025.06-SP2 for linux64 - Oct 15, 2025
+                           Base build date 9/22/2025
+
+                    Copyright (c) 1988 - 2025 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+ 
+Information: Term was not able to be set up using xterm-256color . Using "xterm" by default instead. (CLE-10)
+#####################################################################
+#####			1. Inital Logic Synthesis		#####
+#####################################################################
+#### Sourcing common setup script
+source -echo ./setup/fc_common_setup.tcl
+#####################################################################
+#####		Common Setup Script for Fusion Compiler		#####
+#####################################################################
+set DESIGN_NAME "top"		; # set design name
+set DESIGN_LIBRARY	"${DESIGN_NAME}.dlib"		; # set design library name
+set WORK_DIR		"[pwd]"				; # Get current working directory
+set LIBNAME		"saed14rvt"			; # set library name
+set CELL_PREFIX		"SAEDRVT14"
+set TECH_NODE		"saed14nm"			; # set technology node name
+set METAL_STACK		"1p9m"				; # set metal stack
+set REF_NDM		"frame_timing"			; # set reference ndm type: "frame_only" or "frame_timing_ccs"
+set REFERENCE_LIB_PATH	"${WORK_DIR}/common/ndm"
+set REFERENCE_LIBRARY	"${REFERENCE_LIB_PATH}/${LIBNAME}_${REF_NDM}.ndm"
+set TECH_FILE_PATH      "${WORK_DIR}/common/tf"
+set TECH_FILE		"${WORK_DIR}/common/tf/${TECH_NODE}_${METAL_STACK}.tf"
+set TECH_NDM		"path/to/tech_ndm/if/exist"
+set LIBERTY_PATH	"${WORK_DIR}/common/liberty"
+set TLUP_PATH		"${WORK_DIR}/common/tlup"
+set TLUP_MIN_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cmin.tlup"
+set TLUP_NOM_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cnom.tlup"
+set TLUP_MAX_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cmax.tlup"
+set NXTGRD_PATH		"${WORK_DIR}/common/nxtgrd"
+set NXTGRD_MIN_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cmin.nxtgrd"
+set NXTGRD_NOM_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cnom.nxtgrd"
+set NXTGRD_MAX_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cmax.nxtgrd"
+set MAP_PATH		"${WORK_DIR}/common/map"
+set GDS_PATH		"${WORK_DIR}/common/gds"
+set LAYER_MAP_FILE	"${MAP_PATH}/${TECH_NODE}_tf_itf_tluplus.map"
+set RTL_PATH		"${WORK_DIR}/common/rtl"
+set SDC_PATH		"${WORK_DIR}/common/sdc"
+set SDC_FILE		"${SDC_PATH}/${DESIGN_NAME}.sdc"
+set VERILOG_PATH	"${RTL_PATH}/verilog"
+set VHDL_PATH		"${RTL_PATH}/vhdl"
+set RESULTS_PATH	"${WORK_DIR}/results"
+set REPORTS_PATH	"${WORK_DIR}/reports"
+set DRC_RUNSET_FILE	"${WORK_DIR}/common/runsets/saed14nm_1p9m_drc_rules.rs"
+set GDS_MAP_FILE	"${MAP_PATH}/saed14nm_1p9m_gdsout_mw.map"
+set MFILL_RUNSET_FILE	"${WORK_DIR}/common/runsets/saed14nm_1p9m_mfill_rules.rs"
+set GDS_FILE		"${GDS_PATH}/saed14rvt.gds"
+source ${WORK_DIR}/setup/utilities.tcl
+#### Sourcing flow setup script
+source -echo ./setup/fc_flow_setup.tcl
+#####################################################################
+#####		Flow Setup Script for Fusion Compiler		#####
+#####################################################################
+set TECH_BASED	"tf"				; # set "tf" for TECH_FILE-based flow or set "ndm" for TECH_NDM-based flow.
+set PARASITIC	"tlup"				; # set "tlup" for using TLUP files or  set "nxtgrd" for using NXTGRD files.
+set HDL		"verilog"			; # set "verilog" for reading Verilog RTL or set "vhdl" for reading VHDL RTL.
+set PVT_FF	"ff0p88v125c"			; # set FF PVT
+set PVT_TT	"tt0p8v25c"			; # set TT PVT
+set PVT_SS	"ss0p72vm40c"			; # set SS PVT
+set DB_FF	"${LIBERTY_PATH}/${LIBNAME}_${PVT_FF}.db"
+set DB_TT	"${LIBERTY_PATH}/${LIBNAME}_${PVT_TT}.db"
+set DB_SS	"${LIBERTY_PATH}/${LIBNAME}_${PVT_SS}.db"
+set_host_options -max_cores 1
+1
+#### Creating Design Library
+if {[string equal frame_only ${REF_NDM}]} {
+	#### Specify the link libraries
+	set_app_var link_library "${DB_FF} ${DB_TT} ${DB_SS}"
+	
+	create_lib ${RESULTS_PATH}/${DESIGN_LIBRARY} -technology $TECH_FILE -ref_libs ${REFERENCE_LIBRARY}
+} elseif {[string equal frame_timing ${REF_NDM}]} {
+	if {[string equal ndm ${TECH_BASED}]} {
+		lappend REFERENCE_LIBRARY ${TECH_NDM}
+		create_lib ${RESULTS_PATH}/${DESIGN_LIBRARY} -use_technology_lib ${TECH_NDM} -ref_libs ${REFERENCE_LIBRARY} 
+	} elseif {[string equal tf ${TECH_BASED}]} {
+		create_lib ${RESULTS_PATH}/${DESIGN_LIBRARY} -technology $TECH_FILE -ref_libs ${REFERENCE_LIBRARY}
+	} else {
+		echo "Error: TECH_BASED variable's value is not ndm or tf. Please fix the value."
+	}
+} else {
+	echo "Error: REF_NDM variable's value is frame_only ndm or frame_timing. Please fix the value."
+}
+Information: Loading technology file '/home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/tf/saed14nm_1p9m.tf' (FILE-007)
+{top.dlib}
+#### Report reference libraries
+report_ref_libs
+****************************************
+Report : Reference Library Report
+Library: top.dlib
+Version: X-2025.06-SP2
+Date   : Wed Nov  4 22:10:38 2026
+****************************************
+
+    Name                   Path                                                                                       Location
+    --------------------------------------------------------------------------------------------------------------------------
+*+  saed14rvt_frame_timing /home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/ndm/saed14rvt_frame_timing.ndm /home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/ndm/saed14rvt_frame_timing.ndm
+    "*" = Library currently open
+    "+" = Library has technology information
+1
+#### Reading RTL
+# Analyze the HDL
+# Suppress known warnings 
+suppress_message VER-130
+if {[string equal verilog ${HDL}]} {
+	analyze -format verilog [glob ${VERILOG_PATH}/*.v]
+} elseif {[string equal vhdl ${HDL}]} {
+	analyze -format vhdl [glob ${VHDL_PATH}/*.vhd]
+} else {
+	echo "Error: HDL variable's value is not verilog or vhdl. Please fix the value."
+}
+Information: By default, the HDL template library is 'WORK' (LBR-??).
+Running PRESTO HDLC
+Compiling source file /home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/rtl/verilog/timescale.v
+Compiling source file /home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/rtl/verilog/top.v
+Presto compilation completed successfully.
+Elapsed = 00:00:00.08, CPU = 00:00:00.07
+1
+# Unsuppress after analyze stage
+unsuppress_message VER-130
+# Elaborate
+elaborate ${DESIGN_NAME}
+
+Inferred memory devices in process in routine 'top' in file
+	 /home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/rtl/verilog/top.v'.
+====================================================================================
+|     Register Name     |   Type    | Width | Bus | MB |  Set  | Reset | ST | Line |
+====================================================================================
+| completed_delayed_reg | Flip-flop |   1   |  N  | N  | None  | None  | N  |  32  |
+====================================================================================
+Presto compilation completed successfully. (top)
+Module: top, Ports: 79, Input: 26, Output: 53, Inout: 0
+Module: top, Registers: 1, Async set/reset: 0, Sync set/reset: 0
+Information:  Module top report end. (ELAB-965)
+Information: Elaborating HDL template WORK:control instantiated from 'top'. (ELAB-193)
+Warning:  /home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/rtl/verilog/top.v:127: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/rtl/verilog/top.v:129: signed to unsigned conversion occurs. (VER-318)
+
+Inferred memory devices in process in routine 'control' in file
+	 /home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/rtl/verilog/top.v'.
+==================================================================================
+|    Register Name    |   Type    | Width | Bus | MB |  Set  | Reset | ST | Line |
+==================================================================================
+|      count_reg      | Flip-flop |  13   |  Y  | Y  | None  | None  | N  | 116  |
+==================================================================================
+Presto compilation completed successfully. (control)
+Module: control, Ports: 88, Input: 2, Output: 86, Inout: 0
+Module: control, Registers: 13, Async set/reset: 0, Sync set/reset: 0
+Information:  Module control report end. (ELAB-965)
+Information: Elaborating HDL template WORK:PEtotal instantiated from 'top'. (ELAB-193)
+Presto compilation completed successfully. (PEtotal)
+Module: PEtotal, Ports: 313, Input: 57, Output: 256, Inout: 0
+Module: PEtotal, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information:  Module PEtotal report end. (ELAB-965)
+Information: Elaborating HDL template WORK:Comparator instantiated from 'top'. (ELAB-193)
+Warning:  /home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/rtl/verilog/top.v:176: signed to unsigned conversion occurs. (VER-318)
+
+Inferred memory devices in process in routine 'Comparator' in file
+	 /home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/rtl/verilog/top.v'.
+==================================================================================
+|    Register Name    |   Type    | Width | Bus | MB |  Set  | Reset | ST | Line |
+==================================================================================
+|     motionY_reg     | Flip-flop |   4   |  Y  | Y  | None  | None  | N  | 160  |
+|    BestDist_reg     | Flip-flop |  16   |  Y  | Y  | None  | None  | N  | 160  |
+|     motionX_reg     | Flip-flop |   4   |  Y  | Y  | None  | None  | N  | 160  |
+==================================================================================
+Presto compilation completed successfully. (Comparator)
+Module: Comparator, Ports: 306, Input: 282, Output: 24, Inout: 0
+Module: Comparator, Registers: 24, Async set/reset: 0, Sync set/reset: 0
+Information:  Module Comparator report end. (ELAB-965)
+Information: Elaborating HDL template WORK:PE instantiated from 'PEtotal'. (ELAB-193)
+
+Inferred memory devices in process in routine 'PE' in file
+	 /home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/rtl/verilog/top.v'.
+==================================================================================
+|    Register Name    |   Type    | Width | Bus | MB |  Set  | Reset | ST | Line |
+==================================================================================
+|      Rpipe_reg      | Flip-flop |   8   |  Y  | Y  | None  | None  | N  |  50  |
+|   Accumulate_reg    | Flip-flop |  16   |  Y  | Y  | None  | None  | N  |  51  |
+==================================================================================
+Presto compilation completed successfully. (PE)
+Module: PE, Ports: 51, Input: 27, Output: 24, Inout: 0
+Module: PE, Registers: 24, Async set/reset: 0, Sync set/reset: 0
+Information:  Module PE report end. (ELAB-965)
+Information: Elaborating HDL template WORK:PEend instantiated from 'PEtotal'. (ELAB-193)
+
+Inferred memory devices in process in routine 'PEend' in file
+	 /home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/rtl/verilog/top.v'.
+==================================================================================
+|    Register Name    |   Type    | Width | Bus | MB |  Set  | Reset | ST | Line |
+==================================================================================
+|   Accumulate_reg    | Flip-flop |  16   |  Y  | Y  | None  | None  | N  |  76  |
+==================================================================================
+Presto compilation completed successfully. (PEend)
+Module: PEend, Ports: 43, Input: 27, Output: 16, Inout: 0
+Module: PEend, Registers: 16, Async set/reset: 0, Sync set/reset: 0
+Information:  Module PEend report end. (ELAB-965)
+Information: Design top elaboration summary: (FLW-8550)
+Number of modules read: 6
+Top level ports:        79
+Total in all modules
+  Ports:                880
+  Nets:                 2009
+  Instances:            402
+Information: Design summary end. (FLW-8551)
+Elapsed = 00:00:00.19, CPU = 00:00:00.18
+1
+# Set top module in the design
+set_top_module ${DESIGN_NAME}
+Information: User units loaded from library 'saed14rvt_frame_timing' (LNK-040)
+Information: Non-default hdlin app options: (FLW-8560)
+****************************************
+Name                                                    Type       Value      User-value   User-default System-default Scope      Status     Source
+------------------------------------------------------- ---------- ---------- ------------ ------------ -------------- ---------- ---------- ----------
+SNPSee_ac5f1c26be820a73c7644f673fce36a44aaa696f07f8f279 bool       true       true         true         false          global     unlisted   --
+------------------------------------------------------- ---------- ---------- ------------ ------------ -------------- ---------- ---------- ----------
+Information: Added key list 'DesignWare' to design 'top'. (DWS-0216)
+Elapsed = 00:00:01.14, CPU = 00:00:01.07
+1
+# Save block after RTL setup
+#save_block -as ${DESIGN_NAME}/rtl_read
+# initial mapping
+#compile_fusion -to initial_map
+# Collect the reports
+report_timing
+Information: Timer using 1 threads
+Timing Update Started(Full_timing_update) : updateCount: 1 / Mem-peak : 575 MB / Date: Wed Nov  4 22:10:40 2026
+
+Timing Update Completed: Mem-peak: 579 MB / Date: Wed Nov  4 22:10:40 2026
+
+Information: Corner default: no PVT mismatches. (PVT-032)
+Warning: no valid parasitic for default corner(LATE) (NEX-018)
+Warning: no valid parasitic for default corner(EARLY) (NEX-018)
+Warning: no valid parasitic for (all corners) corner((both specs)) (NEX-018)
+Information: The stitching and editing of coupling caps is turned OFF for design 'top.dlib:top.design'. (TIM-125)
+Warning: No physical information exists for design 'top'. Zero interconnect delay is used in timing analysis. (TIM-101)
+Warning: The extractor can not be initialized for design 'top'. Zero interconnect delay is used in timing analysis. (TIM-102)
+Warning: Batch extraction is skipped for block "top"
+Information: Update timing completed net estimation for all the timing graph nets (TIM-111)
+Information: Net estimation statistics: timing graph nets = 5871, routed nets = 0, across physical hierarchy nets = 0, parasitics cached nets = 0, delay annotated nets = 0, parasitics annotated nets = 0, multi-voltage nets = 1277. (TIM-112)
+************************************************************
+Timer Settings:
+Delay Calculation Style:                   auto
+Signal Integrity Analysis:                 disabled
+Timing Window Analysis:                    disabled
+Advanced Waveform Propagation:             disabled
+Variation Type:                            fixed_derate
+Clock Reconvergence Pessimism Removal:     disabled
+Advanced Receiver Model:                   disabled
+LLE:                                       disabled
+ML Acceleration:                           off
+Smart Arc Optimization:                    disabled
+************************************************************
+****************************************
+Report : timing
+        -path_type full
+        -delay_type max
+        -max_paths 1
+        -report_by design
+Design : top
+Version: X-2025.06-SP2
+Date   : Wed Nov  4 22:10:40 2026
+****************************************
+No paths.
+1
+report_power
+Warning: No valid clocks available in design 'top'. Setting clock frequency to 1 GHz. (POW-034)
+****************************************
+Report : power
+        -significant_digits 2
+Design : top
+Version: X-2025.06-SP2
+Date   : Wed Nov  4 22:10:40 2026
+****************************************
+Information: Activity propagation will be performed for scenario default.
+Warning: Cannot infer functionality of libcell 'saed14rvt_frame_timing/SAEDRVT14_FDNRBSBQ_V2_0P5' and will be excluded from sequential mapping. (SQM-1061)
+Warning: Cannot infer functionality of libcell 'saed14rvt_frame_timing/SAEDRVT14_FDNRBSBQ_V2_1' and will be excluded from sequential mapping. (SQM-1061)
+Warning: Cannot infer functionality of libcell 'saed14rvt_frame_timing/SAEDRVT14_FDNRBSBQ_V2_2' and will be excluded from sequential mapping. (SQM-1061)
+Warning: Cannot infer functionality of libcell 'saed14rvt_frame_timing/SAEDRVT14_FDNRBSBQ_V2_4' and will be excluded from sequential mapping. (SQM-1061)
+Warning: Cannot infer functionality of libcell 'saed14rvt_frame_timing/SAEDRVT14_FDPRBSBQ_V2_0P5' and will be excluded from sequential mapping. (SQM-1061)
+Warning: Cannot infer functionality of libcell 'saed14rvt_frame_timing/SAEDRVT14_FDPRBSBQ_V2_1' and will be excluded from sequential mapping. (SQM-1061)
+Warning: Cannot infer functionality of libcell 'saed14rvt_frame_timing/SAEDRVT14_FDPRBSBQ_V2_2' and will be excluded from sequential mapping. (SQM-1061)
+Warning: Cannot infer functionality of libcell 'saed14rvt_frame_timing/SAEDRVT14_FDPRBSBQ_V2_4' and will be excluded from sequential mapping. (SQM-1061)
+Warning: Cannot infer functionality of libcell 'saed14rvt_frame_timing/SAEDRVT14_FSDPRBSBQ_V2LP_0P5' and will be excluded from sequential mapping. (SQM-1061)
+Warning: Cannot infer functionality of libcell 'saed14rvt_frame_timing/SAEDRVT14_FSDPRBSBQ_V2LP_2' and will be excluded from sequential mapping. (SQM-1061)
+Warning: Skipping check for single_bit_degenerate attribute on the multibit libcell 'saed14rvt_frame_timing/SAEDRVT14_FSDN2_V2_0P5' since it is not a black-box. (SQM-1079)
+Information: No single-bit representative was found for multibit lib cell 'saed14rvt_frame_timing/SAEDRVT14_FSDN2_V2_0P5'. (SQM-2004)
+Warning: Skipping check for single_bit_degenerate attribute on the multibit libcell 'saed14rvt_frame_timing/SAEDRVT14_FSDN2_V2_1' since it is not a black-box. (SQM-1079)
+Information: No single-bit representative was found for multibit lib cell 'saed14rvt_frame_timing/SAEDRVT14_FSDN2_V2_1'. (SQM-2004)
+Warning: Skipping check for single_bit_degenerate attribute on the multibit libcell 'saed14rvt_frame_timing/SAEDRVT14_FSDN2_V2_2' since it is not a black-box. (SQM-1079)
+Information: No single-bit representative was found for multibit lib cell 'saed14rvt_frame_timing/SAEDRVT14_FSDN2_V2_2'. (SQM-2004)
+Warning: Skipping check for single_bit_degenerate attribute on the multibit libcell 'saed14rvt_frame_timing/SAEDRVT14_FSDN2_V2_4' since it is not a black-box. (SQM-1079)
+Information: No single-bit representative was found for multibit lib cell 'saed14rvt_frame_timing/SAEDRVT14_FSDN2_V2_4'. (SQM-2004)
+Warning: Skipping check for single_bit_degenerate attribute on the multibit libcell 'saed14rvt_frame_timing/SAEDRVT14_FSDN4_V2_0P5' since it is not a black-box. (SQM-1079)
+Information: No single-bit representative was found for multibit lib cell 'saed14rvt_frame_timing/SAEDRVT14_FSDN4_V2_0P5'. (SQM-2004)
+Information: No single-bit representative was found for multibit lib cell 'saed14rvt_frame_timing/SAEDRVT14_FSDN4_V2_1'. (SQM-2004)
+Information: No single-bit representative was found for multibit lib cell 'saed14rvt_frame_timing/SAEDRVT14_FSDN4_V2_2'. (SQM-2004)
+Information: No single-bit representative was found for multibit lib cell 'saed14rvt_frame_timing/SAEDRVT14_FSDN4_V2_4'. (SQM-2004)
+Warning: Found 8 multibit sequential library cells that have missing/added attributes or have restrictions that prevent them from banking. (SQM-1053)
+0 sequential multibit library cells have restrictions (dont_use or dont_touch).
+8 sequential multibit library cells have missing sequential mapping relevant attributes
+Use check_multibit_library command to identify these multibit library cells.
+Information: Doing activity propagation for mode 'default' and corner 'default' with effort level 'medium'. (POW-024)
+Information: Timer-derived activity data is cached on scenario default (POW-052)
+Warning: No valid clocks available in design 'top'. Setting clock frequency to 1 GHz. (POW-034)
+Infomation: Fast mode activity propagation power.rtl_activity_annotation setup is ignored. Always use accurate mode.
+Information: Running switching activity propagation in scalar mode!
+
+ **** Information : No. of simulation cycles = 6 ****
+Mode: default
+Corner: default
+Scenario: default
+Voltage: 0.70
+Temperature: 125.00
+
+Voltage Unit         : 1V
+Capacitance Unit     : 1fF
+Time Unit            : 1ns
+Temperature Unit     : 1C
+Dynamic Power Unit   : 1pW
+Leakage Power Unit   : 1pW
+Warning: No valid clocks available in design 'top'. Setting clock frequency to 1 GHz. (POW-034)
+
+Switched supply net power scaling:
+scaling for leakage power
+
+Supply nets:
+VDD (power) probability 1.00 (default)
+VSS (ground) probability 1.00 (default)
+Warning: Power table extrapolation (extrapolation mode) for port X on cell ctl_u/gte_129_I2/U0/U_0 for parameter Tinp. Lowest table value = 0.003000, highest table value = 0.133000, value = 0.000000 (POW-046)
+Warning: Power table extrapolation (extrapolation mode) for port X on cell ctl_u/gte_129_I2/U0/U_7 for parameter Tinp. Lowest table value = 0.003000, highest table value = 0.133000, value = 0.000000 (POW-046)
+Warning: Power table extrapolation (extrapolation mode) for port X on cell ctl_u/gte_129_I2/U0/U_8 for parameter Tinp. Lowest table value = 0.003000, highest table value = 0.133000, value = 0.001583 (POW-046)
+Warning: Power table extrapolation (extrapolation mode) for port X on cell ctl_u/gte_129_I2/U0/U_14 for parameter Tinp. Lowest table value = 0.003000, highest table value = 0.133000, value = 0.001907 (POW-046)
+Warning: Power table extrapolation (extrapolation mode) for port X on cell ctl_u/gte_129_I2/U0/U_16 for parameter Tinp. Lowest table value = 0.003000, highest table value = 0.133000, value = 0.000000 (POW-046)
+Warning: Power table extrapolation (extrapolation mode) for port X on cell ctl_u/gte_129_I2/U0/U_16 for parameter Cout. Lowest table value = 0.000150, highest table value = 0.031700, value = 0.000000 (POW-046)
+Warning: Power table extrapolation (extrapolation mode) for port X on cell ctl_u/gte_129_I2/U0/U_17 for parameter Tinp. Lowest table value = 0.003000, highest table value = 0.133000, value = 0.000000 (POW-046)
+Warning: Power table extrapolation (extrapolation mode) for port A1 on cell ctl_u/gte_129_I2/U0/U_18 for parameter Tinp. Lowest table value = 0.003000, highest table value = 0.133000, value = 0.000000 (POW-046)
+Warning: Power table extrapolation (extrapolation mode) for port B on cell ctl_u/gte_129_I2/U0/U_24 for parameter Tinp. Lowest table value = 0.003000, highest table value = 0.133000, value = 0.002193 (POW-046)
+Warning: Power table extrapolation (extrapolation mode) for port X on cell ctl_u/gte_129_I2/U0/U_24 for parameter Tinp. Lowest table value = 0.003000, highest table value = 0.133000, value = 0.002155 (POW-046)
+Note - message 'POW-046' limit (10) exceeded. Remainder will be suppressed.
+
+  Cell Internal Power    = 1.12e+08 pW (  4.5%)
+  Net Switching Power    = 2.39e+09 pW ( 95.5%)
+Total Dynamic Power      = 2.50e+09 pW (100.0%)
+
+Cell Leakage Power       = 4.95e+07 pW
+
+
+  Attributes
+  ----------
+      u  -  User defined power group
+
+Power Group         Internal Power        Switching Power          Leakage Power            Total Power    (   %  )    Attrs
+-----------------------------------------------------------------------------------------------------------------------------
+io_pad                    0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+memory                    0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+black_box                 0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+clock_network             0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+register                  0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+sequential                0.00e+00               1.01e+09               0.00e+00               1.01e+09    ( 39.8%)         
+combinational             1.12e+08               1.37e+09               4.95e+07               1.53e+09    ( 60.2%)         
+-----------------------------------------------------------------------------------------------------------------------------
+Total                     1.12e+08 pW            2.39e+09 pW            4.95e+07 pW            2.55e+09 pW
+1
+report_area
+****************************************
+Report : area
+Design : top
+Version: X-2025.06-SP2
+Date   : Wed Nov  4 22:10:45 2026
+****************************************
+
+Number of ports:                         6015
+Number of nets:                         12676
+Number of cells:                         5071
+Number of combinational cells:           4657
+Number of sequential cells:               414
+Number of macros/black boxes:               0
+Number of buf/inv:                       1873
+Number of references:                      28
+
+Combinational area:                   1498.81
+Buf/Inv area:                          309.38
+Noncombinational area:                   0.00
+Macro/Black Box area:                    0.00
+
+Total cell area:                      1498.81
+1
+collect_reports initial_syn
+Collecting reports for initial_syn stage...
+Reports are generated for initial_syn stage.
+# Gate level netlist generation
+write_verilog ./results/${DESIGN_NAME}_initial_syn.v
+Warning: Net name 'N16' is omitted from the output file, because the net name does not match a connected port name. The net is implicitly renamed to match one of its connected ports. (VW-007)
+1
+# Working with blocks
+current_block
+{top.dlib:top.design}
+save_block
+Information: The command 'save_block' cleared the undo history. (UNDO-016)
+Warning: No valid clocks available in design 'top'. Setting clock frequency to 1 GHz. (POW-034)
+Information: Saving block 'top.dlib:top.design'
+1
+save_block -as ${DESIGN_NAME}/inital_syn
+Information: Saving 'top.dlib:top.design' to 'top.dlib:top/inital_syn.design'. (DES-028)
+Warning: No valid clocks available in design 'top'. Setting clock frequency to 1 GHz. (POW-034)
+1
+get_blocks -all
+{top.dlib:top.design top.dlib:top/inital_syn.design}
+save_lib
+Saving library 'top.dlib'
+Warning: No valid clocks available in design 'top'. Setting clock frequency to 1 GHz. (POW-034)
+1
+exit
+Maximum memory usage for this session: 669.85 MB
+Maximum memory usage for this session including child processes: 669.85 MB
+CPU usage for this session:     19 seconds (  0.01 hours)
+Elapsed time for this session:     20 seconds (  0.01 hours)
+Thank you for using Fusion Compiler.

@@ -1,0 +1,105 @@
+Setting up environment variables for Synthesis version O-2018.06-SP4
+Setting up environment for Synopsys VCS version W-2024.09-1
+Setting up environment variables for Primetime version U-2022.12-SP5-1
+Setting up environment variables for PrimeECO version U-2022.12-SP5-3
+Setting up environment variables for IC Compiler II version S-2021.06-SP5-1
+Setting up environment variables for Verdi version W-2024.09-1
+Setting up environment variables for Fusion Compiler version X-2025.06-SP2a
+Setting up environment variables for IC Validator version W-2024.09-3
+
+
+
+                              Fusion Compiler (TM)
+
+                Version X-2025.06-SP2 for linux64 - Oct 15, 2025
+                           Base build date 9/22/2025
+
+                    Copyright (c) 1988 - 2025 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+ 
+Information: Term was not able to be set up using xterm-256color . Using "xterm" by default instead. (CLE-10)
+source ./setup/fc_common_setup.tcl
+source ./setup/fc_flow_setup.tcl
+1
+open_lib ${RESULTS_PATH}/${DESIGN_LIBRARY}
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/results/top.dlib' (FILE-007)
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/ndm/saed14rvt_frame_timing.ndm' (FILE-007)
+{top.dlib}
+open_block ${DESIGN_NAME}/signoff_v5
+Information: User units loaded from library 'saed14rvt_frame_timing' (LNK-040)
+Opening block 'top.dlib:top/signoff_v5.design' in edit mode
+{top.dlib:top/signoff_v5.design}
+foreach cmd {signoff_fix_drc route_detail route_eco route_opt write_gds remove_shapes remove_routes create_stdcell_fillers remove_stdcell_fillers get_shapes} {
+  puts "MAN_START=$cmd"
+  if {[catch {redirect -file ./v5_repair_logs/man_$cmd.txt {man $cmd}} err]} {puts "MAN_ERROR_$cmd=$err"}
+}
+MAN_START=signoff_fix_drc
+MAN_START=route_detail
+MAN_START=route_eco
+MAN_START=route_opt
+MAN_START=write_gds
+MAN_START=remove_shapes
+MAN_START=remove_routes
+MAN_START=create_stdcell_fillers
+MAN_START=remove_stdcell_fillers
+MAN_START=get_shapes
+set c [get_cells -hierarchical {ctl_u/count_reg[12]}]
+Using libraries: top.dlib saed14rvt_frame_timing
+Visiting block top.dlib:top/signoff_v5.design
+Information: Cellem using advance interpolation.
+Design 'top' was successfully linked.
+{{ctl_u/count_reg[12]}}
+puts "CELL_MATCH_COUNT=[sizeof_collection $c]"
+CELL_MATCH_COUNT=1
+if {[sizeof_collection $c] > 0} {
+ foreach a {is_placed physical_status origin bbox ref_name} {
+  if {[catch {get_attribute $c $a} val]} {puts "CELL_ATTRIBUTE_$a=ERROR"} else {puts "CELL_ATTRIBUTE_$a=$val"}
+ }
+}
+CELL_ATTRIBUTE_is_placed=true
+CELL_ATTRIBUTE_physical_status=placed
+CELL_ATTRIBUTE_origin=40.8900 9.2000
+CELL_ATTRIBUTE_bbox={40.8160 8.5530} {42.8140 9.2470}
+CELL_ATTRIBUTE_ref_name=SAEDRVT14_FSDPQ_V2_0P5
+puts "FILL_COMMAND_HELP"
+FILL_COMMAND_HELP
+help *fill*
+ check_filler_sanity  # Check filler sanity
+ create_extension_fillers # Create extension fillers
+ create_fill_cell     # Create a new fill_cell
+ create_io_filler_cells # insert IO filler cells
+ create_left_right_filler_cells # Create left right filler cells for the specified lib cells
+ create_stdcell_fillers # Insert filler cells in empty spaces
+ create_vtcell_fillers # create vt cell filler cells
+ get_fill_cells       # Create a collection of fill_cells
+ gui_fill_utable      # Fill generated data rows to an existing UserTable.
+ read_fill_from_stream # Read FILL data from single or list of GDS/OASIS Layout file into the current design
+ remove_fill_cells    # Remove the given fill_cells
+ remove_io_filler_cells # removes IO filler cells
+ remove_post_route_filler # remove post route fillers
+ remove_stdcell_fillers_with_violation # Delete filler cells that have routing violations
+ replace_fillers_by_rules # replace constrained filler cells with unconstrained ones where needed
+ set_stdcell_filler_rules # set stdcell filler rules
+ set_vt_filler_rule   # create vt cell filler cells
+ signoff_create_metal_fill # Fill dummy metal by launching IC Validator with foundry runset
+puts "COMMANDS_CAPTURED"
+COMMANDS_CAPTURED
+exit
+Maximum memory usage for this session: 566.72 MB
+Maximum memory usage for this session including child processes: 566.72 MB
+CPU usage for this session:     12 seconds (  0.00 hours)
+Elapsed time for this session:     12 seconds (  0.00 hours)
+Thank you for using Fusion Compiler.

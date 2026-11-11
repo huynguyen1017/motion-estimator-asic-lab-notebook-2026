@@ -1,0 +1,21 @@
+Setting up environment variables for Synthesis version O-2018.06-SP4
+Setting up environment for Synopsys VCS version W-2024.09-1
+Setting up environment variables for Primetime version U-2022.12-SP5-1
+Setting up environment variables for PrimeECO version U-2022.12-SP5-3
+Setting up environment variables for IC Compiler II version S-2021.06-SP5-1
+Setting up environment variables for Verdi version W-2024.09-1
+Setting up environment variables for Fusion Compiler version X-2025.06-SP2a
+Setting up environment variables for IC Validator version W-2024.09-3
+Error: unknown option '-no_log' (CMD-010)
+Usage: /packages/synopsys/prime_eco/U-2022.12-SP5-3/linux64/syn/bin/pt_shell_exec
+        -root_path path_name   (Synopsys root path)
+        [-gui]                 (Start GUI immediately)
+        [-display display_env_value]
+                               (Set DISPLAY environment variable)
+        [-file file_name]      (Script file to exec after setup)
+        [-no_init]             (Don't load any setup files)
+        [-x command]           (Execute a command after setup)
+        [-version]             (Show product version and exit immediately)
+        [-multi_scenario]      (Initialize in multi scenario mode)
+        [-output_log_file file_name]
+                               (Output log file name)

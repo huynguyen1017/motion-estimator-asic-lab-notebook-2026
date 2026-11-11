@@ -1,0 +1,689 @@
+Setting up environment variables for Synthesis version O-2018.06-SP4
+Setting up environment for Synopsys VCS version W-2024.09-1
+Setting up environment variables for Primetime version U-2022.12-SP5-1
+Setting up environment variables for PrimeECO version U-2022.12-SP5-3
+Setting up environment variables for IC Compiler II version S-2021.06-SP5-1
+Setting up environment variables for Verdi version W-2024.09-1
+Setting up environment variables for Fusion Compiler version X-2025.06-SP2a
+Setting up environment variables for IC Validator version W-2024.09-3
+
+
+
+                              Fusion Compiler (TM)
+
+                Version X-2025.06-SP2 for linux64 - Oct 15, 2025
+                           Base build date 9/22/2025
+
+                    Copyright (c) 1988 - 2025 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+ 
+Information: Term was not able to be set up using xterm-256color . Using "xterm" by default instead. (CLE-10)
+#####################################################################
+#####		5.2 Manual Floorplan Creation		#####
+#####################################################################
+#### Sourcing common setup script
+source -echo ./setup/fc_common_setup.tcl
+#####################################################################
+#####		Common Setup Script for Fusion Compiler		#####
+#####################################################################
+set DESIGN_NAME "top"		; # set design name
+set DESIGN_LIBRARY	"${DESIGN_NAME}.dlib"		; # set design library name
+set WORK_DIR		"[pwd]"				; # Get current working directory
+set LIBNAME		"saed14rvt"			; # set library name
+set CELL_PREFIX		"SAEDRVT14"
+set TECH_NODE		"saed14nm"			; # set technology node name
+set METAL_STACK		"1p9m"				; # set metal stack
+set REF_NDM		"frame_timing"			; # set reference ndm type: "frame_only" or "frame_timing_ccs"
+set REFERENCE_LIB_PATH	"${WORK_DIR}/common/ndm"
+set REFERENCE_LIBRARY	"${REFERENCE_LIB_PATH}/${LIBNAME}_${REF_NDM}.ndm"
+set TECH_FILE_PATH      "${WORK_DIR}/common/tf"
+set TECH_FILE		"${WORK_DIR}/common/tf/${TECH_NODE}_${METAL_STACK}.tf"
+set TECH_NDM		"path/to/tech_ndm/if/exist"
+set LIBERTY_PATH	"${WORK_DIR}/common/liberty"
+set TLUP_PATH		"${WORK_DIR}/common/tlup"
+set TLUP_MIN_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cmin.tlup"
+set TLUP_NOM_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cnom.tlup"
+set TLUP_MAX_FILE	"${TLUP_PATH}/${TECH_NODE}_${METAL_STACK}_Cmax.tlup"
+set NXTGRD_PATH		"${WORK_DIR}/common/nxtgrd"
+set NXTGRD_MIN_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cmin.nxtgrd"
+set NXTGRD_NOM_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cnom.nxtgrd"
+set NXTGRD_MAX_FILE	"${NXTGRD_PATH}/${TECH_NODE}_${METAL_STACK}_Cmax.nxtgrd"
+set MAP_PATH		"${WORK_DIR}/common/map"
+set GDS_PATH		"${WORK_DIR}/common/gds"
+set LAYER_MAP_FILE	"${MAP_PATH}/${TECH_NODE}_tf_itf_tluplus.map"
+set RTL_PATH		"${WORK_DIR}/common/rtl"
+set SDC_PATH		"${WORK_DIR}/common/sdc"
+set SDC_FILE		"${SDC_PATH}/${DESIGN_NAME}.sdc"
+set VERILOG_PATH	"${RTL_PATH}/verilog"
+set VHDL_PATH		"${RTL_PATH}/vhdl"
+set RESULTS_PATH	"${WORK_DIR}/results"
+set REPORTS_PATH	"${WORK_DIR}/reports"
+set DRC_RUNSET_FILE	"${WORK_DIR}/common/runsets/saed14nm_1p9m_drc_rules.rs"
+set GDS_MAP_FILE	"${MAP_PATH}/saed14nm_1p9m_gdsout_mw.map"
+set MFILL_RUNSET_FILE	"${WORK_DIR}/common/runsets/saed14nm_1p9m_mfill_rules.rs"
+set GDS_FILE		"${GDS_PATH}/saed14rvt.gds"
+source ${WORK_DIR}/setup/utilities.tcl
+#### Sourcing flow setup script
+source -echo ./setup/fc_flow_setup.tcl
+#####################################################################
+#####		Flow Setup Script for Fusion Compiler		#####
+#####################################################################
+set TECH_BASED	"tf"				; # set "tf" for TECH_FILE-based flow or set "ndm" for TECH_NDM-based flow.
+set PARASITIC	"tlup"				; # set "tlup" for using TLUP files or  set "nxtgrd" for using NXTGRD files.
+set HDL		"verilog"			; # set "verilog" for reading Verilog RTL or set "vhdl" for reading VHDL RTL.
+set PVT_FF	"ff0p88v125c"			; # set FF PVT
+set PVT_TT	"tt0p8v25c"			; # set TT PVT
+set PVT_SS	"ss0p72vm40c"			; # set SS PVT
+set DB_FF	"${LIBERTY_PATH}/${LIBNAME}_${PVT_FF}.db"
+set DB_TT	"${LIBERTY_PATH}/${LIBNAME}_${PVT_TT}.db"
+set DB_SS	"${LIBERTY_PATH}/${LIBNAME}_${PVT_SS}.db"
+set_host_options -max_cores 1
+1
+# Open the design library
+open_lib ${RESULTS_PATH}/${DESIGN_LIBRARY}
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/20_v5b_520MHz_14nm_cts_area_fix/results/top.dlib' (FILE-007)
+Information: Loading library file '/home/<PRIVATE_USER>/ENGR852_Project/16_v3b_final_asic_fc/common/ndm/saed14rvt_frame_timing.ndm' (FILE-007)
+{top.dlib}
+# Copy and open block
+copy_block -from ${DESIGN_NAME}/compile -to ${DESIGN_NAME}/manual_floorplan_v5
+Information: User units loaded from library 'saed14rvt_frame_timing' (LNK-040)
+{top.dlib:top/manual_floorplan_v5.design}
+open_block ${DESIGN_NAME}/manual_floorplan_v5
+Information: Incrementing open_count of block 'top.dlib:top/manual_floorplan_v5.design' to 2. (DES-021)
+{top.dlib:top/manual_floorplan_v5.design}
+#### Initialize the floorplan
+initialize_floorplan  \
+	-control_type core \
+	-core_utilization 0.35 \
+	-core_offset 5 \
+	-shape R \
+	-side_ratio {2 1} \
+	-flip_first_row true
+Using libraries: top.dlib saed14rvt_frame_timing
+Visiting block top.dlib:top/manual_floorplan_v5.design
+Information: Cellem using advance interpolation.
+Design 'top' was successfully linked.
+Use site_def 'unit' to initialize floorplan.
+Removing existing floorplan objects
+Creating core...
+Core utilization ratio = 35.44%
+Unplacing all cells...
+Creating site array...
+Creating routing tracks...
+Initializing floorplan completed.
+#### Set pin placement constraints
+set ports [remove_from_collection [get_ports] {VDD VSS}]
+{clock start {BestDist[15]} {BestDist[14]} {BestDist[13]} {BestDist[12]} {BestDist[11]} {BestDist[10]} {BestDist[9]} {BestDist[8]} {BestDist[7]} {BestDist[6]} {BestDist[5]} {BestDist[4]} {BestDist[3]} {BestDist[2]} {BestDist[1]} {BestDist[0]} {motionX[3]} {motionX[2]} {motionX[1]} {motionX[0]} {motionY[3]} {motionY[2]} {motionY[1]} {motionY[0]} {AddressR[7]} {AddressR[6]} {AddressR[5]} {AddressR[4]} {AddressR[3]} {AddressR[2]} {AddressR[1]} {AddressR[0]} {AddressS1[9]} {AddressS1[8]} {AddressS1[7]} {AddressS1[6]} {AddressS1[5]} {AddressS1[4]} {AddressS1[3]} {AddressS1[2]} {AddressS1[1]} {AddressS1[0]} {AddressS2[9]} {AddressS2[8]} {AddressS2[7]} {AddressS2[6]} {AddressS2[5]} {AddressS2[4]} {AddressS2[3]} {AddressS2[2]} {AddressS2[1]} {AddressS2[0]} {R[7]} {R[6]} {R[5]} {R[4]} {R[3]} {R[2]} {R[1]} {R[0]} {S1[7]} {S1[6]} {S1[5]} {S1[4]} {S1[3]} {S1[2]} {S1[1]} {S1[0]} {S2[7]} {S2[6]} {S2[5]} {S2[4]} {S2[3]} {S2[2]} {S2[1]} {S2[0]} completed}
+set_block_pin_constraints -self \
+	-allowed_layers {M4 M3} \
+	-sides {1 4} \
+	-pin_spacing_distance 1 \
+	-width 0.11 \
+	-length 0.11 
+Information: The command 'set_block_pin_constraints' cleared the undo history. (UNDO-016)
+Information: Block pin constraints pin_spacing_distance, allowed_layers, sides are set for top block top/manual_floorplan_v5. (DPPA-403)
+1
+set_individual_pin_constraints \
+	-ports [get_ports clock] \
+	-sides 2 \
+	-allowed_layers M5
+1
+place_pins -self -ports ${ports}
+Information: Starting 'place_pins' (FLW-8000)
+Information: Time: 2026-11-05 10:34:32 / Session:  00:00:12 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 490 MB (FLW-8100)
+Load DB...
+CPU Time for load db: 00:00:00.00u 00:00:00.00s 00:00:00.00e: 
+
+Min routing layer: M1
+Max routing layer: MRDL
+
+Non default block pin constraint setting(s) of top block: top
+pin_spacing_distance: 1.0000
+allowed_layers:       M4 M3 
+sides:                1 4
+
+CPU Time for Top Level Pre-Route Processing: 00:00:00.00u 00:00:00.00s 00:00:00.00e: 
+CPU Time for Leaf Level Pre-Route Processing: 00:00:00.00u 00:00:00.00s 00:00:00.00e: 
+Warning: Block sides pin constraints conflict with pin clock. (DPPA-113)
+Warning: The individual pin constraints allowed layers on port clock are in conflict with block pin constraints allowed layers or min/max routing layers. (DPPA-417)
+Number of block ports: 79
+Number of block pin locations assigned from router: 0
+CPU Time for Pin Preparation: 00:00:00.00u 00:00:00.00s 00:00:00.00e: 
+Number of PG ports on blocks: 0
+Number of pins created: 79
+CPU Time for Pin Creation: 00:00:00.01u 00:00:00.00s 00:00:00.01e: 
+Total Pin Placement CPU Time: 00:00:00.01u 00:00:00.00s 00:00:00.02e: 
+Information: Ending   'place_pins' (FLW-8001)
+Information: Time: 2026-11-05 10:34:32 / Session:  00:00:12 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 495 MB (FLW-8100)
+1
+#### Insert Boundary/TAP cells in the design
+source -echo ./scripts/insert_boundary_and_tap_cells.tcl
+#####################################################################
+#####			Boundary/TAP cell insertion		#####
+#####################################################################
+#### Inserting boundary cells
+set_boundary_cell_rules  \
+        -top_boundary_cells                */${CELL_PREFIX}_CAPT2 \
+        -bottom_boundary_cells             */${CELL_PREFIX}_CAPB2 \
+	-left_boundary_cell                */${CELL_PREFIX}_CAPT2 \
+	-right_boundary_cell               */${CELL_PREFIX}_CAPB2 \
+        -top_left_outside_corner_cell      */${CELL_PREFIX}_CAPTIN13 \
+        -top_right_outside_corner_cell     */${CELL_PREFIX}_CAPTIN13 \
+        -bottom_left_outside_corner_cell   */${CELL_PREFIX}_CAPBIN13 \
+        -bottom_right_outside_corner_cell  */${CELL_PREFIX}_CAPBIN13 
+#	-mirror_left_outside_corner_cell \
+#	-mirror_right_outside_corner_cell 
+compile_boundary_cells
+Warning: Detected use of obsolete/unsupported feature.  The following
+        	will not be available in a future release of the application:
+        	compile_boundary_cells. Use compile_targeted_boundary_cells instead (CMD-100)
+Using AL to insert boundary cells
+Warning: Routing direction of metal layer PO is neither "horizontal" nor "vertical".  PDC checks will not be performed on this layer. (PDC-003)
+PDC app_options settings =========
+	place.legalize.enable_prerouted_net_check: 1
+	place.legalize.num_tracks_for_access_check: 1
+	place.legalize.use_eol_spacing_for_access_check: 0
+	place.legalize.allow_touch_track_for_access_check: 1
+	place.legalize.reduce_conservatism_in_eol_check: 0
+	place.legalize.preroute_shape_merge_distance: 0.0
+	place.legalize.enable_non_preferred_direction_span_check: 0
+
+Layer M1: cached 0 shapes out of 0 total shapes.
+Layer M2: cached 0 shapes out of 0 total shapes.
+Layer M3: cached 0 shapes out of 0 total shapes.
+Cached 0 vias out of 0 total vias.
+Warning: No 1x or 2x + 3x wide cells provided for top or bottom option. (CHF-125)
+Information: Starting boundary cell insertion into top/manual_floorplan_v5 using site master "unit". (CHF-200)
+	20% complete ...
+	40% complete ...
+	50% complete ...
+	60% complete ...
+	70% complete ...
+	80% complete ...
+Information: Total 66 left cells inserted successfully into top/manual_floorplan_v5. (CHF-100)
+Information: Total 0 bottom cells inserted successfully into top/manual_floorplan_v5. (CHF-100)
+Information: Total 66 right cells inserted successfully into top/manual_floorplan_v5. (CHF-100)
+Information: Total 542 top cells inserted successfully into top/manual_floorplan_v5. (CHF-100)
+Information: Total 0 bottom left outside cells inserted successfully into top/manual_floorplan_v5. (CHF-100)
+Information: Total 0 bottom right outside cells inserted successfully into top/manual_floorplan_v5. (CHF-100)
+Information: Total 2 top left outside cells inserted successfully into top/manual_floorplan_v5. (CHF-100)
+Information: Total 2 top right outside cells inserted successfully into top/manual_floorplan_v5. (CHF-100)
+Information: Total 678 boundary cells inserted successfully into top/manual_floorplan_v5. (CHF-100)
+#### Inserting TAP cells
+create_tap_cells   \
+         -lib_cell  */${CELL_PREFIX}_TAPDS \
+         -distance 60  \
+         -pattern stagger \
+         -skip_fixed_cells
+* Disjointed site row process : FALSE
+Using AL to insert tap cells
+Information: tap_to_tap_distance is not a hard rule at tap insertion stage. Please set place.legalize.ignore_tap_to_tap_distance_rule to true to bypass the check.
+Warning: Routing direction of metal layer PO is neither "horizontal" nor "vertical".  PDC checks will not be performed on this layer. (PDC-003)
+PDC app_options settings =========
+	place.legalize.enable_prerouted_net_check: 1
+	place.legalize.num_tracks_for_access_check: 1
+	place.legalize.use_eol_spacing_for_access_check: 0
+	place.legalize.allow_touch_track_for_access_check: 1
+	place.legalize.reduce_conservatism_in_eol_check: 0
+	place.legalize.preroute_shape_merge_distance: 0.0
+	place.legalize.enable_non_preferred_direction_span_check: 0
+
+Layer M1: cached 0 shapes out of 0 total shapes.
+Layer M2: cached 0 shapes out of 0 total shapes.
+Layer M3: cached 0 shapes out of 0 total shapes.
+Cached 0 vias out of 0 total vias.
+Information: Starting tap cell insertion into top/manual_floorplan_v5 using site master "unit". (CHF-200)
+	20% complete ...
+	40% complete ...
+	50% complete ...
+	60% complete ...
+	70% complete ...
+	80% complete ...
+Information: Total 102 tap cells inserted successfully into top/manual_floorplan_v5. (CHF-100)
+#### Write out the created floorplan 
+write_floorplan -output ${RESULTS_PATH}/write_floorplan_files -exclude {cells nets} 
+Writing floorplan for top.design
+Since nets are selected, cells will be added as well, to satisfy DEF dependency.
+Information: Fill shapes with 'active_fill' purpose will be skipped from output DEF. (DEFW-032)
+1
+#### Write DEF for created floorplan
+write_def -exclude {cells nets} ${RESULTS_PATH}/floorplan.def
+****************************************
+Report : Data Mismatches
+Version: X-2025.06-SP2
+Date   : Thu Nov  5 10:34:35 2026
+****************************************
+No mismatches exist on the design.
+Information: Fill shapes with 'active_fill' purpose will be skipped from output DEF. (DEFW-032)
+---------------------------------------
+Number of Written DEF Constructs
+---------------------------------------
+VERSION                        : 1
+DIVIDERCHAR                    : 1
+BUSBITCHARS                    : 1
+DESIGN                         : 1
+UNITS                          : 1
+PROPERTYDEFINITIONS            : 1
+DIEAREA                        : 1
+ROW                            : 68
+TRACKS                         : 20
+PINS                           : 81
+PINPROPERTIES                  : 79
+SPECIALNETS                    : 2
+1
+#### Create Power/Ground Network
+source -echo ./scripts/create_pg_network.tcl
+#####################################################################
+#####			Create PG Network Script		#####
+#####################################################################
+#### Remove PG related data
+remove_pg_via_master_rules -all
+Information: The command 'remove_pg_via_master_rules' cleared the undo history. (UNDO-016)
+All via def rules have been removed.
+remove_pg_patterns -all
+All patterns have been removed.
+remove_pg_strategies -all
+All strategies have been removed.
+remove_pg_strategy_via_rules -all
+All strategy via rules have been removed.
+remove_routes -ring -stripe -lib_cell_pin_connect 
+Remove no route shapes with specified net types and shape uses.
+#### Set PG net attribute
+set_attribute -objects [get_nets VDD] -name net_type -value power
+set_attribute -objects [get_nets VSS] -name net_type -value ground
+#### Create VIA strategy rule VIA_NIL
+set_pg_strategy_via_rule VIA_NIL -via_rule { {intersection: undefined} {via_master: NIL} }
+Information: The command 'set_pg_strategy_via_rule' cleared the undo history. (UNDO-016)
+Successfully set strategy via rule VIA_NIL.
+#### Create PG Rails for standard cells
+create_pg_std_cell_conn_pattern M1_rail -layers {M1} -rail_width {@wtop @wbottom} -parameters {wtop wbottom}
+Successfully create standard cell rail pattern M1_rail.
+set_pg_strategy M1_rail_strategy_pwr -core -pattern {{name: M1_rail} {nets: VDD} {parameters: {0.094 0.094}}}
+Successfully set PG strategy M1_rail_strategy_pwr.
+set_pg_strategy M1_rail_strategy_gnd -core -pattern {{name: M1_rail} {nets: VSS} {parameters: {0.094 0.094}}}
+Successfully set PG strategy M1_rail_strategy_gnd.
+compile_pg -strategies M1_rail_strategy_pwr -ignore_drc
+Sanity check for inputs.
+Warning: Strategy via rule is not defined. Add appropriate via rule to get expected results and avoid runtime penalties. (PGR-095)
+DRC checking and fixing will be skipped for created shapes.
+Automatic PG net connection through connect_pg_net is disabled.
+Updating PG strategies.
+Updating strategy M1_rail_strategy_pwr.
+Loading library and design information.
+Number of Standard Cells: 0
+Number of Hard Macros: 0
+Number of Pads: 0
+Creating standard cell rails.
+Creating standard cell rails for strategy M1_rail_strategy_pwr.
+Creating via connection between strategies and existing shapes.
+via connection runtime: 0 seconds.
+Commiting wires and vias.
+Committing wires takes 0.00 seconds.
+Committing vias takes 0.00 seconds.
+Committed 35 wires.
+Committed 0 vias.
+Committed 0 wires for via creation.
+Overall PG creation runtime: 0 seconds.
+Successfully compiled PG.
+Overall runtime: 0 seconds.
+compile_pg -strategies M1_rail_strategy_gnd -ignore_drc
+Sanity check for inputs.
+Warning: Strategy via rule is not defined. Add appropriate via rule to get expected results and avoid runtime penalties. (PGR-095)
+DRC checking and fixing will be skipped for created shapes.
+Automatic PG net connection through connect_pg_net is disabled.
+Updating PG strategies.
+Updating strategy M1_rail_strategy_gnd.
+Loading library and design information.
+Number of Standard Cells: 0
+Number of Hard Macros: 0
+Number of Pads: 0
+Creating standard cell rails.
+Creating standard cell rails for strategy M1_rail_strategy_gnd.
+Creating via connection between strategies and existing shapes.
+via connection runtime: 0 seconds.
+Commiting wires and vias.
+Committing wires takes 0.00 seconds.
+Committing vias takes 0.00 seconds.
+Committed 34 wires.
+Committed 0 vias.
+Committed 0 wires for via creation.
+Overall PG creation runtime: 0 seconds.
+Successfully compiled PG.
+Overall runtime: 0 seconds.
+#### Create M5 Vertical PG Straps
+create_pg_mesh_pattern M5_PG \
+	-layers { {vertical_layer: M5}   {width: 0.1} {spacing: interleaving} {pitch: 4} {offset: 0.5} } 
+Successfully create mesh pattern M5_PG.
+set_pg_strategy M5_PG_Strategy \
+	-core \
+	-pattern   { {name: M5_PG} {nets:{VSS VDD}} } \
+	-extension { {stop: core_boundary} }
+Successfully set PG strategy M5_PG_Strategy.
+compile_pg -strategies {M5_PG_Strategy} -via_rule VIA_NIL
+Sanity check for inputs.
+Automatic PG net connection through connect_pg_net is disabled.
+Updating PG strategies.
+Updating strategy M5_PG_Strategy.
+Loading library and design information.
+Number of Standard Cells: 0
+Number of Hard Macros: 0
+Number of Pads: 0
+Creating straps and vias in power plan.
+Creating wire shapes for strategies M5_PG_Strategy .
+Creating wire shapes runtime: 0 seconds
+Blockage cutting and DRC fixing for wire shapes for strategies M5_PG_Strategy .
+Check and fix DRC for 41 wires for strategy M5_PG_Strategy.
+Number of threads: 1
+Number of partitions: 4
+Direction of partitions: vertical
+Number of wires: 41
+Checking DRC for 41 wires: 0% 100%
+Creating 41 wires after DRC fixing.
+Wire DRC checking runtime 0.00 seconds.
+Creating via shapes for strategies M5_PG_Strategy .
+Working on strategy M5_PG_Strategy.
+Number of detected intersections: 0
+Total runtime of via shapes creation: 0 seconds
+Runtime of via DRC checking for strategy M5_PG_Strategy: 0.00 seconds.
+Removing dangling/floating wire/vias after DRC check.
+Start iteration 1:
+Checking potential dangling/floating power plan wires.
+Finish removing all dangling or floating wires and vias.
+Commiting wires and vias.
+Committing wires takes 0.00 seconds.
+Committing vias takes 0.00 seconds.
+Committed 41 wires.
+Committed 0 vias.
+Committed 0 wires for via creation.
+Overall PG creation runtime: 0 seconds.
+Successfully compiled PG.
+Overall runtime: 0 seconds.
+#### Create M6 Horizontal PG Straps 
+create_pg_mesh_pattern M6_PG \
+	-layers { {horizontal_layer: M6}   {width: 0.2} {spacing: interleaving} {pitch: 4} {offset: 0.5} }
+Successfully create mesh pattern M6_PG.
+set_pg_strategy M6_PG_Strategy \
+	-core \
+	-pattern   { {name: M6_PG} {nets:{VSS VDD}} } \
+	-extension { {stop: design_boundary_and_generate_pin} }
+Successfully set PG strategy M6_PG_Strategy.
+compile_pg -strategies {M6_PG_Strategy} -via_rule VIA_NIL
+Sanity check for inputs.
+Automatic PG net connection through connect_pg_net is disabled.
+Updating PG strategies.
+Updating strategy M6_PG_Strategy.
+Loading library and design information.
+Number of Standard Cells: 0
+Number of Hard Macros: 0
+Number of Pads: 0
+Creating straps and vias in power plan.
+Creating wire shapes for strategies M6_PG_Strategy .
+Creating wire shapes runtime: 0 seconds
+Blockage cutting and DRC fixing for wire shapes for strategies M6_PG_Strategy .
+Check and fix DRC for 21 wires for strategy M6_PG_Strategy.
+Number of threads: 1
+Number of partitions: 2
+Direction of partitions: horizontal
+Number of wires: 21
+Checking DRC for 21 wires: 0% 100%
+Creating 21 wires after DRC fixing.
+Wire DRC checking runtime 0.00 seconds.
+Creating via shapes for strategies M6_PG_Strategy .
+Working on strategy M6_PG_Strategy.
+Number of detected intersections: 0
+Total runtime of via shapes creation: 0 seconds
+Runtime of via DRC checking for strategy M6_PG_Strategy: 0.00 seconds.
+Removing dangling/floating wire/vias after DRC check.
+Start iteration 1:
+Checking potential dangling/floating power plan wires.
+Finish removing all dangling or floating wires and vias.
+Commiting wires and vias.
+Committing wires takes 0.00 seconds.
+Committing vias takes 0.00 seconds.
+Committed 63 wires.
+Committed 0 vias.
+Committed 0 wires for via creation.
+Created 42 pins at design boundary.
+Overall PG creation runtime: 0 seconds.
+Successfully compiled PG.
+Overall runtime: 0 seconds.
+#### Create M7 Vertical PG Straps
+create_pg_mesh_pattern M7_PG \
+	-layers { {vertical_layer: M7}   {width: 0.2} {spacing: interleaving} {pitch: 4} {offset: 0.5} } 
+Successfully create mesh pattern M7_PG.
+set_pg_strategy M7_PG_Strategy \
+	-core \
+	-pattern   { {name: M7_PG} {nets:{VSS VDD}} } \
+	-extension { {stop: design_boundary_and_generate_pin} }
+Successfully set PG strategy M7_PG_Strategy.
+compile_pg -strategies {M7_PG_Strategy} -via_rule VIA_NIL
+Sanity check for inputs.
+Automatic PG net connection through connect_pg_net is disabled.
+Updating PG strategies.
+Updating strategy M7_PG_Strategy.
+Loading library and design information.
+Number of Standard Cells: 0
+Number of Hard Macros: 0
+Number of Pads: 0
+Creating straps and vias in power plan.
+Creating wire shapes for strategies M7_PG_Strategy .
+Creating wire shapes runtime: 0 seconds
+Blockage cutting and DRC fixing for wire shapes for strategies M7_PG_Strategy .
+Check and fix DRC for 41 wires for strategy M7_PG_Strategy.
+Number of threads: 1
+Number of partitions: 4
+Direction of partitions: vertical
+Number of wires: 41
+Checking DRC for 41 wires: 0% 100%
+Creating 41 wires after DRC fixing.
+Wire DRC checking runtime 0.00 seconds.
+Creating via shapes for strategies M7_PG_Strategy .
+Working on strategy M7_PG_Strategy.
+Number of detected intersections: 0
+Total runtime of via shapes creation: 0 seconds
+Runtime of via DRC checking for strategy M7_PG_Strategy: 0.00 seconds.
+Removing dangling/floating wire/vias after DRC check.
+Start iteration 1:
+Checking potential dangling/floating power plan wires.
+Finish removing all dangling or floating wires and vias.
+Commiting wires and vias.
+Committing wires takes 0.00 seconds.
+Committing vias takes 0.00 seconds.
+Committed 123 wires.
+Committed 0 vias.
+Committed 0 wires for via creation.
+Created 82 pins at design boundary.
+Overall PG creation runtime: 0 seconds.
+Successfully compiled PG.
+Overall runtime: 0 seconds.
+#### Create PG Rings
+create_pg_ring_pattern \
+                 PG_Ring \
+                 -horizontal_layer M6  -vertical_layer M7 \
+                 -horizontal_width 1 -vertical_width 1 \
+                 -horizontal_spacing 1 -vertical_spacing 1
+Successfully create PG ring pattern PG_Ring.
+set_pg_strategy PG_Ring_Strategy -core -pattern {{ name: PG_Ring} { nets: "VDD VSS" } {offset: 0.5}}
+Successfully set PG strategy PG_Ring_Strategy.
+compile_pg -strategies PG_Ring_Strategy -via_rule VIA_NIL
+Sanity check for inputs.
+Automatic PG net connection through connect_pg_net is disabled.
+Updating PG strategies.
+Updating strategy PG_Ring_Strategy.
+Loading library and design information.
+Number of Standard Cells: 0
+Number of Hard Macros: 0
+Number of Pads: 0
+Creating rings.
+Removing dangling/floating wire/vias after DRC check.
+Start iteration 1:
+Checking potential dangling/floating power plan wires.
+Checking dangling/floating vias inside strategy PG_Ring_Strategy.
+Checking 8 stacked vias: 0% 100%
+Finish removing all dangling or floating wires and vias.
+Commiting wires and vias.
+Committing wires takes 0.00 seconds.
+Committing vias takes 0.00 seconds.
+Committed 8 wires.
+Committed 8 vias.
+Committed 0 wires for via creation.
+Overall PG creation runtime: 0 seconds.
+Successfully compiled PG.
+Overall runtime: 0 seconds.
+#### Create PG VIAs
+create_pg_vias -from_layers M5 -to_layers M1 -via_masters default -nets {VDD VSS}
+Initializing drc engine runtime: 0 seconds.
+Design loading runtime: 0 seconds.
+Net load_neting runtime: 0 seconds.
+Query intersections and create vias.
+Object query runtime: 0 seconds.
+Determining intersections for 110 shapes starts
+Determining intersections for 110 shapes: 0% 100%
+Intersection detection runtime: 0 seconds.
+Instantiating vias for 1414 intersections starts
+Via instantiation runtime: 0 seconds.
+Starting via DRC checking ...
+Number of threads: 1
+Number of partitions: 7
+Direction of partitions: horizontal
+Number of vias: 1414
+Checking DRC for 1414 stacked vias:: 0% 100%
+Overall via DRC checking runtime: 1 seconds.
+Checking dangling/floating vias.
+Start iteration 1: Checking 1414 stacked vias: 0% 100%
+Committed 5656 vias.
+Committing vias takes 0.00 seconds.
+Overall runtime: 1 seconds.
+Successfully created PG Vias.
+create_pg_vias -from_layers M6 -to_layers M5 -via_masters default -nets {VDD VSS}
+Initializing drc engine runtime: 0 seconds.
+Design loading runtime: 0 seconds.
+Net load_neting runtime: 0 seconds.
+Query intersections and create vias.
+Object query runtime: 0 seconds.
+Determining intersections for 66 shapes starts
+Determining intersections for 66 shapes: 0% 100%
+Intersection detection runtime: 0 seconds.
+Instantiating vias for 431 intersections starts
+Via instantiation runtime: 0 seconds.
+Starting via DRC checking ...
+Number of threads: 1
+Number of partitions: 2
+Direction of partitions: horizontal
+Number of vias: 431
+Checking DRC for 431 stacked vias:: 0% 100%
+Overall via DRC checking runtime: 0 seconds.
+Checking dangling/floating vias.
+Start iteration 1: Checking 431 stacked vias: 0% 100%
+Committed 431 vias.
+Committing vias takes 0.00 seconds.
+Overall runtime: 0 seconds.
+Successfully created PG Vias.
+create_pg_vias -from_layers M7 -to_layers M6 -via_masters default -nets {VDD VSS}
+Initializing drc engine runtime: 0 seconds.
+Design loading runtime: 0 seconds.
+Net load_neting runtime: 0 seconds.
+Query intersections and create vias.
+Object query runtime: 0 seconds.
+Determining intersections for 70 shapes starts
+Determining intersections for 70 shapes: 0% 100%
+Intersection detection runtime: 0 seconds.
+Instantiating vias for 555 intersections starts
+Via instantiation runtime: 0 seconds.
+Starting via DRC checking ...
+Number of threads: 1
+Number of partitions: 4
+Direction of partitions: vertical
+Number of vias: 82
+Checking DRC for 82 stacked vias:: 0% 100%
+Number of threads: 1
+Number of partitions: 2
+Direction of partitions: horizontal
+Number of vias: 473
+Checking DRC for 473 stacked vias:: 0% 100%
+431 regular vias are not fixed
+Overall via DRC checking runtime: 0 seconds.
+Checking dangling/floating vias.
+Start iteration 1: Checking 124 stacked vias: 0% 100%
+Committed 124 vias.
+Committing vias takes 0.00 seconds.
+Overall runtime: 0 seconds.
+Successfully created PG Vias.
+#### Connect PG nets
+connect_pg_net -net VDD [get_pins -hierarchical  */VDD]
+connect_pg_net -net VSS [get_pins -hierarchical  */VSS]
+#### Check created PG structure
+check_pg_connectivity
+Information: The command 'check_pg_connectivity' cleared the undo history. (UNDO-016)
+Checking secondary net through power switch is enabled. 
+Secondary net will be checked together from primary net. They will be treated as the same net
+Primary Net : VDD    Secondary Net:
+Primary Net : VSS    Secondary Net:
+Loading cell instances...
+Number of Standard Cells: 2685
+Number of Macro Cells: 0
+Number of IO Pad Cells: 0
+Number of Blocks: 0
+Loading P/G wires and vias...
+Number of VDD Wires: 2189
+Number of VDD Vias: 3064
+Number of VDD Terminals: 60
+**************Verify net VDD connectivity*****************
+  Number of floating wires: 0
+  Number of floating vias: 0
+  Number of floating std cells: 1905
+  Number of floating hard macros: 0
+  Number of floating I/O pads: 0
+  Number of floating terminals: 0
+  Number of floating hierarchical blocks: 0
+************************************************************
+Loading cell instances...
+Loading P/G wires and vias...
+Number of VSS Wires: 2233
+Number of VSS Vias: 3155
+Number of VSS Terminals: 64
+**************Verify net VSS connectivity*****************
+  Number of floating wires: 0
+  Number of floating vias: 0
+  Number of floating std cells: 1905
+  Number of floating hard macros: 0
+  Number of floating I/O pads: 0
+  Number of floating terminals: 0
+  Number of floating hierarchical blocks: 0
+************************************************************
+Overall runtime: 0 seconds.
+check_pg_drc
+Command check_pg_drc started  at Thu Nov  5 10:34:36 2026
+Command check_pg_drc finished at Thu Nov  5 10:34:36 2026
+CPU usage for check_pg_drc: 0.06 seconds ( 0.00 hours)
+Elapsed time for check_pg_drc: 0.06 seconds ( 0.00 hours)
+No errors found.
+get_blocks -all
+{top.dlib:top.design top.dlib:top/inital_syn.design top.dlib:top/compile.design top.dlib:top/manual_floorplan.design top.dlib:top/place_opt.design top.dlib:top/manual_floorplan_v5.design}
+save_block
+RDE-checksum: bfc4dc6d
+Information: Saving block 'top.dlib:top/manual_floorplan_v5.design'
+1
+save_lib
+Saving library 'top.dlib'
+RDE-checksum: bfc4dc6d
+1
+exit
+Maximum memory usage for this session: 644.72 MB
+Maximum memory usage for this session including child processes: 644.72 MB
+CPU usage for this session:     15 seconds (  0.00 hours)
+Elapsed time for this session:     16 seconds (  0.00 hours)
+Thank you for using Fusion Compiler.

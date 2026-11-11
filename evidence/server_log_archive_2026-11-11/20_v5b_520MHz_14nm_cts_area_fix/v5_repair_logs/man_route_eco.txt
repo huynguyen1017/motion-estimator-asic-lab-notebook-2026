@@ -1,0 +1,202 @@
+2.  Synopsys Commands                                        Command Reference
+                                   route_eco
+
+NAME
+       route_eco
+              Performs  ECO routing on the design. Use this command only after
+              signal routing has been completed. To route nets  before  signal
+              routing, use the route_group command.
+
+SYNTAX
+       status route_eco
+              [-max_detail_route_iterations count]
+              [-nets nets]
+              [-cells cells]
+              [-shapes shapes]
+              [-open_net_driven true | false]
+              [-max_reported_nets limit]
+              [-reroute modified_nets_only | modified_nets_first_then_others | any_nets]
+              [-reuse_existing_global_route true | false]
+              [-utilize_dangling_wires true | false]
+
+   Data Types
+       count     integer
+       nets      collection
+       cells     collection
+       shapes    collection
+       limit     integer
+
+ARGUMENTS
+       -max_detail_route_iterations count
+              Specifies  the  maximum number of detail routing iterations. You
+              can specify an integer between 1 and 1000.
+
+              By default, the maximum number  of  iterations  for  the  detail
+              routing command (40) is used.
+
+       -nets nets
+              Specifies  the nets on which to perform ECO routing. The command
+              first connects the open nets in this list, and then fixes design
+              rule  violations  within the ECO routing area. At a minimum, the
+              ECO routing area includes the  bounding  box  of  the  specified
+              nets.
+
+              When  connecting  open  nets,  the route_eco command routes only
+              those nets specified in the -nets option. However,  when  fixing
+              design  rule  violations, the route_eco command fixes violations
+              on all nets within the ECO routing area.
+
+              The route_eco command does not check or flag violations  outside
+              of  the  ECO  routing area. Therefore, when you use this option,
+              you should run  the  check_routes  command  before  running  the
+              route_eco  command  to  ensure  that  the  design rule violation
+              information is up-to-date.
+
+              By default, this command works on all nets in the design.
+
+       -cells cells
+              Specifies the cells of the nets on which to perform ECO routing.
+              The command fixes design rule violations within the bounding box
+              of these cells.
+
+              By default, this command works on all cells in the design.
+
+       -shapes shapes
+              Specifies the shapes of the nets on which to perform  ECO  rout-
+              ing.  The  command fixes design rule violations related to these
+              shapes.
+
+              By default, this command works on all shapes in the design.
+
+       -open_net_driven true | false
+              Controls whether ECO routing fixes DRC violations for the  whole
+              design  (default)  or only in the neighborhood (bounding box) of
+              the open nets.
+
+              By default (false), ECO routing connects the open  nets  in  the
+              design and fixes design rule violations for the entire design.
+
+              When  true, ECO routing connects the open nets in the design and
+              fixes DRC violations only in the neighborhood of the open nets.
+
+              This option is ignored if the -nets option is specified.
+
+       -max_reported_nets limit
+              Sets a limit on the number of changed nets reported at  the  end
+              of  this  command.   You  can  specify an integer between -1 and
+              INT_MAX, where -1 indicates no limit and the router reports  all
+              the changed nets.
+
+              By default, the limit is 100.
+
+       -reroute   modified_nets_only   |   modified_nets_first_then_others   |
+       any_nets
+              Controls  which  nets  are  rerouted. If you do not specify this
+              option, the command can reroute any nets to fix DRC violations.
+
+              Valid values for this option are
+              o any_nets (default)
+
+                The router can reroute any nets freely to fix the  DRC  viola-
+                tions.
+
+              o modified_nets_only
+
+                The  router  freezes all the fully connected nets and tries to
+                finish the routing by modifying only the nets  with  open  ECO
+                changes. This can be very restrictive and can cause the router
+                to fail to fix the violations. It is suitable  only  for  very
+                minor ECO changes.
+
+              o modified_nets_first_then_others
+
+                The  router  first  freezes  all  the fully connected nets and
+                tries to finish the routing by modifying only  the  nets  with
+                open  ECO  changes.  If violations remain, the router tries to
+                reroute those fully connected nets to resolve the  violations.
+                This  reduces  the layout changes for minor ECO operations but
+                is not suitable for major ECO changes.
+
+       -reuse_existing_global_route true | false
+              Enables or disables incremental global routing.
+
+              By default (false), global routing ignores all  existing  global
+              routes in the design for initial routing.
+
+              If  this  option  is  set  to true, global routing considers and
+              reuses existing global routes.
+
+       -utilize_dangling_wires true | false
+              Controls whether the router tries to reuse the  dangling  routes
+              as much as possible to fix the opens.
+
+              The default is true.
+
+DESCRIPTION
+       The  route_eco command performs ECO routing. It first connects the open
+       nets and then fixes the DRC violations. The options control which  nets
+       are  connected  and  in  which areas of the chip the DRC violations are
+       fixed.
+
+       Use this command only after signal routing has been completed. To route
+       nets before signal routing, use the route_group command.
+
+       The  following  table shows the treatment of shapes as fixed or unfixed
+       by the routing commands.
+          Object    Attribute        Value                 Router
+          ---------------------------------------------------------------
+          net       physical_status  locked                fixed
+          wire/via  user_route       true                  fixed
+          wire/via  physical_status  fixed or locked       fixed
+          wire/via  physical_status  firm                  fixed
+          wire/via  physical_status  application_fixed     not fixed
+          wire/via  shape_use        detail_route          not fixed
+          wire/via  shape_use        shield_route          not fixed
+          wire/via  shape_use        area_fill             not fixed
+                                     active_fill           not fixed
+          wire/via  shape_use        lib_cell_pin_connect  not fixed for
+                                                           detail routing
+
+         Object  Application option                      Value       Router
+         ------------------------------------------------------------------------
+         layer   route.common.freeze_layer_by_layer_name layer names fixed
+
+       Route shapes with attributes not listed in this table  are  treated  as
+       not fixed.
+
+       When  the shape_use attribute of a wire or via is lib_cell_pin_connect,
+       the check_routes command treats the shape as not  fixed;  however,  the
+       shape  is  treated  as  fixed when both of the following conditions are
+       met:
+       o The associated net or routing layer is frozen.
+
+         o You use the -check_from_frozen_shapes option with the  check_routes
+         command and the routing shape is on a power or ground net.
+
+         The  shape_attributes  man page describes the supported values of the
+         physical_status attribute for routing shapes. You can modify the set-
+         table attributes with the set_attribute or remove_attribute command.
+
+         Frozen  nets  are  not  modified during detail routing. The following
+         example shows how to freeze nets:
+           prompt> set_attribute -name physical_status -value locked -objects $nets
+
+   Multicorner-Multimode Support
+       This command uses information from all active scenarios.
+
+EXAMPLES
+       The following command performs  ECO  routing  using  the  -nets,  -uti-
+       lize_dangling_wires, and -reroute options.
+
+         prompt> route_eco -nets {n1 n2 n3} -utilize_dangling_wires true \
+             -reroute modified_nets_first_then_others
+
+SEE ALSO
+       route_global(2)
+       route_track(2)
+       route_detail(2)
+       route.common_options(3)
+       route.detail_options(3)
+
+                          Version X-2025.06-SP2
+            Copyright (c) 2025 Synopsys, Inc. All rights reserved.

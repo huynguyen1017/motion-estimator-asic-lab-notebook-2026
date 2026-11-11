@@ -1,0 +1,230 @@
+2.  Synopsys Commands                                        Command Reference
+                                signoff_fix_drc
+
+NAME
+       signoff_fix_drc
+              Invokes  router  to fix selected signoff DRC violations based on
+              the results from a prior IC Validator run  and  then  reruns  IC
+              Validator signoff DRC checking.
+
+SYNTAX
+       status signoff_fix_drc
+              [-start_repair_loop start_loop]
+              [-max_number_repair_loop max_loops]
+              [-select_rules {list_of_rule_names}]
+              [-unselect_rules {list_of_rule_names}]
+              [-coordinates {list of bounding box(es)}]
+              [-excluded_coordinates {list of exclude bounding box(es)}]
+              [-nets {timing critical nets}]
+              [-timing_preserve_setup_slack_threshold {float value}]
+
+   Data Types
+       start_loop             integer
+       end_loop               integer
+       list_of_rule_names     list
+
+ARGUMENTS
+       -start_repair_loop start_loop
+              Specifies  the  starting  repair  loop. The repair loops are run
+              from the starting repair loop to the maximum  number  of  repair
+              loop specified by the -max_number_repair_loop option.
+
+              The range is from 1 to 10. The starting repair loop must be less
+              than or equal to the maximum number repair loop.
+
+              The default value is 1.
+
+              For example, you can run with the default flow (loops 1  and  2)
+              and  then  follow up with additional "unique" repair loops, such
+              as 3 and 4, by running the command again with a new starting and
+              maximum number repair loop.
+
+       -max_number_repair_loop max_loops
+              Specifies  the  maximum  number  of repair loop. DRC fixing ends
+              after the maximum number repair loop or  when  it  detects  that
+              there  are no more signoff DRC violations left, whichever occurs
+              first.
+
+              The range is from 1 to 10. The maximum number repair  loop  must
+              be greater than or equal to the starting repair loop.
+
+              The default value is 2.
+
+              For  example,  you can run with the default flow (loops 1 and 2)
+              and then follow up with additional "unique" repair  loops,  such
+              as 3 and 4, by running the command again with a new starting and
+              maximum number repair loop.
+
+       -select_rules {list_of_rule_names}
+              Specifies the rules to check. You can specify  either  the  rule
+              name  or  number. You can specify wildcards.  The rule names are
+              declared in the COMMENT option of the foundry runset.
+
+              By default, all design rules are checked.
+
+              If you specify both the  -select_rules  option  and  the  -unse-
+              lect_rules  option,  the  -unselect_rules option unselects rules
+              from the selected ones.
+
+       -unselect_rules {list_of_rule_names}
+              Specifies the rules that are not checked. You can specify either
+              the  rule  name  or number. You can specify wildcards.  The rule
+              names are declared in the COMMENT option of the foundry runset.
+
+              By  default,  all  design  rules  are  checked  (no  rules   are
+              excluded).
+
+              If  you  specify  both  the  -select_rules option and the -unse-
+              lect_rules option, the -unselect_rules  option  unselects  rules
+              from the selected ones.
+
+       -coordinates  {list  of  bounding box(es) from where DRC errors will be
+       fixed}
+              Specifies  the  list  of  bounding box(es) from where DRC errors
+              will be fixed.  The following is the syntax:
+
+              {{{llx1 lly1} {urx1 ury1}} ...}
+
+              The following example shows the rectilinear area  (22.47  98.85)
+              (175.39  187.35)  where  DRC  errors  will be fixed prompt> sig-
+              noff_fix_drc -coordinates { { {22.47 98.85} {175.39 187.35} } }
+
+              The following example shows the rectilinear area {{0 0} {100  0}
+              {100  100}  {50  100}  {50 50} {0 50}}  where DRC errors will be
+              fixed.  prompt> signoff_fix_drc -coordinates {{0 0} {100 0} {100
+              100} {50 100} {50 50} {0 50}}
+
+       -excluded_coordinates  {list  of bounding box(es) from where DRC errors
+       will not be fixed}
+              Specifies  the  list  of  bounding box(es) from where DRC errors
+              will not be fixed.  The following is the syntax:
+
+              {{{llx1 lly1} {urx1 ury1}} ...}
+
+              The following example shows the rectilinear area  (22.47  98.85)
+              (175.39  187.35)  where  DRC  errors will not be fixed.  prompt>
+              signoff_fix_drc -excluded_coordinates { { {22.47 98.85}  {175.39
+              187.35} } }
+
+       -nets {list of timing critical nets}
+              Specifies  the  list  of timing critical nets that would be pro-
+              tected during fixing flow.
+
+              The following example treats nets n1 and n2 as  critical  during
+              the fixing flow.  prompt> signoff_fix_drc -nets {n1, n2}
+
+       -timing_preserve_setup_slack_threshold  {float value representing setup
+       slack threshold}
+              Specifies  the setup slack threshold value for identification of
+              critical nets. The option finds all the  paths  that  have  less
+              slack  than  the  specified value and collects the nets that are
+              part of the paths. These timing critical nets are protected dur-
+              ing fixing flow.
+
+              The  following  example  shows timing will be honored during the
+              fixing flow. Paths that have slack  values  less  than  0.5  are
+              treated   as   critical   prompt>  signoff_fix_drc  -timing_pre-
+              serve_setup_slack_threshold 0.5
+
+DESCRIPTION
+       This command provides tight integration  between  the  Fusion  Compiler
+       tool  and  the  IC  Validator tool for postroute signoff DRC fixing. It
+       assumes that the current block is near timing  closure  and  there  are
+       only  a small number of DRC violations left unfixed after the place and
+       route stage.
+
+       The command invokes router to fix selected signoff DRC violations based
+       on the results from a prior IC Validator run and then reruns IC Valida-
+       tor signoff DRC checking.
+
+       Before you run this command, you must provide the environment  settings
+       for  IC Validator by using the set_app_options command and run the sig-
+       noff_check_drc command or otherwise generate the required IC  Validator
+       database. If no database is specified signoff_fix_drc will run the sig-
+       noff_check_drc internally to generate the IC Validator database.
+
+       The set_app_options for the signoff_check_drc command will  be  applied
+       during the signoff_fix_drc command.
+
+       Note:  When  the  option  "signoff.fix_drc.target_clock_nets" is set to
+       false, the router does NOT have big routing topology changes  on  clock
+       nets,  but  it  does allow minor shape changes in local area for fixing
+       DRC violations.
+
+       To reduce the runtime for signoff autofix DRC flow  ,  you  can  enable
+       multicore  processing  by  using  the set_host_options command.  router
+       supports multithreading on a multicore machine.  IC Validator  supports
+       the  following types of multicore processing: job submission by a user-
+       specified distributed processing script, job submission  by  using  the
+       Load Sharing Facility (LSF) or Oracle Grid Engine, and distributed pro-
+       cessing on the specified hosts.  IC  Validator  determines  the  multi-
+       threading  setting  automatically.  Note that the set_host_options set-
+       tings are not persistent. They must be set in each  session.  In  addi-
+       tion,  the  setting is cumulative so that different numbers of jobs can
+       be defined on different machines.
+
+   Warning
+       The signoff autofix DRC flow does not address DRC violations within  PG
+       nets, clock nets, shielded nets, and frozen nets.
+
+   Multicorner-Multimode Support
+       This command has no dependency on scenario-specific information.
+
+EXAMPLES
+       The following example shows the signoff autofix DRC flow:
+         prompt> signoff_check_drc
+         prompt> set_app_options -name signoff.fix_drc.init_drc_error_db \
+            -value signoff_check_drc_run
+         prompt> signoff_fix_drc
+
+       The  following  example  shows  the  signoff autofix DRC flow using the
+       design views of all child cells in signoff_check_drc:
+
+         prompt> set_app_options -name signoff.check_drc.read_design_views \
+            -value {*}
+         prompt> signoff_check_drc
+         prompt> set_app_options -name signoff.fix_drc.init_drc_error_db \
+            -value signoff_check_drc_run
+         prompt> signoff_fix_drc
+
+       The following example runs router with 4 threads and runs IC  Validator
+       using  distributed processing on 8 cores of the local machine by start-
+       ing the IC Validator run with the -dp32 option.
+
+         prompt> set_host_options -max_cores 4 -num_process 8
+         prompt> set_app_options -name signoff.fix_drc.init_drc_error_db \
+            -value signoff_check_drc_run
+         prompt> signoff_fix_drc
+
+       The following example runs router with 4 threads and runs IC  Validator
+       using  distributed processing on 4 cores of the local machine by start-
+       ing the IC Validator run with the -dp4 option.
+
+         prompt> set_host_options -max_cores 4
+         prompt> set_app_options -name signoff.fix_drc.init_drc_error_db \
+            -value signoff_check_drc_run
+         prompt> signoff_fix_drc
+
+       Note that the command uses the -max_cores setting for both router  mul-
+       tithreading  and  the  IC  Validator  -dp  setting  if  and only if the
+       -max_cores option is specified alone.  The  -max_cores  option  has  no
+       effect  on  the  IC  Validator -dp option when it is specified with any
+       other options.
+
+       The following example runs the router with one thread and runs IC  Val-
+       idator using distributed processing on eight cores of the local machine
+       by starting the IC Validator run with the -dp8 option.
+
+         prompt> set_host_options -num_process 8
+         prompt> set_app_options -name signoff.fix_drc.init_drc_error_db \
+            -value signoff_check_drc_run
+         prompt> signoff_fix_drc
+
+SEE ALSO
+       set_host_options(2)
+       report_host_options(2)
+       remove_host_options(2)
+       signoff_check_drc(2)
+
+                          Version X-2025.06-SP2
+            Copyright (c) 2025 Synopsys, Inc. All rights reserved.

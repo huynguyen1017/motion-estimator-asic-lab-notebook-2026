@@ -1,0 +1,297 @@
+2.  Synopsys Commands                                        Command Reference
+                            create_stdcell_fillers
+
+NAME
+       create_stdcell_fillers
+              Fills empty spaces in standard cell rows with filler cells.
+
+SYNTAX
+       status create_stdcell_fillers
+              -lib_cells lib_cells
+              [-one_fin_lib_cells  lib_cells]
+              [-post_eco]
+              [-ignore_hard_blockages]
+              [-ignore_standard_cell_keepout_margins]
+              [-prefix prefix]
+              [-bboxes rectangle]
+              [-voltage_area voltage_areas]
+              [-rules rule_list]
+              [-continue_on_error]
+              [-utilization float_value]
+              [-smallest_cell_size int_value]
+              [-type_utilization lib_cells_utilization_pairs]
+              [-fill_remaining]
+              [-leakage_vt_order vt_layer_list]
+              [-leakage_vt_check]
+              [-flip]
+              [-prefer_type_ordering]
+              [-load_clf_fillers]
+              [-create_clf_fillers]
+              [-message_severity_error]
+              [-verbose]
+
+   Data Types
+       lib_cells                   collection
+       prefix                      string
+       rectangle                   rectangle
+       voltage_areas               collection
+       rule_list                   list
+       float_value                 float
+       int_value                   int
+       lib_cells_utilization_pairs list
+       vt_layer_list               list
+
+ARGUMENTS
+       -lib_cells lib_cells
+              Specifies the filler cells to use.
+
+              By default, the tool adds the filler cells in the order that you
+              specify.  For best results, specify the cells  from  largest  to
+              smallest;  this is a requirement when the no_1x rule or advanced
+              rules are used.
+
+       -one_fin_lib_cells lib_cells
+              Specifies the one-fin filler cells to use. The  specified  cells
+              must not exist in the list specified by the -lib_cells option.
+
+              The  command  minimizes the usage of one-fin filler cells; these
+              cells are used only when none of the filler cells  specified  in
+              the -lib_cells option can be legally inserted.
+
+              This  option applies only when the advanced legalizer is enabled
+              by setting the place.legalize.enable_advanced_legalizer applica-
+              tion option to true.
+
+       -post_eco
+              Marks new filler cells so the remove_stdcell_fillers_with_viola-
+              tion command can identify them in the post-ECO flow.
+
+       -ignore_hard_blockages
+              Creates filler cells in areas that have  hard  placement  block-
+              ages.
+
+       -ignore_standard_cell_keepout_margins
+              Creates  filler  cells  in areas that have standard cell keepout
+              margins.
+
+              This option applies only when the advanced legalizer is  enabled
+              by   setting  the  place.legalize.enable_advanced_legalizer  and
+              chipfinishing.enable_advanced_legalizer  application  option  to
+              true.
+
+       -prefix prefix
+              Adds  the  specified  prefix to the instance names of the filler
+              cells inserted by this command. You can later use the prefix  to
+              identify the filler cell instances.
+
+       -bboxes rectangle
+              Specifies the rectangular region (in microns) in which to insert
+              filler cells. To specify the rectangular region, use the follow-
+              ing  syntax  to  specify  the  coordinates of the lower-left and
+              upper-right corners of the region:
+                { {llx lly} {urx ury} }
+
+              By default, filler cells  are  inserted  throughout  the  entire
+              chip.
+
+       -voltage_area voltage_areas
+              Specifies the voltage areas in which to insert filler cells.
+
+              By default, the tool inserts filler cells in all voltage areas.
+
+       -rules rule_list
+              Specifies  the special rules to follow during filler cell inser-
+              tion.
+
+              You can specify one or more of the following keywords:
+              o no_1x
+                Prevents the command from placing filler cells  such  that  it
+                would leave a 1x gap.
+
+                o color_safe
+                Ensures  color  correctness  for  multiple-patterning designs.
+                This rule applies only when color-aware placement  is  enabled
+                by   setting  the  place.legalize.enable_color_aware_placement
+                application option to true.
+
+                o check_pnet
+                Enables power net checking for the filler cells.  By  default,
+                power net checking is disabled to save runtime.
+
+       -continue_on_error
+              Skips unfillable cell locations and continues to the next gap.
+
+              This  option applies only when advanced rules are used. Use this
+              option only when the list  of  filler  cells  specified  by  the
+              -lib_cells  option  does not have all the necessary filler cells
+              to fill all possible gaps. For example, use this option when you
+              are  performing  decoupling  capacitor insertion but do not have
+              smaller decoupling capacitors to fill all possible gaps. In this
+              case,  the  remaining gaps must be filled during nonmetal filler
+              cell insertion.
+
+              When you specify this option, it is assumed that you  will  fill
+              the  remaining  cell locations later. The tool avoids trying all
+              possible cell combinations to save runtime and  leaves  fillable
+              gaps unfilled.
+
+       -utilization float_value
+              Specifies  the  maximum  percentage  of  free space to fill with
+              filler cells. The default is 100.
+
+       -smallest_cell_size int_value
+              Specifies the smallest cell size for the design, which  must  be
+              an integer between 1 and 11. The default is 1.
+
+              If  the  design  has  no  1x cells, use either -rules {no_1x} or
+              -smallest_cell_size 2. Do not use both.
+
+       -type_utilization lib_cells_utilization_pairs
+              Controls different target area percentages for one  or  more  of
+              the  library  cells  specified in the -lib_cells option. Specify
+              the argument as a list of pairs in the following format:
+                {{lib_cells} utilization ...}
+
+              For example, the following option specifies that total area per-
+              centage  for  the  lib_A1 and lib_A2 library cells is 20 percent
+              and the total area percentage for the lib_B1 library cell is  30
+              percent:
+                -type_utilization { {lib_A1 lib_A2} 20 lib_B1 30 }
+
+              As  with  the  -lib_cells option, the library cells in each pair
+              should be specified in descending order by cell  size.  You  can
+              use  the * wildcard character to specify the library cell names.
+              The percentage specification must be greater  than  0  and  less
+              than  or  equal  to  100. The sum of all the percentages must be
+              less than or equal to 100.
+
+       -fill_remaining
+              Uses the cells specified in the -lib_cells option but not in the
+              -type_utilization option to fill the design.
+
+              When you specify this option, the command fills all empty space.
+              The command fails if you specify this  option  but  all  library
+              cells  have  been  specified in the -type_utilization option and
+              there are no remaining library cells available to fill the  rest
+              of the design.
+
+              You  can  use this option only when the -type_utilization option
+              is specified.
+
+       -flip  Only works with advanced legalizer.  Normally  filler  insertion
+              will  not  try  flipping  when the violation is due to pin color
+              alignement.  If  you  use  this  option  and  filler   insertion
+              encounter  pin  color alignment violation, it will try inserting
+              with flipped orientation as well.
+
+       -prefer_type_ordering
+              When this option is specified, it will insert  lib  cells  lists
+              specified  in  -type_utilization  one  by  one  from the left to
+              right. User can use this option to improve the real  utilization
+              of  those lib cells difficult to be inserted due to legalization
+              rule or lib cell size  compared  with  normal  type  utilization
+              mode.  But it may increase the runtime compared with normal type
+              utilization mode.   This  option  must  be  used  together  with
+              -type_utilization option. Otherwise, it will error out.
+
+              This  option applies only when the advanced legalizer is enabled
+              by setting the place.legalize.enable_advanced_legalizer applica-
+              tion option to true.
+
+       -leakage_vt_order vt_layer_list
+              Specifies  the  threshold  voltage layers in order of decreasing
+              leakage current.  The command uses this  information  to  reduce
+              the  leakage current by selecting the filler cells with the low-
+              est leakage current.
+
+              The specified threshold voltage layers must include  all  layers
+              used by the filler cells specified in the -lib_cells option.
+
+              This  option applies only when the advanced legalizer is enabled
+              by setting the place.legalize.enable_advanced_legalizer applica-
+              tion option to true.
+
+       -leakage_vt_check
+              Checks  if the current filler cell insertion result has the low-
+              est leakage power when using the filler cells specified  in  the
+              -lib_cells option.
+
+              By  default, the command reports a maximum of 100 violations. To
+              change the  maximum  number  of  reported  violations,  set  the
+              chf.create_stdcell_fillers.max_leakage_vt_order_violations
+              application option.
+
+              When you use this option, the command ignores  the  -bboxes  and
+              -voltage_areas options.
+
+              You  can  use  this  option  only when the -leakage_vt_order and
+              -lib_cells options are specified.
+
+       -load_clf_fillers
+              Use this  option  only  when  you  have  run  legalize_placement
+              -filler_mode  on  or  fix_filler_gaps_only, and did not make any
+              changes to design placement. If  design  placement  has  changed
+              after legalize_placement, filler insertion may fail.
+
+              When  this  option  is specified, it will utilize fillers deter-
+              mined during CLF but does not actually insert those fillers. For
+              this reason, this option is better suited for dcap insertion.
+
+       -create_clf_fillers
+              Use  this  option only when you have run legalize_placement with
+              -filler_mode on or fix_filler_gaps_only, and did  not  make  any
+              changes  to  design  placement.  If design placement has changed
+              after  legalize_placement,  filler  insertion  may  fail.   This
+              option   is  recommanded  for  regular  filler  insertion,  when
+              -lib_cells have same  filler  list  as  set_stdcell_filler_rules
+              -regular_lib_cells. When this option is specified, filler inser-
+              tion will create fillers at locations determined during CLF.
+
+       -message_severity_error
+              Issues error messages instead of  warning  for  unfillable  gaps
+              when specifying -continue_on_error option.
+
+DESCRIPTION
+       This command fills empty spaces in standard cell rows with instances of
+       reference filler cells from the library. You should  perform  placement
+       (and clock tree synthesis, if applicable) before adding filler cells.
+
+       A typical flow is
+      1.  Use  the create_stdcell_fillers command to insert decoupling capaci-
+         tors.
+
+      2. Update the PG connections by using the connect_pg_net -automatic com-
+         mand.
+
+      3.  Use  the remove_stdcell_fillers_with_violation command to remove the
+         decoupling capacitors with violations.
+
+      4. Use the create_stdcell_fillers command  to  insert  non-metal  filler
+         cells.
+
+      5. Update the PG connections by using the connect_pg_net -automatic com-
+         mand.
+
+       After filler cell insertion, use the check_legality command  to  verify
+       the filler cell placement legality.
+
+EXAMPLES
+       The  following  example  fills  empty spaces with filler cells from the
+       mylib reference library named FILL_4X,  FILL_2X,  and  FILL_1X  in  the
+       specified order. If the sizes of the filler cells are such that FILL_4X
+       > FILL_2X > FILL_1X, this ordering minimizes the number of filler cells
+       added by using the larger filler cells first.
+         prompt> create_stdcell_fillers \
+            -lib_cells {mylib/FILL_4X mylib/FILL_2X mylib/FILL_1X}
+
+SEE ALSO
+       check_legality(2)
+       connect_pg_net(2)
+       fix_placement_color_mask(2)
+       remove_stdcell_fillers_with_violation(2)
+       chf.create_stdcell_fillers.max_leakage_vt_order_violations(3)
+       place.legalize.enable_advanced_legalizer(3)
+       place.legalize.enable_color_aware_placement(3)
+
+                          Version X-2025.06-SP2
+            Copyright (c) 2025 Synopsys, Inc. All rights reserved.

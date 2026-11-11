@@ -1,0 +1,158 @@
+2.  Synopsys Commands                                        Command Reference
+                                 route_detail
+
+NAME
+       route_detail
+              Performs detail routing on the block.
+
+SYNTAX
+       status route_detail
+              [-max_number_iterations count]
+              [-coordinates list_of_rectangles
+              [-incremental true | false]
+              [-initial_drc_from_input true | false]
+              [-start_iteration int]
+
+   Data Types
+       count              integer
+       list_of_rectangles list
+       int                integer
+
+ARGUMENTS
+       -max_number_iterations count
+              Specifies  the  maximum number of routing iterations. The detail
+              router terminates after the maximum number of iterations or when
+              it detects a lack of progress, whichever occurs first.
+
+              The range is from 1 to 1000. The default value is 40.
+
+              Limiting  the  number  of  routing iterations can provide faster
+              results; however, it might cause the detail router to  terminate
+              before the design rule violations are resolved.
+
+              To  disable  automatic  termination of detail routing (and force
+              the router to complete the maximum number  of  iterations),  set
+              the  route.detail.force_max_number_iterations application option
+              to true.
+
+       -coordinates list_of_rectangle
+              Specifies the routing area in user units. You can specify multi-
+              ple rectangular routing areas.
+
+              You must use the following syntax to specify the rectangles:
+                { {{llx1 lly1} {urx1 ury1}} ...}"
+
+              If you do not specify this option, the entire chip is routed.
+
+       -incremental true | false
+              Controls whether the router uses incremental mode.
+
+              By default (false), the router does not use incremental mode.
+
+              When  true,  the  router uses incremental mode and starts starts
+              from the last iteration from the previous detail routing run  on
+              the  block.   To  explicitly specify the starting iteration, use
+              the -start_iteration option.
+
+       -initial_drc_from_input true | false
+              Controls whether the router uses the DRC information  stored  in
+              the block.
+
+              By  default,  the  command  performs design rule checking on the
+              entire block and then resolves the violations.
+
+              When true, the command skips design rule checking and  uses  the
+              violations  stored  in the block as the starting point. Use this
+              option very carefully; set it to true only if you are absolutely
+              sure that the DRC information in the block are up-to-date.
+
+       -start_iteration int
+              Specifies the start iteration for detail routing.
+
+              The  router  performs detail route iterations from the specified
+              iteration up to the maximum iteration specified by the -max_num-
+              ber_iterations option.
+
+              The range is from 0 to 1000. The default is 0.
+
+DESCRIPTION
+       This  command  performs detail routing on a block. You run this command
+       after running the route_track command.
+
+       The behavior of this command is  influenced  by  the  route.detail  and
+       route.common application options.
+
+       Following  is  the  treatment  of shapes as fixed/unfixed within detail
+       route.
+
+          Object     NDM attribute    value                 Router
+          ---------------------------------------------------------------
+           Net       physical_status  locked                fixed
+           wire/via  user_route       true                  fixed
+           wire/via  physical_status  fixed/locked          fixed
+           wire/via  physical_status  firm                  fixed
+           wire/via  physical_status  application_fixed     not-fixed
+           wire/via  shape_use        detail_route          not-fixed
+           wire/via  shape_use        shield_route          not-fixed
+           wire/via  shape_use        area_fill/active_fill not-fixed
+           wire/via   shape_use         lib_cell_pin_connect   not-fixed   for
+       detail route.
+
+         Object  app option                           value       Router
+         ------------------------------------------------------------------------
+        Layer route.common.freeze_layer_by_layer_name layer-names fixed
+
+        When shape_use of a  wire/via  is  lib_cell_pin_connect,  check_routes
+       treats the shape as not-fixed with the following exception:
+
+           -     a net is frozen or a routing layer is frozen, AND
+           -     user  runs  check_routes with option check_from_frozen shapes
+       and
+                routing shape is on power/ground net.
+              If the above conditions are satisfied, the shape is  treated  as
+       fixed.
+
+         Route shapes with attributes not listed above will be treated as not-
+       fixed.
+
+       Man page of shape_attributes  describes  supported  values  of  "physi-
+       cal_status"  for routing shapes. The settable attributes among them can
+       be modified with command set_attribute or remove_attribute.
+
+       Frozen nets are not modified during detail route.   Example  to  freeze
+       nets in NDM is
+         prompt> set_attribute -name physical_status -value locked -objects $nets
+
+   Multicorner-Multimode Support
+       This command uses information from all active scenarios.
+
+EXAMPLES
+       The following command performs detail routing:
+         prompt> route_detail
+
+       The following command performs detail routing with a maximum of 3 iter-
+       ations:
+         prompt> route_detail -max_number_iterations 3
+
+       The following command performs detail routing in the rectangle areas {0
+       0 50.0 60.2} and {100.0 100.0 120.2 110.2}:
+         prompt> route_detail \
+            -coordinates { {{0 0} {50.0 60.2}} {{100.0 100.0} {120.2 110.2}} }
+
+       The following command performs incremental detail routing:
+         prompt> route_detail -incremental true
+
+       The  following command uses the DRC information stored in the block and
+       starts with iteration 1:
+         prompt> route_detail -initial_drc_from_input true \
+            -start_iteration 1
+
+SEE ALSO
+       route_auto(2)
+       route_global(2)
+       route_track(2)
+       route.common_options(3)
+       route.detail_options(3)
+
+                          Version X-2025.06-SP2
+            Copyright (c) 2025 Synopsys, Inc. All rights reserved.

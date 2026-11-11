@@ -1,0 +1,61 @@
+2.  Synopsys Commands                                        Command Reference
+                                 remove_shapes
+
+NAME
+       remove_shapes
+              Removes shapes from the current design.
+
+SYNTAX
+       int remove_shapes
+              [-force]
+              [-verbose]
+              shape_list
+
+   Data Types
+       shape_list     collection
+
+ARGUMENTS
+       -force Ignore  locked status of the objects. If this option is not pro-
+              vided and any of the affected objects has locked status, command
+              will fail generating tcl error.
+
+       -verbose
+              Display verbose deletion information.
+
+       shape_list
+              Specifies a list of shapes to remove. The list may contain shape
+              collections, specified using the get_shapes command.
+
+DESCRIPTION
+       This command removes all specified  shapes.  Shapes  are  disassociated
+       with their nets, ports, terminals, layers, and edit groups if any.
+
+       When a terminal shape is removed, the associated terminal is removed as
+       well. A terminal cannot exist without its shape.
+
+       When a port shape is removed, the associated  terminal  is  removed  as
+       well.  However the port is not removed, because a port may have zero or
+       more terminals.
+
+       The number of removed shapes are returned.
+
+EXAMPLES
+       The following example removes shapes:
+
+         prompt> set a [get_shapes -of_objects n300
+         {"PATH_18_1906", "PATH_31_256", "PATH_28_1322", "PATH_31_255"}
+
+         prompt> remove_shapes $a
+         4
+       The following example removes shapes specified by a pattern list:
+
+         prompt> remove_shapes POLYGON_28_* -verbose
+         Removed shape POLYGON_28_1738
+         Removed shape POLYGON_28_1740
+         2
+
+SEE ALSO
+       get_shapes(2)
+
+                          Version X-2025.06-SP2
+            Copyright (c) 2025 Synopsys, Inc. All rights reserved.

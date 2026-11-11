@@ -1,0 +1,62 @@
+Command: /home/<PRIVATE_USER>/ENGR852_Project/21_v5_native_vcs_regression/./simv -l vcs_native_sim.log
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09-1_Full64; Runtime version W-2024.09-1_Full64;  Nov  5 10:47 2026
+=== TEST 1: Direct Fixture (ref.txt & search.txt) at 520 MHz ===
+  [T1] count= 256 t=493.2695 ns | PEready=0001 newDist_comp=0100 BestDist=ffff Vec=(8,8) out=(0,0) newBest=1
+  [T1 newBest] count= 256 t=493.2695 ns -> newDist=0100 at VectorX=8 VectorY=8
+  [T1] count= 257 t=495.1925 ns | PEready=0002 newDist_comp=01fe BestDist=0100 Vec=(9,8) out=(8,8) newBest=0
+  [T1] count= 258 t=497.1155 ns | PEready=0004 newDist_comp=01fe BestDist=0100 Vec=(a,8) out=(8,8) newBest=0
+  [T1] count= 259 t=499.0385 ns | PEready=0008 newDist_comp=01fe BestDist=0100 Vec=(b,8) out=(8,8) newBest=0
+  [T1] count= 260 t=500.9615 ns | PEready=0010 newDist_comp=01fe BestDist=0100 Vec=(c,8) out=(8,8) newBest=0
+  [T1] count= 261 t=502.8845 ns | PEready=0020 newDist_comp=01fe BestDist=0100 Vec=(d,8) out=(8,8) newBest=0
+  [T1] count= 262 t=504.8075 ns | PEready=0040 newDist_comp=01fe BestDist=0100 Vec=(e,8) out=(8,8) newBest=0
+  [T1] count= 263 t=506.7305 ns | PEready=0080 newDist_comp=01fe BestDist=0100 Vec=(f,8) out=(8,8) newBest=0
+  [T1] count= 264 t=508.6535 ns | PEready=0100 newDist_comp=01fe BestDist=0100 Vec=(0,8) out=(8,8) newBest=0
+  [T1] count= 265 t=510.5765 ns | PEready=0200 newDist_comp=01fe BestDist=0100 Vec=(1,8) out=(8,8) newBest=0
+  [T1] count= 266 t=512.4995 ns | PEready=0400 newDist_comp=01fe BestDist=0100 Vec=(2,8) out=(8,8) newBest=0
+  [T1] count= 267 t=514.4225 ns | PEready=0800 newDist_comp=01fe BestDist=0100 Vec=(3,8) out=(8,8) newBest=0
+  [T1] count= 268 t=516.3455 ns | PEready=1000 newDist_comp=01fe BestDist=0100 Vec=(4,8) out=(8,8) newBest=0
+  [T1] count= 269 t=518.2685 ns | PEready=2000 newDist_comp=01fe BestDist=0100 Vec=(5,8) out=(8,8) newBest=0
+  [T1] count= 270 t=520.1915 ns | PEready=4000 newDist_comp=01fe BestDist=0100 Vec=(6,8) out=(8,8) newBest=0
+  [T1] count= 271 t=522.1145 ns | PEready=8000 newDist_comp=0000 BestDist=0100 Vec=(7,8) out=(8,8) newBest=1
+  [T1 newBest] count= 271 t=522.1145 ns -> newDist=0000 at VectorX=7 VectorY=8
+  [T1] count= 272 t=524.0375 ns | PEready=0000 newDist_comp=ffff BestDist=0000 Vec=(8,8) out=(7,8) newBest=0
+  [T1 RESULT] BestDist=0000 (0), motionX=7 (7), motionY=8 (-8), elapsed_complete=7905.4530 ns
+V5_TOP_REGRESSION_T1_PASS
+
+=== TEST 2: Perturbed Imperfect Match (SAD=3) at (-2, -3) ===
+  [T2 newBest] count= 256 t=492.2880 ns -> newDist=5c29 (23593) at VectorX=8 VectorY=8
+  [T2 newBest] count= 257 t=494.2110 ns -> newDist=4443 (17475) at VectorX=9 VectorY=8
+  [T2 newBest] count= 513 t=986.4990 ns -> newDist=42fd (17149) at VectorX=9 VectorY=9
+  [T2 newBest] count= 516 t=992.2680 ns -> newDist=3eed (16109) at VectorX=c VectorY=9
+  [T2 newBest] count= 523 t=1005.7290 ns -> newDist=3e8f (16015) at VectorX=3 VectorY=9
+  [T2 newBest] count= 768 t=1476.8640 ns -> newDist=3aa1 (15009) at VectorX=8 VectorY=a
+  [T2 newBest] count= 775 t=1490.3250 ns -> newDist=3a35 (14901) at VectorX=f VectorY=a
+  [T2 newBest] count= 782 t=1503.7860 ns -> newDist=3a1d (14877) at VectorX=6 VectorY=a
+  [T2 newBest] count=1024 t=1969.1520 ns -> newDist=2e19 (11801) at VectorX=8 VectorY=b
+  [T2 newBest] count=1283 t=2467.2090 ns -> newDist=1e5f (7775) at VectorX=b VectorY=c
+  [T2 newBest] count=1290 t=2480.6700 ns -> newDist=1dd7 (7639) at VectorX=2 VectorY=c
+  [T2 newBest] count=1542 t=2965.2660 ns -> newDist=0003 (3) at VectorX=e VectorY=d
+  [T2 RESULT] BestDist=0003 (3), motionX=e (-2), motionY=d (-3), Expected=(-2, -3), elapsed=7905.4530 ns
+V5_TOP_REGRESSION_T2_PASS
+
+=== TEST 3: Upper Boundary Candidate (+7, +7) at count=4111 ===
+  [T3 newBest] count= 256 t=492.2880 ns -> newDist=67b4 (26548) at VectorX=8 VectorY=8 completed=0
+  [T3 newBest] count= 258 t=496.1340 ns -> newDist=3888 (14472) at VectorX=a VectorY=8 completed=0
+  [T3 newBest] count= 262 t=503.8260 ns -> newDist=2792 (10130) at VectorX=e VectorY=8 completed=0
+  [T3 newBest] count= 269 t=517.2870 ns -> newDist=2754 (10068) at VectorX=5 VectorY=8 completed=0
+  [T3 newBest] count=3845 t=7393.9350 ns -> newDist=1bc2 (7106) at VectorX=d VectorY=6 completed=0
+  [T3 newBest] count=3852 t=7407.3960 ns -> newDist=1bb6 (7094) at VectorX=4 VectorY=6 completed=0
+  [T3 newBest] count=4097 t=7878.5310 ns -> newDist=0580 (1408) at VectorX=9 VectorY=7 completed=0
+  [T3 newBest] count=4104 t=7891.9920 ns -> newDist=03c0 (960) at VectorX=0 VectorY=7 completed=0
+  [T3 newBest] count=4111 t=7905.4530 ns -> newDist=0000 (0) at VectorX=7 VectorY=7 completed=1
+  [T3 RESULT] BestDist=0000 (0), motionX=7 (7), motionY=7 (7), Expected=(7, 7)
+V5_TOP_REGRESSION_T3_PASS
+V5_TOP_REGRESSION_PASS 3/3
+$finish called from file "huy_v5_16bit_top_regression_tb.sv", line 166.
+$finish at simulation time            237327245
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 23732724500 fs
+CPU Time:      0.380 seconds;       Data structure size:   0.0Mb
+Thu Nov  5 10:47:29 2026
